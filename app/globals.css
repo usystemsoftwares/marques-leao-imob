@@ -25,3 +25,28 @@ body {
     text-wrap: balance;
   }
 }
+
+.embla {
+  margin-inline: auto;
+}
+
+.embla__viewport {
+  /*   overflow-x: hidden;
+ */
+}
+
+.embla__container {
+  display: flex;
+  align-items: center;
+  touch-action: pan-y pinch-zoom;
+}
+
+.embla__slide {
+  /* 
+  480px = 30rem
+  520px = 32.5rem
+   */
+
+  flex: 0 0 33%;
+  min-width: 0;
+}

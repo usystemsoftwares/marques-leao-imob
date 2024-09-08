@@ -1,27 +1,73 @@
 import EstateAgents from "@/components/estate-agents";
-import Footer from "@/components/footer";
-import Navbar from "@/components/navbar";
+import Header from "@/components/header";
 import NewsOfTheW from "@/components/news-of-the-w-carousel";
-import SelectedByYou from "@/components/selected-by-you-carousel";
+import SearchPropertyFilter from "@/components/search-property-filter";
 import { WhatsappButton } from "@/components/whatsapp-btn";
+import { Baskervville, Montserrat } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
+import MarquesELeao from "/public/marqueseleao/marques-leao.webp"
+import BackgroundMenu from "/public/marqueseleao/background-menu.webp"
+import Ellipse from "/public/marqueseleao/ellipse4.webp"
+import SelectedForYou from "@/components/selected-for-you-carousel";
+
+const baskervville = Baskervville({
+  subsets: ["latin"],
+  weight: ["400"]
+});
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["200", "400"]
+});
 
 export default function Home() {
   return (
-    <>
-      <Navbar />
-      <main className="">
-        <section>
-          <h1>Conectamos pessoas a imóveis incríveis que refletem seus ideais e sua personalidade</h1>
+    <div>
+      <div
+        className="bg-[rgb(0,0,0,.65)] absolute top-0 w-full h-full max-h-[280px] before:absolute before:bg-gradient-to-t before:from-[#0a0a0a] before:w-full before:h-full before:left-0 before:bottom-0"
+      >
+        <Image
+          className="absolute top-0 -z-20 w-full h-full"
+          src={BackgroundMenu}
+          alt="Background"
+        />
+      </div>
+      <Header />
+      <main className="w-[min(90%,80rem)] mx-auto">
+        <Image
+          className="absolute -z-10 top-[-25%] opacity-45 right-[-12.5%] w-[27.5%]"
+          src={Ellipse}
+          alt="Ellipse blur"
+        />
+        <Image
+          className="absolute -z-10 bottom-[-50%] opacity-60 left-[-35%] w-[75%]"
+          src={Ellipse}
+          alt="Ellipse blur"
+        />
+        <section className="min-h-screen relative">
+          <h1 className={`text-[clamp(.75rem,9vw,2.25rem)] ${montserrat.className} relative z-10 font-extralight leading-none max-w-[23ch] pt-80 md:pt-40`}>
+            Conectamos<br /> <span className={`text-[clamp(3rem,12.5vw,5rem)] md:text-[6rem] leading-[.75] ${baskervville.className} md:pr-11`}><strong>pessoas</strong></span> a imóveis
+            <span className={`flex items-center text-[clamp(3rem,12.5vw,5rem)] md:text-[6rem] leading-[1] ${baskervville.className} before:inline-block before:w-[clamp(50%,10vw,100%)] before:h-[1px] before:bg-[#530944]`}>
+              <strong className="pl-5">incríveis</strong>
+            </span>
+            <span className="text-[clamp(.75rem,3.75vw,1.5rem)]">que refletem seus <span className="font-medium">ideais</span> e sua <span className="font-medium">personalidade</span></span>
+          </h1>
+          <Image
+            className="absolute top-0 md:top-[-5rem] md:w-[min(100%,45rem)] right-0"
+            src={MarquesELeao}
+            alt="Marques e Leão"
+          />
+          <SearchPropertyFilter />
         </section>
         <section>
-          <div>
-            <span>Destaques</span>
-            <h2>Selecionados para você</h2>
-            <Link href="" className="none md:block">Ver todos os imóveis</Link>
+          <div className="flex items-center justify-between">
+            <div>
+              <span className="flex gap-4 items-center text-[#898989] after:inline-block after:w-28 after:h-[2px] after:bg-[#898989]">Destaques</span>
+              <h2 className={`text-3xl font-extrabold ${baskervville.className}`}>Selecionados para você</h2>
+            </div>
+            <Link href="" className="none md:block bg-[#530944] text-sm py-3 px-5 rounded-lg">Ver todos os imóveis</Link>
           </div>
-          <SelectedByYou />
+          <SelectedForYou />
         </section>
         <section>
           <span>Filtre por</span>
@@ -119,8 +165,7 @@ export default function Home() {
           <ul></ul>
         </section>
       </main>
-      <Footer />
       <WhatsappButton />
-    </>
+    </div>
   );
 }

@@ -1662,7 +1662,7 @@ const corretores = [
   {
     id: 0,
     name: "Maria",
-    image: "/corretores/func3.jpg",
+    image: "/corretores/func3.webp",
     text: "Um texto breve sobre a corretora Maria Luiza Souza, que para constar que esse não é o nome verdadeiro dela.",
     imoveis: 50,
     experiencia: 10,
@@ -1670,7 +1670,7 @@ const corretores = [
   {
     id: 1,
     name: "José",
-    image: "/corretores/func2.jpg",
+    image: "/corretores/func2.webp",
     text: "Um texto breve sobre o corretor José Luiz Souza, que para constar que esse não é o nome verdadeiro dele.",
     imoveis: 50,
     experiencia: 10,
@@ -1678,7 +1678,7 @@ const corretores = [
   {
     id: 2,
     name: "Joana",
-    image: "/corretores/func1.jpg",
+    image: "/corretores/func1.webp",
     text: "Um texto breve sobre a corretora Joana Luiza Souza, que para constar que esse não é o nome verdadeiro dela.",
     imoveis: 50,
     experiencia: 10,
@@ -1686,7 +1686,7 @@ const corretores = [
   {
     id: 3,
     name: "Carlos",
-    image: "/corretores/func4.jpg",
+    image: "/corretores/func4.webp",
     text: "Um texto breve sobre o corretor Carlos Luiz Souza, que para constar que esse não é o nome verdadeiro dele.",
     imoveis: 50,
     experiencia: 10,
@@ -1694,7 +1694,7 @@ const corretores = [
   {
     id: 4,
     name: "Maurício",
-    image: "/corretores/func5.jpg",
+    image: "/corretores/func5.webp",
     text: "Um texto breve sobre o corretor Maurício Luiz Souza, que para constar que esse não é o nome verdadeiro dele.",
     imoveis: 50,
     experiencia: 10,
@@ -1702,7 +1702,7 @@ const corretores = [
   {
     id: 5,
     name: "Carla",
-    image: "/corretores/func6.jpg",
+    image: "/corretores/func6.webp",
     text: "Um texto breve sobre a corretora Carla Luiza Souza, que para constar que esse não é o nome verdadeiro dela.",
     imoveis: 50,
     experiencia: 10,
@@ -1710,7 +1710,7 @@ const corretores = [
   {
     id: 6,
     name: "Luiza",
-    image: "/corretores/func7.jpg",
+    image: "/corretores/func7.webp",
     text: "Um texto breve sobre a corretora Luiza Souza, que para constar que esse não é o nome verdadeiro dela.",
     imoveis: 50,
     experiencia: 10,
@@ -1718,7 +1718,7 @@ const corretores = [
   {
     id: 7,
     name: "Diego",
-    image: "/corretores/func8.jpg",
+    image: "/corretores/func8.webp",
     text: "Um texto breve sobre o corretor Diego Luiza Souza, que para constar que esse não é o nome verdadeiro dele.",
     imoveis: 50,
     experiencia: 10,
@@ -1726,7 +1726,7 @@ const corretores = [
   {
     id: 8,
     name: "Antônia",
-    image: "/corretores/func9.jpg",
+    image: "/corretores/func9.webp",
     text: "Um texto breve sobre a corretora Maria Luiza Souza, que para constar que esse não é o nome verdadeiro dela.",
     imoveis: 50,
     experiencia: 10,
@@ -1734,7 +1734,7 @@ const corretores = [
   {
     id: 9,
     name: "Gabriela",
-    image: "/corretores/func10.jpg",
+    image: "/corretores/func10.webp",
     text: "Um texto breve sobre a corretora Maria Luiza Souza, que para constar que esse não é o nome verdadeiro dela.",
     imoveis: 50,
     experiencia: 10,
@@ -1742,7 +1742,7 @@ const corretores = [
   {
     id: 10,
     name: "Amanda",
-    image: "/corretores/func11.jpg",
+    image: "/corretores/func11.webp",
     text: "Um texto breve sobre a corretora Maria Luiza Souza, que para constar que esse não é o nome verdadeiro dela.",
     imoveis: 50,
     experiencia: 10,
@@ -1750,7 +1750,7 @@ const corretores = [
   {
     id: 11,
     name: "Luciana",
-    image: "/corretores/func12.jpg",
+    image: "/corretores/func12.webp",
     text: "Um texto breve sobre a corretora Maria Luiza Souza, que para constar que esse não é o nome verdadeiro dela.",
     imoveis: 50,
     experiencia: 10,
@@ -1758,7 +1758,7 @@ const corretores = [
   {
     id: 12,
     name: "Bruno",
-    image: "/corretores/func13.jpg",
+    image: "/corretores/func13.webp",
     text: "Um texto breve sobre o corretor Bruno Luiz Souza, que para constar que esse não é o nome verdadeiro dele.",
     imoveis: 50,
     experiencia: 10,
@@ -1766,7 +1766,7 @@ const corretores = [
   {
     id: 13,
     name: "Cleiton",
-    image: "/corretores/func14.jpg",
+    image: "/corretores/func14.webp",
     text: "Um texto breve sobre o corretor Cleiton Luiz Souza, que para constar que esse não é o nome verdadeiro dele.",
     imoveis: 50,
     experiencia: 10,
@@ -1774,7 +1774,7 @@ const corretores = [
   {
     id: 14,
     name: "Evelyn",
-    image: "/corretores/func15.jpg",
+    image: "/corretores/func15.webp",
     text: "Um texto breve sobre a corretora Maria Luiza Souza, que para constar que esse não é o nome verdadeiro dela.",
     imoveis: 50,
     experiencia: 10,
@@ -1784,7 +1784,7 @@ const corretores = [
 const midia = [
   {
     id: 1,
-    imagem: "/midia-revista.jpg",
+    imagem: "/midia-revista.webp",
     title: "Capa da revista Expansão Edição 21 anos",
     subtitle:
       "Muito além da venda, imobiliária Marques & Leão fideliza clientes na busca por imóveis.",
@@ -1792,7 +1792,7 @@ const midia = [
   },
   {
     id: 2,
-    imagem: "/midia-revista.jpg",
+    imagem: "/midia-revista.webp",
     title: "Capa da revista 2",
     subtitle:
       "Muito além da venda, imobiliária Marques & Leão fideliza clientes na busca por imóveis.",
@@ -1800,7 +1800,7 @@ const midia = [
   },
   {
     id: 3,
-    imagem: "/midia-revista.jpg",
+    imagem: "/midia-revista.webp",
     title: "Capa da revista 3",
     subtitle:
       "Muito além da venda, imobiliária Marques & Leão fideliza clientes na busca por imóveis.",
@@ -1808,7 +1808,7 @@ const midia = [
   },
   {
     id: 4,
-    imagem: "/midia-revista.jpg",
+    imagem: "/midia-revista.webp",
     title: "Capa da revista 4",
     subtitle:
       "Muito além da venda, imobiliária Marques & Leão fideliza clientes na busca por imóveis.",
@@ -1820,42 +1820,42 @@ const comentarios = [
   {
     id: 1,
     nome: "João Silva",
-    imagem: "/comentarios/joao.png",
+    imagem: "/comentarios/joao.webp",
     comentario:
       "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore.",
   },
   {
     id: 2,
     nome: "Ana Maria",
-    imagem: "/comentarios/ana.png",
+    imagem: "/comentarios/ana.webp",
     comentario:
       "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore.",
   },
   {
     id: 3,
     nome: "Paula Costa",
-    imagem: "/comentarios/paula.png",
+    imagem: "/comentarios/paula.webp",
     comentario:
       "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore.",
   },
   {
     id: 4,
     nome: "Gabriel Souza",
-    imagem: "/comentarios/gabriel.png",
+    imagem: "/comentarios/gabriel.webp",
     comentario:
       "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore.",
   },
   {
     id: 5,
     nome: "Ana Silva",
-    imagem: "/comentarios/ana.png",
+    imagem: "/comentarios/ana.webp",
     comentario:
       "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore.",
   },
   {
     id: 6,
     nome: "João Silva",
-    imagem: "/comentarios/joao.png",
+    imagem: "/comentarios/joao.webp",
     comentario:
       "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore.",
   },

@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
 import { Baskervville, Montserrat } from "next/font/google";
 import "./globals.css";
+import Footer from "@/components/footer";
 
 const baskervville = Baskervville({
   subsets: ["latin"],
-  weight: "400",
-  variable: "--font-baskervville",
+  weight: "400"
 });
 const montserrat = Montserrat({
   subsets: ["latin"],
-  weight: "400",
-  variable: "--font-montserrat",
+  weight: "400"
 });
 
 export const metadata: Metadata = {
@@ -26,9 +25,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${baskervville.variable} ${montserrat.variable} antialiased`}
+        className={`${montserrat.className} antialiased overflow-x-hidden`}
       >
         {children}
+        <Footer />
       </body>
     </html>
   );
