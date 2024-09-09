@@ -3,15 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #141414;
+  --foreground: #fff;
 }
 
 body {
@@ -31,8 +24,7 @@ body {
 }
 
 .embla__viewport {
-  /*   overflow-x: hidden;
- */
+  overflow-x: hidden;
 }
 
 .embla__container {
@@ -47,6 +39,18 @@ body {
   520px = 32.5rem
    */
 
-  flex: 0 0 33%;
+  flex: 0 0 60%;
   min-width: 0;
+}
+
+@media (min-width: 50em) {
+  .embla__slide {
+    /* 
+    480px = 30rem
+    520px = 32.5rem
+     */
+
+    flex: 0 0 33%;
+    min-width: 0;
+  }
 }

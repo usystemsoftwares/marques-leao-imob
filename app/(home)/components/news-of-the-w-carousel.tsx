@@ -13,7 +13,7 @@ const TWEEN_FACTOR_BASE = 0.52
 const numberWithinRange = (number: number, min: number, max: number): number => Math.min(Math.max(number, min), max)
 
 const SelectedForYou = () => {
-  const FeaturedProperties = imoveis.filter((imovel) => imovel.categoria === "destaque");
+  const FeaturedProperties = imoveis.filter((imovel) => imovel.categoria === "novidade");
 
   const tweenFactor = useRef(0)
   const tweenNodes = useRef<HTMLElement[]>([])
@@ -100,13 +100,13 @@ const SelectedForYou = () => {
         <div className="embla__container">
           {FeaturedProperties.map((featuredProperty) => (
             <Link href={`/imoveis/${featuredProperty.id}`} className="embla__slide relative" key={featuredProperty.id}>
-              <div className="embla__slide__number">
+              <div className="embla__slide__number pt-5">
                 {featuredProperty.exclusividade ?
-                  <div className="absolute -top-4 bg-[#530944] py-[.35rem] px-4 rounded-r-md rounded-tl-md">EXCLUSIVIDADE</div>
+                  <div className="absolute top-0 bg-[#530944] py-[.35rem] px-4 rounded-r-md rounded-tl-md">EXCLUSIVIDADE</div>
                   : null}
-                {featuredProperty.desconto ? <div className="absolute -top-4 bg-[#095310] py-[.35rem] px-4 rounded-r-md rounded-tl-md">IMÓVEL COM DESCONTO</div> : null}
+                {featuredProperty.desconto ? <div className="absolute -top-4 bg-[#095310] py-[.35rem] px-4 rounded-r-md rounded-tl-md">imóvel COM DESCONTO</div> : null}
                 <Image
-                  className="w-[33.125rem] rounded-md"
+                  className="w-full rounded-md"
                   src={featuredProperty.fotos[0]}
                   alt={featuredProperty.titulo}
                   width={550}

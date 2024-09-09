@@ -1,7 +1,7 @@
-import EstateAgents from "@/components/estate-agents";
+import EstateAgents from "./components/estate-agents";
 import Header from "@/components/header";
-import NewsOfTheW from "@/components/news-of-the-w-carousel";
-import SearchPropertyFilter from "@/components/search-property-filter";
+import NewsOfTheW from "./components/news-of-the-w-carousel";
+import SearchPropertyFilter from "./components/search-property-filter";
 import { WhatsappButton } from "@/components/whatsapp-btn";
 import { Baskervville, Montserrat } from "next/font/google";
 import Image from "next/image";
@@ -9,7 +9,8 @@ import Link from "next/link";
 import MarquesELeao from "/public/marqueseleao/marques-leao.webp"
 import BackgroundMenu from "/public/marqueseleao/background-menu.webp"
 import Ellipse from "/public/marqueseleao/ellipse4.webp"
-import SelectedForYou from "@/components/selected-for-you-carousel";
+import SelectedForYou from "./components/selected-for-you-carousel";
+import CitiesCarousel from "./components/cities-carousel";
 
 const baskervville = Baskervville({
   subsets: ["latin"],
@@ -24,7 +25,7 @@ export default function Home() {
   return (
     <div>
       <div
-        className="bg-[rgb(0,0,0,.65)] absolute top-0 w-full h-full max-h-[280px] before:absolute before:bg-gradient-to-t before:from-[#0a0a0a] before:w-full before:h-full before:left-0 before:bottom-0"
+        className="bg-[rgb(0,0,0,.55)] absolute top-0 w-full h-full max-h-[280px] before:absolute before:bg-gradient-to-t before:from-[#141414] before:w-full before:h-full before:left-0 before:bottom-0"
       >
         <Image
           className="absolute top-0 -z-20 w-full h-full"
@@ -33,18 +34,20 @@ export default function Home() {
         />
       </div>
       <Header />
-      <main className="w-[min(90%,80rem)] mx-auto">
+      <main className="">
         <Image
-          className="absolute -z-10 top-[-25%] opacity-45 right-[-12.5%] w-[27.5%]"
+          draggable={false}
+          className="absolute top-[-30%] opacity-50 right-[-15%] w-[35%]"
           src={Ellipse}
           alt="Ellipse blur"
         />
         <Image
-          className="absolute -z-10 bottom-[-50%] opacity-60 left-[-35%] w-[75%]"
+          draggable={false}
+          className="absolute bottom-[-50%] opacity-60 left-[-35%] w-[75%]"
           src={Ellipse}
           alt="Ellipse blur"
         />
-        <section className="min-h-screen relative">
+        <section className="min-h-screen relative w-[min(90%,80rem)] mx-auto">
           <h1 className={`text-[clamp(.75rem,9vw,2.25rem)] ${montserrat.className} relative z-10 font-extralight leading-none max-w-[23ch] pt-80 md:pt-40`}>
             Conectamos<br /> <span className={`text-[clamp(3rem,12.5vw,5rem)] md:text-[6rem] leading-[.75] ${baskervville.className} md:pr-11`}><strong>pessoas</strong></span> a imóveis
             <span className={`flex items-center text-[clamp(3rem,12.5vw,5rem)] md:text-[6rem] leading-[1] ${baskervville.className} before:inline-block before:w-[clamp(50%,10vw,100%)] before:h-[1px] before:bg-[#530944]`}>
@@ -60,31 +63,35 @@ export default function Home() {
           <SearchPropertyFilter />
         </section>
         <section>
-          <div className="flex items-center justify-between">
-            <div>
+          <div className="w-[min(90%,80rem)] mx-auto flex items-center justify-between">
+            <div className="relative">
               <span className="flex gap-4 items-center text-[#898989] after:inline-block after:w-28 after:h-[2px] after:bg-[#898989]">Destaques</span>
               <h2 className={`text-3xl font-extrabold ${baskervville.className}`}>Selecionados para você</h2>
             </div>
-            <Link href="" className="none md:block bg-[#530944] text-sm py-3 px-5 rounded-lg">Ver todos os imóveis</Link>
+            <Link href="" className="none md:block bg-[#530944] hover:bg-white hover:text-black transition-colors text-sm py-3 px-5 rounded-lg">Ver todos os imóveis</Link>
           </div>
           <SelectedForYou />
         </section>
-        <section>
-          <span>Filtre por</span>
-          <h2>Cidades que atendemos</h2>
+        <section className="mt-5">
+          <div className="grid place-items-center">
+            <span className="flex gap-4 items-center text-[#898989] before:inline-block before:w-28 before:h-[2px] before:bg-[#898989] after:inline-block after:w-28 after:h-[2px] after:bg-[#898989]">Filtre por</span>
+            <h2 className={`text-4xl font-extrabold ${baskervville.className}`}>Cidades que atendemos</h2>
+          </div>
           <div>
-
+            <CitiesCarousel />
           </div>
         </section>
-        <section>
-          <div>
-            <span>Novidades</span>
-            <h2>Novidades da semana</h2>
-            <Link href="">Ver todos os imóveis</Link>
+        <section className="mt-20">
+          <div className="w-[min(90%,80rem)] mx-auto flex items-center justify-between">
+            <div>
+              <span className="flex gap-4 items-center text-[#898989] after:inline-block after:w-28 after:h-[2px] after:bg-[#898989]">Novidades</span>
+              <h2 className={`text-3xl font-extrabold ${baskervville.className}`}>Novidades da semana</h2>
+            </div>
+            <Link className="none md:block bg-[#530944] hover:bg-white hover:text-black transition-colors text-sm py-3 px-5 rounded-lg" href="">Ver todos os imóveis</Link>
           </div>
           <NewsOfTheW />
         </section>
-        <section>
+        <section className="w-[min(90%,80rem)] mx-auto">
           <article>
             <div>
               <h2>Pensando em Projetos e lançamentos?</h2>
@@ -96,7 +103,7 @@ export default function Home() {
             </div>
           </article>
         </section>
-        <section>
+        <section className="w-[min(90%,80rem)] mx-auto">
           <div>
             {/* <Image /> */}
           </div>
@@ -117,7 +124,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section>
+        <section className="w-[min(90%,80rem)] mx-auto">
           <div>
             {/* <Image /> */}
           </div>
@@ -149,17 +156,17 @@ export default function Home() {
             </ul>
           </div>
         </section>
-        <section>
+        <section className="w-[min(90%,80rem)] mx-auto">
           <span>Nosso time</span>
           <h2>Corretores Marques</h2>
           <EstateAgents />
         </section>
-        <section>
+        <section className="w-[min(90%,80rem)] mx-auto">
           <span>Na mídia</span>
           <h2>O que falam da Marques&Leão na mídia</h2>
 
         </section>
-        <section>
+        <section className="w-[min(90%,80rem)] mx-auto">
           <span>Depoimentos</span>
           <h2>Veja alguns comentários dos nossos clientes</h2>
           <ul></ul>
