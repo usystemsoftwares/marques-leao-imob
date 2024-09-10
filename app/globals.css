@@ -54,3 +54,45 @@ body {
     min-width: 0;
   }
 }
+
+.svg_filter {
+  visibility: hidden;
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.projects-wrapper,
+.lancamentos-wrapper {
+  filter: url(#round);
+}
+
+@media (min-width: 48em) {
+  .svg_filter {
+    display: none;
+  }
+
+  .projects-wrapper,
+  .lancamentos-wrapper {
+    filter: none;
+  }
+
+}
+
+.projects {
+  clip-path: polygon(0% 5%, 100% 0%, 100% 100%, 0% 100%);
+}
+
+.lancamentos-img {
+  clip-path: polygon(0% 0%, 100% 0%, 100% 85%, 0% 100%);
+}
+
+@media (min-width:48em) {
+  .projects {
+    clip-path: polygon(0% 0%, 100% 0%, 89% 100%, 0% 100%);
+  }
+
+  .lancamentos-img {
+    clip-path: polygon(5% 0%, 100% 0%, 100% 99%, 0% 99%);
+  }
+}

@@ -11,6 +11,7 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        mainPurple: "#530944",
       },
       backgroundImage: {
         "hero-input": "url('/')"
