@@ -11,8 +11,19 @@ import Lancamentos from "/public/marqueseleao/lancamentos.webp"
 import Media from "/public/marqueseleao/media.webp"
 import BackgroundMenu from "/public/marqueseleao/background-menu.webp"
 import Ellipse from "/public/marqueseleao/ellipse4.webp"
+import PabloEGabriel from "/public/marqueseleao/foto-pablo-e-gabriel.webp"
+import MarquesInstagram from "/public/marqueseleao/marques-instagram.webp"
+import MarquesFacebook from "/public/marqueseleao/marques-facebook.webp"
+import MarquesYoutube from "/public/marqueseleao/marques-youtube.webp"
+import FacebookIcon from "/public/marqueseleao/facebook-icon.svg"
+import InstagramIcon from "/public/marqueseleao/instagram-icon.svg"
+import YoutubeIcon from "/public/marqueseleao/youtube-icon.svg"
+import HandshakeIcon from "/public/marqueseleao/handshake-icon.svg"
+import WhatsappPurpleIcon from "/public/marqueseleao/whatsapp-purple-icon.svg"
+import SearchIcon from "/public/marqueseleao/search-icon.svg"
 import SelectedForYou from "./components/selected-for-you-carousel";
 import CitiesCarousel from "./components/cities-carousel";
+import TestimonialsCarousel from "./components/testimonials-carousel";
 
 const baskervville = Baskervville({
   subsets: ["latin"],
@@ -70,7 +81,7 @@ export default function Home() {
               <span className="flex gap-4 items-center text-[#898989] after:inline-block after:w-28 after:h-[2px] after:bg-[#898989]">Destaques</span>
               <h2 className={`text-3xl font-extrabold ${baskervville.className}`}>Selecionados para você</h2>
             </div>
-            <Link href="" className="none md:block bg-mainPurple hover:bg-white hover:text-black transition-colors text-sm py-3 px-5 rounded-lg">Ver todos os imóveis</Link>
+            <Link href="" className="hidden md:block bg-mainPurple hover:bg-white hover:text-black transition-colors text-sm py-3 px-5 rounded-lg">Ver todos os imóveis</Link>
           </div>
           <SelectedForYou />
         </section>
@@ -89,7 +100,7 @@ export default function Home() {
               <span className="flex gap-4 items-center text-[#898989] after:inline-block after:w-28 after:h-[2px] after:bg-[#898989]">Novidades</span>
               <h2 className={`text-3xl font-extrabold ${baskervville.className}`}>Novidades da semana</h2>
             </div>
-            <Link className="none md:block bg-mainPurple hover:bg-white hover:text-black transition-colors text-sm py-3 px-5 rounded-lg" href="">Ver todos os imóveis</Link>
+            <Link className="hidden md:block bg-mainPurple hover:bg-white hover:text-black transition-colors text-sm py-3 px-5 rounded-lg" href="">Ver todos os imóveis</Link>
           </div>
           <NewsOfTheW />
         </section>
@@ -123,64 +134,145 @@ export default function Home() {
             </div>
           </article>
         </section>
-        <section className="w-[min(90%,80rem)] my-24 mx-auto md:flex md:items-center md:justify-between md:gap-8">
+        <section className="w-[min(90%,75rem)] relative mt-24 mb-12 mx-auto flex flex-col items-center md:flex-row md:items-center md:justify-between md:gap-8">
+          <Image
+            draggable={false}
+            className="hidden lg:block absolute bottom-[50%] translate-y-[50%] opacity-70 right-[-75%] -z-10 w-[85%]"
+            src={Ellipse}
+            alt="Ellipse blur"
+          />
           <div>
             <Image
-              className="rounded-xl w-[min(100%,34.375rem)]"
+              className="rounded-xl mx-auto md:mx-0 w-[min(100%,34.375rem)]"
               src={Media}
               alt="Gabriel Leão de costa para foto, de frente para uma casa"
             />
           </div>
-          <div>
+          <div className="mt-16 md:mt-0">
             <span className="flex items-center gap-2 text-[#898989] after:inline-block after:w-28 after:h-[1.75px] after:bg-[#898989]">Por que</span>
             <h2 className={`text-3xl tracking-wide ${baskervville.className}`}>Por que a Marques&Leão?</h2>
             <p className="mt-3 mb-6 max-w-[40ch] text-[#a7a7a7] leading-5">Somos <span className="text-white">a maior vitrine imobiliária</span> da região, investindo em vídeos, anúncios e inovação.</p>
-            <ul className="grid  md:grid-cols-3 md:*:w-[min(100%,12.5rem)] md:*:aspect-square *:flex *:flex-col *:justify-between *:font-bold lg:*:text-lg *:rounded-[.625rem] md:*:py-8 *:px-4 gap-3">
-              <li className="bg-mainPurple">
-                <div className="w-4 aspect-square"></div>
+            <ul className="grid md:grid-cols-3 md:*:w-[min(100%,12.5rem)] md:*:h-full md:*:aspect-square *:inline-flex md:*:flex-col *:items-center md:*:items-start md:*:justify-between *:gap-4 md*:gap-0 *:font-bold text-[.813rem] md:text-sm lg:*:text-lg *:rounded-[.625rem] *:px-4 *:py-2 md:*:py-6 lg:*:py-8 md:*:px-2 lg:*:px-4 gap-3 marques_leao">
+              <li className="bg-mainPurple !py-3 md:!py-6 lg:!py-8 !text-[.9375rem] md:!text-sm lg:!text-lg">
+                <div className="w-5 lg:w-auto">
+                  <Image
+                    src={SearchIcon}
+                    alt="Ícone de pesquisa"
+                  />
+                </div>
                 <p>Anuncie seu imóvel conosco</p>
               </li>
               <li className="bg-white text-mainPurple">
-                <div className="w-4 bg-black aspect-square"></div>
-                <p>Fale com nossos corretores</p>
+                <div className="w-5 lg:w-auto">
+                  <Image
+                    src={WhatsappPurpleIcon}
+                    alt="Whatsapp"
+                  />
+                </div>
+                <p className="max-w-[15ch] md:max-w-auto">Fale com nossos corretores</p>
               </li>
               <li className="bg-white text-mainPurple">
-                <div className="w-4 bg-black aspect-square"></div>
-                <p>Seja parceiro Marques&Leão</p>
+                <div className="w-5 lg:w-auto">
+                  <Image
+                    src={HandshakeIcon}
+                    alt="Ícones de aperto de mãos"
+                  />
+                </div>
+                <p className="max-w-[15ch] md:max-w-auto">Seja parceiro Marques&Leão</p>
               </li>
             </ul>
           </div>
         </section>
-        <section className="w-[min(90%,80rem)] mx-auto">
-          <div>
-            {/* <Image /> */}
+        <section className="w-[min(90%,80rem)] relative mt-36 mx-auto flex flex-col lg:flex-row items-center gap-[clamp(1rem,2.5vw,2.5rem)]">
+          <Image
+            draggable={false}
+            className="hidden lg:block absolute bottom-[-40%] opacity-75 right-[-40%] -z-10 w-[45%]"
+            src={Ellipse}
+            alt="Ellipse blur"
+          />
+          <div className="w-[min(100%,37.5rem)] lg:flex-1">
+            <Image
+              className="rounded-[.635rem]"
+              src={PabloEGabriel}
+              alt="Pablo Marques e Gabriel Leão"
+            />
           </div>
-          <div>
-            <h2>Pablo Marques & Gabriel Leão</h2>
-            <p>Nosso trabalho tem como foco a conexão entre tecnologia e atendimento de alta performance, com o objetivo de otimizar a jornada e melhorar experiência do cliente.</p>
-            <ul>
-              <li>
-                <div>{/* <Image /> */}</div>
-                <div>
-                  <p>@marqueseleao</p>
-                  <Link href="">Seguir no Instagram</Link>
-                </div>
-              </li>
-              <li>
-                <div>{/* <Image /> */}</div>
-                <div>
-                  <p>@ImobiliariaMarquesLeao</p>
-                  <Link href="">Se inscreva no canal</Link>
-                </div>
-              </li>
-              <li>
-                <div>{/* <Image /> */}</div>
-                <div>
-                  <p>@marqueseleao</p>
-                  <Link href="">Seguir no Facebook</Link>
-                </div>
-              </li>
-            </ul>
+          <div className="w-[min(100%,37.5rem)] sm:mt-4 lg:mt-0 lg:flex-1 flex flex-row-reverse lg:flex-row gap-[clamp(1rem,2vw,2.5rem)]">
+            <div className="w-full lg:max-w-[32ch]">
+              <h2 className={`text-3xl sm:text-4xl md:text-5xl lg:text-[clamp(2rem,3vw,3rem)] font-bold lg:!leading-[clamp(2rem,4vw,3.5rem)] ${baskervville.className}`}>Pablo Marques & Gabriel Leão</h2>
+              <p className="sm:text-lg lg:text-lg text-[#d2d2d2] !leading-6 mt-2">Nosso trabalho tem como foco a <span className="text-white font-semibold">conexão entre tecnologia e atendimento de alta performance</span>, com o objetivo de otimizar a jornada e melhorar experiência do cliente.</p>
+              <ul className="hidden lg:block *:flex *:items-center *:gap-5 *:mt-8">
+                <li>
+                  <div>
+                    <Image
+                      className="w-[clamp(4.5rem,7vw,5.625rem)]"
+                      src={MarquesInstagram}
+                      alt="Foto de Pablo Marques e Gabriel Leão"
+                    />
+                  </div>
+                  <div>
+                    <p className="text-[clamp(.875rem,1.5vw,1.125rem)] mb-3">@marqueseleao</p>
+                    <Link
+                      className="flex items-center font-semibold text-sm gap-2 bg-mainPurple rounded-[.635rem] py-3 px-5"
+                      href=""
+                    >
+                      <Image
+                        src={InstagramIcon}
+                        alt="Instagram"
+                      />
+                      Seguir no Instagram
+                    </Link>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <Image
+                      className="w-[clamp(4.5rem,7vw,5.625rem)]"
+                      src={MarquesYoutube}
+                      alt="Foto de Pablo Marques e Gabriel Leão"
+                    />
+                  </div>
+                  <div>
+                    <p className="text-[clamp(.875rem,1.5vw,1.125rem)] mb-3">@ImobiliariaMarquesLeao</p>
+                    <Link
+                      className="flex items-center font-semibold text-sm gap-2 bg-mainPurple rounded-[.635rem] py-3 px-5"
+                      href=""
+                    >
+                      <Image
+                        src={YoutubeIcon}
+                        alt="Youtube"
+                      />
+                      Se inscreva no canal
+                    </Link>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <Image
+                      className="w-[clamp(4.5rem,7vw,5.625rem)]"
+                      src={MarquesFacebook}
+                      alt="Foto de Pablo Marques e Gabriel Leão"
+                    />
+                  </div>
+                  <div>
+                    <p className="text-[clamp(.875rem,1.5vw,1.125rem)] mb-3">@marqueseleao</p>
+                    <Link
+                      className="flex items-center font-semibold text-sm gap-2 bg-mainPurple rounded-[.635rem] py-3 px-5"
+                      href=""
+                    >
+                      <Image
+                        src={FacebookIcon}
+                        alt="Facebook"
+                      />
+                      Seguir no Facebook
+                    </Link>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div className="flex gap-[clamp(1rem,1.5vw,2rem)] after:bg-mainPurple after:w-[2px] after:inline-block after:h-48 lg:after:content-none lg:before:bg-mainPurple lg:before:w-[2px] lg:before:inline-block lg:before:h-48">
+              <h3 className="sm:text-xl lg:text-[clamp(.875rem,4vw,1.5rem)] text-end lg:text-start text-[#707070] mt-6 leading-7 lg:max-w-[9ch]">As mentes por trás do negócio</h3>
+            </div>
           </div>
         </section>
         <section className="w-[min(90%,80rem)] mx-auto">
@@ -193,10 +285,15 @@ export default function Home() {
           <h2>O que falam da Marques&Leão na mídia</h2>
 
         </section>
-        <section className="w-[min(90%,80rem)] mx-auto">
-          <span>Depoimentos</span>
-          <h2>Veja alguns comentários dos nossos clientes</h2>
-          <ul></ul>
+        <section className="w-[min(90%,62.5rem)] mt-12 mx-auto">
+          <div className="flex">
+            <div>
+              <span className="text-[#898989]">Depoimentos</span>
+              <h2 className={`text-3xl ${baskervville.className}`}>Veja alguns comentários dos nossos clientes</h2>
+            </div>
+            <div></div>
+          </div>
+          <TestimonialsCarousel />
         </section>
       </main>
       <WhatsappButton />

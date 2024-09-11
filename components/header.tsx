@@ -7,7 +7,9 @@ import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import MarquesLeaoLogo from "/public/marqueseleao/Logo-Marques-Leao.webp"
-
+import InstagramIcon from "/public/marqueseleao/instagram-icon.svg"
+/* import WhatsappIcon from "/public/marqueseleao/whatsapp-icon.svg"
+ */
 const sideVariants = {
   closed: {
     display: "none",
@@ -103,14 +105,24 @@ const Header = () => {
           </ul>
         </div>
         <div
-          className="*:text-center *:block *:text-sm *:p-2 *:rounded-lg mx-1"
+          className="*:text-center *:flex *:justify-center *:gap-2 *:text-sm *:py-[.625rem] *:rounded-lg mx-1"
         >
           <Link
             className="bg-[#108d10] mb-2"
-            href="">WhatsApp</Link>
+            href="">
+            {/* <Image
+              src={WhatsappIcon}
+              alt="Whatsapp"
+            /> */}
+            WhatsApp</Link>
           <Link
-            className="border border-white"
-            href="">Instagram</Link>
+            className="border-[1.78px] border-white"
+            href="">
+            <Image
+              src={InstagramIcon}
+              alt="Instagram"
+            />
+            Instagram</Link>
         </div>
       </motion.nav>
     </header>

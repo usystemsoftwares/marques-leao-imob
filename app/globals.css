@@ -96,3 +96,40 @@ body {
     clip-path: polygon(5% 0%, 100% 0%, 100% 99%, 0% 99%);
   }
 }
+
+.marques_leao {
+  grid-template-areas:
+    "a a"
+    "b c "
+  ;
+}
+
+.marques_leao>li:first-child {
+  grid-area: a;
+}
+
+.marques_leao>li:nth-child(2) {
+  grid-area: b;
+}
+
+.marques_leao>li:last-child {
+  grid-area: c;
+}
+
+@media (min-width: 48em) {
+  .marques_leao {
+    grid-template-areas: none;
+  }
+
+  .marques_leao>li:first-child {
+    grid-area: auto;
+  }
+
+  .marques_leao>li:nth-child(2) {
+    grid-area: auto;
+  }
+
+  .marques_leao>li:last-child {
+    grid-area: auto;
+  }
+}

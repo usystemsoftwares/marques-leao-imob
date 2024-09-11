@@ -1,7 +1,6 @@
 "use client"
 
 import UseEmblaCarousel from "embla-carousel-react"
-import { EmblaCarouselType, EmblaEventType } from "embla-carousel"
 import Image from "next/image"
 import CampoBom from "/public/marqueseleao/campo-bom.webp"
 import NovoHamburgo from "/public/marqueseleao/novo-hamburgo.webp"
