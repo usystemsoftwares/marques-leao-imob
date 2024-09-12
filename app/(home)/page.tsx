@@ -24,6 +24,7 @@ import SearchIcon from "/public/marqueseleao/search-icon.svg"
 import SelectedForYou from "./components/selected-for-you-carousel";
 import CitiesCarousel from "./components/cities-carousel";
 import TestimonialsCarousel from "./components/testimonials-carousel";
+import MarquesLeaoMidiaCarousel from "./components/marques-leao-midia-carousel";
 
 const baskervville = Baskervville({
   subsets: ["latin"],
@@ -72,11 +73,12 @@ export default function Home() {
             className="absolute top-0 md:top-[-5rem] md:w-[min(100%,45rem)] right-0"
             src={MarquesELeao}
             alt="Marques e Leão"
+            priority
           />
           <SearchPropertyFilter />
         </section>
-        <section>
-          <div className="w-[min(90%,80rem)] mx-auto flex items-center justify-between">
+        <section className="w-[min(90%,80rem)] mx-auto relative">
+          <div className="flex items-center justify-between">
             <div className="relative">
               <span className="flex gap-4 items-center text-[#898989] after:inline-block after:w-28 after:h-[2px] after:bg-[#898989]">Destaques</span>
               <h2 className={`text-3xl font-extrabold ${baskervville.className}`}>Selecionados para você</h2>
@@ -85,17 +87,19 @@ export default function Home() {
           </div>
           <SelectedForYou />
         </section>
-        <section className="mt-5">
+        <section className="w-[min(90%,80rem)] mx-auto mt-20">
           <div className="grid place-items-center">
             <span className="flex gap-4 items-center text-[#898989] before:inline-block before:w-28 before:h-[2px] before:bg-[#898989] after:inline-block after:w-28 after:h-[2px] after:bg-[#898989]">Filtre por</span>
             <h2 className={`text-4xl font-extrabold ${baskervville.className}`}>Cidades que atendemos</h2>
           </div>
           <div>
-            <CitiesCarousel />
+            <CitiesCarousel
+              baskervville={baskervville.className}
+            />
           </div>
         </section>
-        <section className="mt-20">
-          <div className="w-[min(90%,80rem)] mx-auto flex items-center justify-between">
+        <section className="w-[min(90%,80rem)] mx-auto mt-20 relative">
+          <div className="flex items-center justify-between">
             <div>
               <span className="flex gap-4 items-center text-[#898989] after:inline-block after:w-28 after:h-[2px] after:bg-[#898989]">Novidades</span>
               <h2 className={`text-3xl font-extrabold ${baskervville.className}`}>Novidades da semana</h2>
@@ -235,10 +239,11 @@ export default function Home() {
                   <div>
                     <p className="text-[clamp(.875rem,1.5vw,1.125rem)] mb-3">@ImobiliariaMarquesLeao</p>
                     <Link
-                      className="flex items-center font-semibold text-sm gap-2 bg-mainPurple rounded-[.635rem] py-3 px-5"
+                      className="flex items-center font-semibold text-sm gap-2 max-w-[23ch] bg-mainPurple rounded-[.635rem] py-3 px-5"
                       href=""
                     >
                       <Image
+                        className="w-[1.0625rem]"
                         src={YoutubeIcon}
                         alt="Youtube"
                       />
@@ -275,24 +280,21 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section className="w-[min(90%,80rem)] mx-auto">
-          <span>Nosso time</span>
-          <h2>Corretores Marques</h2>
-          <EstateAgents />
+        <section className="w-[min(90%,80rem)] mt-14 mb-24 mx-auto">
+          <span className="text-[#898989] flex gap-4 items-center after:w-[7.5rem] after:bg-[#898989] after:h-[2px]">Nosso time</span>
+          <h2 className={`text-3xl ${baskervville.className}`}>Corretores Marques</h2>
+          <EstateAgents
+            baskervville={baskervville.className}
+          />
         </section>
-        <section className="w-[min(90%,80rem)] mx-auto">
-          <span>Na mídia</span>
-          <h2>O que falam da Marques&Leão na mídia</h2>
-
-        </section>
-        <section className="w-[min(90%,62.5rem)] mt-12 mx-auto">
-          <div className="flex">
-            <div>
-              <span className="text-[#898989]">Depoimentos</span>
-              <h2 className={`text-3xl ${baskervville.className}`}>Veja alguns comentários dos nossos clientes</h2>
-            </div>
-            <div></div>
+        <section className="w-[min(90%,68rem)] relative mx-auto">
+          <div className="max-w-[35ch]">
+            <span className="text-[#898989] flex gap-4 items-center after:w-[7.5rem] after:bg-[#898989] after:h-[2px]">Na mídia</span>
+            <h2 className={`text-3xl ${baskervville.className}`}>O que falam da Marques&Leão na mídia</h2>
           </div>
+          <MarquesLeaoMidiaCarousel />
+        </section>
+        <section className="w-[min(90%,68rem)] mt-12 mb-8 mx-auto">
           <TestimonialsCarousel />
         </section>
       </main>

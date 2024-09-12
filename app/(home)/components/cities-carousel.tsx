@@ -8,19 +8,18 @@ import SantaCatarina from "/public/marqueseleao/santa-catarina.webp"
 import EstanciaVelha from "/public/marqueseleao/estancia-velha.webp"
 import { Baskervville } from "next/font/google"
 
-const baskervville = Baskervville({
-  subsets: ["latin"],
-  weight: ["400"]
-});
+type BaskervvilleProps = {
+  baskervville: string;
+}
 
-const CitiesCarousel = () => {
-  const [emblaRef, emblaApi] = UseEmblaCarousel({ loop: true })
+const CitiesCarousel = ({ baskervville }: BaskervvilleProps) => {
+  const [emblaRef, emblaApi] = UseEmblaCarousel({ dragFree: true })
 
   return (
-    <div className={`embla ${baskervville.className} mt-8`}>
+    <div className={`embla overflow-x-hidden ${baskervville} mt-8`}>
       <div className="embla__viewport" ref={emblaRef}>
-        <div className="embla__container justify-center gap-12">
-          <div className="relative w-[16.875rem]">
+        <div className="embla__container *:w-[min(100%,16.875rem)] *:relative *:flex-shrink-0 *:flex-grow-0 gap-12">
+          <div>
             <Image
               className="rounded-xl"
               src={NovoHamburgo}
@@ -28,7 +27,7 @@ const CitiesCarousel = () => {
             />
             <p className="absolute bottom-0 text-center w-full py-2 bg-[rgb(0,0,0,0.3)]">Novo Hamburgo</p>
           </div>
-          <div className="relative w-[16.875rem]">
+          <div>
             <Image
               className="rounded-xl"
               src={CampoBom}
@@ -36,7 +35,7 @@ const CitiesCarousel = () => {
             />
             <p className="absolute bottom-0 text-center w-full py-2 bg-[rgb(0,0,0,0.3)]">Campo Bom</p>
           </div>
-          <div className="relative w-[16.875rem]">
+          <div>
             <Image
               className="rounded-xl"
               src={EstanciaVelha}
@@ -44,7 +43,7 @@ const CitiesCarousel = () => {
             />
             <p className="absolute bottom-0 text-center w-full py-2 bg-[rgb(0,0,0,0.3)]">Estancia Velha</p>
           </div>
-          <div className="relative w-[16.875rem]">
+          <div>
             <Image
               className="rounded-xl"
               src={SantaCatarina}

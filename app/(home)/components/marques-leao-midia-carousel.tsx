@@ -1,16 +1,51 @@
 "use client"
 
+import UseEmblaCarousel from "embla-carousel-react"
+import { midia } from "@/data"
+import Image from "next/image"
 import Link from "next/link"
+import { useCallback } from "react"
 
 const MarquesLeaoMidiaCarousel = () => {
+  const [emblaRef, emblaApi] = UseEmblaCarousel({ loop: true })
+
+  const scrollPrev = useCallback(() => {
+    if (emblaApi) emblaApi.scrollPrev()
+  }, [emblaApi])
+
+  const scrollNext = useCallback(() => {
+    if (emblaApi) emblaApi.scrollNext()
+  }, [emblaApi])
+
   return (
-    <div>
-      <div></div>
-      <div>
-        <h3></h3>
-        <p></p>
-        <Link href={""}>Ver matéria</Link>
+    <div className="embla overflow-x-hidden mt-10">
+      <div className="embla__viewport" ref={emblaRef}>
+        <div className="embla__container flex">
+          {midia.map(midiaItem => (
+            <div className="flex-shrink-0 w-full flex-grow-0 flex md:gap-4 md:px-8 flex-col md:flex-row items-center" key={midiaItem.id}>
+              <div>
+                <Image
+                  className="mx-auto w-3/5 md:w-auto md:mx-0"
+                  src={midiaItem.imagem}
+                  alt={midiaItem.title}
+                  width={400}
+                  height={532}
+                />
+              </div>
+              <div className="max-w-[100ch] mx-auto mt-16 md:mt-0">
+                <h3 className="max-w-[17ch] md:max-w-[25ch] text-3xl font-bold tracking-widest">{midiaItem.title}</h3>
+                <p className="max-w-[28ch] text-xl my-4 tracking-wider">{midiaItem.subtitle}</p>
+                <Link
+                  className="bg-mainPurple inline-block hover:bg-white hover:text-black transition-colors text-xl w-[min(100%,15.625rem)] text-center py-3 px-5 rounded-lg"
+                  href={midiaItem.link}
+                >Ver matéria</Link>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
+      <button className="embla__prev absolute top-1/2 translate-y-1/2 left-0" onClick={scrollPrev}>Prev</button>
+      <button className="embla__next absolute top-1/2 translate-y-1/2 right-0" onClick={scrollNext}>Next</button>
     </div>
   )
 }

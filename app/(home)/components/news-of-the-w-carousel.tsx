@@ -99,7 +99,11 @@ const SelectedForYou = () => {
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container">
           {FeaturedProperties.map((featuredProperty) => (
-            <Link href={`/imoveis/${featuredProperty.id}`} className="embla__slide relative" key={featuredProperty.id}>
+            <Link
+              key={featuredProperty.id}
+              className="flex-shrink-0 flex-grow-0 w-[75%] md:w-auto relative"
+              href={`/imoveis/${featuredProperty.id}`}
+            >
               <div className="embla__slide__number pt-5">
                 {featuredProperty.exclusividade ?
                   <div className="absolute top-0 bg-[#530944] py-[.35rem] px-4 rounded-r-md rounded-tl-md">EXCLUSIVIDADE</div>
@@ -121,8 +125,8 @@ const SelectedForYou = () => {
           ))}
         </div>
       </div>
-      <button className="embla__prev" onClick={scrollPrev}>Prev</button>
-      <button className="embla__next" onClick={scrollNext}>Next</button>
+      <button className="embla__prev absolute top-1/2 translate-y-1/2 left-[-4%]" onClick={scrollPrev}>Prev</button>
+      <button className="embla__next absolute top-1/2 translate-y-1/2 right-[-4%]" onClick={scrollNext}>Next</button>
     </div>
 
   )

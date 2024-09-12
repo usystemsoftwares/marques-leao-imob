@@ -121,8 +121,8 @@ const SelectedForYou = () => {
           ))}
         </div>
       </div>
-      <button className="embla__prev" onClick={scrollPrev}>Prev</button>
-      <button className="embla__next" onClick={scrollNext}>Next</button>
+      <button className="embla__prev absolute top-1/2 translate-y-1/2 left-0" onClick={scrollPrev}>Prev</button>
+      <button className="embla__next absolute top-1/2 translate-y-1/2 right-0" onClick={scrollNext}>Next</button>
     </div>
 
   )

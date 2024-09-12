@@ -1784,7 +1784,7 @@ const corretores = [
 const midia = [
   {
     id: 1,
-    imagem: "/midia-revista.webp",
+    imagem: "/marqueseleao/midia-revista.webp",
     title: "Capa da revista Expansão Edição 21 anos",
     subtitle:
       "Muito além da venda, imobiliária Marques & Leão fideliza clientes na busca por imóveis.",
@@ -1792,7 +1792,7 @@ const midia = [
   },
   {
     id: 2,
-    imagem: "/midia-revista.webp",
+    imagem: "/marqueseleao/midia-revista.webp",
     title: "Capa da revista 2",
     subtitle:
       "Muito além da venda, imobiliária Marques & Leão fideliza clientes na busca por imóveis.",
@@ -1800,7 +1800,7 @@ const midia = [
   },
   {
     id: 3,
-    imagem: "/midia-revista.webp",
+    imagem: "/marqueseleao/midia-revista.webp",
     title: "Capa da revista 3",
     subtitle:
       "Muito além da venda, imobiliária Marques & Leão fideliza clientes na busca por imóveis.",
@@ -1808,7 +1808,7 @@ const midia = [
   },
   {
     id: 4,
-    imagem: "/midia-revista.webp",
+    imagem: "/marqueseleao/midia-revista.webp",
     title: "Capa da revista 4",
     subtitle:
       "Muito além da venda, imobiliária Marques & Leão fideliza clientes na busca por imóveis.",
