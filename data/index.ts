@@ -1661,9 +1661,9 @@ const imoveis = [
 const corretores = [
   {
     id: 0,
-    name: "Maria",
-    image: "/corretores/func3.webp",
-    text: "Um texto breve sobre a corretora Maria Luiza Souza, que para constar que esse não é o nome verdadeiro dela.",
+    name: "Joana",
+    image: "/corretores/func1.webp",
+    text: "Um texto breve sobre a corretora Joana Luiza Souza, que para constar que esse não é o nome verdadeiro dela.",
     imoveis: 50,
     experiencia: 10,
   },
@@ -1677,9 +1677,9 @@ const corretores = [
   },
   {
     id: 2,
-    name: "Joana",
-    image: "/corretores/func1.webp",
-    text: "Um texto breve sobre a corretora Joana Luiza Souza, que para constar que esse não é o nome verdadeiro dela.",
+    name: "Maria",
+    image: "/corretores/func3.webp",
+    text: "Um texto breve sobre a corretora Maria Luiza Souza, que para constar que esse não é o nome verdadeiro dela.",
     imoveis: 50,
     experiencia: 10,
   },

@@ -5,6 +5,8 @@ import { midia } from "@/data"
 import Image from "next/image"
 import Link from "next/link"
 import { useCallback } from "react"
+import ArrowLeft from "/public/marqueseleao/arrow-left.webp"
+import ArrowRight from "/public/marqueseleao/arrow-right.webp"
 
 const MarquesLeaoMidiaCarousel = () => {
   const [emblaRef, emblaApi] = UseEmblaCarousel({ loop: true })
@@ -44,8 +46,18 @@ const MarquesLeaoMidiaCarousel = () => {
           ))}
         </div>
       </div>
-      <button className="embla__prev absolute top-1/2 translate-y-1/2 left-0" onClick={scrollPrev}>Prev</button>
-      <button className="embla__next absolute top-1/2 translate-y-1/2 right-0" onClick={scrollNext}>Next</button>
+      <button className="embla__prev absolute top-1/2 translate-y-1/2 left-0" onClick={scrollPrev}>
+        <Image
+          src={ArrowLeft}
+          alt="Seta para esquerda"
+        />
+      </button>
+      <button className="embla__next absolute top-1/2 translate-y-1/2 right-0" onClick={scrollNext}>
+        <Image
+          src={ArrowRight}
+          alt="Seta para direita"
+        />
+      </button>
     </div>
   )
 }

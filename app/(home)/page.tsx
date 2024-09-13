@@ -98,7 +98,7 @@ export default function Home() {
             />
           </div>
         </section>
-        <section className="w-[min(90%,80rem)] mx-auto mt-20 relative">
+        <section className="w-[min(90%,80rem)] mx-auto mt-20 mb-28 relative">
           <div className="flex items-center justify-between">
             <div>
               <span className="flex gap-4 items-center text-[#898989] after:inline-block after:w-28 after:h-[2px] after:bg-[#898989]">Novidades</span>
