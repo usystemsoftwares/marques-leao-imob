@@ -1,6 +1,5 @@
 import EstateAgents from "./components/estate-agents";
 import Header from "@/components/header";
-import NewsOfTheW from "./components/news-of-the-w-carousel";
 import SearchPropertyFilter from "./components/search-property-filter";
 import { WhatsappButton } from "@/components/whatsapp-btn";
 import { Baskervville, Montserrat } from "next/font/google";
@@ -21,10 +20,11 @@ import YoutubeIcon from "/public/marqueseleao/youtube-icon.svg"
 import HandshakeIcon from "/public/marqueseleao/handshake-icon.svg"
 import WhatsappPurpleIcon from "/public/marqueseleao/whatsapp-purple-icon.svg"
 import SearchIcon from "/public/marqueseleao/search-icon.svg"
-import SelectedForYou from "./components/selected-for-you-carousel";
 import CitiesCarousel from "./components/cities-carousel";
 import TestimonialsCarousel from "./components/testimonials-carousel";
 import MarquesLeaoMidiaCarousel from "./components/marques-leao-midia-carousel";
+import Carousel from "./components/carousel";
+import { imoveis } from "@/data"
 
 const baskervville = Baskervville({
   subsets: ["latin"],
@@ -36,6 +36,9 @@ const montserrat = Montserrat({
 });
 
 export default function Home() {
+  const newEstates = imoveis.filter((estate) => estate.categoria === "novidade")
+  const featuredEstates = imoveis.filter((estate) => estate.categoria === "destaque")
+
   return (
     <div>
       <div
@@ -78,14 +81,14 @@ export default function Home() {
           <SearchPropertyFilter />
         </section>
         <section className="w-[min(90%,80rem)] mx-auto relative">
-          <div className="flex items-center justify-between">
+          <div className="w-[min(90%,68rem)] mx-auto flex items-center justify-between">
             <div className="relative">
               <span className="flex gap-4 items-center text-[#898989] after:inline-block after:w-28 after:h-[2px] after:bg-[#898989]">Destaques</span>
               <h2 className={`text-3xl font-extrabold ${baskervville.className}`}>Selecionados para você</h2>
             </div>
             <Link href="" className="hidden md:block bg-mainPurple hover:bg-white hover:text-black transition-colors text-sm py-3 px-5 rounded-lg">Ver todos os imóveis</Link>
           </div>
-          <SelectedForYou />
+          <Carousel estates={newEstates} />
         </section>
         <section className="w-[min(90%,80rem)] mx-auto mt-20">
           <div className="grid place-items-center">
@@ -99,16 +102,16 @@ export default function Home() {
           </div>
         </section>
         <section className="w-[min(90%,80rem)] mx-auto mt-20 mb-28 relative">
-          <div className="flex items-center justify-between">
+          <div className="w-[min(90%,68rem)] mx-auto flex items-center justify-between">
             <div>
               <span className="flex gap-4 items-center text-[#898989] after:inline-block after:w-28 after:h-[2px] after:bg-[#898989]">Novidades</span>
               <h2 className={`text-3xl font-extrabold ${baskervville.className}`}>Novidades da semana</h2>
             </div>
             <Link className="hidden md:block bg-mainPurple hover:bg-white hover:text-black transition-colors text-sm py-3 px-5 rounded-lg" href="">Ver todos os imóveis</Link>
           </div>
-          <NewsOfTheW />
+          <Carousel estates={featuredEstates} />
         </section>
-        <section className="w-[min(90%,80rem)] mx-auto">
+        <section className="w-[min(90%,68rem)] mx-auto">
           <article className="w-[min(100%,20rem)] md:w-auto mx-auto md:mx-0 md:flex md:flex-row-reverse">
             <div className="lancamentos-wrapper">
               <Image
@@ -119,7 +122,7 @@ export default function Home() {
             </div>
             <div className="projects-wrapper w-[min(100%,25rem)]">
               <div className="bg-mainPurple md:h-full md:bg-transparent before:bg-gradient-to-t before:absolute before:inset-0 before:-z-20 before:from-[#141414] md:before:content-none md:bg-gradient-to-b translate-y-[-.5rem] md:translate-y-0 md:translate-x-[.75rem] lg:translate-x-[1.25rem] md:from-mainPurple rounded-lg md:rounded-xl px-6 py-8 md:p-8 projects">
-                <h2 className={`text-3xl tracking-wide md:tracking-normal md:leading-[3.25rem] md:text-5xl ${baskervville.className}`}>Pensando em Projetos e lançamentos?</h2>
+                <h2 className={`text-3xl tracking-wide md:tracking-normal md:leading-[2.75rem] md:text-[2.5rem] ${baskervville.className}`}>Pensando em Projetos e lançamentos?</h2>
                 <p className="mt-3 mb-2 md:mb-2 max-w-[22ch]">Conheça aqui as novidades do mercado.</p>
                 <Link
                   className="bg-mainPurple hover:scale-110 md:hover:scale-100 inline-block hover:bg-white hover:text-black transition-all text-sm py-3 px-5 rounded-lg"
@@ -145,12 +148,21 @@ export default function Home() {
             src={Ellipse}
             alt="Ellipse blur"
           />
-          <div>
+          <div className="relative w-[min(100%,34.375rem)]">
             <Image
-              className="rounded-xl mx-auto md:mx-0 w-[min(100%,34.375rem)]"
+              className="rounded-xl mx-auto md:mx-0 w-[min(100%,30rem)]"
               src={Media}
               alt="Gabriel Leão de costa para foto, de frente para uma casa"
             />
+            <div className="absolute right-0 bottom-[55%] px-4 py-3 translate-y-1/2 backdrop-blur-2xl rounded-[.625rem]">
+              <span className="text-3xl font-bold block text-center">+22mil</span> nas redes sociais
+            </div>
+            <div className="absolute right-[-3%] bottom-[37.5%] px-2 py-2 translate-y-1/2 backdrop-blur-2xl rounded-[.625rem]">
+              <span className="text-3xl font-bold block text-center">+1000</span> imóveis vendidos
+            </div>
+            <div className="absolute right-0 bottom-[15%] px-4 py-3 translate-y-1/2 backdrop-blur-2xl rounded-[.625rem]">
+              <span className="text-3xl font-bold block">+100 mil</span> de alcance mensal
+            </div>
           </div>
           <div className="mt-16 md:mt-0">
             <span className="flex items-center gap-2 text-[#898989] after:inline-block after:w-28 after:h-[1.75px] after:bg-[#898989]">Por que</span>

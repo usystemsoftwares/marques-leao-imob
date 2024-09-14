@@ -8,8 +8,8 @@ import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import MarquesLeaoLogo from "/public/marqueseleao/Logo-Marques-Leao.webp"
 import InstagramIcon from "/public/marqueseleao/instagram-icon.svg"
-/* import WhatsappIcon from "/public/marqueseleao/whatsapp-icon.svg"
- */
+import WhatsappIcon from "/public/marqueseleao/white-wpp-icon.svg"
+
 const sideVariants = {
   closed: {
     display: "none",
@@ -51,7 +51,6 @@ const Header = () => {
 
   return (
     <header className="w-[min(90%,80rem)] mx-auto flex items-center justify-between pt-12">
-      <div className="hidden"></div>
       <Image
         className="z-10 w-[12.5rem] md:w-[17.5rem] mx-auto md:mx-0"
         src={MarquesLeaoLogo}
@@ -109,11 +108,11 @@ const Header = () => {
         >
           <Link
             className="bg-[#108d10] mb-2"
-            href="">
-            {/* <Image
+            href="Whatsapp">
+            <Image
               src={WhatsappIcon}
               alt="Whatsapp"
-            /> */}
+            />
             WhatsApp</Link>
           <Link
             className="border-[1.78px] border-white"

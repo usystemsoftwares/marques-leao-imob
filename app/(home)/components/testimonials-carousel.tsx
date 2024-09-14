@@ -5,7 +5,7 @@ import { EmblaCarouselType } from "embla-carousel"
 import { comentarios } from "@/data"
 import Image from "next/image"
 import Stars from "/public/marqueseleao/stars.svg"
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { Baskervville } from "next/font/google"
 
 const baskervville = Baskervville({
@@ -15,18 +15,23 @@ const baskervville = Baskervville({
 
 const TestimonialsCarousel = () => {
   const [emblaRef, emblaApi] = UseEmblaCarousel({ dragFree: true })
-  const [scrollNumber, setScrollNumber] = useState<number>()
-  const scrollProgressBar = useCallback((emblaApi: EmblaCarouselType) => {
-    setScrollNumber(emblaApi.scrollProgress())
-    if (scrollNumber) {
-      scrollNumber.toFixed()
-    }
+  const [scrollProgress, setScrollProgress] = useState<number>(0)
+
+  const onScroll = useCallback((emblaApi: EmblaCarouselType) => {
+    const progress = Math.max(0, Math.min(1, emblaApi.scrollProgress()))
+    setScrollProgress(progress * 100)
     return emblaApi.scrollProgress()
   }, [])
 
   useEffect(() => {
-    if (emblaApi) emblaApi.on('scroll', scrollProgressBar)
-  }, [emblaApi, scrollProgressBar])
+    if (!emblaApi) return
+
+    onScroll(emblaApi)
+    emblaApi
+      .on('reInit', onScroll)
+      .on('scroll', onScroll)
+      .on('slideFocus', onScroll)
+  }, [emblaApi, onScroll])
 
   return (
     <div>
