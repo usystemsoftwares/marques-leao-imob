@@ -1,6 +1,6 @@
 import EstateAgents from "./components/estate-agents";
 import Header from "@/components/header";
-import SearchPropertyFilter from "./components/search-property-filter";
+import SearchPropertyFilter from "../../components/search-property-filter";
 import { WhatsappButton } from "@/components/whatsapp-btn";
 import { Baskervville, Montserrat } from "next/font/google";
 import Image from "next/image";
@@ -8,7 +8,6 @@ import Link from "next/link";
 import MarquesELeao from "/public/marqueseleao/marques-leao.webp"
 import Lancamentos from "/public/marqueseleao/lancamentos.webp"
 import Media from "/public/marqueseleao/media.webp"
-import BackgroundMenu from "/public/marqueseleao/background-menu.webp"
 import Ellipse from "/public/marqueseleao/ellipse4.webp"
 import PabloEGabriel from "/public/marqueseleao/foto-pablo-e-gabriel.webp"
 import MarquesInstagram from "/public/marqueseleao/marques-instagram.webp"
@@ -19,7 +18,7 @@ import InstagramIcon from "/public/marqueseleao/instagram-icon.svg"
 import YoutubeIcon from "/public/marqueseleao/youtube-icon.svg"
 import HandshakeIcon from "/public/marqueseleao/handshake-icon.svg"
 import WhatsappPurpleIcon from "/public/marqueseleao/whatsapp-purple-icon.svg"
-import SearchIcon from "/public/marqueseleao/search-icon.svg"
+import WhiteSearchIcon from "/public/marqueseleao/white-search-icon.svg"
 import CitiesCarousel from "./components/cities-carousel";
 import TestimonialsCarousel from "./components/testimonials-carousel";
 import MarquesLeaoMidiaCarousel from "./components/marques-leao-midia-carousel";
@@ -40,18 +39,9 @@ export default function Home() {
   const featuredEstates = imoveis.filter((estate) => estate.categoria === "destaque")
 
   return (
-    <div>
-      <div
-        className="bg-[rgb(0,0,0,.55)] absolute top-0 w-full h-full max-h-[280px] before:absolute before:bg-gradient-to-t before:from-[#141414] before:w-full before:h-full before:left-0 before:bottom-0"
-      >
-        <Image
-          className="absolute top-0 -z-20 w-full h-full"
-          src={BackgroundMenu}
-          alt="Background"
-        />
-      </div>
+    <div className="bg-menu bg-no-repeat">
       <Header />
-      <main className="">
+      <main>
         <Image
           draggable={false}
           className="absolute top-[-30%] opacity-50 right-[-15%] w-[35%]"
@@ -78,9 +68,9 @@ export default function Home() {
             alt="Marques e Leão"
             priority
           />
-          <SearchPropertyFilter />
+          <SearchPropertyFilter className="absolute bottom-[10rem] translate-x-1/2 z-50 right-1/2" />
         </section>
-        <section className="w-[min(90%,80rem)] mx-auto relative">
+        <section className="w-full md:w-[min(90%,80rem)] mx-auto relative">
           <div className="w-[min(90%,68rem)] mx-auto flex items-center justify-between">
             <div className="relative">
               <span className="flex gap-4 items-center text-[#898989] after:inline-block after:w-28 after:h-[2px] after:bg-[#898989]">Destaques</span>
@@ -101,13 +91,14 @@ export default function Home() {
             />
           </div>
         </section>
-        <section className="w-[min(90%,80rem)] mx-auto mt-20 mb-28 relative">
+        <section className="w-full md:w-[min(90%,80rem)] mx-auto mt-20 mb-28 relative">
           <div className="w-[min(90%,68rem)] mx-auto flex items-center justify-between">
             <div>
               <span className="flex gap-4 items-center text-[#898989] after:inline-block after:w-28 after:h-[2px] after:bg-[#898989]">Novidades</span>
               <h2 className={`text-3xl font-extrabold ${baskervville.className}`}>Novidades da semana</h2>
             </div>
-            <Link className="hidden md:block bg-mainPurple hover:bg-white hover:text-black transition-colors text-sm py-3 px-5 rounded-lg" href="">Ver todos os imóveis</Link>
+            <Link
+              className="hidden md:block bg-mainPurple hover:bg-white hover:text-black transition-colors text-sm py-3 px-5 rounded-lg" href="">Ver todos os imóveis</Link>
           </div>
           <Carousel estates={featuredEstates} />
         </section>
@@ -141,27 +132,27 @@ export default function Home() {
             </div>
           </article>
         </section>
-        <section className="w-[min(90%,75rem)] relative mt-24 mb-12 mx-auto flex flex-col items-center md:flex-row md:items-center md:justify-between md:gap-8">
+        <section className="w-[min(90%,75rem)] relative mt-24 mb-12 mx-auto flex flex-col items-center md:flex-row md:items-center md:justify-between md:gap-20">
           <Image
             draggable={false}
             className="hidden lg:block absolute bottom-[50%] translate-y-[50%] opacity-70 right-[-75%] -z-10 w-[85%]"
             src={Ellipse}
             alt="Ellipse blur"
           />
-          <div className="relative w-[min(100%,34.375rem)]">
+          <div className="relative w-[min(100%,30rem)] ml-4 sm:ml-0">
             <Image
-              className="rounded-xl mx-auto md:mx-0 w-[min(100%,30rem)]"
+              className="rounded-xl mx-auto md:mx-0"
               src={Media}
               alt="Gabriel Leão de costa para foto, de frente para uma casa"
             />
-            <div className="absolute right-0 bottom-[55%] px-4 py-3 translate-y-1/2 backdrop-blur-2xl rounded-[.625rem]">
-              <span className="text-3xl font-bold block text-center">+22mil</span> nas redes sociais
+            <div className="text-sm lg:text-base absolute translate-x-[-15%] md:right-0 md:translate-x-[35%] bottom-[40%] md:bottom-[60%] px-4 py-4 md:px-2 md:py-2 lg:px-4 lg:py-4 translate-y-1/2 backdrop-blur-2xl rounded-[.625rem]">
+              <span className="text-xl lg:text-[clamp(1rem,3vw,1.875rem)] font-bold block text-center">+22mil</span> nas redes sociais
             </div>
-            <div className="absolute right-[-3%] bottom-[37.5%] px-2 py-2 translate-y-1/2 backdrop-blur-2xl rounded-[.625rem]">
-              <span className="text-3xl font-bold block text-center">+1000</span> imóveis vendidos
+            <div className="text-sm lg:text-base absolute translate-x-[-15%] md:right-0 md:translate-x-[50%] bottom-[60%] md:bottom-[37.5%] px-4 py-4 md:px-2 md:py-2 lg:px-3 lg:py-3 translate-y-1/2 backdrop-blur-2xl rounded-[.625rem]">
+              <span className="text-xl lg:text-[clamp(1rem,3vw,1.875rem)] font-bold block text-center">+1000</span> imóveis vendidos
             </div>
-            <div className="absolute right-0 bottom-[15%] px-4 py-3 translate-y-1/2 backdrop-blur-2xl rounded-[.625rem]">
-              <span className="text-3xl font-bold block">+100 mil</span> de alcance mensal
+            <div className="text-sm lg:text-base absolute translate-x-[-15%] md:right-0 md:translate-x-[40%] bottom-[80%] md:bottom-[15%] px-4 py-4 md:px-2 md:py-2 lg:px-4 lg:py-4 translate-y-1/2 backdrop-blur-2xl rounded-[.625rem]">
+              <span className="text-xl lg:text-[clamp(1rem,3vw,1.875rem)] font-bold block">+100 mil</span> de alcance mensal
             </div>
           </div>
           <div className="mt-16 md:mt-0">
@@ -172,11 +163,11 @@ export default function Home() {
               <li className="bg-mainPurple !py-3 md:!py-6 lg:!py-8 !text-[.9375rem] md:!text-sm lg:!text-lg">
                 <div className="w-5 lg:w-auto">
                   <Image
-                    src={SearchIcon}
+                    src={WhiteSearchIcon}
                     alt="Ícone de pesquisa"
                   />
                 </div>
-                <p>Anuncie seu imóvel conosco</p>
+                <p className="lg:leading-[1.5rem]">Anuncie seu imóvel conosco</p>
               </li>
               <li className="bg-white text-mainPurple">
                 <div className="w-5 lg:w-auto">
@@ -185,7 +176,7 @@ export default function Home() {
                     alt="Whatsapp"
                   />
                 </div>
-                <p className="max-w-[15ch] md:max-w-auto">Fale com nossos corretores</p>
+                <p className="max-w-[15ch] leading-[1rem] lg:leading-[1.5rem] md:max-w-auto">Fale com nossos corretores</p>
               </li>
               <li className="bg-white text-mainPurple">
                 <div className="w-5 lg:w-auto">
@@ -194,7 +185,7 @@ export default function Home() {
                     alt="Ícones de aperto de mãos"
                   />
                 </div>
-                <p className="max-w-[15ch] md:max-w-auto">Seja parceiro Marques&Leão</p>
+                <p className="max-w-[15ch] leading-[1rem] lg:leading-[1.5rem] md:max-w-auto">Seja parceiro Marques&Leão</p>
               </li>
             </ul>
           </div>

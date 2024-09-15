@@ -67,7 +67,7 @@ const Header = () => {
         <span className="mt-[.3125rem]"></span>
       </motion.button>
       <motion.nav
-        className="rounded-l-xl fixed md:absolute px-8 pt-6 pb-24 right-0 top-0 w-[75%] md:w-72 flex-col justify-between bg-[#131313] h-full z-20"
+        className="rounded-l-xl fixed md:absolute px-8 pt-6 pb-24 right-0 top-0 w-[75%] md:w-72 flex-col justify-between bg-[#131313] h-full z-[999]"
         initial={false}
         animate={isOpen ? "open" : "closed"}
         variants={sideVariants}

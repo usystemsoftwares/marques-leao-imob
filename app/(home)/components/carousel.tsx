@@ -127,12 +127,12 @@ const Carousel = ({ estates }: CarouselProps) => {
                   src={EstateImage}
                   alt={estate.titulo}
                 />
-                <div className="flex items-center justify-between rounded-b-lg bg-[#666666] bg-opacity-60 py-2 px-8 absolute bottom-0 w-full left-0 group-hover:opacity-0 transition-opacity">
-                  <p className="font-semibold">R$ {estate.valores.precoVenda}</p>
+                <div className="flex items-center justify-between rounded-b-lg bg-[#666666] bg-opacity-60 py-2 px-2 md:px-8 absolute bottom-0 w-full left-0 group-hover:opacity-0 transition-opacity">
+                  <p className="font-semibold text-sm md:text-base">R$ {estate.valores.precoVenda}</p>
                   <p className="text-[.75rem]">{estate.bairro} / {estate.cidade}</p>
                 </div>
                 <div className="absolute flex items-stretch rounded-b-lg overflow-hidden w-full bottom-0 left-0 opacity-0 group-hover:opacity-100 transition-opacity *:py-2">
-                  <div className="w-[65%] bg-white flex pl-4 gap-7 text-black text-[.75rem]">
+                  <div className="w-[65%] bg-white flex pl-2 md:pl-4 gap-2 md:gap-7 text-black text-[.75rem]">
                     <span className="inline-flex gap-3 items-center">
                       <Image
                         src={ResizeIcon}
@@ -147,20 +147,20 @@ const Carousel = ({ estates }: CarouselProps) => {
                       /> 3 quartos
                     </span>
                   </div>
-                  <div className="w-[35%] text-center bg-mainPurple px-3">Conhecer</div>
+                  <div className="w-[35%] flex items-center md:block text-center bg-mainPurple px-3">Conhecer</div>
                 </div>
               </div>
             </Link>
           ))}
         </div>
       </div>
-      <button className="embla__prev absolute top-1/2 translate-y-1/2 left-[-4%]" onClick={scrollPrev}>
+      <button className="embla__prev absolute top-[calc(50%+1.25rem)] translate-y-1/2 left-0 md:left-[-4%]" onClick={scrollPrev}>
         <Image
           src={ArrowLeft}
           alt="Seta para esquerda"
         />
       </button>
-      <button className="embla__next absolute top-1/2 translate-y-1/2 right-[-4%]" onClick={scrollNext}>
+      <button className="embla__next absolute top-[calc(50%+1.25rem)] translate-y-1/2 right-0 md:right-[-4%]" onClick={scrollNext}>
         <Image
           src={ArrowRight}
           alt="Seta para direita"
