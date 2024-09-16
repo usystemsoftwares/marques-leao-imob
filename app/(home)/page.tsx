@@ -141,13 +141,13 @@ export default function Home() {
               src={Media}
               alt="Gabriel Leão de costa para foto, de frente para uma casa"
             />
-            <div className="text-sm lg:text-base absolute translate-x-[-15%] md:right-0 md:translate-x-[35%] bottom-[40%] md:bottom-[60%] px-4 py-4 md:px-2 md:py-2 lg:px-4 lg:py-4 translate-y-1/2 backdrop-blur-2xl rounded-[.625rem]">
+            <div className="text-sm lg:text-base absolute translate-x-[-15%] md:right-0 md:translate-x-[35%] bottom-[33%] sm:bottom-[40%] md:bottom-[60%] px-3 py-3 md:px-2 md:py-2 lg:px-4 lg:py-4 translate-y-[50%] backdrop-blur-2xl rounded-[.625rem]">
               <span className="text-xl lg:text-[clamp(1rem,3vw,1.875rem)] font-bold block text-center">+22mil</span> nas redes sociais
             </div>
-            <div className="text-sm lg:text-base absolute translate-x-[-15%] md:right-0 md:translate-x-[50%] bottom-[60%] md:bottom-[37.5%] px-4 py-4 md:px-2 md:py-2 lg:px-3 lg:py-3 translate-y-1/2 backdrop-blur-2xl rounded-[.625rem]">
+            <div className="text-sm lg:text-base absolute translate-x-[-15%] md:right-0 md:translate-x-[50%] bottom-[57%] sm:bottom-[60%] md:bottom-[37.5%] px-3 py-3 md:px-2 md:py-2 lg:px-3 lg:py-3 translate-y-1/2 backdrop-blur-2xl rounded-[.625rem]">
               <span className="text-xl lg:text-[clamp(1rem,3vw,1.875rem)] font-bold block text-center">+1000</span> imóveis vendidos
             </div>
-            <div className="text-sm lg:text-base absolute translate-x-[-15%] md:right-0 md:translate-x-[40%] bottom-[80%] md:bottom-[15%] px-4 py-4 md:px-2 md:py-2 lg:px-4 lg:py-4 translate-y-1/2 backdrop-blur-2xl rounded-[.625rem]">
+            <div className="text-sm lg:text-base absolute translate-x-[-15%] md:right-0 md:translate-x-[40%] bottom-[80%] md:bottom-[15%] px-3 py-3 md:px-2 md:py-2 lg:px-4 lg:py-4 translate-y-1/2 backdrop-blur-2xl rounded-[.625rem]">
               <span className="text-xl lg:text-[clamp(1rem,3vw,1.875rem)] font-bold block">+100 mil</span> de alcance mensal
             </div>
           </div>
