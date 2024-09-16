@@ -72,7 +72,7 @@ export default function Home() {
               <span className="flex gap-4 items-center text-[#898989] after:inline-block after:w-28 after:h-[2px] after:bg-[#898989]">Destaques</span>
               <h2 className={`text-3xl ${baskervville.className}`}>Selecionados para você</h2>
             </div>
-            <Link href="" className="hidden md:block bg-mainPurple hover:bg-white hover:text-black transition-colors text-sm py-3 px-5 rounded-lg">Ver todos os imóveis</Link>
+            <Link href="/imoveis" className="hidden md:block bg-mainPurple hover:bg-white hover:text-black transition-colors text-sm py-3 px-5 rounded-lg">Ver todos os imóveis</Link>
           </div>
           <Carousel estates={newEstates} />
         </section>
@@ -94,7 +94,7 @@ export default function Home() {
               <h2 className={`text-3xl ${baskervville.className}`}>Novidades da semana</h2>
             </div>
             <Link
-              className="hidden md:block bg-mainPurple hover:bg-white hover:text-black transition-colors text-sm py-3 px-5 rounded-lg" href="">Ver todos os imóveis</Link>
+              className="hidden md:block bg-mainPurple hover:bg-white hover:text-black transition-colors text-sm py-3 px-5 rounded-lg" href="/imoveis">Ver todos os imóveis</Link>
           </div>
           <Carousel estates={featuredEstates} />
         </section>

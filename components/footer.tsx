@@ -122,7 +122,7 @@ const Footer = () => {
             >Entrar em contato</Link>
             <Link
               className="border border-transparent lg:border-white bg-[#530944] lg:bg-transparent lg:hover:bg-white lg:hover:text-[#530944] font-bold transition-colors text-sm lg:text-base py-3 px-7 rounded-lg"
-              href={""}
+              href={"/anunciar-imovel"}
             >Anunciar imóvel</Link>
           </div>
         </div>
