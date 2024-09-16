@@ -1,6 +1,6 @@
 import EstateAgents from "./components/estate-agents";
 import Header from "@/components/header";
-import SearchPropertyFilter from "../../components/search-property-filter";
+import SearchPropertyFilter from "./components/search-property-filter";
 import { WhatsappButton } from "@/components/whatsapp-btn";
 import { Baskervville } from "next/font/google";
 import Image from "next/image";

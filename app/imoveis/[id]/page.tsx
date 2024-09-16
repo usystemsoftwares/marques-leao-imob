@@ -18,6 +18,7 @@ import CheckIcon from "/public/marqueseleao/check-icon.svg"
 
 import Whatsapp from "/public/marqueseleao/white-wpp-icon.svg"
 import Instagram from "/public/marqueseleao/instagram-icon.svg"
+import PropertyFilter from "@/components/property-filter"
 
 const baskervville = Baskervville({
   subsets: ["latin"],
@@ -36,6 +37,7 @@ const RealEstatePage = ({
   return (
     <div className="bg-menu bg-no-repeat">
       <Header />
+      <PropertyFilter className="hidden lg:flex absolute mt-14 top-0 right-1/2 translate-x-[75%]" />
       <main className="mt-8">
         <section>
           <ul className="w-[calc(100%-2rem)] mx-auto grid gap-2 md:grid-cols-2">

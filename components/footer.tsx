@@ -1,4 +1,5 @@
 import Image from "next/image"
+
 import MarquesLeaoLogo from "/public/marqueseleao/Logo-Marques-Leao.webp"
 import MarquesInstagram from "/public/marqueseleao/marques-instagram.webp"
 import MarquesFacebook from "/public/marqueseleao/marques-facebook.webp"
@@ -9,17 +10,12 @@ import LinkedInIcon from "/public/marqueseleao/linkedin-icon.svg"
 import YoutubeIcon from "/public/marqueseleao/youtube-icon.svg"
 import EmailIcon from "/public/marqueseleao/email-icon.svg"
 import PhoneIcon from "/public/marqueseleao/phone-icon.svg"
-import Link from "next/link"
-import { Baskervville } from "next/font/google"
 
-const baskervville = Baskervville({
-  subsets: ["latin"],
-  weight: "400"
-});
+import Link from "next/link"
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-t from-[#3a042f] to-transparent mx-auto py-8">
+    <footer className="bg-gradient-to-t from-[#3a042f] to-[var(--background)] mx-auto py-8">
       <div className="w-[min(90%,80rem)] mx-auto">
         <div className="flex lg:hidden justify-center flex-wrap gap-2">
           <Link

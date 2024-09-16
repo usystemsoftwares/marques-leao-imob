@@ -16,9 +16,9 @@ const sideVariants = {
   }
 }
 
-type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>
+type FormProps = React.HtmlHTMLAttributes<HTMLFormElement>
 
-const SearchPropertyFilter = ({ className }: ButtonProps) => {
+const SearchPropertyFilter = ({ className }: FormProps) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const inputRef = useRef<HTMLFormElement | null>(null)
