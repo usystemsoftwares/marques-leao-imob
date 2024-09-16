@@ -68,7 +68,6 @@ body {
    */
 
   flex: 0 0 80%;
-  min-width: 0;
 }
 
 @media (min-width: 48em) {
@@ -78,8 +77,13 @@ body {
     520px = 32.5rem
      */
 
+    flex: 0 0 50%;
+  }
+}
+
+@media (min-width: 64em) {
+  .embla__slide {
     flex: 0 0 33%;
-    min-width: 0;
   }
 }
 

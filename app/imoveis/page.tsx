@@ -16,7 +16,7 @@ const PropertyPage = () => {
   return (
     <div className="bg-menu bg-no-repeat">
       <Header />
-      <main>
+      <main className="mb-20">
         <section className="max-w-[65vw]">
           <div className="w-[min(90%,80rem)] mb-20 mx-auto">
             <SearchPropertyFilter

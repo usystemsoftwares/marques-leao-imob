@@ -27,7 +27,7 @@ const TeamPage = () => {
                 className="relative after:absolute after:bg-gradient-to-t rounded-[.625rem] overflow-hidden after:from-mainPurple after:to-transparent after:bottom-0 after:w-full after:h-1/5"
               >
                 <Link
-                  href={`/equipe/${member.id}`}
+                  href={`/equipe/${member.link}`}
                 >
                   <Image
                     className="w-full"

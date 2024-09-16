@@ -51,13 +51,15 @@ const Header = () => {
 
   return (
     <header className="w-[min(90%,80rem)] mx-auto flex items-center justify-between pt-12">
-      <Image
-        className="z-10 w-[12.5rem] md:w-[17.5rem] mx-auto md:mx-0"
-        src={MarquesLeaoLogo}
-        alt="Logo"
-        width={370}
-        height={40}
-      />
+      <Link href="/">
+        <Image
+          className="z-10 w-[12.5rem] md:w-[17.5rem] mx-auto md:mx-0"
+          src={MarquesLeaoLogo}
+          alt="Logo"
+          width={370}
+          height={40}
+        />
+      </Link>
       <motion.button
         onClick={toggleMenu}
         className="w-7 aspect-square *:block *:h-[2px] *:bg-white relative z-10"

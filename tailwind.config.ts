@@ -54,7 +54,8 @@ const config: Config = {
       },
       backgroundImage: {
         'hero-input': "url('/marqueseleao/search-icon.svg')",
-        'menu': "url('/marqueseleao/bg-menu.webp')"
+        'menu': "url('/marqueseleao/bg-menu.webp')",
+        'estate': "url('/marqueseleao/bg-estate.webp')"
       },
       borderRadius: {
         lg: 'var(--radius)',

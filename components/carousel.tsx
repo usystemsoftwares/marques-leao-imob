@@ -13,6 +13,7 @@ import Bed from "/public/marqueseleao/cama.svg"
 import ResizeIcon from "/public/marqueseleao/resize-icon.svg"
 import ArrowLeft from "/public/marqueseleao/arrow-left.webp"
 import ArrowRight from "/public/marqueseleao/arrow-right.webp"
+import { cn } from "@/lib/utils"
 
 const TWEEN_FACTOR_BASE = .1
 
@@ -30,17 +31,13 @@ const Carousel = ({ estates }: CarouselProps) => {
   const tweenNodes = useRef<HTMLElement[]>([])
 
   const scrollPrev = useCallback(() => {
-    if (emblaApi) {
-      emblaApi.scrollPrev()
-      console.log(emblaApi.selectedScrollSnap())
-    }
+    if (!emblaApi || !emblaApi.canScrollPrev()) return
+    emblaApi.scrollPrev()
   }, [emblaApi])
 
   const scrollNext = useCallback(() => {
-    if (emblaApi) {
-      emblaApi.scrollNext()
-      console.log(emblaApi.selectedScrollSnap())
-    }
+    if (!emblaApi || !emblaApi.canScrollNext()) return
+    emblaApi.scrollNext()
   }, [emblaApi])
 
   const setTweenNodes = useCallback((emblaApi: EmblaCarouselType): void => {
@@ -108,11 +105,11 @@ const Carousel = ({ estates }: CarouselProps) => {
   return (
     <div className="embla">
       <div className="embla__viewport" ref={emblaRef}>
-        <div className="embla__container">
+        <div className={cn("embla__container", estates.length <= 2 && "gap-4")}>
           {estates.map((estate, index: number) => (
             <Link
               key={estate.id}
-              className="group flex-shrink-0 flex-grow-0 embla__slide relative"
+              className={cn("group flex-shrink-0 flex-grow-0 embla__slide relative", estates.length <= 4 && "min-w-[33.4%]")}
               href={`/imoveis/${estate.id}`}
             >
               <div className="embla__slide__number pt-5">
@@ -128,7 +125,7 @@ const Carousel = ({ estates }: CarouselProps) => {
                   alt={estate.titulo}
                 />
                 <div className="flex items-center justify-between rounded-b-lg bg-[#666666] bg-opacity-60 py-2 px-2 md:px-8 absolute bottom-0 w-full left-0 group-hover:opacity-0 transition-opacity">
-                  <p className="font-semibold text-sm md:text-base">R$ {estate.valores.precoVenda}</p>
+                  <p className="font-semibold text-sm lg:text-base">R$ {estate.valores.precoVenda}</p>
                   <p className="text-[.75rem]">{estate.bairro} / {estate.cidade}</p>
                 </div>
                 <div className="absolute flex items-stretch rounded-b-lg overflow-hidden w-full bottom-0 left-0 opacity-0 group-hover:opacity-100 transition-opacity *:py-2">
@@ -138,34 +135,39 @@ const Carousel = ({ estates }: CarouselProps) => {
                         src={ResizeIcon}
                         alt="Seta que indica tamanho"
                       />
-                      125,14m
+                      {estate.informacoes.areaTerro}m
                     </span>
                     <span className="inline-flex gap-3 items-center">
                       <Image
                         src={Bed}
                         alt="Cama"
-                      /> 3 quartos
+                      /> {estate.informacoes.dormitorios} quartos
                     </span>
                   </div>
-                  <div className="w-[35%] flex items-center md:block text-center bg-mainPurple px-3">Conhecer</div>
+                  <div className="w-[35%] flex items-center lg:block text-center bg-mainPurple px-3">Conhecer</div>
                 </div>
               </div>
             </Link>
           ))}
         </div>
       </div>
-      <button className="embla__prev absolute top-[calc(50%+1.25rem)] translate-y-1/2 left-0 md:left-[-4%]" onClick={scrollPrev}>
-        <Image
-          src={ArrowLeft}
-          alt="Seta para esquerda"
-        />
-      </button>
-      <button className="embla__next absolute top-[calc(50%+1.25rem)] translate-y-1/2 right-0 md:right-[-4%]" onClick={scrollNext}>
-        <Image
-          src={ArrowRight}
-          alt="Seta para direita"
-        />
-      </button>
+      {emblaApi?.canScrollPrev() && (
+        <button className="embla__prev absolute top-[calc(50%+1.25rem)] translate-y-1/2 left-[2%] md:left-[-4%]" onClick={scrollPrev}>
+          <Image
+            src={ArrowLeft}
+            alt="Seta para esquerda"
+          />
+        </button>
+      )}
+
+      {emblaApi?.canScrollNext() && (
+        <button className="embla__next absolute top-[calc(50%+1.25rem)] translate-y-1/2 right-[2%] md:right-[-4%]" onClick={scrollNext}>
+          <Image
+            src={ArrowRight}
+            alt="Seta para direita"
+          />
+        </button>
+      )}
     </div>
   )
 }

@@ -2,7 +2,7 @@ import EstateAgents from "./components/estate-agents";
 import Header from "@/components/header";
 import SearchPropertyFilter from "../../components/search-property-filter";
 import { WhatsappButton } from "@/components/whatsapp-btn";
-import { Baskervville, Montserrat } from "next/font/google";
+import { Baskervville } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import MarquesELeao from "/public/marqueseleao/marques-leao.webp"
@@ -22,16 +22,12 @@ import WhiteSearchIcon from "/public/marqueseleao/white-search-icon.svg"
 import CitiesCarousel from "./components/cities-carousel";
 import TestimonialsCarousel from "./components/testimonials-carousel";
 import MarquesLeaoMidiaCarousel from "./components/marques-leao-midia-carousel";
-import Carousel from "./components/carousel";
+import Carousel from "../../components/carousel";
 import { imoveis } from "@/data"
 
 const baskervville = Baskervville({
   subsets: ["latin"],
   weight: ["400"]
-});
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["200", "400"]
 });
 
 export default function Home() {
@@ -55,7 +51,7 @@ export default function Home() {
           alt="Ellipse blur"
         />
         <section className="min-h-screen relative w-[min(90%,80rem)] mx-auto">
-          <h1 className={`text-[clamp(.75rem,9vw,2.25rem)] ${montserrat.className} relative z-10 font-extralight leading-none max-w-[23ch] pt-80 md:pt-40`}>
+          <h1 className={`text-[clamp(.75rem,9vw,2.25rem)] relative z-10 font-extralight leading-none max-w-[23ch] pt-80 md:pt-40`}>
             Conectamos<br /> <span className={`text-[clamp(3rem,12.5vw,5rem)] md:text-[6rem] leading-[.75] ${baskervville.className} md:pr-11`}><strong>pessoas</strong></span> a imóveis
             <span className={`flex items-center text-[clamp(3rem,12.5vw,5rem)] md:text-[6rem] leading-[1] ${baskervville.className} before:inline-block before:w-[clamp(50%,10vw,100%)] before:h-[1px] before:bg-mainPurple`}>
               <strong className="pl-5">incríveis</strong>
@@ -74,7 +70,7 @@ export default function Home() {
           <div className="w-[min(90%,68rem)] mx-auto flex items-center justify-between">
             <div className="relative">
               <span className="flex gap-4 items-center text-[#898989] after:inline-block after:w-28 after:h-[2px] after:bg-[#898989]">Destaques</span>
-              <h2 className={`text-3xl font-extrabold ${baskervville.className}`}>Selecionados para você</h2>
+              <h2 className={`text-3xl ${baskervville.className}`}>Selecionados para você</h2>
             </div>
             <Link href="" className="hidden md:block bg-mainPurple hover:bg-white hover:text-black transition-colors text-sm py-3 px-5 rounded-lg">Ver todos os imóveis</Link>
           </div>
@@ -83,7 +79,7 @@ export default function Home() {
         <section className="w-[min(90%,80rem)] mx-auto mt-20">
           <div className="grid place-items-center">
             <span className="flex gap-4 items-center text-[#898989] before:inline-block before:w-28 before:h-[2px] before:bg-[#898989] after:inline-block after:w-28 after:h-[2px] after:bg-[#898989]">Filtre por</span>
-            <h2 className={`text-4xl font-extrabold ${baskervville.className}`}>Cidades que atendemos</h2>
+            <h2 className={`text-4xl ${baskervville.className}`}>Cidades que atendemos</h2>
           </div>
           <div>
             <CitiesCarousel
@@ -95,7 +91,7 @@ export default function Home() {
           <div className="w-[min(90%,68rem)] mx-auto flex items-center justify-between">
             <div>
               <span className="flex gap-4 items-center text-[#898989] after:inline-block after:w-28 after:h-[2px] after:bg-[#898989]">Novidades</span>
-              <h2 className={`text-3xl font-extrabold ${baskervville.className}`}>Novidades da semana</h2>
+              <h2 className={`text-3xl ${baskervville.className}`}>Novidades da semana</h2>
             </div>
             <Link
               className="hidden md:block bg-mainPurple hover:bg-white hover:text-black transition-colors text-sm py-3 px-5 rounded-lg" href="">Ver todos os imóveis</Link>
@@ -160,14 +156,19 @@ export default function Home() {
             <h2 className={`text-3xl tracking-wide ${baskervville.className}`}>Por que a Marques&Leão?</h2>
             <p className="mt-3 mb-6 max-w-[40ch] text-[#a7a7a7] leading-5">Somos <span className="text-white">a maior vitrine imobiliária</span> da região, investindo em vídeos, anúncios e inovação.</p>
             <ul className="grid md:grid-cols-3 md:*:w-[min(100%,12.5rem)] md:*:h-full md:*:aspect-square *:inline-flex md:*:flex-col *:items-center md:*:items-start md:*:justify-between *:gap-4 md*:gap-0 *:font-bold text-[.813rem] md:text-sm lg:*:text-lg *:rounded-[.625rem] *:px-4 *:py-2 md:*:py-6 lg:*:py-8 md:*:px-2 lg:*:px-4 gap-3 marques_leao">
-              <li className="bg-mainPurple !py-3 md:!py-6 lg:!py-8 !text-[.9375rem] md:!text-sm lg:!text-lg">
-                <div className="w-5 lg:w-auto">
-                  <Image
-                    src={WhiteSearchIcon}
-                    alt="Ícone de pesquisa"
-                  />
-                </div>
-                <p className="lg:leading-[1.5rem]">Anuncie seu imóvel conosco</p>
+              <li className="bg-mainPurple md:*:w-[min(100%,12.5rem)] md:*:h-full md:*:aspect-square *:inline-flex md:*:flex-col *:items-center md:*:items-start md:*:justify-between *:gap-4 md*:gap-0 *:font-bold lg:*:text-lg *:rounded-[.625rem] *:px-4 *:py-2 md:*:py-6 lg:*:py-8 md:*:px-2 lg:*:px-4">
+                <Link
+                  className="!py-0 md:!py-0 lg:!py-0 !px-0 !text-[.9375rem] md:!text-sm lg:!text-lg"
+                  href="/anunciar-imovel"
+                >
+                  <div className="w-5 lg:w-auto">
+                    <Image
+                      src={WhiteSearchIcon}
+                      alt="Ícone de pesquisa"
+                    />
+                  </div>
+                  <p className="lg:leading-[1.5rem]">Anuncie seu imóvel conosco</p>
+                </Link>
               </li>
               <li className="bg-white text-mainPurple">
                 <div className="w-5 lg:w-auto">
@@ -221,7 +222,7 @@ export default function Home() {
                     <p className="text-[clamp(.875rem,1.5vw,1.125rem)] mb-3">@marqueseleao</p>
                     <Link
                       className="flex items-center font-semibold text-sm gap-2 bg-mainPurple rounded-[.635rem] py-3 px-5"
-                      href=""
+                      href="#"
                     >
                       <Image
                         src={InstagramIcon}
