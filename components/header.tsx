@@ -53,7 +53,7 @@ const Header = () => {
     <header className="w-[min(90%,80rem)] mx-auto flex items-center justify-between pt-12">
       <Link href="/">
         <Image
-          className="z-10 w-[12.5rem] md:w-[17.5rem] mx-auto md:mx-0"
+          className="z-10 w-[12.5rem] sm:w-[17.5rem] mx-auto md:mx-0"
           src={MarquesLeaoLogo}
           alt="Logo"
           width={370}
@@ -69,7 +69,7 @@ const Header = () => {
         <span className="mt-[.3125rem]"></span>
       </motion.button>
       <motion.nav
-        className="rounded-l-xl fixed md:absolute px-8 pt-6 pb-24 right-0 top-0 w-[75%] md:w-72 flex-col justify-between bg-[#131313] h-full z-[999]"
+        className="rounded-l-xl fixed md:absolute px-8 pt-6 pb-24 right-0 top-0 w-[75%] sm:w-72 flex-col justify-between bg-[#131313] h-full z-[999]"
         initial={false}
         animate={isOpen ? "open" : "closed"}
         variants={sideVariants}
