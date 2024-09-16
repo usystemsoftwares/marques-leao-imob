@@ -100,13 +100,13 @@ const Carousel = ({ estates }: CarouselProps) => {
       .on('reInit', tweenScale)
       .on('scroll', tweenScale)
       .on('slideFocus', tweenScale)
-  }, [emblaApi, tweenScale])
+  }, [emblaApi, tweenScale, setTweenFactor, setTweenNodes])
 
   return (
     <div className="embla">
       <div className="embla__viewport" ref={emblaRef}>
         <div className={cn("embla__container", estates.length <= 2 && "gap-4")}>
-          {estates.map((estate, index: number) => (
+          {estates.map((estate) => (
             <Link
               key={estate.id}
               className={cn("group flex-shrink-0 flex-grow-0 embla__slide relative", estates.length <= 4 && "min-w-[33.4%]")}

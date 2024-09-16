@@ -25,7 +25,7 @@ const PropertyPage = () => {
           </div>
           <div className="bg-white h-[2px] mt-10 mb-6"></div>
           <ul className="w-[min(90%,80rem)] mx-auto grid grid-cols-2 gap-4">
-            {imoveis.map((estate, index: number) => (
+            {imoveis.map((estate) => (
               <li
                 className="w-[min(100%,28.125rem)]"
                 key={estate.id}>

@@ -1,12 +1,7 @@
 import type { Metadata } from "next";
-import { Baskervville, Montserrat } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/footer";
-
-const baskervville = Baskervville({
-  subsets: ["latin"],
-  weight: "400"
-});
 
 const montserrat = Montserrat({
   subsets: ["latin"],
