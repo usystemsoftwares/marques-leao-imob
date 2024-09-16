@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { motion } from "framer-motion"
 import MarquesLeaoLogo from "/public/marqueseleao/Logo-Marques-Leao.webp"
 import InstagramIcon from "/public/marqueseleao/instagram-icon.svg"
@@ -24,12 +24,27 @@ const sideVariants = {
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
+  const menuRef = useRef<HTMLDivElement | null>(null)
 
   const toggleMenu = () => setIsOpen(!isOpen)
 
   useEffect(() => {
     setIsOpen(false)
   }, [pathname])
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (!menuRef.current?.contains(e.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handler)
+
+    return () => {
+      document.removeEventListener("mousedown", handler)
+    }
+  })
 
   const routes = [
     {
@@ -69,6 +84,7 @@ const Header = () => {
         <span className="mt-[.3125rem]"></span>
       </motion.button>
       <motion.nav
+        ref={menuRef}
         className="rounded-l-xl fixed md:absolute px-8 pt-6 pb-24 right-0 top-0 w-[75%] sm:w-72 flex-col justify-between bg-[#131313] h-full z-[999]"
         initial={false}
         animate={isOpen ? "open" : "closed"}

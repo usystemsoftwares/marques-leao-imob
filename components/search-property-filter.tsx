@@ -1,7 +1,7 @@
 "use client"
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 
@@ -21,12 +21,29 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>
 const SearchPropertyFilter = ({ className }: ButtonProps) => {
   const [isOpen, setIsOpen] = useState(false)
 
+  const inputRef = useRef<HTMLFormElement | null>(null)
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (!inputRef.current?.contains(e.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handler)
+
+    return () => {
+      document.removeEventListener("mousedown", handler)
+    }
+  })
+
   const toggleMenu = () => setIsOpen(!isOpen)
 
   return (
     <form
       action="/imoveis"
       className={cn("group w-[min(100%,71.875rem)] bg-white py-3 px-3 md:py-4 md:px-5 rounded-[.625rem]", className)}
+      ref={inputRef}
     >
       <div className="flex justify-between">
         <input
