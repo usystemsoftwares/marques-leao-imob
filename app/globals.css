@@ -30,6 +30,27 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+.gm-style-iw.gm-style-iw-c {
+  background-color: transparent;
+  border-radius: 10px;
+  padding: 0px !important;
+  border: 0;
+  border-color: transparent;
+  box-shadow: none;
+  width: auto;
+  height: auto;
+}
+
+.gm-style .gm-style-iw-d::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  border: 0;
+}
+
+.gm-style-iw-tc {
+  display: none;
+}
+
 :root {
   --background: #141414;
   --foreground: #fff;

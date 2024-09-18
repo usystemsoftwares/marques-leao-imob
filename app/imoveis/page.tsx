@@ -1,3 +1,5 @@
+"use client"
+
 import Header from "@/components/header"
 import { WhatsappButton } from "@/components/whatsapp-btn"
 import Image from "next/image"
@@ -10,21 +12,32 @@ import ResizeIcon from "/public/marqueseleao/resize-icon.svg"
 
 import Link from "next/link"
 import GoogleMap from "./components/google-map"
+import { cn } from "@/lib/utils"
+import { useState } from "react"
 
 const PropertyPage = () => {
-  /* TODO: CREATE ANOTHER SEARCH PROPERTY FILTER COMPONENT FOR THIS PAGE */
+  const [openMap, setOpenMap] = useState(false)
 
   return (
     <div className="bg-menu bg-no-repeat">
       <Header />
       <main className="mt-28 mb-20">
-        <section className="relative overflow-y-hidden">
-          <div className="md:max-w-[57.5vw]">
+        <section className="relative">
+          <button
+            onClick={() => setOpenMap(!openMap)}
+            className="bg-mainPurple z-[51] lg:hidden px-5 py-1 rounded-full fixed right-1/2 translate-x-1/2 bottom-[2.5%]">
+            {/* <Image
+              src={ }
+              alt="Mapa"
+            /> */}
+            Mapa
+          </button>
+          <div className="lg:max-w-[57.5vw]">
             <div className="w-[min(90%,80rem)] mb-20 mx-auto">
               <PropertyFilter />
             </div>
             <div className="bg-white h-[2px] mt-10 mb-6"></div>
-            <ul className="w-[min(90%,80rem)] mx-auto grid grid-cols-2 gap-4">
+            <ul className="w-[min(90%,80rem)] mx-auto grid place-items-center sm:grid-cols-[repeat(auto-fill,minmax(20.875rem,1fr))] gap-4">
               {imoveis.map((estate) => (
                 <li
                   className="w-[min(100%,28.125rem)]"
@@ -73,7 +86,7 @@ const PropertyPage = () => {
               ))}
             </ul>
           </div>
-          <div className="md:w-[42.5vw] md:h-full fixed right-0 top-0 bg-black z-20">
+          <div className={cn("lg:w-[42.5vw] lg:h-full fixed lg:right-0 lg:top-0 bg-black z-20", openMap ? "inset-[10rem_0rem_2rem_0rem] sm:inset-[10rem_4rem_2rem_4rem] md:inset-[10rem_5rem_2rem_5rem] lg:inset-[0_0_auto_auto]" : "")}>
             <GoogleMap />
           </div>
           <WhatsappButton />

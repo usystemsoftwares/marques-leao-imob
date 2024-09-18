@@ -15,7 +15,7 @@ import Link from "next/link"
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-t from-[#3a042f] to-[var(--background)] mx-auto py-8">
+    <footer className="bg-gradient-to-t relative z-50 from-[#3a042f] to-[var(--background)] mx-auto py-8">
       <div className="w-[min(90%,80rem)] mx-auto">
         <div className="flex lg:hidden justify-center flex-wrap gap-2">
           <Link

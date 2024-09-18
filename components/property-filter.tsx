@@ -12,7 +12,7 @@ const PropertyFilter = ({ className }: FormProps) => {
     <div className={cn("flex items-center justify-between w-[min(100%,31.875rem)] rounded-[.625rem] py-1 px-3 mx-auto bg-white text-black font-medium", className)}>
       <div className="relative flex *:border-0">
         <Select>
-          <SelectTrigger className="*:hidden relative *:after:absolute *:after:right-0 *:after:bg-[#707070] *:after:h-1/2 *:after:w-[1px] *:after:bottom-1/2 *:after:translate-y-1/2">
+          <SelectTrigger className="*:hidden px-2 sm:px-3 text-[.75rem] sm:text-sm relative *:after:absolute *:after:right-0 *:after:bg-[#707070] *:after:h-1/2 *:after:w-[1px] *:after:bottom-1/2 *:after:translate-y-1/2">
             <SelectValue placeholder="Estados" />
           </SelectTrigger>
           <SelectContent>
@@ -21,7 +21,7 @@ const PropertyFilter = ({ className }: FormProps) => {
           </SelectContent>
         </Select>
         <Select>
-          <SelectTrigger className="*:hidden relative *:after:absolute *:after:right-0 *:after:bg-[#707070] *:after:h-1/2 *:after:w-[1px] *:after:translate-y-1/2 *:after:bottom-1/2">
+          <SelectTrigger className="*:hidden px-2 sm:px-3 text-[.75rem] sm:text-sm relative *:after:absolute *:after:right-0 *:after:bg-[#707070] *:after:h-1/2 *:after:w-[1px] *:after:translate-y-1/2 *:after:bottom-1/2">
             <SelectValue placeholder="Código" />
           </SelectTrigger>
           <SelectContent>
@@ -29,7 +29,7 @@ const PropertyFilter = ({ className }: FormProps) => {
           </SelectContent>
         </Select>
         <Select>
-          <SelectTrigger className="*:hidden relative *:after:absolute *:after:right-0 *:after:bg-[#707070] *:after:h-1/2 *:after:w-[1px] *:after:translate-y-1/2 *:after:bottom-1/2">
+          <SelectTrigger className="*:hidden px-2 sm:px-3 text-[.75rem] sm:text-sm relative *:after:absolute *:after:right-0 *:after:bg-[#707070] *:after:h-1/2 *:after:w-[1px] *:after:translate-y-1/2 *:after:bottom-1/2">
             <SelectValue placeholder="Bairro" />
           </SelectTrigger>
           <SelectContent>
@@ -37,7 +37,7 @@ const PropertyFilter = ({ className }: FormProps) => {
           </SelectContent>
         </Select>
         <Select>
-          <SelectTrigger className="*:hidden relative *:after:absolute *:after:right-0 *:after:bg-[#707070] *:after:h-1/2 *:after:w-[1px] *:after:translate-y-1/2 *:after:bottom-1/2">
+          <SelectTrigger className="*:hidden px-2 sm:px-3 text-[.75rem] sm:text-sm relative *:after:absolute *:after:right-0 *:after:bg-[#707070] *:after:h-1/2 *:after:w-[1px] *:after:translate-y-1/2 *:after:bottom-1/2">
             <SelectValue placeholder="Valor" />
           </SelectTrigger>
           <SelectContent>
