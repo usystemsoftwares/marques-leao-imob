@@ -41,17 +41,52 @@ const RealEstatePage = ({
       <main className="mt-8">
         <section>
           <ul className="w-[calc(100%-2rem)] mx-auto grid gap-2 md:grid-cols-2">
-            {estate.fotos.map(url => (
-              <li key={url}>
-                <Image
-                  className="rounded-[.625rem]"
-                  src={url}
-                  alt="Imóvel"
-                  width={924}
-                  height={598}
-                />
-              </li>
-            ))}
+            {estate.fotos.map((url, index) => {
+              /* index começa como 0 e o método length não, então temos que adicionar 1 no index para a expressão fazer sentido */
+              if (index + 1 != estate.fotos.length) {
+                return (
+                  <li key={url}>
+                    <Image
+                      className="rounded-[.625rem]"
+                      src={url}
+                      alt="Imóvel"
+                      width={924}
+                      height={598}
+                    />
+                  </li>
+                )
+              }
+              return (
+                <li
+                  className="relative rounded-[.625rem] overflow-hidden after:absolute after:inset-0 after:backdrop-blur-sm"
+                  key={url}>
+                  <form
+                    action=""
+                    className="absolute w-[min(100%,19.875rem)] px-2 text-black right-1/2 translate-x-1/2 bottom-1/2 translate-y-1/2 z-10"
+                  >
+                    <p className="lg:text-lg text-center font-medium">
+                      <span className="block -mb-2 font-bold sm:text-3xl md:text-base lg:text-3xl">Acesso completo</span>
+                      a todo o site em <strong>10 segundos</strong></p>
+                    <div className="mt-2 flex flex-col items-center *:w-full md:*:w-[80%] lg:*:w-full *:outline-0 gap-2">
+                      <input type="text" placeholder="Nome Completo" className="font-normal px-2 py-1 sm:px-3 sm:py-2 rounded-md" />
+                      <input type="tel" placeholder="Telefone" className="font-normal px-2 py-1 sm:px-3 sm:py-2 rounded-md" />
+                      <input type="email" placeholder="E-mail" className="font-normal px-2 py-1 sm:px-3 sm:py-2 rounded-md" />
+                      <button
+                        className="bg-mainPurple text-white rounded-full py-1 sm:py-2"
+                        type="submit"
+                      >Ver fotos</button>
+                    </div>
+                  </form>
+                  <Image
+                    className="rounded-[.625rem]"
+                    src={url}
+                    alt="Imóvel"
+                    width={924}
+                    height={598}
+                  />
+                </li>
+              )
+            })}
           </ul>
         </section>
         <section className="relative lg:pl-10 w-[min(90%,84.5rem)] mx-auto lg:ml-auto mt-16 lg:mr-28 lg:flex lg:justify-between lg:gap-28">
