@@ -40,7 +40,7 @@ export default function Home() {
       <main>
         <Image
           draggable={false}
-          className="absolute top-[-30%] opacity-50 right-[-15%] w-[35%]"
+          className="absolute top-[-7.5%] sm:top-[-10%] md:top-[-20%] lg:top-[-30%] opacity-50 right-[-12.5%] sm:right-[-10%] md:right-[-12%] lg:right-[-15%] w-[50%] lg:w-[35%]"
           src={Ellipse}
           alt="Ellipse blur"
         />
@@ -50,7 +50,7 @@ export default function Home() {
           src={Ellipse}
           alt="Ellipse blur"
         />
-        <section className="min-h-screen relative w-[min(90%,80rem)] mx-auto">
+        <section className="min-h-[100svh] relative w-[min(90%,80rem)] mx-auto">
           <h1 className={`text-[clamp(.75rem,9vw,2.25rem)] relative z-10 font-extralight leading-none max-w-[23ch] pt-80 md:pt-40`}>
             Conectamos<br /> <span className={`text-[clamp(3rem,12.5vw,5rem)] md:text-[6rem] leading-[.75] ${baskervville.className} md:pr-11`}><strong>pessoas</strong></span> a imóveis
             <span className={`flex items-center text-[clamp(3rem,12.5vw,5rem)] md:text-[6rem] leading-[1] ${baskervville.className} before:inline-block before:w-[clamp(50%,10vw,100%)] before:h-[1px] before:bg-mainPurple`}>
@@ -64,7 +64,7 @@ export default function Home() {
             alt="Marques e Leão"
             priority
           />
-          <SearchPropertyFilter className="absolute bottom-[10rem] translate-x-1/2 z-50 right-1/2" />
+          <SearchPropertyFilter className="absolute bottom-[27.5%] sm:bottom-[24%] md:bottom-[20%] translate-x-1/2 z-50 right-1/2" />
         </section>
         <section className="w-full md:w-[min(90%,80rem)] mx-auto relative">
           <div className="w-[min(90%,68rem)] mx-auto flex items-center justify-between">
@@ -141,13 +141,13 @@ export default function Home() {
               src={Media}
               alt="Gabriel Leão de costa para foto, de frente para uma casa"
             />
-            <div className="text-sm lg:text-base absolute translate-x-[-15%] md:right-0 md:translate-x-[35%] bottom-[33%] sm:bottom-[40%] md:bottom-[60%] px-3 py-3 md:px-2 md:py-2 lg:px-4 lg:py-4 translate-y-[50%] backdrop-blur-2xl rounded-[.625rem]">
+            <div className="text-sm lg:text-base absolute translate-x-[-15%] md:right-0 md:translate-x-[35%] bottom-[35.5%] sm:bottom-[40%] md:bottom-[60%] px-3 py-3 md:px-2 md:py-2 lg:px-4 lg:py-4 translate-y-[50%] backdrop-blur-2xl rounded-[.625rem]">
               <span className="text-xl lg:text-[clamp(1rem,3vw,1.875rem)] font-bold block text-center">+22mil</span> nas redes sociais
             </div>
             <div className="text-sm lg:text-base absolute translate-x-[-15%] md:right-0 md:translate-x-[50%] bottom-[57%] sm:bottom-[60%] md:bottom-[37.5%] px-3 py-3 md:px-2 md:py-2 lg:px-3 lg:py-3 translate-y-1/2 backdrop-blur-2xl rounded-[.625rem]">
               <span className="text-xl lg:text-[clamp(1rem,3vw,1.875rem)] font-bold block text-center">+1000</span> imóveis vendidos
             </div>
-            <div className="text-sm lg:text-base absolute translate-x-[-15%] md:right-0 md:translate-x-[40%] bottom-[80%] md:bottom-[15%] px-3 py-3 md:px-2 md:py-2 lg:px-4 lg:py-4 translate-y-1/2 backdrop-blur-2xl rounded-[.625rem]">
+            <div className="text-sm lg:text-base absolute translate-x-[-15%] md:right-0 md:translate-x-[40%] bottom-[78.5%] md:bottom-[15%] px-3 py-3 md:px-2 md:py-2 lg:px-4 lg:py-4 translate-y-1/2 backdrop-blur-2xl rounded-[.625rem]">
               <span className="text-xl lg:text-[clamp(1rem,3vw,1.875rem)] font-bold block">+100 mil</span> de alcance mensal
             </div>
           </div>

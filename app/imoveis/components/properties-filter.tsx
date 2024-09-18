@@ -18,7 +18,7 @@ const sideVariants = {
 
 type FormProps = React.HtmlHTMLAttributes<HTMLFormElement>
 
-const SearchPropertyFilter = ({ className }: FormProps) => {
+const PropertiesFilter = ({ className }: FormProps) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const inputRef = useRef<HTMLFormElement | null>(null)
@@ -42,14 +42,14 @@ const SearchPropertyFilter = ({ className }: FormProps) => {
   return (
     <form
       action="/imoveis"
-      className={cn("group w-[min(100%,71.875rem)] bg-white py-3 px-3 rounded-[.625rem]", className)}
+      className={cn("group bg-white py-3 px-3 rounded-[.625rem]", className)}
       ref={inputRef}
     >
-      <div className="flex justify-between">
+      <div className="flex justify-between w-full">
         <input
           type="text"
           placeholder="Clique para iniciar sua busca"
-          className="w-1/2 sm:flex-1 pl-10 bg-hero-input bg-no-repeat bg-left placeholder:text-black placeholder:text-sm md:placeholder:text-base placeholder:italic text-black outline-none"
+          className="w-[60%] flex-1 pl-10 bg-hero-input bg-no-repeat bg-left placeholder:text-black placeholder:text-sm md:placeholder:text-base placeholder:italic text-black outline-none"
           onClick={toggleMenu}
         />
         <button
@@ -137,4 +137,4 @@ const SearchPropertyFilter = ({ className }: FormProps) => {
   )
 }
 
-export default SearchPropertyFilter
+export default PropertiesFilter

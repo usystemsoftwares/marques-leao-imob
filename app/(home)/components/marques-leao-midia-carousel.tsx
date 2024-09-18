@@ -27,7 +27,7 @@ const MarquesLeaoMidiaCarousel = () => {
             <div className="flex-shrink-0 w-full flex-grow-0 flex md:gap-4 md:px-8 flex-col md:flex-row items-center" key={midiaItem.id}>
               <div>
                 <Image
-                  className="mx-auto w-3/5 md:w-auto md:mx-0"
+                  className="mx-auto w-[90%] md:w-auto md:mx-0"
                   src={midiaItem.imagem}
                   alt={midiaItem.title}
                   width={400}

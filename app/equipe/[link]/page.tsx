@@ -34,7 +34,7 @@ const Membro = ({
               height={524}
             />
           </div>
-          <div className="w-1/2">
+          <div className="md:w-1/2">
             <div className="flex items-end justify-between">
               <h1 className={`text-5xl font-bold uppercase ${baskervville.className}`}>{membro.nome}</h1>
               <span className="hidden lg:inline text-[#707070]">CRECI: {membro.creci}</span>

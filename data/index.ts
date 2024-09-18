@@ -42,7 +42,7 @@ const imoveis = [
       "Painéis solares",
       "Espera para split",
     ],
-    exclusividade: false,
+    exclusividade: true,
     desconto: false,
     descricao: [
       "Localizada em uma área nobre de Campo Bom, essa impressionante casa moderna é uma combinação perfeita de elegância, conforto e sustentabilidade. Ela oferece um ambiente acolhedor para toda a família. Seu design arquitetônico contemporâneo e os acabamentos de alta qualidade criam uma atmosfera sofisticada em todos os cômodos.",
@@ -107,7 +107,7 @@ const imoveis = [
       banheiros: 2,
     },
     exclusividade: false,
-    desconto: false,
+    desconto: true,
     descricao: [
       "Localizada em uma área nobre de Campo Bom, essa impressionante casa moderna é uma combinação perfeita de elegância, conforto e sustentabilidade. Ela oferece um ambiente acolhedor para toda a família. Seu design arquitetônico contemporâneo e os acabamentos de alta qualidade criam uma atmosfera sofisticada em todos os cômodos.",
       "Ao entrar na residência, você será recebido por uma imponente sala de estar e jantar  integrada com a cozinha moderna e com moveis sob medida.",

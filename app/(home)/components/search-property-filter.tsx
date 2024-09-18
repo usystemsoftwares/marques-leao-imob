@@ -49,7 +49,7 @@ const SearchPropertyFilter = ({ className }: FormProps) => {
         <input
           type="text"
           placeholder="Clique para iniciar sua busca"
-          className="w-[60%] md:flex-1 pl-10 md:pl-12 bg-hero-input bg-no-repeat bg-left placeholder:text-black placeholder:text-sm md:placeholder:text-base placeholder:italic text-black outline-none"
+          className="flex-1 pl-10 md:pl-12 bg-hero-input bg-no-repeat bg-left placeholder:text-black placeholder:text-sm md:placeholder:text-base placeholder:italic text-black outline-none"
           onClick={toggleMenu}
         />
         <button

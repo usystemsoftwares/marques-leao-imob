@@ -23,9 +23,9 @@ const EstateAgents = ({ baskervville }: BaskervvilleProps) => {
   return (
     <div className="lg:flex lg:flex-row-reverse lg:justify-between mt-10 lg:gap-8">
       <div className="flex flex-col items-center lg:block">
-        <div className="flex gap-3 sm:gap-8 items-center lg:block">
+        <div className="flex justify-evenly w-full lg:w-auto sm:gap-8 items-center lg:block">
           <Image
-            className="rounded-[.625rem] border-[.313rem] border-mainPurple"
+            className="max-w-[45%] lg:max-w-full rounded-[.625rem] border-[.313rem] border-mainPurple"
             src={corretores[currentEstateAgent].image}
             width={370}
             height={452}

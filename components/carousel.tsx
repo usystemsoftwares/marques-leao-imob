@@ -2,7 +2,7 @@
 
 import UseEmblaCarousel from "embla-carousel-react"
 import { EmblaCarouselType, EmblaEventType } from "embla-carousel"
-import { useCallback, useEffect, useRef } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 
 import { imoveis } from "@/data"
 import Image from "next/image"
@@ -15,7 +15,10 @@ import ArrowLeft from "/public/marqueseleao/arrow-left.webp"
 import ArrowRight from "/public/marqueseleao/arrow-right.webp"
 import { cn } from "@/lib/utils"
 
-const TWEEN_FACTOR_BASE = .1
+import HeartIcon from "/public/marqueseleao/heart-icon.svg"
+import SelectedHeartIcon from "/public/marqueseleao/selected-heart-icon.svg"
+
+const TWEEN_FACTOR_BASE = .05
 
 const numberWithinRange = (number: number, min: number, max: number): number => Math.min(Math.max(number, min), max)
 
@@ -26,6 +29,7 @@ type CarouselProps = {
 }
 
 const Carousel = ({ estates }: CarouselProps) => {
+  const [activeIndex, setActiveIndex] = useState<number[]>([])
   const [emblaRef, emblaApi] = UseEmblaCarousel({ loop: true })
   const tweenFactor = useRef(0)
   const tweenNodes = useRef<HTMLElement[]>([])
@@ -106,29 +110,49 @@ const Carousel = ({ estates }: CarouselProps) => {
     <div className="embla">
       <div className="embla__viewport" ref={emblaRef}>
         <div className={cn("embla__container", estates.length <= 2 && "gap-4")}>
-          {estates.map((estate) => (
-            <Link
+          {estates.map((estate, index) => (
+            <div
               key={estate.id}
               className={cn("group flex-shrink-0 flex-grow-0 embla__slide relative", estates.length <= 4 && "min-w-[33.4%]")}
-              href={`/imoveis/${estate.id}`}
             >
               <div className="embla__slide__number pt-5">
                 {estate.exclusividade &&
-                  <div className="absolute top-0 bg-[#530944] py-[.35rem] px-4 rounded-r-lg rounded-tl-lg">EXCLUSIVIDADE</div>
+                  <div className="absolute z-10 top-0 bg-[#530944] py-[.35rem] px-4 rounded-r-lg rounded-tl-lg">EXCLUSIVIDADE</div>
                 }
                 {estate.desconto &&
-                  <div className="absolute -top-4 bg-[#095310] py-[.35rem] px-4 rounded-r-lg rounded-tl-lg">imóvel COM DESCONTO</div>
+                  <div className="absolute z-10 top-0 bg-[#095310] py-[.35rem] px-4 rounded-r-lg rounded-tl-lg">imóvel COM DESCONTO</div>
                 }
-                <Image
-                  className="w-full rounded-lg"
-                  src={EstateImage}
-                  alt={estate.titulo}
-                />
-                <div className="flex items-center justify-between rounded-b-lg bg-[#666666] bg-opacity-60 py-2 px-2 md:px-8 absolute bottom-0 w-full left-0 group-hover:opacity-0 transition-opacity">
+                <div className="relative">
+                  <button className="block absolute right-[5%] top-[7.5%]"
+                    onClick={() => {
+                      if (!activeIndex.includes(index)) return setActiveIndex([...activeIndex, index])
+                      setActiveIndex(activeIndex.filter(i => i !== index))
+                    }}>
+                    {activeIndex.includes(index) ?
+                      <Image
+                        className="w-8"
+                        src={SelectedHeartIcon}
+                        alt="Ícone de coração selecionado"
+                      /> : <Image
+                        className="w-8"
+                        src={HeartIcon}
+                        alt="Ícone de coração"
+                      />}
+                  </button>
+                  <Link className="block" href={`/imoveis/${estate.id}`}
+                  >
+                    <Image
+                      className="w-full rounded-lg"
+                      src={EstateImage}
+                      alt={estate.titulo}
+                    />
+                  </Link>
+                </div>
+                <Link href={`/imoveis/${estate.id}`} className="flex items-center justify-between rounded-b-lg bg-[#666666] bg-opacity-60 py-2 px-2 md:px-8 absolute bottom-0 w-full left-0 group-hover:opacity-0 transition-opacity">
                   <p className="font-semibold text-sm lg:text-base">R$ {estate.valores.precoVenda}</p>
                   <p className="text-[.75rem]">{estate.bairro} / {estate.cidade}</p>
-                </div>
-                <div className="absolute flex items-stretch rounded-b-lg overflow-hidden w-full bottom-0 left-0 opacity-0 group-hover:opacity-100 transition-opacity *:py-2">
+                </Link>
+                <Link href={`/imoveis/${estate.id}`} className="absolute flex items-stretch rounded-b-lg overflow-hidden w-full bottom-0 left-0 opacity-0 group-hover:opacity-100 transition-opacity *:py-2">
                   <div className="w-[65%] bg-white flex pl-2 md:pl-4 gap-2 md:gap-7 text-black text-[.75rem]">
                     <span className="inline-flex gap-3 items-center">
                       <Image
@@ -145,9 +169,9 @@ const Carousel = ({ estates }: CarouselProps) => {
                     </span>
                   </div>
                   <div className="w-[35%] flex items-center lg:block text-center bg-mainPurple px-3">Conhecer</div>
-                </div>
+                </Link>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       </div>
