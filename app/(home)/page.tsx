@@ -38,14 +38,12 @@ export default function Home() {
     <div className="bg-menu bg-no-repeat">
       <Header />
       <main>
-        <div className="absolute top-0 right-0 w-1/2 sm:w-1/2 md:w-1/3 aspect-square overflow-x-hidden">
-          <Image
-            draggable={false}
-            className="absolute top-[-15%] sm:top-[-17.5%] md:top-[-20%] lg:top-[-20%] opacity-50 right-[-35%] sm:right-[-35%] md:right-[-40%] lg:right-[-50%] w-full"
-            src={Ellipse}
-            alt="Ellipse blur"
-          />
-        </div>
+        {/*         <Image
+          draggable={false}
+          className="absolute top-[-7.5%] sm:top-[-10%] md:top-[-20%] lg:top-[-30%] opacity-50 right-[-12.5%] sm:right-[-10%] md:right-[-12%] lg:right-[-15%] w-[50%] lg:w-[35%]"
+          src={Ellipse}
+          alt="Ellipse blur"
+        /> */}
         <Image
           draggable={false}
           className="absolute bottom-[-50%] opacity-60 left-[-35%] w-[75%]"
