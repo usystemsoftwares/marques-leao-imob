@@ -38,7 +38,7 @@ export default function Home() {
         alt="Ellipse blur"
       />
       <main>
-        <section className="min-h-[100vh] min-h-[100svh] relative w-[min(90%,80rem)] mx-auto">
+        <section className="min-h-[100svh] relative w-[min(90%,80rem)] mx-auto">
           <h1 className={`text-[clamp(.75rem,9vw,2.25rem)] relative z-10 font-extralight leading-none max-w-[23ch] pt-80 md:pt-40`}>
             Conectamos<br /> <span className={`text-[clamp(3rem,12.5vw,5rem)] md:text-[6rem] leading-[.75] font-baskervville md:pr-11`}><strong>pessoas</strong></span> a imóveis
             <span className={`flex items-center text-[clamp(3rem,12.5vw,5rem)] md:text-[6rem] leading-[1] font-baskervville before:inline-block before:w-[clamp(50%,10vw,100%)] before:h-[1px] before:bg-mainPurple`}>
@@ -141,8 +141,8 @@ export default function Home() {
             <span className="flex items-center gap-2 text-[#898989] after:inline-block after:w-28 after:h-[1.75px] after:bg-[#898989]">Por que</span>
             <h2 className={`text-3xl tracking-wide font-baskervville`}>Por que a Marques&Leão?</h2>
             <p className="mt-3 mb-6 max-w-[40ch] text-[#a7a7a7] leading-5">Somos <span className="text-white">a maior vitrine imobiliária</span> da região, investindo em vídeos, anúncios e inovação.</p>
-            <ul className="grid md:grid-cols-3 *:min-w-fit *:md:min-w-0 md:*:w-[min(100%,12.5rem)] md:*:h-full md:*:aspect-square *:inline-flex md:*:flex-col *:items-center md:*:items-start md:*:justify-between *:gap-4 md*:gap-0 *:font-bold text-[.813rem] md:text-sm lg:*:text-lg *:rounded-[.625rem] *:px-4 *:py-2 md:*:py-6 lg:*:py-8 md:*:px-2 lg:*:px-4 gap-3 marques_leao">
-              <li className="bg-mainPurple md:*:w-[min(100%,12.5rem)] md:*:h-full md:*:aspect-square *:inline-flex md:*:flex-col *:items-center md:*:items-start md:*:justify-between *:gap-4 md*:gap-0 *:font-bold lg:*:text-lg *:rounded-[.625rem] *:px-4 *:py-2 md:*:py-6 lg:*:py-8 md:*:px-2 lg:*:px-4">
+            <ul className="grid md:grid-cols-3 *:min-w-fit md:*:min-w-0 md:*:w-[min(100%,12.5rem)] md:*:h-full md:*:aspect-square *:inline-flex md:*:flex-col *:items-center md:*:items-start md:*:justify-between *:gap-2 sm:gap-4 md*:gap-0 *:font-bold text-[.813rem] md:text-sm lg:*:text-lg *:rounded-[.625rem] *:px-2 sm:px-4 md:*:px-2 lg:*:px-4 *:py-2 md:*:py-6 lg:*:py-8 gap-2 sm:gap-x-3 gap-y-3 marques_leao">
+              <li className="bg-mainPurple md:*:w-[min(100%,12.5rem)] md:*:h-full md:*:aspect-square *:inline-flex md:*:flex-col *:items-center md:*:items-start md:*:justify-between *:gap-4 md*:gap-0 *:font-bold lg:*:text-lg *:rounded-[.625rem] !px-4 *:px- *:py-2 md:*:py-6 lg:*:py-8 md:*:px-2 lg:*:px-4">
                 <Link
                   className="!py-0 md:!py-0 lg:!py-0 !px-0 !text-[.9375rem] md:!text-sm lg:!text-lg"
                   href="/anunciar-imovel"
