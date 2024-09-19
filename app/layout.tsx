@@ -1,11 +1,21 @@
 import type { Metadata } from "next";
-import { Montserrat } from "next/font/google";
+import { Baskervville, Montserrat } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/footer";
+import Image from "next/image";
+import Ellipse from "/public/marqueseleao/ellipse4.webp"
+
+
+const baskervville = Baskervville({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-baskervville"
+});
 
 const montserrat = Montserrat({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"]
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-montserrat"
 });
 
 export const metadata: Metadata = {
@@ -21,8 +31,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${montserrat.className} antialiased overflow-x-hidden`}
+        className={`${montserrat.variable} ${baskervville.variable} font-montserrat antialiased overflow-x-hidden`}
       >
+
+        <div className="absolute right-0 top-0 w-1/2 lg:w-[40%] aspect-square overflow-hidden">
+          <Image
+            draggable={false}
+            className="absolute top-[-20%] lg:top-[-35%] opacity-50 right-[-35%] lg:right-[-30%] w-full"
+            src={Ellipse}
+            alt="Ellipse blur"
+          />
+        </div>
         {children}
         <Footer />
       </body>

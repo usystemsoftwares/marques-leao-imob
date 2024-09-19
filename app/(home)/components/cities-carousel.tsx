@@ -8,15 +8,11 @@ import SantaCatarina from "/public/marqueseleao/santa-catarina.webp"
 import EstanciaVelha from "/public/marqueseleao/estancia-velha.webp"
 import Link from "next/link"
 
-type BaskervvilleProps = {
-  baskervville: string;
-}
-
-const CitiesCarousel = ({ baskervville }: BaskervvilleProps) => {
+const CitiesCarousel = () => {
   const [emblaRef, emblaApi] = UseEmblaCarousel({ dragFree: true })
 
   return (
-    <div className={`embla overflow-x-hidden ${baskervville} mt-8`}>
+    <div className={`embla overflow-x-hidden font-baskervville mt-8`}>
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container *:w-[min(100%,16.875rem)] *:cursor-pointer *:overflow-hidden *:rounded-xl *:relative *:flex-shrink-0 *:flex-grow-0 gap-6 md:gap-12">
           <Link href="/imoveis" className="group">

@@ -6,12 +6,6 @@ import { comentarios } from "@/data"
 import Image from "next/image"
 import Stars from "/public/marqueseleao/stars.svg"
 import { useCallback, useEffect, useState } from "react"
-import { Baskervville } from "next/font/google"
-
-const baskervville = Baskervville({
-  subsets: ["latin"],
-  weight: ["400"]
-});
 
 const TestimonialsCarousel = () => {
   const [emblaRef, emblaApi] = UseEmblaCarousel({ dragFree: true })
@@ -38,7 +32,7 @@ const TestimonialsCarousel = () => {
       <div className="flex">
         <div>
           <span className="text-[#898989] flex gap-4 items-center after:w-[7.5rem] after:bg-[#898989] after:h-[2px]">Depoimentos</span>
-          <h2 className={`text-4xl ${baskervville.className}`}>Veja alguns comentários dos nossos clientes</h2>
+          <h2 className={`text-4xl font-baskervville`}>Veja alguns comentários dos nossos clientes</h2>
         </div>
         <div className="hidden md:block bg-[#3E3E3E] relative mt-auto mb-2 w-full h-[3px]">
           <div className={`absolute bg-white h-full w-full origin-left scale-x-[30%]`}></div>

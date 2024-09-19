@@ -1,14 +1,8 @@
 import Header from "@/components/header"
 import { WhatsappButton } from "@/components/whatsapp-btn"
 import { equipe } from "@/data";
-import { Baskervville } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
-
-const baskervville = Baskervville({
-  subsets: ["latin"],
-  weight: ["400"]
-});
 
 const TeamPage = () => {
   return (
@@ -16,7 +10,7 @@ const TeamPage = () => {
       <Header />
       <main className="mt-16 w-[min(90%,75rem)] mx-auto mb-32">
         <div className="text-center max-w-[40ch] relative mx-auto">
-          <h1 className={`${baskervville.className} text-4xl font-bold text-center mb-2`}><span className="font-bold">Equipe Marques & Leão</span></h1>
+          <h1 className={`font-baskervville text-4xl font-bold text-center mb-2`}><span className="font-bold">Equipe Marques & Leão</span></h1>
           <h2>Conheça todas as pessoas que fazem a <span className="font-bold">Marques & Leão</span> ser a maior vitrine imobiliária da região.</h2>
         </div>
         <section className="mt-20">

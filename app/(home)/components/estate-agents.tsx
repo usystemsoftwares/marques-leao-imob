@@ -7,11 +7,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useRef, useState } from "react"
 
-type BaskervvilleProps = {
-  baskervville: string;
-}
-
-const EstateAgents = ({ baskervville }: BaskervvilleProps) => {
+const EstateAgents = () => {
   const [currentEstateAgent, setCurrentEstateAgent] = useState<number>(0)
   const ref = useRef(null)
   const { scrollYProgress } = useScroll({
@@ -41,7 +37,7 @@ const EstateAgents = ({ baskervville }: BaskervvilleProps) => {
           </div>
         </div>
         <div className="my-3 lg:my-0">
-          <h3 className={`text-6xl my-3 ${baskervville}`}>{corretores[currentEstateAgent].name}</h3>
+          <h3 className={`text-6xl my-3 font-baskervville`}>{corretores[currentEstateAgent].name}</h3>
           <p className={`text-xl max-w-[43ch]`}>{corretores[currentEstateAgent].text}</p>
         </div>
         <div className="hidden lg:flex lg:items-center lg:mt-7 lg:gap-8">

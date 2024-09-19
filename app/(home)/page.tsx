@@ -2,14 +2,12 @@ import EstateAgents from "./components/estate-agents";
 import Header from "@/components/header";
 import SearchPropertyFilter from "./components/search-property-filter";
 import { WhatsappButton } from "@/components/whatsapp-btn";
-import { Baskervville } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import MarquesELeao from "/public/marqueseleao/marques-leao.webp"
 import Lancamentos from "/public/marqueseleao/lancamentos.webp"
 import Media from "/public/marqueseleao/media.webp"
 import Ellipse from "/public/marqueseleao/ellipse4.webp"
-import PabloEGabriel from "/public/marqueseleao/foto-pablo-e-gabriel.webp"
 import MarquesInstagram from "/public/marqueseleao/marques-instagram.webp"
 import MarquesFacebook from "/public/marqueseleao/marques-facebook.webp"
 import MarquesYoutube from "/public/marqueseleao/marques-youtube.webp"
@@ -24,11 +22,7 @@ import TestimonialsCarousel from "./components/testimonials-carousel";
 import MarquesLeaoMidiaCarousel from "./components/marques-leao-midia-carousel";
 import Carousel from "../../components/carousel";
 import { imoveis } from "@/data"
-
-const baskervville = Baskervville({
-  subsets: ["latin"],
-  weight: ["400"]
-});
+import MarquesAndLeaoImg from "./components/marques-and-leao-img";
 
 export default function Home() {
   const newEstates = imoveis.filter((estate) => estate.categoria === "novidade")
@@ -37,23 +31,17 @@ export default function Home() {
   return (
     <div className="bg-menu bg-no-repeat">
       <Header />
+      <Image
+        draggable={false}
+        className="absolute -bottom-1/2 opacity-60 left-[-35%] w-[75%]"
+        src={Ellipse}
+        alt="Ellipse blur"
+      />
       <main>
-        {/*         <Image
-          draggable={false}
-          className="absolute top-[-7.5%] sm:top-[-10%] md:top-[-20%] lg:top-[-30%] opacity-50 right-[-12.5%] sm:right-[-10%] md:right-[-12%] lg:right-[-15%] w-[50%] lg:w-[35%]"
-          src={Ellipse}
-          alt="Ellipse blur"
-        /> */}
-        <Image
-          draggable={false}
-          className="absolute bottom-[-50%] opacity-60 left-[-35%] w-[75%]"
-          src={Ellipse}
-          alt="Ellipse blur"
-        />
-        <section className="min-h-[100svh] relative w-[min(90%,80rem)] mx-auto">
+        <section className="min-h-[100vh] min-h-[100svh] relative w-[min(90%,80rem)] mx-auto">
           <h1 className={`text-[clamp(.75rem,9vw,2.25rem)] relative z-10 font-extralight leading-none max-w-[23ch] pt-80 md:pt-40`}>
-            Conectamos<br /> <span className={`text-[clamp(3rem,12.5vw,5rem)] md:text-[6rem] leading-[.75] ${baskervville.className} md:pr-11`}><strong>pessoas</strong></span> a imóveis
-            <span className={`flex items-center text-[clamp(3rem,12.5vw,5rem)] md:text-[6rem] leading-[1] ${baskervville.className} before:inline-block before:w-[clamp(50%,10vw,100%)] before:h-[1px] before:bg-mainPurple`}>
+            Conectamos<br /> <span className={`text-[clamp(3rem,12.5vw,5rem)] md:text-[6rem] leading-[.75] font-baskervville md:pr-11`}><strong>pessoas</strong></span> a imóveis
+            <span className={`flex items-center text-[clamp(3rem,12.5vw,5rem)] md:text-[6rem] leading-[1] font-baskervville before:inline-block before:w-[clamp(50%,10vw,100%)] before:h-[1px] before:bg-mainPurple`}>
               <strong className="pl-5">incríveis</strong>
             </span>
             <span className="text-[clamp(.75rem,3.75vw,1.5rem)]">que refletem seus <span className="font-medium">ideais</span> e sua <span className="font-medium">personalidade</span></span>
@@ -70,7 +58,7 @@ export default function Home() {
           <div className="w-[min(90%,68rem)] mx-auto flex items-center justify-between">
             <div className="relative">
               <span className="flex gap-4 items-center text-[#898989] after:inline-block after:w-28 after:h-[2px] after:bg-[#898989]">Destaques</span>
-              <h2 className={`text-3xl ${baskervville.className}`}>Selecionados para você</h2>
+              <h2 className={`text-3xl font-baskervville`}>Selecionados para você</h2>
             </div>
             <Link href="/imoveis" className="hidden md:block bg-mainPurple hover:bg-white hover:text-black transition-colors text-sm py-3 px-5 rounded-lg">Ver todos os imóveis</Link>
           </div>
@@ -79,19 +67,17 @@ export default function Home() {
         <section className="w-[min(90%,80rem)] mx-auto mt-20">
           <div className="grid place-items-center">
             <span className="flex gap-4 items-center text-[#898989] before:inline-block before:w-28 before:h-[2px] before:bg-[#898989] after:inline-block after:w-28 after:h-[2px] after:bg-[#898989]">Filtre por</span>
-            <h2 className={`text-4xl ${baskervville.className}`}>Cidades que atendemos</h2>
+            <h2 className={`text-4xl font-baskervville`}>Cidades que atendemos</h2>
           </div>
           <div>
-            <CitiesCarousel
-              baskervville={baskervville.className}
-            />
+            <CitiesCarousel />
           </div>
         </section>
         <section className="w-full md:w-[min(90%,80rem)] mx-auto mt-20 mb-28 relative">
           <div className="w-[min(90%,68rem)] mx-auto flex items-center justify-between">
             <div>
               <span className="flex gap-4 items-center text-[#898989] after:inline-block after:w-28 after:h-[2px] after:bg-[#898989]">Novidades</span>
-              <h2 className={`text-3xl ${baskervville.className}`}>Novidades da semana</h2>
+              <h2 className={`text-3xl font-baskervville`}>Novidades da semana</h2>
             </div>
             <Link
               className="hidden md:block bg-mainPurple hover:bg-white hover:text-black transition-colors text-sm py-3 px-5 rounded-lg" href="/imoveis">Ver todos os imóveis</Link>
@@ -109,7 +95,7 @@ export default function Home() {
             </div>
             <div className="projects-wrapper w-[min(100%,25rem)]">
               <div className="bg-mainPurple md:h-full md:bg-transparent before:bg-gradient-to-t before:absolute before:inset-0 before:-z-20 before:from-[#141414] md:before:content-none md:bg-gradient-to-b translate-y-[-.5rem] md:translate-y-0 md:translate-x-[.75rem] lg:translate-x-[1.25rem] md:from-mainPurple rounded-lg md:rounded-xl px-6 py-8 md:p-8 projects">
-                <h2 className={`text-3xl tracking-wide md:tracking-normal md:leading-[2.75rem] md:text-[2.5rem] ${baskervville.className}`}>Pensando em Projetos e lançamentos?</h2>
+                <h2 className={`text-3xl tracking-wide md:tracking-normal md:leading-[2.75rem] md:text-[2.5rem] font-baskervville`}>Pensando em Projetos e lançamentos?</h2>
                 <p className="mt-3 mb-2 md:mb-2 max-w-[22ch]">Conheça aqui as novidades do mercado.</p>
                 <Link
                   className="bg-mainPurple hover:scale-110 md:hover:scale-100 inline-block hover:bg-white hover:text-black transition-all text-sm py-3 px-5 rounded-lg"
@@ -153,9 +139,9 @@ export default function Home() {
           </div>
           <div className="mt-16 md:mt-0">
             <span className="flex items-center gap-2 text-[#898989] after:inline-block after:w-28 after:h-[1.75px] after:bg-[#898989]">Por que</span>
-            <h2 className={`text-3xl tracking-wide ${baskervville.className}`}>Por que a Marques&Leão?</h2>
+            <h2 className={`text-3xl tracking-wide font-baskervville`}>Por que a Marques&Leão?</h2>
             <p className="mt-3 mb-6 max-w-[40ch] text-[#a7a7a7] leading-5">Somos <span className="text-white">a maior vitrine imobiliária</span> da região, investindo em vídeos, anúncios e inovação.</p>
-            <ul className="grid md:grid-cols-3 md:*:w-[min(100%,12.5rem)] md:*:h-full md:*:aspect-square *:inline-flex md:*:flex-col *:items-center md:*:items-start md:*:justify-between *:gap-4 md*:gap-0 *:font-bold text-[.813rem] md:text-sm lg:*:text-lg *:rounded-[.625rem] *:px-4 *:py-2 md:*:py-6 lg:*:py-8 md:*:px-2 lg:*:px-4 gap-3 marques_leao">
+            <ul className="grid md:grid-cols-3 *:min-w-fit *:md:min-w-0 md:*:w-[min(100%,12.5rem)] md:*:h-full md:*:aspect-square *:inline-flex md:*:flex-col *:items-center md:*:items-start md:*:justify-between *:gap-4 md*:gap-0 *:font-bold text-[.813rem] md:text-sm lg:*:text-lg *:rounded-[.625rem] *:px-4 *:py-2 md:*:py-6 lg:*:py-8 md:*:px-2 lg:*:px-4 gap-3 marques_leao">
               <li className="bg-mainPurple md:*:w-[min(100%,12.5rem)] md:*:h-full md:*:aspect-square *:inline-flex md:*:flex-col *:items-center md:*:items-start md:*:justify-between *:gap-4 md*:gap-0 *:font-bold lg:*:text-lg *:rounded-[.625rem] *:px-4 *:py-2 md:*:py-6 lg:*:py-8 md:*:px-2 lg:*:px-4">
                 <Link
                   className="!py-0 md:!py-0 lg:!py-0 !px-0 !text-[.9375rem] md:!text-sm lg:!text-lg"
@@ -198,16 +184,12 @@ export default function Home() {
             src={Ellipse}
             alt="Ellipse blur"
           />
-          <div className="w-[min(100%,37.5rem)] lg:flex-1">
-            <Image
-              className="rounded-[.635rem]"
-              src={PabloEGabriel}
-              alt="Pablo Marques e Gabriel Leão"
-            />
+          <div className="w-[min(100%,37.5rem)] relative lg:flex-1">
+            <MarquesAndLeaoImg />
           </div>
           <div className="w-[min(100%,37.5rem)] sm:mt-4 lg:mt-0 lg:flex-1 flex flex-row-reverse lg:flex-row gap-[clamp(1rem,2vw,2.5rem)]">
             <div className="w-full lg:max-w-[32ch]">
-              <h2 className={`text-3xl sm:text-4xl md:text-5xl lg:text-[clamp(2rem,3vw,3rem)] font-bold lg:!leading-[clamp(2rem,4vw,3.5rem)] ${baskervville.className}`}>Pablo Marques & Gabriel Leão</h2>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[clamp(2rem,3vw,3rem)] font-bold lg:!leading-[clamp(2rem,4vw,3.5rem)] font-baskervville">Pablo Marques & Gabriel Leão</h2>
               <p className="sm:text-lg lg:text-lg text-[#d2d2d2] !leading-6 mt-2">Nosso trabalho tem como foco a <span className="text-white font-semibold">conexão entre tecnologia e atendimento de alta performance</span>, com o objetivo de otimizar a jornada e melhorar experiência do cliente.</p>
               <ul className="hidden lg:block *:flex *:items-center *:gap-5 *:mt-8">
                 <li>
@@ -286,15 +268,13 @@ export default function Home() {
         </section>
         <section className="w-[min(90%,80rem)] mt-14 mb-24 mx-auto">
           <span className="text-[#898989] flex gap-4 items-center after:w-[7.5rem] after:bg-[#898989] after:h-[2px]">Nosso time</span>
-          <h2 className={`text-3xl ${baskervville.className}`}>Corretores Marques</h2>
-          <EstateAgents
-            baskervville={baskervville.className}
-          />
+          <h2 className={`text-3xl font-baskervville`}>Corretores Marques</h2>
+          <EstateAgents />
         </section>
         <section className="w-[min(90%,68rem)] relative mx-auto">
           <div className="max-w-[35ch]">
             <span className="text-[#898989] flex gap-4 items-center after:w-[7.5rem] after:bg-[#898989] after:h-[2px]">Na mídia</span>
-            <h2 className={`text-3xl ${baskervville.className}`}>O que falam da Marques&Leão na mídia</h2>
+            <h2 className={`text-3xl font-baskervville`}>O que falam da Marques&Leão na mídia</h2>
           </div>
           <MarquesLeaoMidiaCarousel />
         </section>

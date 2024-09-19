@@ -1,16 +1,10 @@
 import Header from "@/components/header"
 import { equipe, imoveis } from "@/data"
-import { Baskervville } from "next/font/google"
 import Image from "next/image"
 import Link from "next/link"
 import Whatsapp from "/public/marqueseleao/white-wpp-icon.svg"
 import Instagram from "/public/marqueseleao/instagram-icon.svg"
 import Carousel from "@/components/carousel"
-
-const baskervville = Baskervville({
-  subsets: ["latin"],
-  weight: "400"
-})
 
 const Membro = ({
   params: { link }
@@ -36,7 +30,7 @@ const Membro = ({
           </div>
           <div className="md:w-1/2">
             <div className="flex items-end justify-between">
-              <h1 className={`text-5xl font-bold uppercase ${baskervville.className}`}>{membro.nome}</h1>
+              <h1 className={`text-5xl font-bold uppercase font-baskervville`}>{membro.nome}</h1>
               <span className="hidden lg:inline text-[#707070]">CRECI: {membro.creci}</span>
             </div>
             <p className="mt-3 mb-4 text-[#d6d6d6]">{membro.texto1}</p>
@@ -66,7 +60,7 @@ const Membro = ({
         <section className="w-full md:w-[min(90%,80rem)] mx-auto mt-20 relative">
           <div className="w-[min(90%,75rem)] mx-auto">
             <span className="flex gap-4 items-center text-[#898989] after:inline-block after:w-28 after:h-[2px] after:bg-[#898989]">Do corretor</span>
-            <h2 className={`text-3xl ${baskervville.className}`}>Imóveis do Corretor</h2>
+            <h2 className={`text-3xl font-baskervville`}>Imóveis do Corretor</h2>
           </div>
           <div>
             <Carousel

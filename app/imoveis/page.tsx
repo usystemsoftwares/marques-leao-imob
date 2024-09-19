@@ -22,14 +22,16 @@ const PropertyPage = () => {
   const [activeIndex, setActiveIndex] = useState<number[]>([])
   const [openMap, setOpenMap] = useState(false)
 
+  const handleCloseMap = () => setOpenMap(false)
+
   return (
     <div className="bg-menu bg-no-repeat">
       <Header />
-      <main className="mt-28 mb-20">
+      <main className="mt-28 mb-10">
         <section className="relative">
           <button
-            onClick={() => setOpenMap(!openMap)}
-            className="bg-mainPurple z-[51] lg:hidden px-5 py-1 rounded-full fixed right-1/2 translate-x-1/2 bottom-[2.5%]">
+            onClick={() => setOpenMap(true)}
+            className={cn("bg-mainPurple z-[51] lg:hidden px-5 py-1 rounded-full fixed right-1/2 translate-x-1/2 bottom-[2.5%]", openMap && "hidden")}>
             Mapa
           </button>
           <div className="lg:max-w-[57.5vw]">
@@ -69,7 +71,9 @@ const PropertyPage = () => {
                               alt="Ícone de coração"
                             />}
                         </button>
-                        <Link className="block" href={`/imoveis/${estate.id}`}
+                        <Link
+                          className="block"
+                          href={`/imoveis/${estate.id}`}
                         >
                           <Image
                             className="w-full rounded-lg"
@@ -109,9 +113,15 @@ const PropertyPage = () => {
                 </li>
               ))}
             </ul>
+            <div className="flex lg:hidden justify-center *:grid *:place-items-center mt-12 *:w-10 *:aspect-square *:cursor-pointer items-center *:rounded-lg gap-3">
+              <div className="bg-mainPurple">1</div>
+              <div className="border border-white">2</div>
+              <div className="border border-white">3</div>
+              <div className="border border-white">4</div>
+            </div>
           </div>
           <div className={cn("lg:w-[42.5vw] lg:h-full fixed lg:right-0 lg:top-0 bg-black z-20", openMap ? "inset-[10rem_0rem_2rem_0rem] sm:inset-[10rem_4rem_2rem_4rem] md:inset-[10rem_5rem_2rem_5rem] lg:inset-[0_0_auto_auto]" : "")}>
-            <GoogleMap />
+            <GoogleMap closeMap={handleCloseMap} />
           </div>
           <WhatsappButton />
         </section>

@@ -1,5 +1,4 @@
 import Header from "@/components/header"
-import { Baskervville } from "next/font/google";
 import Image from "next/image";
 import CheckIcon from "/public/marqueseleao/check-icon.svg"
 import Link from "next/link";
@@ -11,18 +10,13 @@ import FacebookIcon from "/public/marqueseleao/facebook-icon.svg"
 import InstagramIcon from "/public/marqueseleao/instagram-icon.svg"
 import YoutubeIcon from "/public/marqueseleao/youtube-icon.svg"
 
-const baskervville = Baskervville({
-  subsets: ["latin"],
-  weight: ["400"]
-});
-
 const AdvertiseEstate = () => {
   return (
     <div className="bg-menu bg-no-repeat">
       <Header />
       <main className="w-[min(90%,68rem)] mt-14 mx-auto">
         <div className="text-center">
-          <h1 className={`text-4xl ${baskervville.className} mb-3`}>Interessado em anunciar seu imóvel?</h1>
+          <h1 className={`text-4xl font-baskervville mb-3`}>Interessado em anunciar seu imóvel?</h1>
           <p className="text-2xl font-light border-b-2 mx-auto pb-1 w-fit border-b-mainPurple">Veja se ele se encaixa em nossos <span className="font-semibold">pré-requisitos...</span></p>
         </div>
         <section className="mt-28 mb-20 flex flex-col lg:flex-row justify-center lg:justify-between">
@@ -31,7 +25,7 @@ const AdvertiseEstate = () => {
               <div className="lg:w-[83%]">
                 <h2>
                   <span className="flex gap-2 items-center text-[#898989] after:inline-block after:w-20 after:h-[2px] after:bg-[#898989]">Para anunciar conosco, </span>
-                  <span className={`${baskervville.className} text-4xl`}>seu imóvel precisa:</span>
+                  <span className={`font-baskervville text-4xl`}>seu imóvel precisa:</span>
                 </h2>
                 <ul className="*:mt-5 pb-10 *:flex *:gap-3">
                   <li>
@@ -150,7 +144,7 @@ const AdvertiseEstate = () => {
           <div className="lg:w-4/6 mt-16 lg:mt-10">
             <h2 className="text-center lg:text-start">
               <span className="flex justify-center lg:justify-normal gap-2 items-center text-[#898989] after:inline-block after:w-20 after:h-[2px] after:bg-[#898989]">Se o seu imóvel cumpre esses quesitos</span>
-              <div className={`${baskervville.className} text-3xl`}>Preencha seus dados abaixo</div>
+              <div className={`font-baskervville text-3xl`}>Preencha seus dados abaixo</div>
             </h2>
             <form className="max-w-[28.125rem] lg:max-w-[21.875rem] mx-auto lg:mx-0 mt-6 flex flex-col *:font-semibold gap-4 bg-mainPurple p-5 rounded-[.625rem]" action="">
               <label>

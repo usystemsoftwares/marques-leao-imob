@@ -6,11 +6,12 @@ import {
   InfoWindow,
   Map,
 } from "@vis.gl/react-google-maps"
-import { StaticImageData } from "next/image"
+import Image, { StaticImageData } from "next/image"
 import { useState } from "react"
 import Imovel from "/public/marqueseleao/imovel-1.webp"
 import { imoveis } from "@/data"
 import GoogleMapsCarousel from "./googlemaps-carousel"
+import MapsArrow from "/public/marqueseleao/maps-arrow.svg"
 
 type BairroType = {
   id: number;
@@ -56,7 +57,11 @@ const bairros = [{
   }
 }]
 
-const GoogleMap = () => {
+type GoogleMapProps = {
+  closeMap: () => void
+}
+
+const GoogleMap = ({ closeMap }: GoogleMapProps) => {
   const [markers] = useState(bairros)
 
   const [selectedMarker, setSelectedMarker] = useState<BairroType | null>(null)
@@ -72,7 +77,16 @@ const GoogleMap = () => {
         defaultZoom={12}
         defaultCenter={mapPosition}
         mapId={process.env.NEXT_PUBLIC_MAP_ID as string}
+        fullscreenControl={false}
+        streetViewControl={false}
+        mapTypeControl={false}
       >
+        <button className="bg-white w-12 aspect-square flex justify-center items-center shadow-lg rounded-[.625rem] top-6 left-6 absolute lg:hidden" onClick={closeMap}>
+          <Image
+            src={MapsArrow}
+            alt="Seta para esquerda"
+          />
+        </button>
         {markers.map(marker => (
           <AdvancedMarker
             key={marker.id}

@@ -2,7 +2,6 @@ import Header from "@/components/header"
 import { equipe, imoveis } from "@/data"
 import Image from "next/image"
 import Carousel from "@/components/carousel"
-import { Baskervville } from "next/font/google"
 import Link from "next/link"
 
 import Ellipse from "/public/marqueseleao/ellipse4.webp"
@@ -18,13 +17,7 @@ import CheckIcon from "/public/marqueseleao/check-icon.svg"
 
 import Whatsapp from "/public/marqueseleao/white-wpp-icon.svg"
 import Instagram from "/public/marqueseleao/instagram-icon.svg"
-import PropertyFilter from "@/components/property-filter"
 import PropertiesFilter from "../components/properties-filter"
-
-const baskervville = Baskervville({
-  subsets: ["latin"],
-  weight: ["400"]
-});
 
 const RealEstatePage = ({
   params: { id }
@@ -132,7 +125,7 @@ const RealEstatePage = ({
               <p className="text-[#E9E9E9] text-lg font-light">{estate.descricao}</p>
             </div>
             <div className="mt-8">
-              <h3 className={`text-3xl ${baskervville.className} tracking-wide`}>Informações adicionais</h3>
+              <h3 className={`text-3xl font-baskervville tracking-wide`}>Informações adicionais</h3>
               <ul className="mt-3 grid font-light text-[#E9E9E9] gap-2 lg:grid-cols-2">{estate.informacoesAdicionais.map(info => (
                 <li className="flex items-end gap-3" key={info}>
                   <Image
@@ -157,7 +150,7 @@ const RealEstatePage = ({
                 height={452}
               />
             </Link>
-            <h2 className={`text-5xl lg:text-[clamp(3rem,5vw,3.75rem)] mt-5 ${baskervville.className}`}>{estateAgent.nome}</h2>
+            <h2 className={`text-5xl lg:text-[clamp(3rem,5vw,3.75rem)] mt-5 font-baskervville`}>{estateAgent.nome}</h2>
             <p className="mt-3 mb-5">{estateAgent.texto1}</p>
             <div className="lg:mr-10 flex flex-wrap lg:flex-nowrap gap-4 lg:gap-8 *:flex *:gap-2 *:items-center *:justify-center *:text-[1.0625rem] *:border-2 *:py-2 *:px-8 lg:px-0 lg:*:w-full *:rounded-lg">
               <Link
@@ -180,7 +173,7 @@ const RealEstatePage = ({
         <section className="mt-12 mb-20">
           <div className="w-[min(90%,68rem)] mx-auto -mb-12">
             <span className="flex gap-4 items-center text-[#898989] after:inline-block after:w-28 after:h-[2px] after:bg-[#898989]">Relacionados</span>
-            <h2 className={`text-3xl ${baskervville.className}`}>Imóveis Relacionados</h2>
+            <h2 className={`text-3xl font-baskervville`}>Imóveis Relacionados</h2>
           </div>
           <div className="w-full md:w-[min(90%,80rem)] mx-auto pt-12 relative">
             <Carousel estates={relatedEstates} />
