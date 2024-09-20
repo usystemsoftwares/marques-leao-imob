@@ -148,11 +148,11 @@ const Carousel = ({ estates }: CarouselProps) => {
                     />
                   </Link>
                 </div>
-                <Link href={`/imoveis/${estate.id}`} className="flex items-center justify-between rounded-b-lg bg-[#666666] bg-opacity-60 py-2 px-2 md:px-8 absolute bottom-0 w-full left-0 group-hover:opacity-0 transition-opacity">
+                <Link href={`/imoveis/${estate.id}`} className="flex items-center justify-between rounded-b-lg bg-[#666666] bg-opacity-60 py-2 px-2 md:px-8 absolute bottom-0 w-full left-0 group-hover:opacity-0 transition-opacity duration-300">
                   <p className="font-semibold text-sm lg:text-base">R$ {estate.valores.precoVenda}</p>
                   <p className="text-[.75rem]">{estate.bairro} / {estate.cidade}</p>
                 </Link>
-                <Link href={`/imoveis/${estate.id}`} className="absolute flex items-stretch rounded-b-lg overflow-hidden w-full bottom-0 left-0 opacity-0 group-hover:opacity-100 transition-opacity *:py-2">
+                <Link href={`/imoveis/${estate.id}`} className="absolute flex items-stretch rounded-b-lg overflow-hidden w-full bottom-0 left-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 *:py-2">
                   <div className="w-[65%] bg-white flex pl-2 md:pl-4 gap-2 md:gap-7 text-black text-[.75rem]">
                     <span className="inline-flex gap-3 items-center">
                       <Image

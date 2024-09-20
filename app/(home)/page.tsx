@@ -144,10 +144,10 @@ export default function Home() {
               <span className="flex items-center gap-2 text-[#898989] after:inline-block after:w-28 after:h-[1.75px] after:bg-[#898989]">Por que</span>
               <h2 className={`text-3xl tracking-wide font-baskervville`}>Por que a Marques&Leão?</h2>
               <p className="mt-3 mb-6 max-w-[40ch] text-[#a7a7a7] leading-5">Somos <span className="text-white">a maior vitrine imobiliária</span> da região, investindo em vídeos, anúncios e inovação.</p>
-              <ul className="grid md:grid-cols-3 *:min-w-fit md:*:min-w-0 md:*:w-[min(100%,12.5rem)] md:*:h-full md:*:aspect-square *:inline-flex md:*:flex-col *:items-center md:*:items-start md:*:justify-between *:gap-2 sm:gap-4 md*:gap-0 *:font-bold text-[.813rem] md:text-[.75rem] lg:*:text-lg *:rounded-[.625rem] *:px-2 sm:px-4 md:*:px-1 lg:*:px-4 *:py-2 md:*:py-2 lg:*:py-8 gap-2 sm:gap-x-3 gap-y-3 marques_leao">
-                <li className="bg-mainPurple md:*:w-[min(100%,12.5rem)] md:*:h-full md:*:aspect-square *:inline-flex md:*:flex-col *:items-center md:*:items-start md:*:justify-between *:gap-4 md*:gap-0 *:font-bold lg:*:text-lg *:rounded-[.625rem] !px-4 *:px- *:py-2 md:*:py-6 lg:*:py-8 md:*:px-2 lg:*:px-4">
+              <ul className="grid md:grid-cols-3 *:min-w-fit md:*:min-w-0 md:*:w-[min(100%,12.5rem)] md:*:h-full md:*:aspect-square *:inline-flex md:*:flex-col *:items-center md:*:items-start md:*:justify-between *:gap-2 sm:gap-4 md*:gap-0 *:font-bold md:*:font-medium xl:*:font-bold text-[.813rem] md:text-[clamp(.75rem,1.75vw,1rem)] lg:*:text-lg *:rounded-[.625rem] *:px-2 sm:px-4 md:*:px-1 lg:*:px-4 *:py-2 md:*:py-2 lg:*:py-8 gap-2 sm:gap-x-3 gap-y-3 marques_leao">
+                <li className="bg-mainPurple *:min-w-fit md:*:w-[min(100%,12.5rem)] md:*:h-full md:*:aspect-square *:inline-flex md:*:flex-col *:items-center md:*:items-start md:*:justify-between *:gap-4 md*:gap-0 *:font-medium xl:*:font-bold *:rounded-[.625rem] !px-4 md:!px-1 lg:!px-2 xl:!px-4">
                   <Link
-                    className="!py-0 md:!py-0 lg:!py-0 !px-0 !text-[.9375rem] md:!text-[.75rem] lg:!text-lg"
+                    className="!py-0 md:!py-0 lg:!py-0 !px-0 !text-[.9375rem] md:!text-[clamp(.75rem,1.75vw,1rem)] lg:!text-base xl:!text-lg"
                     href="/anunciar-imovel"
                   >
                     <div className="w-5 lg:w-auto">
@@ -156,7 +156,7 @@ export default function Home() {
                         alt="Ícone de pesquisa"
                       />
                     </div>
-                    <p className="lg:leading-[1.5rem]">Anuncie seu imóvel conosco</p>
+                    <p className="xl:leading-[1.5rem]">Anuncie seu imóvel conosco</p>
                   </Link>
                 </li>
                 <li className="bg-white text-mainPurple">
