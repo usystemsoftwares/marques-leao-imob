@@ -52,7 +52,7 @@ const PropertyPage = () => {
                         <div className="absolute z-10 top-0 bg-[#530944] py-[.35rem] px-4 rounded-r-lg rounded-tl-lg">EXCLUSIVIDADE</div>
                       }
                       {estate.desconto &&
-                        <div className="absolute z-10 top-0 bg-[#095310] py-[.35rem] px-4 rounded-r-lg rounded-tl-lg">imóvel COM DESCONTO</div>
+                        <div className="absolute z-10 top-0 bg-[#095310] py-[.35rem] px-4 rounded-r-[100vmax] rounded-tl-[100vmax]">IMÓVEL COM DESCONTO</div>
                       }
                       <div className="relative">
                         <button className="block absolute right-[5%] top-[7.5%]"

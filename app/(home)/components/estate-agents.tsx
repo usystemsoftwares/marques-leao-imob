@@ -18,10 +18,10 @@ const EstateAgents = () => {
 
   return (
     <div className="lg:flex lg:flex-row-reverse lg:justify-between mt-10 lg:gap-8">
-      <div className="flex flex-col items-center lg:block">
-        <div className="flex justify-evenly w-full lg:w-auto sm:gap-8 items-center lg:block">
+      <div className="flex flex-col lg:block">
+        <div className="flex justify-between w-[80%] sm:w-[60%] mx-auto lg:mx-0 lg:w-auto sm:gap-8 items-center lg:block">
           <Image
-            className="max-w-[45%] lg:max-w-full rounded-[.625rem] border-[.313rem] border-mainPurple"
+            className="max-w-[60%] lg:max-w-full rounded-[.625rem] border-[.313rem] border-mainPurple"
             src={corretores[currentEstateAgent].image}
             width={370}
             height={452}
@@ -36,9 +36,12 @@ const EstateAgents = () => {
             </p>
           </div>
         </div>
-        <div className="my-3 lg:my-0">
-          <h3 className={`text-6xl my-3 font-baskervville`}>{corretores[currentEstateAgent].name}</h3>
-          <p className={`text-xl max-w-[43ch]`}>{corretores[currentEstateAgent].text}</p>
+        <div className="w-[80%] sm:w-[60%] lg:w-full mx-auto my-3 lg:my-0">
+          <h3 className={`text-4xl md:text-6xl my-3 font-baskervville`}>{corretores[currentEstateAgent].name}</h3>
+          <p className={`text-base leading-[1.25rem] md:leading-7 md:text-xl max-w-[43ch]`}>{corretores[currentEstateAgent].text}</p>
+          <Link
+            className="inline-block w-fit mb-5 lg:mb-0 lg:hidden bg-mainPurple hover:bg-white hover:text-black mt-3 md:text-center transition-colors text-sm py-3 px-12 rounded-lg"
+            href={""}>Conhecer {corretores[currentEstateAgent].name}</Link>
         </div>
         <div className="hidden lg:flex lg:items-center lg:mt-7 lg:gap-8">
           <p>
@@ -48,12 +51,10 @@ const EstateAgents = () => {
             <span className="text-3xl block font-bold">+{corretores[currentEstateAgent].experiencia}</span> anos de <br /> experiência
           </p>
           <Link
-            className="hidden lg:inline-block bg-mainPurple hover:bg-white hover:text-black ml-5 text-center transition-colors text-sm py-3 px-12 rounded-lg"
+            className="hidden lg:inline-block self-start bg-mainPurple hover:bg-white hover:text-black ml-5 text-center transition-colors text-sm py-3 px-12 rounded-lg"
             href={""}>Conhecer {corretores[currentEstateAgent].name}</Link>
         </div>
-        <Link
-          className="inline-block mb-5 lg:mb-0 lg:hidden bg-mainPurple hover:bg-white hover:text-black ml-5 text-center transition-colors text-sm py-3 px-12 rounded-lg"
-          href={""}>Conhecer {corretores[currentEstateAgent].name}</Link>
+
       </div>
       <div className="flex justify-center lg:justify-normal">
         <motion.div className="bg-[#3E3E3E] relative w-1 lg:h-full mr-4">

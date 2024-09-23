@@ -29,7 +29,7 @@ const TestimonialsCarousel = () => {
 
   return (
     <div>
-      <div className="flex">
+      <div className="flex w-[min(90%,68rem)] mx-auto">
         <div>
           <span className="text-[#898989] flex gap-4 items-center after:w-[7.5rem] after:bg-[#898989] after:h-[2px]">Depoimentos</span>
           <h2 className={`text-4xl font-baskervville`}>Veja alguns comentários dos nossos clientes</h2>
@@ -40,7 +40,7 @@ const TestimonialsCarousel = () => {
       </div>
       <div className="embla overflow-x-hidden mt-8">
         <div className="embla__viewport" ref={emblaRef}>
-          <ul className="embla__container gap-7">
+          <ul className="embla__container ml-4 lg:ml-0 gap-7">
             {comentarios.map(comentario => (
               <li
                 className="rounded-[1.25rem] flex-shrink-0 flex-grow-0 bg-white px-6 pt-8 pb-6 text-black text-center font-semibold w-[min(100%,15.625rem)] overflow-hidden"

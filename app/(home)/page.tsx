@@ -39,9 +39,9 @@ export default function Home() {
       />
       <main>
         <section className="min-h-[100svh] relative w-[min(90%,80rem)] mx-auto">
-          <h1 className={`text-[clamp(.75rem,9vw,2.25rem)] relative z-10 font-extralight leading-none max-w-[23ch] pt-80 md:pt-40`}>
-            Conectamos<br /> <span className={`text-[clamp(3rem,12.5vw,5rem)] md:text-[6rem] font-bold leading-[.75] font-baskervville md:pr-11`}><strong>pessoas</strong></span> a imóveis
-            <span className={`flex items-center text-[clamp(3rem,12.5vw,5rem)] md:text-[6rem] leading-[1] font-baskervville before:inline-block before:w-[clamp(50%,10vw,100%)] font-bold before:h-[1px] before:bg-mainPurple`}>
+          <h1 className={`text-[clamp(.75rem,7.5vw,2.25rem)] relative z-10 font-extralight leading-none max-w-[23ch] pt-80 md:pt-40`}>
+            Conectamos<br /> <span className={`text-[clamp(2.5rem,12.5vw,5rem)] md:text-[6rem] font-bold leading-[.75] font-baskervville md:pr-11`}><strong>pessoas</strong></span> a imóveis
+            <span className={`flex items-center text-[clamp(2.5rem,12.5vw,5rem)] md:text-[6rem] leading-[1] font-baskervville before:inline-block before:w-[clamp(50%,10vw,100%)] font-bold before:h-[1px] before:bg-mainPurple`}>
               <strong className="pl-5">incríveis</strong>
             </span>
             <span className="text-[clamp(.75rem,3.75vw,1.5rem)]">que refletem seus <span className="font-medium">ideais</span> e sua <span className="font-medium">personalidade</span></span>
@@ -55,10 +55,10 @@ export default function Home() {
           <SearchPropertyFilter className="absolute bottom-[20%] translate-x-1/2 z-50 right-1/2" />
         </section>
         <section className="w-full md:w-[min(90%,80rem)] mx-auto relative">
-          <div className="w-[min(90%,68rem)] mx-auto flex items-center justify-between">
+          <div className="w-[min(90%,68rem)] mx-auto flex items-center justify-center md:justify-between">
             <div className="relative">
               <span className="flex gap-4 items-center text-[#898989] after:inline-block after:w-28 after:h-[2px] after:bg-[#898989]">Destaques</span>
-              <h2 className={`text-3xl font-baskervville`}>Selecionados para você</h2>
+              <h2 className={`text-3xl text-center md:text-start font-baskervville`}>Selecionados para você</h2>
             </div>
             <Link href="/imoveis" className="hidden md:block bg-mainPurple hover:bg-white hover:text-black transition-colors text-sm py-3 px-5 rounded-lg">Ver todos os imóveis</Link>
           </div>
@@ -67,17 +67,17 @@ export default function Home() {
         <section className="w-[min(90%,80rem)] mx-auto mt-20">
           <div className="grid place-items-center">
             <span className="flex gap-4 items-center text-[#898989] before:inline-block before:w-28 before:h-[2px] before:bg-[#898989] after:inline-block after:w-28 after:h-[2px] after:bg-[#898989]">Filtre por</span>
-            <h2 className={`text-4xl font-baskervville`}>Cidades que atendemos</h2>
+            <h2 className={`text-4xl text-center md:text-start font-baskervville`}>Cidades que atendemos</h2>
           </div>
           <div>
             <CitiesCarousel />
           </div>
         </section>
         <section className="w-full md:w-[min(90%,80rem)] mx-auto mt-20 mb-28 relative">
-          <div className="w-[min(90%,68rem)] mx-auto flex items-center justify-between">
+          <div className="w-[min(90%,68rem)] mb-8 mx-auto flex items-center justify-center md:justify-between">
             <div>
               <span className="flex gap-4 items-center text-[#898989] after:inline-block after:w-28 after:h-[2px] after:bg-[#898989]">Novidades</span>
-              <h2 className={`text-3xl font-baskervville`}>Novidades da semana</h2>
+              <h2 className={`text-3xl text-center md:text-start font-baskervville`}>Novidades da semana</h2>
             </div>
             <Link
               className="hidden md:block bg-mainPurple hover:bg-white hover:text-black transition-colors text-sm py-3 px-5 rounded-lg" href="/imoveis">Ver todos os imóveis</Link>
@@ -181,7 +181,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section className="relative">
+        <section className="relative mt-12 lg:mt-36">
           <div className="hidden lg:block absolute overflow-hidden right-0 bottom-[-30%] -z-10 w-[35%] aspect-square">
             <Image
               draggable={false}
@@ -190,7 +190,7 @@ export default function Home() {
               alt="Ellipse blur"
             />
           </div>
-          <div className="w-[min(90%,80rem)] mt-36 mx-auto flex flex-col lg:flex-row items-center gap-[clamp(1rem,2.5vw,2.5rem)]">
+          <div className="w-[min(90%,80rem)] mx-auto flex flex-col lg:flex-row items-center gap-[clamp(1rem,2.5vw,2.5rem)]">
             <div className="w-[min(100%,37.5rem)] relative lg:flex-1">
               <MarquesAndLeaoImg />
             </div>
@@ -275,18 +275,18 @@ export default function Home() {
           </div>
         </section>
         <section className="w-[min(90%,80rem)] mt-14 mb-24 mx-auto">
-          <span className="text-[#898989] flex gap-4 items-center after:w-[7.5rem] after:bg-[#898989] after:h-[2px]">Nosso time</span>
-          <h2 className={`text-3xl font-baskervville`}>Corretores Marques</h2>
+          <span className="text-[#898989] flex gap-4 justify-center lg:justify-normal items-center after:w-[7.5rem] after:bg-[#898989] after:h-[2px]">Nosso time</span>
+          <h2 className={`text-3xl text-center lg:text-start font-baskervville`}>Corretores Marques</h2>
           <EstateAgents />
         </section>
         <section className="w-[min(90%,68rem)] relative mx-auto">
-          <div className="max-w-[35ch]">
+          <div className="max-w-[35ch] mx-auto md:mx-0">
             <span className="text-[#898989] flex gap-4 items-center after:w-[7.5rem] after:bg-[#898989] after:h-[2px]">Na mídia</span>
             <h2 className={`text-3xl font-baskervville`}>O que falam da Marques&Leão na mídia</h2>
           </div>
           <MarquesLeaoMidiaCarousel />
         </section>
-        <section className="w-[min(90%,68rem)] mt-12 mb-8 mx-auto">
+        <section className="lg:w-[min(90%,68rem)] mt-12 mb-8 mx-auto">
           <TestimonialsCarousel />
         </section>
       </main>

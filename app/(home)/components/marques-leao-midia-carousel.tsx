@@ -27,16 +27,16 @@ const MarquesLeaoMidiaCarousel = () => {
             <div className="flex-shrink-0 w-full flex-grow-0 flex md:gap-4 md:px-8 flex-col md:flex-row items-center" key={midiaItem.id}>
               <div>
                 <Image
-                  className="mx-auto w-[90%] md:w-auto md:mx-0"
+                  className="mx-auto w-[75%] md:w-auto md:mx-0"
                   src={midiaItem.imagem}
                   alt={midiaItem.title}
                   width={400}
                   height={532}
                 />
               </div>
-              <div className="max-w-[100ch] mx-auto mt-16 md:mt-0">
-                <h3 className="max-w-[17ch] md:max-w-[25ch] text-3xl font-bold tracking-widest">{midiaItem.title}</h3>
-                <p className="max-w-[28ch] text-xl my-4 tracking-wider">{midiaItem.subtitle}</p>
+              <div className="max-w-[100ch] mx-auto mt-8 md:mt-0">
+                <h3 className="max-w-[17ch] md:max-w-[25ch] text-2xl md:text-3xl font-bold tracking-wider md:tracking-widest">{midiaItem.title}</h3>
+                <p className="max-w-[28ch] text-lg md:text-xl my-4 tracking-wide md:tracking-wider">{midiaItem.subtitle}</p>
                 <Link
                   className="bg-mainPurple inline-block hover:bg-white hover:text-black transition-colors text-xl w-[min(100%,15.625rem)] text-center py-3 px-5 rounded-lg"
                   href={midiaItem.link}

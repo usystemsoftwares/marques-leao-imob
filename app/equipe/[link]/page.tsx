@@ -39,7 +39,7 @@ const Membro = ({
               <p><span className="text-3xl block font-bold">+{membro.imoveisCarteira}</span> imóveis <br /> em carteira</p>
               <p><span className="text-3xl block font-bold">+{membro.anosExperiencia}</span> anos de <br /> experiência</p>
             </div>
-            <div className="lg:mr-28 mt-4 flex flex-wrap lg:flex-nowrap gap-4 lg:gap-8 *:flex *:gap-2 *:items-center *:justify-center *:text-[1.0625rem] *:border-2 *:py-2 *:px-11 lg:px-0 lg:*:w-full *:rounded-lg">
+            <div className="lg:mr-28 mt-4 flex flex-col lg:flex-row flex-wrap lg:flex-nowrap gap-4 lg:gap-8 *:flex *:gap-2 *:items-center *:justify-center *:text-[1.0625rem] *:border-2 *:py-2 *:px-11 lg:px-0 *:w-fit lg:*:w-full *:rounded-lg">
               <Link
                 className="bg-[#108D10] border-transparent"
                 href="#">

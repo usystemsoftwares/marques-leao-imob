@@ -65,7 +65,7 @@ const Header = () => {
   ]
 
   return (
-    <header className="w-[min(90%,80rem)] mx-auto flex items-center justify-between pt-12">
+    <header className="w-[min(90%,80rem)] mx-auto flex items-center justify-center md:justify-between pt-12">
       <Link href="/">
         <Image
           className="z-10 w-[12.5rem] sm:w-[17.5rem] mx-auto md:mx-0"
