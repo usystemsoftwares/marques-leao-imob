@@ -39,7 +39,7 @@ export default function Home() {
       />
       <main>
         <section className="min-h-[100svh] relative w-[min(90%,80rem)] mx-auto">
-          <h1 className={`text-[clamp(.75rem,7.5vw,2.25rem)] relative z-10 font-extralight leading-none max-w-[23ch] pt-80 md:pt-40`}>
+          <h1 className={`text-[clamp(.75rem,5vw,2.25rem)] md:text-[clamp(.75rem,9vw,2.25rem)] relative z-10 font-extralight leading-none max-w-[23ch] pt-80 md:pt-40`}>
             Conectamos<br /> <span className={`text-[clamp(2.5rem,12.5vw,5rem)] md:text-[6rem] font-bold leading-[.75] font-baskervville md:pr-11`}><strong>pessoas</strong></span> a imóveis
             <span className={`flex items-center text-[clamp(2.5rem,12.5vw,5rem)] md:text-[6rem] leading-[1] font-baskervville before:inline-block before:w-[clamp(50%,10vw,100%)] font-bold before:h-[1px] before:bg-mainPurple`}>
               <strong className="pl-5">incríveis</strong>
