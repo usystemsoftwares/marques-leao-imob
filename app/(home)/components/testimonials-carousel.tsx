@@ -66,7 +66,7 @@ const TestimonialsCarousel = () => {
           </ul>
         </div>
       </div>
-      <div className="block md:hidden bg-[#3E3E3E] relative mt-12 w-full h-[3px]">
+      <div className="block w-[min(90%,68rem)] mx-auto md:hidden bg-[#3E3E3E] relative mt-12 h-[3px]">
         <div className={`absolute bg-white h-full w-full origin-left scale-x-[30%]`}></div>
       </div>
     </div>
