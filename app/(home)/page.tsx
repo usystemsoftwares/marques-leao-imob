@@ -52,7 +52,7 @@ export default function Home() {
             alt="Marques e Leão"
             priority
           />
-          <SearchPropertyFilter className="absolute bottom-[20%] translate-x-1/2 z-50 right-1/2" />
+          <SearchPropertyFilter className="absolute bottom-[17.5%] translate-x-1/2 z-50 right-1/2" />
         </section>
         <section className="w-full md:w-[min(90%,80rem)] mx-auto relative">
           <div className="w-[min(90%,68rem)] mx-auto flex items-center justify-center md:justify-between">
