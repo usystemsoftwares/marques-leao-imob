@@ -39,12 +39,12 @@ export default function Home() {
       />
       <main>
         <section className="min-h-[100svh] relative w-[min(90%,80rem)] mx-auto">
-          <h1 className="text-[clamp(.75rem,5vw,2.25rem)] md:text-[clamp(.75rem,9vw,2rem)] relative z-10 font-extralight leading-none max-w-[26ch] sm:max-w-[25ch] md:max-w-[24ch] pt-[21.25rem] md:pt-40">
-            Conectamos<br /> <span className={`text-[clamp(2.5rem,12.5vw,5rem)] md:text-[5.5rem] font-bold leading-[.75] font-baskervville md:pr-8`}><strong>pessoas</strong></span> <span className="text-[clamp(.75rem,6vw,2.25rem)] ml-1 md:ml-0">a imóveis</span>
-            <span className={`flex items-center text-[clamp(2.5rem,12.5vw,5rem)] md:text-[5.5rem] leading-[1] font-baskervville before:inline-block before:w-[clamp(50%,10vw,100%)] font-bold before:h-[1px] before:bg-mainPurple`}>
+          <h1 className="text-[clamp(.75rem,4.5vw,2.25rem)] md:text-[clamp(.75rem,9vw,2rem)] relative z-10 font-extralight leading-none max-w-[24ch] sm:max-w-[25ch] md:max-w-[24ch] mx-auto md:mx-0 pt-[22rem] md:pt-40">
+            Conectamos<br /> <span className={`text-[clamp(2.5rem,12vw,5rem)] md:text-[5.5rem] font-bold leading-[.75] font-baskervville md:pr-8`}><strong>pessoas</strong></span> <span className="text-[clamp(.75rem,6vw,2.25rem)] ml-1 md:ml-0">a imóveis</span>
+            <span className={`flex items-center text-[clamp(2.5rem,12vw,5rem)] md:text-[5.5rem] leading-[1] font-baskervville before:inline-block before:w-[clamp(50%,10vw,100%)] font-bold before:h-[1px] before:bg-mainPurple`}>
               <strong className="pl-5">incríveis</strong>
             </span>
-            <span className="text-[clamp(.75rem,3.75vw,1.375rem)]">que refletem seus <span className="font-medium">ideais</span> e sua <span className="font-medium">personalidade</span></span>
+            <span className="text-[clamp(.7425rem,3vw,1.375rem)]">que refletem seus <span className="font-medium">ideais</span> e sua <span className="font-medium">personalidade</span></span>
           </h1>
           <Image
             className="absolute top-0 md:top-[-5rem] md:w-[min(100%,45rem)] right-0"
@@ -52,7 +52,7 @@ export default function Home() {
             alt="Marques e Leão"
             priority
           />
-          <SearchPropertyFilter className="absolute bottom-[20%] translate-x-1/2 z-50 right-1/2" />
+          <SearchPropertyFilter className="absolute bottom-[17.5%] translate-x-1/2 z-50 right-1/2" />
         </section>
         <section className="w-full md:w-[min(90%,80rem)] mx-auto relative">
           <div className="w-[min(90%,68rem)] mx-auto flex items-center justify-center md:justify-between">
