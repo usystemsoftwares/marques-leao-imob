@@ -106,6 +106,10 @@ const Carousel = ({ estates }: CarouselProps) => {
       .on('slideFocus', tweenScale)
   }, [emblaApi, tweenScale, setTweenFactor, setTweenNodes])
 
+  /* TODO: SCALE FROM .9 TO 1 ON FONT SIZES */
+
+  /* TODO: SCALE FROM 0 TO 1 ON HEART, BUT NOT ON EMPTY HEART */
+
   return (
     <div className="embla">
       <div className="embla__viewport" ref={emblaRef}>
@@ -128,16 +132,16 @@ const Carousel = ({ estates }: CarouselProps) => {
                       if (!activeIndex.includes(index)) return setActiveIndex([...activeIndex, index])
                       setActiveIndex(activeIndex.filter(i => i !== index))
                     }}>
-                    {activeIndex.includes(index) ?
-                      <Image
-                        className="w-8"
-                        src={SelectedHeartIcon}
-                        alt="Ícone de coração selecionado"
-                      /> : <Image
-                        className="w-8"
-                        src={HeartIcon}
-                        alt="Ícone de coração"
-                      />}
+                    <Image
+                      className={cn("w-8 absolute top-0 right-0 transition-transform duration-75 z-10 scale-0", activeIndex.includes(index) && "scale-100")}
+                      src={SelectedHeartIcon}
+                      alt="Ícone de coração selecionado"
+                    />
+                    <Image
+                      className="w-8 top-0 right-0"
+                      src={HeartIcon}
+                      alt="Ícone de coração"
+                    />
                   </button>
                   <Link className="block" href={`/imoveis/${estate.id}`}
                   >
@@ -154,21 +158,21 @@ const Carousel = ({ estates }: CarouselProps) => {
                 </Link>
                 <Link href={`/imoveis/${estate.id}`} className="absolute flex items-stretch rounded-b-lg overflow-hidden w-full bottom-0 left-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 *:py-2">
                   <div className="w-[65%] bg-white flex pl-2 md:pl-4 gap-2 md:gap-7 text-black text-[.75rem]">
-                    <span className="inline-flex gap-3 items-center">
+                    <span className="inline-flex gap-3 items-center scale-90 group-hover:scale-100 delay-75 transition-transform">
                       <Image
                         src={ResizeIcon}
                         alt="Seta que indica tamanho"
                       />
                       {estate.informacoes.areaTerro}m
                     </span>
-                    <span className="inline-flex gap-3 items-center">
+                    <span className="inline-flex gap-3 items-center scale-90 group-hover:scale-100 delay-75 transition-transform">
                       <Image
                         src={Bed}
                         alt="Cama"
                       /> {estate.informacoes.dormitorios} quartos
                     </span>
                   </div>
-                  <div className="w-[35%] flex items-center lg:block text-center bg-mainPurple px-3">Conhecer</div>
+                  <div className="w-[35%] scale-90 group-hover:scale-100 delay-75 transition-transform flex items-center lg:block text-center bg-mainPurple px-3">Conhecer</div>
                 </Link>
               </div>
             </div>

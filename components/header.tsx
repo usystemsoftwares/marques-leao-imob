@@ -77,7 +77,7 @@ const Header = () => {
       </Link>
       <motion.button
         onClick={toggleMenu}
-        className="w-7 aspect-square *:block *:h-[2px] *:bg-white fixed right-[2rem] z-[52] md:z-10 md:relative"
+        className={cn("w-7 aspect-square *:block *:h-[2px] *:bg-white fixed right-[2rem] z-[52] md:z-10 md:relative", isOpen ? "hidden" : "inline-block")}
       >
         <span></span>
         <span className="mt-[.3125rem]"></span>

@@ -49,11 +49,11 @@ const SearchPropertyFilter = ({ className }: FormProps) => {
         <input
           type="text"
           placeholder="Clique para iniciar sua busca"
-          className="w-1/2 sm:flex-1 pl-10 bg-hero-input bg-no-repeat bg-left placeholder:text-black placeholder:text-sm md:placeholder:text-base placeholder:italic text-black outline-none"
+          className="w-full sm:flex-1 pl-8 sm:pl-10 bg-hero-input bg-no-repeat bg-[size:1.5rem] sm:bg-[size:auto] bg-left placeholder:text-black placeholder:text-sm md:placeholder:text-base placeholder:italic text-black outline-none"
           onClick={toggleMenu}
         />
         <button
-          className="bg-[#2a2b2f] text-[.75rem] py-2 px-6 rounded-lg"
+          className="bg-[#2a2b2f] text-[.75rem] flex-shrink-0 py-2 px-6 rounded-lg"
           type="submit"
         >Buscar imóveis</button>
       </div>

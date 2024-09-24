@@ -42,7 +42,7 @@ const SearchPropertyFilter = ({ className }: FormProps) => {
   return (
     <form
       action="/imoveis"
-      className={cn("group w-[min(100%,71.875rem)] bg-white py-3 px-3 md:py-4 md:px-5 rounded-[.625rem]", className)}
+      className={cn("group w-[min(100%,62.5rem)] bg-white py-3 px-3 md:py-4 md:px-5 rounded-[.625rem]", className)}
       ref={inputRef}
     >
       <div className="flex justify-between">
@@ -63,7 +63,7 @@ const SearchPropertyFilter = ({ className }: FormProps) => {
         animate={isOpen ? "open" : "closed"}
         variants={sideVariants}
       >
-        <div className="md:w-[55%] *:w-[10.5rem] gap-4 *:rounded-xl *:border-black *:border">
+        <div className="md:w-[55%] *:w-[10.5rem] gap-2 *:rounded-xl *:border-black *:border">
           <Select>
             <SelectTrigger>
               <SelectValue placeholder="Estados" />
@@ -111,7 +111,7 @@ const SearchPropertyFilter = ({ className }: FormProps) => {
           </Select>
         </div>
         <div
-          className="relative justify-between w-full flex-col mt-3 md:mt-0 *:w-full *:flex *:justify-between *:border-black *:border *:rounded-lg md:flex-row gap-3 *:py-2 *:px-3 lg:before:bg-black lg:before:h-full lg:before:absolute lg:before:w-[2px]"
+          className="relative justify-between w-full flex-col mt-3 md:mt-0 *:w-full *:flex *:justify-between *:border-black *:border *:rounded-lg md:flex-row *:text-sm gap-3 *:py-2 *:px-3 lg:before:bg-black lg:before:h-full lg:before:absolute lg:before:w-[1px]"
         >
           <label className="md:ml-4">
             Valor mínimo
