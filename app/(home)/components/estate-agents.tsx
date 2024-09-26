@@ -65,7 +65,7 @@ const EstateAgents = () => {
           </motion.div>
         </motion.div>
         <ul
-          className="grid grid-cols-3 overflow-y-scroll max-h-[28.125rem] md:max-h-[47.875rem] lg:px-7 no-scrollbar"
+          className="grid grid-cols-3 lg:w-full overflow-y-scroll max-h-[28.125rem] md:max-h-[47.875rem] lg:px-7 no-scrollbar"
           ref={ref}
         >
           {corretores.map((corretor, index: number) => (

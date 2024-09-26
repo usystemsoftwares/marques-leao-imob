@@ -43,7 +43,7 @@ const TestimonialsCarousel = () => {
           <ul className="embla__container ml-4 lg:ml-0 gap-7">
             {comentarios.map(comentario => (
               <li
-                className="rounded-[1.25rem] flex-shrink-0 flex-grow-0 bg-white px-6 pt-8 pb-6 text-black text-center font-semibold w-[min(100%,15.625rem)] overflow-hidden"
+                className="rounded-[1.25rem] flex-shrink-0 flex-grow-0 bg-white px-6 pt-6 pb-4 text-black text-center font-semibold w-[min(100%,15rem)] overflow-hidden"
                 key={comentario.id}>
                 <blockquote className="w-full h-full max-w-[20ch]">
                   <Image

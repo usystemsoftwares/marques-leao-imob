@@ -67,7 +67,7 @@ export default function Home() {
         <section className="w-[min(90%,80rem)] mx-auto mt-20">
           <div className="grid place-items-center">
             <span className="flex gap-4 items-center text-[#898989] before:inline-block before:w-28 before:h-[2px] before:bg-[#898989] after:inline-block after:w-28 after:h-[2px] after:bg-[#898989]">Filtre por</span>
-            <h2 className={`text-4xl text-center md:text-start font-baskervville`}>Cidades que atendemos</h2>
+            <h2 className={`text-3xl lg:text-4xl text-center md:text-start font-baskervville`}>Cidades que atendemos</h2>
           </div>
           <div>
             <CitiesCarousel />
@@ -280,13 +280,15 @@ export default function Home() {
           <EstateAgents />
         </section>
         <section className="w-[min(90%,68rem)] relative mx-auto">
-          <div className="max-w-[35ch] mx-auto md:mx-0">
-            <span className="text-[#898989] flex gap-4 items-center after:w-[7.5rem] after:bg-[#898989] after:h-[2px]">Na mídia</span>
-            <h2 className={`text-3xl font-baskervville`}>O que falam da Marques&Leão na mídia</h2>
+          <div className="lg:w-[min(90%,65.5rem)] mx-auto">
+            <div className="max-w-[35ch] mx-auto md:mx-0">
+              <span className="text-[#898989] flex gap-4 items-center after:w-[7.5rem] after:bg-[#898989] after:h-[2px]">Na mídia</span>
+              <h2 className={`text-3xl font-baskervville`}>O que falam da Marques&Leão na mídia</h2>
+            </div>
           </div>
           <MarquesLeaoMidiaCarousel />
         </section>
-        <section className="lg:w-[min(90%,68rem)] mt-12 mb-8 mx-auto">
+        <section className="lg:w-[min(90%,65.5rem)] mt-12 mb-8 mx-auto">
           <TestimonialsCarousel />
         </section>
       </main>
