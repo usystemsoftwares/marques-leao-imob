@@ -38,12 +38,12 @@ const TestimonialsCarousel = () => {
           <div className={`absolute bg-white h-full w-full origin-left scale-x-[30%]`}></div>
         </div>
       </div>
-      <div className="embla overflow-x-hidden mt-8">
+      <div className="embla w-[min(100%,calc((13.825rem+1.5rem)*4))] overflow-x-hidden mt-8">
         <div className="embla__viewport" ref={emblaRef}>
-          <ul className="embla__container ml-4 lg:ml-0 gap-7">
+          <ul className="embla__container ml-4 gap-6">
             {comentarios.map(comentario => (
               <li
-                className="rounded-[1.25rem] flex-shrink-0 flex-grow-0 bg-white px-6 pt-6 pb-4 text-black text-center font-semibold w-[min(100%,15rem)] overflow-hidden"
+                className="rounded-[1.25rem] flex-shrink-0 flex-grow-0 bg-white px-6 pt-6 pb-4 text-black text-center font-semibold w-[min(100%,13.825rem)] overflow-hidden"
                 key={comentario.id}>
                 <blockquote className="w-full h-full max-w-[20ch]">
                   <Image
@@ -53,7 +53,7 @@ const TestimonialsCarousel = () => {
                     src={comentario.imagem}
                     alt="Foto de perfil"
                   />
-                  <p>{comentario.comentario}</p>
+                  <p className="leading-5">{comentario.comentario}</p>
                   <Image
                     className="mx-auto my-3"
                     src={Stars}

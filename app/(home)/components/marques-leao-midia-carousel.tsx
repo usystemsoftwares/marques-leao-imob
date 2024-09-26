@@ -20,11 +20,13 @@ const MarquesLeaoMidiaCarousel = () => {
   }, [emblaApi])
 
   return (
-    <div className="embla overflow-x-hidden mt-10">
+    <div className="embla overflow-x-hidden mt-2">
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container flex">
           {midia.map(midiaItem => (
-            <div className="flex-shrink-0 w-full flex-grow-0 flex md:gap-4 md:px-8 flex-col md:flex-row items-center" key={midiaItem.id}>
+            <div
+              className="flex-shrink-0 w-full flex-grow-0 flex md:gap-4 xl:gap-14 md:px-8 flex-col md:flex-row items-center"
+              key={midiaItem.id}>
               <div>
                 <Image
                   className="mx-auto w-[75%] md:w-auto md:mx-0"

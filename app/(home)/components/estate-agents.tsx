@@ -18,7 +18,7 @@ const EstateAgents = () => {
 
   return (
     <div className="lg:flex lg:flex-row-reverse lg:justify-between mt-10 lg:gap-8">
-      <div className="flex flex-col lg:block">
+      <div className="flex flex-col lg:w-[80%] lg:block">
         <div className="flex justify-between w-[80%] sm:w-[60%] mx-auto lg:mx-0 lg:w-auto sm:gap-8 items-center lg:block">
           <Image
             className="max-w-[60%] lg:max-w-full rounded-[.625rem] border-[.313rem] border-mainPurple"
@@ -56,7 +56,7 @@ const EstateAgents = () => {
         </div>
 
       </div>
-      <div className="flex justify-center lg:justify-normal">
+      <div className="flex justify-center lg:w-full lg:justify-normal">
         <motion.div className="bg-[#3E3E3E] relative w-1 lg:h-full mr-4">
           <motion.div
             className="absolute bg-white w-full h-[40%] origin-top"
