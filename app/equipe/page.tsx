@@ -1,7 +1,7 @@
 import Header from "@/components/header";
 import { WhatsappButton } from "@/components/whatsapp-btn";
 import processarFiltros from "@/utils/processar-filtros-backend";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Link from "next/link";
 import { Corretor } from "smart-imob-types";
 

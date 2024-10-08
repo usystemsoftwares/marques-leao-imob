@@ -2,7 +2,7 @@
 
 import UseEmblaCarousel from "embla-carousel-react";
 import { midia } from "@/data";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Link from "next/link";
 import { useCallback } from "react";
 import ArrowLeft from "/public/marqueseleao/arrow-left.webp";

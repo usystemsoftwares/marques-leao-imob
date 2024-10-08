@@ -1,7 +1,7 @@
 "use client"
 
 import UseEmblaCarousel from "embla-carousel-react"
-import Image from "next/image"
+import Image from "next/legacy/image"
 import CampoBom from "/public/marqueseleao/campo-bom.webp"
 import NovoHamburgo from "/public/marqueseleao/novo-hamburgo.webp"
 import SantaCatarina from "/public/marqueseleao/santa-catarina.webp"

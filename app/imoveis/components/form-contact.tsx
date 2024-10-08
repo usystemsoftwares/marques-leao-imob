@@ -1,7 +1,7 @@
 "use client";
 
 import { getUtms } from "@/utils/get-utms";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import React, { useState } from "react";
 import { Cliente } from "smart-imob-types";
 

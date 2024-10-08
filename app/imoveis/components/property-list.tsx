@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Header from "@/components/header";
 import { WhatsappButton } from "@/components/whatsapp-btn";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import PropertyFilter from "@/components/property-filter";
 import Bed from "/public/marqueseleao/cama.svg";
 import ResizeIcon from "/public/marqueseleao/resize-icon.svg";

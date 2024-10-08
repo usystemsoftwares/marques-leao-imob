@@ -1,5 +1,5 @@
 import Header from "@/components/header";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Carousel from "@/components/carousel";
 import Link from "next/link";
 

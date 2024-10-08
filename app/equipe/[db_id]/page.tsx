@@ -1,6 +1,6 @@
 import Header from "@/components/header";
 import { equipe, imoveis } from "@/data";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Link from "next/link";
 import Whatsapp from "/public/marqueseleao/white-wpp-icon.svg";
 import Instagram from "/public/marqueseleao/instagram-icon.svg";

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Baskervville, Montserrat } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/footer";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Ellipse from "/public/marqueseleao/ellipse4.webp";
 
 const baskervville = Baskervville({
