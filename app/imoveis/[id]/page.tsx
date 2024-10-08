@@ -1,32 +1,120 @@
-import Header from "@/components/header"
-import { equipe, imoveis } from "@/data"
-import Image from "next/image"
-import Carousel from "@/components/carousel"
-import Link from "next/link"
+import Header from "@/components/header";
+import Image from "next/image";
+import Carousel from "@/components/carousel";
+import Link from "next/link";
 
-import Ellipse from "/public/marqueseleao/ellipse4.webp"
+import Ellipse from "/public/marqueseleao/ellipse4.webp";
 
-import LocationIcon from "/public/marqueseleao/location-icon.svg"
+import LocationIcon from "/public/marqueseleao/location-icon.svg";
 
-import EstateBedIcon from "/public/marqueseleao/estate-bed-icon.svg"
-import BathIcon from "/public/marqueseleao/bath-icon.svg"
-import CarIcon from "/public/marqueseleao/car-icon.svg"
-import DimensionIcon from "/public/marqueseleao/dimension-icon.svg"
+import EstateBedIcon from "/public/marqueseleao/estate-bed-icon.svg";
+import BathIcon from "/public/marqueseleao/bath-icon.svg";
+import CarIcon from "/public/marqueseleao/car-icon.svg";
+import DimensionIcon from "/public/marqueseleao/dimension-icon.svg";
 
-import CheckIcon from "/public/marqueseleao/check-icon.svg"
+import CheckIcon from "/public/marqueseleao/check-icon.svg";
 
-import Whatsapp from "/public/marqueseleao/white-wpp-icon.svg"
-import Instagram from "/public/marqueseleao/instagram-icon.svg"
-import PropertiesFilter from "../components/properties-filter"
+import Whatsapp from "/public/marqueseleao/white-wpp-icon.svg";
+import Instagram from "/public/marqueseleao/instagram-icon.svg";
+import PropertiesFilter from "../components/properties-filter";
+import { notFound } from "next/navigation";
+import { Corretor, Empreendimento, Empresa, Imóvel } from "smart-imob-types";
+import getWhatsappLink from "@/utils/generate_phone_href";
+import { toBRL } from "@/utils/toBrl";
+import { getPhotos } from "@/utils/get-photos";
+import FormContact from "../components/form-contact";
 
-const RealEstatePage = ({
-  params: { id }
+async function getData(
+  houseId: string,
+  afiliado: any
+): Promise<{
+  empresa: Empresa;
+  imovel: Imóvel | null;
+  corretor: Corretor | null;
+  temporada: any;
+  empreendimento: Empreendimento;
+}> {
+  const uri =
+    process.env.BACKEND_API_URI ?? process.env.NEXT_PUBLIC_BACKEND_API_URI;
+  const empresa_id: any =
+    process.env.EMPRESA_ID ?? process.env.NEXT_PUBLIC_EMPRESA_ID;
+
+  const dataImovel = await fetch(`${uri}/imoveis/site/${houseId}`, {
+    next: { tags: [`imovel-${houseId}`] },
+  });
+  const empresa = await fetch(`${uri}/empresas/site/${empresa_id}`, {
+    next: { tags: ["empresas"] },
+  });
+
+  if (!empresa.ok || !dataImovel.ok) {
+    notFound();
+  }
+
+  const parseJSON = async (response: Response) => {
+    try {
+      return await response.json();
+    } catch (error) {
+      console.error("Failed to parse JSON:", error);
+      return null;
+    }
+  };
+
+  const imovel = await parseJSON(dataImovel);
+  const corretor = imovel?.agenciador_id
+    ? await fetch(`${uri}/corretores/${afiliado ?? imovel.agenciador_id}`, {
+        next: { tags: [`corretores-${afiliado ?? imovel.agenciador_id}`] },
+      }).then(parseJSON)
+    : null;
+
+  const temporada = imovel?.temporada
+    ? await fetch(`${uri}/reservas/imovel/${imovel.db_id}`, {
+        next: { tags: [`reservas-${imovel.db_id}`] },
+      }).then(parseJSON)
+    : null;
+
+  const empreendimento = imovel?.empreendimento_id
+    ? await fetch(`${uri}/empreendimentos/${imovel.empreendimento_id}`, {
+        next: { tags: [`empreendimento-${imovel.empreendimento_id}`] },
+      }).then(parseJSON)
+    : null;
+
+  return {
+    empresa: await parseJSON(empresa),
+    imovel,
+    corretor,
+    temporada,
+    empreendimento,
+  };
+}
+
+const RealEstatePage = async ({
+  params,
+  searchParams,
 }: {
-  params: { id: string }
+  params: { id: string };
+  searchParams: { [key: string]: any };
 }) => {
-  const [estate] = imoveis.filter(imovel => imovel.id === id)
-  const relatedEstates = imoveis.filter(imovel => estate.imoveisRelacionados.includes(imovel.id))
-  const [estateAgent] = equipe.filter(agent => agent.link == estate.corretor)
+  const { id } = params;
+  const afiliado = searchParams.afiliado || "";
+  const VerFotos = searchParams.VerFotos === "true";
+  const uid = searchParams.uid || "";
+
+  const { imovel, corretor, temporada, empreendimento, empresa } =
+    await getData(id, afiliado);
+
+  // const relatedEstates = imoveis.filter((imovel) =>
+  //   (imovel.imoveisRelacionados || []).includes(imovel.id)
+  // );
+  const relatedEstates = [];
+  const fotos = getPhotos(
+    empresa,
+    imovel,
+    imovel?.fotos || [],
+    !!uid,
+    VerFotos
+  );
+
+  if (!imovel) return <></>
 
   return (
     <div className="bg-menu bg-no-repeat">
@@ -35,51 +123,34 @@ const RealEstatePage = ({
       <main className="mt-8">
         <section>
           <ul className="w-[calc(100%-2rem)] mx-auto grid gap-2 md:grid-cols-2">
-            {estate.fotos.map((url, index) => {
-              /* index começa como 0 e o método length não, então temos que adicionar 1 no index para a expressão fazer sentido */
-              if (index + 1 != estate.fotos.length) {
+            {fotos.map(({ resized, destaque, source }, index) => {
+              if (index + 1 != fotos.length) {
                 return (
-                  <li key={url}>
+                  <li key={index}>
                     <Image
                       className="rounded-[.625rem]"
-                      src={url}
+                      src={source.uri || resized || ""}
                       alt="Imóvel"
                       width={924}
                       height={598}
                     />
                   </li>
-                )
+                );
               }
               return (
-                <li
-                  className="relative rounded-[.625rem] overflow-hidden after:absolute after:inset-0 after:backdrop-blur-sm"
-                  key={url}>
-                  <form
-                    action=""
-                    className="absolute w-[min(100%,19.875rem)] px-2 text-black right-1/2 translate-x-1/2 bottom-1/2 translate-y-1/2 z-10"
-                  >
-                    <p className="lg:text-lg text-center font-medium">
-                      <span className="block -mb-2 font-bold sm:text-3xl md:text-base lg:text-3xl">Acesso completo</span>
-                      a todo o site em <strong>10 segundos</strong></p>
-                    <div className="mt-2 flex flex-col items-center *:w-full md:*:w-[80%] lg:*:w-full *:outline-0 gap-2">
-                      <input type="text" placeholder="Nome Completo" className="font-normal px-2 py-1 sm:px-3 sm:py-2 rounded-md" />
-                      <input type="tel" placeholder="Telefone" className="font-normal px-2 py-1 sm:px-3 sm:py-2 rounded-md" />
-                      <input type="email" placeholder="E-mail" className="font-normal px-2 py-1 sm:px-3 sm:py-2 rounded-md" />
-                      <button
-                        className="bg-mainPurple text-white rounded-full py-1 sm:py-2"
-                        type="submit"
-                      >Ver fotos</button>
-                    </div>
-                  </form>
-                  <Image
-                    className="rounded-[.625rem]"
-                    src={url}
-                    alt="Imóvel"
-                    width={924}
-                    height={598}
-                  />
-                </li>
-              )
+                <FormContact
+                  key={index}
+                  index={index}
+                  source={source}
+                  resized={resized}
+                  afiliado_id={afiliado}
+                  agenciador_id={imovel.agenciador_id}
+                  imovel_id={imovel.db_id}
+                  imovel_codigo={imovel.codigo}
+                  temporada={imovel.temporada || false}
+                  empresa_id={imovel.empresa_id}
+                />
+              );
             })}
           </ul>
         </section>
@@ -98,90 +169,257 @@ const RealEstatePage = ({
           />
           <div className="lg:w-[55%]">
             <div className="mb-8">
-              <span className="text-[#707070]">Casa à venda · {estate.estado} · {estate.cidade} · Cód {estate.codigo}</span>
-              <h1 className="text-4xl mt-6 font-bold">{estate.titulo}</h1>
+              <span className="text-[#707070]">
+                Casa à venda · {imovel.estado?.nome} · {imovel.cidade?.nome} ·
+                Cód {imovel.codigo}
+              </span>
+              <h1 className="text-4xl mt-6 font-bold">{imovel.titulo}</h1>
               <div className="mt-4 flex items-center gap-3">
-                {estate &&
-                  <span className="inline-block bg-[#530944] py-[.35rem] px-4 rounded-r-lg rounded-tl-lg">EXCLUSIVIDADE</span>
-                }
-                {estate.desconto &&
-                  <span className="bg-[#095310] py-[.35rem] px-4 rounded-r-lg rounded-tl-lg">imóvel COM DESCONTO</span>
-                }
-                <p className="text-[#707070]">casa para comprar em<br /></p>
+                {imovel && (
+                  <span className="inline-block bg-[#530944] py-[.35rem] px-4 rounded-r-lg rounded-tl-lg">
+                    EXCLUSIVIDADE
+                  </span>
+                )}
+                {imovel["preço_venda_desconto"] && (
+                  <span className="bg-[#095310] py-[.35rem] px-4 rounded-r-lg rounded-tl-lg">
+                    imóvel COM DESCONTO
+                  </span>
+                )}
+                <p className="text-[#707070]">
+                  casa para comprar em
+                  <br />
+                </p>
               </div>
-              <p className="mt-3 flex gap-3 underline"><Image src={LocationIcon} alt="Ícone de localização" /> {estate.bairro}, {estate.cidade}</p>
-              <p className="text-5xl lg:text-[clamp(2.75rem,4.8vw,3.75rem)] font-semibold mt-5">R$ {estate.valores.precoVenda}</p>
-              <p className="mt-4 text-[#707070]">Condomínio: R$ {estate.valores.condominio} · IPTU Anual: R$ {estate.valores.iptu}</p>
+              <p className="mt-3 flex gap-3 underline">
+                <Image src={LocationIcon} alt="Ícone de localização" />{" "}
+                {imovel.bairro}, {imovel.cidade?.nome}
+              </p>
+              <p className="text-5xl lg:text-[clamp(2.75rem,4.8vw,3.75rem)] font-semibold mt-5">
+                {!!imovel["preço_venda_desconto"] &&
+                Number(imovel["preço_venda_desconto"]) > 0 &&
+                (imovel["venda_exibir_valor_no_site"] === undefined ||
+                  imovel["venda_exibir_valor_no_site"] === true) ? (
+                  <>
+                    <span
+                      style={{
+                        textDecoration: "line-through",
+                        marginRight: "0.5rem",
+                      }}
+                    >
+                      {toBRL(imovel.preço_venda)}
+                    </span>
+                    {toBRL(Number(imovel.preço_venda_desconto))}
+                  </>
+                ) : !!imovel["preço_venda"] &&
+                  Number(imovel["preço_venda"]) > 0 &&
+                  (imovel["venda_exibir_valor_no_site"] === undefined ||
+                    imovel["venda_exibir_valor_no_site"] === true) ? (
+                  <>{toBRL(imovel["preço_venda"])}</>
+                ) : imovel.venda &&
+                  imovel["preço_venda"] &&
+                  imovel["venda_exibir_valor_no_site"] === false ? (
+                  <>Consulte-nos</>
+                ) : null}
+
+                {!!imovel["preço_locação_desconto"] &&
+                Number(imovel["preço_locação_desconto"]) > 0 &&
+                (imovel["locação_exibir_valor_no_site"] === undefined ||
+                  imovel["locação_exibir_valor_no_site"] === true) ? (
+                  <>
+                    <span
+                      style={{
+                        textDecoration: "line-through",
+                        marginLeft: "1rem",
+                        marginRight: "0.5rem",
+                      }}
+                    >
+                      {toBRL(imovel.preço_locação)} / locação
+                    </span>
+                    {toBRL(Number(imovel.preço_locação_desconto))} / locação
+                  </>
+                ) : !!imovel.preço_locação &&
+                  Number(imovel.preço_locação) > 0 &&
+                  (imovel.locação_exibir_valor_no_site === undefined ||
+                    imovel.locação_exibir_valor_no_site === true) ? (
+                  <>
+                    <span style={{ marginLeft: "1rem" }}>
+                      {toBRL(imovel.preço_locação)} / locação
+                    </span>
+                  </>
+                ) : imovel.locação &&
+                  imovel.preço_locação &&
+                  imovel.locação_exibir_valor_no_site === false ? (
+                  <>
+                    <span style={{ marginLeft: "1rem" }}>
+                      Consulte-nos / locação
+                    </span>
+                  </>
+                ) : null}
+
+                {imovel.temporada && imovel["padrao_diaria"] && (
+                  <>
+                    <span style={{ marginLeft: "1rem" }}>
+                      Diária: {toBRL(imovel.padrao_diaria)}
+                    </span>
+                  </>
+                )}
+              </p>
+              <p className="mt-4 text-[#707070]">
+                {!!(
+                  Number(imovel.preço_condominio) &&
+                  imovel.preço_condominio !== 0
+                )
+                  ? `Condomínio: ${toBRL(Number(imovel.preço_condominio))} `
+                  : null}
+                {!!(Number(imovel.IPTU) && imovel.IPTU !== 0)
+                  ? `  IPTU Anual: ${toBRL(Number(imovel.IPTU))}`
+                  : null}
+              </p>
               <ul className="mt-12 flex text-[#E9E9E9] font-light items-center text-center text-sm gap-6 flex-wrap">
-                <li><Image className="mx-auto mb-3" src={DimensionIcon} alt="Dimensão" /> Área do Terreno <br />{estate.informacoes.areaTerro} m</li>
-                <li><Image className="mx-auto mb-3" src={DimensionIcon} alt="Dimensão" /> Área privativa <br />{estate.informacoes.areaPrivativa} m</li>
-                <li><Image className="mx-auto mb-3" src={EstateBedIcon} alt="Cama" /> {estate.informacoes.dormitorios} dormitórios <br /> 1 suíte</li>
-                <li><Image className="mx-auto mb-3" src={CarIcon} alt="Carro" />{estate.informacoes.vagasGaragem} vagas <br /> de garagem</li>
-                <li><Image className="mx-auto mb-3" src={BathIcon} alt="Banheiro" /> {estate.informacoes.banheiros} banheiros</li>
+                {imovel.area_terreno ? (
+                  <li>
+                    <Image
+                      className="mx-auto mb-3"
+                      src={DimensionIcon}
+                      alt="Dimensão"
+                    />{" "}
+                    Área do Terreno <br />
+                    {imovel.area_terreno} m
+                  </li>
+                ) : (
+                  <></>
+                )}
+                {imovel.area_privativa ? (
+                  <li>
+                    <Image
+                      className="mx-auto mb-3"
+                      src={DimensionIcon}
+                      alt="Dimensão"
+                    />{" "}
+                    Área privativa <br />
+                    {imovel.area_privativa} m
+                  </li>
+                ) : (
+                  <></>
+                )}
+                {imovel.dormitórios ? (
+                  <li>
+                    <Image
+                      className="mx-auto mb-3"
+                      src={EstateBedIcon}
+                      alt="Cama"
+                    />{" "}
+                    {imovel.dormitórios} dormitórios <br />{" "}
+                    {imovel.suítes ? `${imovel.suítes} suíte` : ""}
+                  </li>
+                ) : (
+                  <></>
+                )}
+                {imovel.vagas ? (
+                  <li>
+                    <Image className="mx-auto mb-3" src={CarIcon} alt="Carro" />
+                    {imovel.vagas} vagas <br /> de garagem
+                  </li>
+                ) : (
+                  <></>
+                )}
+                {imovel.banheiros ? (
+                  <li>
+                    <Image
+                      className="mx-auto mb-3"
+                      src={BathIcon}
+                      alt="Banheiro"
+                    />{" "}
+                    {imovel.banheiros} banheiros
+                  </li>
+                ) : (
+                  <></>
+                )}
               </ul>
             </div>
             <div className="pt-8 border-t border-[#707070]">
-              <h2 className="text-3xl mb-6 font-semibold">Descrição do imóvel</h2>
-              <p className="text-[#E9E9E9] text-lg font-light">{estate.descricao}</p>
+              <h2 className="text-3xl mb-6 font-semibold">
+                Descrição do imóvel
+              </h2>
+              <p className="text-[#E9E9E9] text-lg font-light">
+                {imovel["descrição"] && (
+                  <div
+                    dangerouslySetInnerHTML={{ __html: imovel["descrição"] }}
+                  ></div>
+                )}
+              </p>
             </div>
-            <div className="mt-8">
-              <h3 className={`text-3xl font-baskervville tracking-wide`}>Informações adicionais</h3>
-              <ul className="mt-3 grid font-light text-[#E9E9E9] gap-2 lg:grid-cols-2">{estate.informacoesAdicionais.map(info => (
-                <li className="flex items-end gap-3" key={info}>
-                  <Image
-                    src={CheckIcon}
-                    alt="Verificado"
-                  />
-                  {info}
-                </li>
-              ))}</ul>
-            </div>
+            {imovel.caracteristicas && imovel.caracteristicas.length > 0 && (
+              <div className="mt-8">
+                <h3 className={`text-3xl font-baskervville tracking-wide`}>
+                  Informações adicionais
+                </h3>
+                <ul className="mt-3 grid font-light text-[#E9E9E9] gap-2 lg:grid-cols-2">
+                  {(imovel.caracteristicas || []).map((info) => (
+                    <li className="flex items-end gap-3" key={info.id}>
+                      <Image src={CheckIcon} alt="Verificado" />
+                      {info.nome}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
-          <div className="mt-12 lg:mt-0 lg:w-[45%]">
-            <Link
-              className="inline-block max-w-[23.125rem]"
-              href={`/equipe/${estateAgent.link}`}
-            >
-              <Image
-                className="rounded-[.625rem]"
-                src={estateAgent.imagem}
-                alt={estateAgent.nome}
-                width={370}
-                height={452}
-              />
-            </Link>
-            <h2 className={`text-5xl lg:text-[clamp(3rem,5vw,3.75rem)] mt-5 font-baskervville`}>{estateAgent.nome}</h2>
-            <p className="mt-3 mb-5">{estateAgent.texto1}</p>
-            <div className="lg:mr-10 flex flex-wrap lg:flex-nowrap gap-4 lg:gap-8 *:flex *:gap-2 *:items-center *:justify-center *:text-[1.0625rem] *:border-2 *:py-2 *:px-8 lg:px-0 lg:*:w-full *:rounded-lg">
+          {corretor && corretor.aparecer_site && (
+            <div className="mt-12 lg:mt-0 lg:w-[45%]">
               <Link
-                className="bg-[#108D10] border-transparent"
-                href="#">
+                className="inline-block max-w-[23.125rem]"
+                href={`/equipe/${corretor?.db_id}`}
+              >
                 <Image
-                  src={Whatsapp}
-                  alt="Whatsapp"
-                /> WhatsApp</Link>
-              <Link
-                className="border-white"
-                href="#">
-                <Image
-                  src={Instagram}
-                  alt="Instagram"
-                /> Instagram</Link>
+                  className="rounded-[.625rem]"
+                  src={corretor?.foto ?? ""}
+                  alt={corretor?.nome}
+                  width={370}
+                  height={452}
+                />
+              </Link>
+              <h2
+                className={`text-5xl lg:text-[clamp(3rem,5vw,3.75rem)] mt-5 font-baskervville`}
+              >
+                {corretor.nome}
+              </h2>
+              <p className="mt-3 mb-5">{corretor.setor}</p>
+              <div className="lg:mr-10 flex flex-wrap lg:flex-nowrap gap-4 lg:gap-8 *:flex *:gap-2 *:items-center *:justify-center *:text-[1.0625rem] *:border-2 *:py-2 *:px-8 lg:px-0 lg:*:w-full *:rounded-lg">
+                {(corretor.telefone || corretor.whatsapp) && (
+                  <Link
+                    className="bg-[#108D10] border-transparent"
+                    href={getWhatsappLink(corretor)}
+                    target="_blank"
+                  >
+                    <Image src={Whatsapp} alt="Whatsapp" /> WhatsApp
+                  </Link>
+                )}
+                {corretor.instagram && (
+                  <Link className="border-white" href="#">
+                    <Image src={Instagram} alt="Instagram" /> Instagram
+                  </Link>
+                )}
+              </div>
             </div>
-          </div>
+          )}
         </section>
         <section className="mt-12 mb-20">
           <div className="w-[min(90%,68rem)] mx-auto -mb-12">
-            <span className="flex gap-4 items-center text-[#898989] after:inline-block after:w-28 after:h-[2px] after:bg-[#898989]">Relacionados</span>
-            <h2 className={`text-3xl font-baskervville`}>Imóveis Relacionados</h2>
+            <span className="flex gap-4 items-center text-[#898989] after:inline-block after:w-28 after:h-[2px] after:bg-[#898989]">
+              Relacionados
+            </span>
+            <h2 className={`text-3xl font-baskervville`}>
+              Imóveis Relacionados
+            </h2>
           </div>
-          <div className="w-full md:w-[min(90%,80rem)] mx-auto pt-12 relative">
-            <Carousel estates={relatedEstates} />
-          </div>
+          {/* <div className="w-full md:w-[min(90%,80rem)] mx-auto pt-12 relative">
+            <Carousel estates={relatedEstates}  /> // TODO carregar imagens
+          </div> */}
         </section>
       </main>
     </div>
-  )
-}
+  );
+};
 
-export default RealEstatePage
+export default RealEstatePage;

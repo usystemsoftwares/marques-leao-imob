@@ -5,15 +5,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
-
-interface Corretor {
-  db_id: number;
-  nome: string;
-  foto: string;
-  bio: string;
-  qtdImoveis: number;
-  anos_de_experiencia: number;
-}
+import { Corretor } from "smart-imob-types";
 
 const EstateAgents = ({ corretores }: { corretores: Corretor[] }) => {
   const [currentEstateAgent, setCurrentEstateAgent] = useState<number>(0);
@@ -23,18 +15,20 @@ const EstateAgents = ({ corretores }: { corretores: Corretor[] }) => {
   });
 
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "150%"]);
+  const shouldApplyMaxHeight = corretores.length > 6;
 
   return (
     <div className="lg:flex lg:flex-row-reverse lg:justify-between mt-10 lg:gap-8">
       <div className="flex flex-col lg:w-[80%] lg:block">
-        <div className="flex justify-between w-[80%] sm:w-[60%] mx-auto lg:mx-0 lg:w-auto sm:gap-8 items-center lg:block">
-          <Image
-            className="max-w-[60%] lg:max-w-full rounded-[.625rem] border-[.313rem] border-mainPurple object-cover"
-            src={corretores[currentEstateAgent].foto}
-            width={370}
-            height={452}
-            alt={corretores[currentEstateAgent].nome}
-          />
+        <div className="flex justify-between items-center w-[80%] sm:w-[60%] mx-auto lg:mx-0 lg:w-auto sm:gap-8 lg:block">
+          <div className="relative max-w-[60%] lg:max-w-full rounded-[.625rem] border-[.313rem] border-mainPurple w-[370px] h-[452px] mx-auto lg:mx-0 overflow-hidden">
+            <Image
+              className="object-cover"
+              layout="fill"
+              src={corretores[currentEstateAgent].foto || ""}
+              alt={corretores[currentEstateAgent].nome}
+            />
+          </div>
           <div className="lg:hidden mt-7 gap-8">
             <p>
               <span className="text-3xl block font-bold">
@@ -61,7 +55,7 @@ const EstateAgents = ({ corretores }: { corretores: Corretor[] }) => {
           </p>
           <Link
             className="inline-block w-fit mb-5 lg:mb-0 lg:hidden bg-mainPurple hover:bg-white hover:text-black mt-3 md:text-center transition-colors text-sm py-3 px-12 rounded-lg"
-            href=""
+            href={`/equipe/${corretores[currentEstateAgent].db_id}`}
           >
             Conhecer {corretores[currentEstateAgent].nome}
           </Link>
@@ -88,14 +82,21 @@ const EstateAgents = ({ corretores }: { corretores: Corretor[] }) => {
         </div>
       </div>
       <div className="flex justify-center lg:w-full lg:justify-normal">
-        <motion.div className="bg-[#3E3E3E] relative w-1 lg:h-full mr-4">
-          <motion.div
-            className="absolute bg-white w-full h-[40%] origin-top"
-            style={{ y }}
-          ></motion.div>
-        </motion.div>
+        {shouldApplyMaxHeight && (
+          <motion.div className="bg-[#3E3E3E] relative w-1 lg:h-full mr-4">
+            <motion.div
+              className="absolute bg-white w-full h-[40%] origin-top"
+              style={{ y }}
+            ></motion.div>
+          </motion.div>
+        )}
         <ul
-          className="grid grid-cols-3 lg:w-full overflow-y-scroll max-h-[28.125rem] md:max-h-[47.875rem] lg:px-7 no-scrollbar"
+          className={cn(
+            "grid grid-cols-3 lg:w-full overflow-y-scroll lg:px-7 no-scrollbar gap-0",
+            shouldApplyMaxHeight
+              ? "max-h-[28.125rem] md:max-h-[47.875rem]"
+              : "max-h-full"
+          )}
           ref={ref}
         >
           {corretores.map((corretor, index: number) => (
@@ -103,19 +104,20 @@ const EstateAgents = ({ corretores }: { corretores: Corretor[] }) => {
               key={corretor.db_id}
               onClick={() => setCurrentEstateAgent(index)}
               className={cn(
-                "cursor-pointer rounded-[.625rem]",
+                "cursor-pointer rounded-[.625rem] overflow-hidden relative w-full h-[244px]", // Mantém a altura e largura
                 index === currentEstateAgent
                   ? "border-[.313rem] border-mainPurple"
                   : ""
               )}
             >
-              <Image
-                className="rounded-[.625rem] object-cover"
-                width={202}
-                height={244}
-                src={corretor.foto}
-                alt={corretor.nome}
-              />
+              <div className="relative w-full h-full">
+                <Image
+                  className="rounded-[.625rem] object-cover"
+                  layout="fill"
+                  src={corretor.foto || ""}
+                  alt={corretor.nome}
+                />
+              </div>
             </li>
           ))}
         </ul>
