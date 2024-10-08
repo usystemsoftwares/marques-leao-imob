@@ -1,7 +1,7 @@
 import Header from "@/components/header";
 import SearchPropertyFilter from "./components/search-property-filter";
 import { WhatsappButton } from "@/components/whatsapp-btn";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Link from "next/link";
 import MarquesELeao from "/public/marqueseleao/marques-leao.webp";
 import Lancamentos from "/public/marqueseleao/lancamentos.webp";

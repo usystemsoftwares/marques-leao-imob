@@ -1,6 +1,6 @@
 "use client";
 import Header from "@/components/header";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import CheckIcon from "/public/marqueseleao/check-icon.svg";
 import Link from "next/link";
 

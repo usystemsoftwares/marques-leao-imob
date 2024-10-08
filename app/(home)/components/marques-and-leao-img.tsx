@@ -1,6 +1,6 @@
 "use client"
 
-import Image from "next/image"
+import Image from "next/legacy/image"
 import PabloEGabriel from "/public/marqueseleao/foto-pablo-e-gabriel.webp"
 import { useState } from "react"
 import { motion } from "framer-motion"

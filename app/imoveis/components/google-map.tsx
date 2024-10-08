@@ -6,7 +6,7 @@ import {
   InfoWindow as InfoWindowReact,
   Map,
 } from "@vis.gl/react-google-maps";
-import Image, { StaticImageData } from "next/image";
+import Image, { StaticImageData } from "next/legacy/image";
 import { useEffect, useState } from "react";
 import GoogleMapsCarousel from "./googlemaps-carousel";
 import MapsArrow from "/public/marqueseleao/maps-arrow.svg";

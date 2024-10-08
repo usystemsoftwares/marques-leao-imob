@@ -3,7 +3,7 @@
 import UseEmblaCarousel from "embla-carousel-react";
 import { EmblaCarouselType } from "embla-carousel";
 import { comentarios } from "@/data";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Stars from "/public/marqueseleao/stars.svg";
 import { useCallback, useEffect, useState } from "react";
 import { Depoimento } from "smart-imob-types";

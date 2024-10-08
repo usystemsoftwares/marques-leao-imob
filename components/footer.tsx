@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "next/legacy/image";
 
 import MarquesLeaoLogo from "/public/marqueseleao/Logo-Marques-Leao.webp";
 import MarquesInstagram from "/public/marqueseleao/marques-instagram.webp";

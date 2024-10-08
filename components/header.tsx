@@ -1,7 +1,7 @@
 "use client"
 
 import { cn } from "@/lib/utils"
-import Image from "next/image"
+import Image from "next/legacy/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
