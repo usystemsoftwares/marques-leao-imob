@@ -1,9 +1,8 @@
-// ListingStayPage.tsx
 import { Imóvel } from "smart-imob-types";
 import processarFiltros from "@/utils/processar-filtros-backend";
 import checkFetchStatus from "@/utils/checkFetchStatus";
 import ordenacoesBackend from "@/utils/processar-ordenacoes-backend";
-import PropertyList from "./components/property-list";
+import SearchPropertyFilter from "./search-property-filter";
 
 const PAGE_SIZE = 12;
 
@@ -21,7 +20,6 @@ async function getData(filtros: any): Promise<{
   tipos: any[];
   codigos: any[];
 }> {
-  const { pagina = 1, ordem = 1, ...rest } = filtros;
   const uri =
     process.env.BACKEND_API_URI ?? process.env.NEXT_PUBLIC_BACKEND_API_URI;
   const empresa_id: any =
@@ -29,11 +27,9 @@ async function getData(filtros: any): Promise<{
 
   const params_imoveis = new URLSearchParams({
     limit: PAGE_SIZE.toString(),
-    startAt: (((pagina ?? 1) - 1) * PAGE_SIZE).toString(),
-    filtros: JSON.stringify(processarFiltros(rest)),
-    order: JSON.stringify(
-      ordem && ordem > 0 ? [ordenacoesBackend[ordem ?? 1]] : []
-    ),
+    startAt: (0).toString(),
+    filtros: JSON.stringify(processarFiltros(filtros)),
+    order: JSON.stringify([ordenacoesBackend[1]]),
     empresa_id,
   });
 
@@ -125,20 +121,22 @@ async function getData(filtros: any): Promise<{
   };
 }
 
-export default async function ListingStayPage({
+export default async function HomeFilter({
+  className,
   params,
   searchParams,
 }: {
-  params: { slug: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+  className?: string;
+  params?: { slug: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-
   const { imoveis, estados, cidades, bairros, tipos, codigos } = await getData(
     searchParams
   );
   return (
     <div>
-      <PropertyList
+      <SearchPropertyFilter
+        className={className}
         imoveis={imoveis.nodes}
         estados={estados.nodes}
         cidades={cidades}

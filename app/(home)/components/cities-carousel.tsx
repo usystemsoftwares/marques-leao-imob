@@ -16,7 +16,7 @@ const CitiesCarousel = () => {
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container *:w-[min(100%,16.875rem)] *:cursor-pointer *:h-[9.313rem] *:md:h-auto *:overflow-hidden *:rounded-[.625rem] md:*:rounded-lg *:relative *:flex-shrink-0 *:flex-grow-0 gap-6 md:gap-12">
           <Link
-            href="/imoveis"
+            href="/imoveis?cidade.nome=Novo Hamburgo"
             className="group"
           >
             <Image
@@ -27,7 +27,7 @@ const CitiesCarousel = () => {
             <p className="absolute bottom-0 text-center w-full py-2 bg-[#666666] bg-opacity-60 group-hover:opacity-0 transition-opacity">Novo Hamburgo</p>
           </Link>
           <Link
-            href="/imoveis"
+            href="/imoveis?cidade.nome=Campo Bom"
             className="group"
           >
             <Image
@@ -38,7 +38,7 @@ const CitiesCarousel = () => {
             <p className="absolute bottom-0 text-center w-full py-2 bg-[#666666] bg-opacity-60 group-hover:opacity-0 transition-opacity">Campo Bom</p>
           </Link>
           <Link
-            href="/imoveis"
+            href="/imoveis?cidade.nome=Estancia Velha"
             className="group"
           >
             <Image
@@ -49,7 +49,7 @@ const CitiesCarousel = () => {
             <p className="absolute bottom-0 text-center w-full py-2 bg-[#666666] bg-opacity-60 group-hover:opacity-0 transition-opacity">Estancia Velha</p>
           </Link>
           <Link
-            href="/imoveis"
+            href="/imoveis?cidade.nome=Santa Catarina"
             className="group"
           >
             <Image
