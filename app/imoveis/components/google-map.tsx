@@ -54,11 +54,11 @@ const GoogleMap = ({
     { bg: "#095310", clr: "#fff" },
   ];
 
-  const getColorForIndex = (index: number) => {
-    return predefinedColors[index % predefinedColors.length];
-  };
-
   useEffect(() => {
+    const getColorForIndex = (index: number) => {
+      return predefinedColors[index % predefinedColors.length];
+    };
+
     const objs: any = imoveis.map((imovel, index) => {
       const color = getColorForIndex(index);
       return {
@@ -74,7 +74,7 @@ const GoogleMap = ({
       };
     });
     setMarkers(objs);
-  }, [imoveis, getColorForIndex]);
+  }, [imoveis]);
 
   return (
     <APIProvider apiKey={process.env.NEXT_PUBLIC_MAPS_API_KEY as string}>
@@ -95,8 +95,9 @@ const GoogleMap = ({
             alt="Seta para esquerda"
             style={{
               maxWidth: "100%",
-              height: "auto"
-            }} />
+              height: "auto",
+            }}
+          />
         </button>
         {(markers || []).map((marker) => (
           <AdvancedMarker
