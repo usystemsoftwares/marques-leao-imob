@@ -1,3 +1,5 @@
+"use client";
+
 import { Empresa, Foto, Imóvel } from "smart-imob-types";
 
 export function getPhotos(

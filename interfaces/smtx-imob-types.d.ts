@@ -262,6 +262,7 @@ declare module "smart-imob-types" {
   }
 
   interface Empresa {
+    telefone?: string;
     bairros_disponiveis: BairroDisponivel[];
     banner: string[];
     modelo_gen_01: ModeloGen;

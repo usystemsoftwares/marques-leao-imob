@@ -3,7 +3,7 @@
 import UseEmblaCarousel from "embla-carousel-react";
 import { useCallback, useState } from "react";
 
-import Image from "next/legacy/image";
+import Image from "next/image";
 import Link from "next/link";
 
 import Bed from "/public/marqueseleao/cama.svg";
@@ -62,13 +62,19 @@ const GoogleMapsCarousel = ({ estates }: CarouselProps) => {
                         className="w-8"
                         src={SelectedHeartIcon}
                         alt="Ícone de coração selecionado"
-                      />
+                        style={{
+                          maxWidth: "100%",
+                          height: "auto"
+                        }} />
                     ) : (
                       <Image
                         className="w-8"
                         src={HeartIcon}
                         alt="Ícone de coração"
-                      />
+                        style={{
+                          maxWidth: "100%",
+                          height: "auto"
+                        }} />
                     )}
                   </button>
                   <Link className="block" href={`/imoveis/${estate.db_id}`}>
@@ -78,7 +84,10 @@ const GoogleMapsCarousel = ({ estates }: CarouselProps) => {
                       alt={estate.titulo || ""}
                       width={538}
                       height={375}
-                    />
+                      style={{
+                        maxWidth: "100%",
+                        height: "auto"
+                      }} />
                   </Link>
                 </div>
                 <Link
@@ -108,12 +117,24 @@ const GoogleMapsCarousel = ({ estates }: CarouselProps) => {
                 >
                   <div className="w-[65%] bg-white flex pl-2 md:pl-4 gap-2 md:gap-7 text-black text-[.75rem]">
                     <span className="inline-flex gap-3 items-center">
-                      <Image src={ResizeIcon} alt="Seta que indica tamanho" />
+                      <Image
+                        src={ResizeIcon}
+                        alt="Seta que indica tamanho"
+                        style={{
+                          maxWidth: "100%",
+                          height: "auto"
+                        }} />
                       {getSingleArea(estate)}
                     </span>
                     {estate.dormitórios && !estate.não_mostrar_dormítorios && (
                       <span className="inline-flex gap-3 items-center">
-                        <Image src={Bed} alt="Cama" /> {estate.dormitórios}{" "}
+                        <Image
+                          src={Bed}
+                          alt="Cama"
+                          style={{
+                            maxWidth: "100%",
+                            height: "auto"
+                          }} /> {estate.dormitórios}{" "}
                         quarto
                         {`${Number(estate.dormitórios || 0) > 1 ? "s" : ""}`}
                       </span>
@@ -133,7 +154,13 @@ const GoogleMapsCarousel = ({ estates }: CarouselProps) => {
           className="embla__prev absolute top-1/2 translate-y-1/2 left-[5%]"
           onClick={scrollPrev}
         >
-          <Image src={ArrowLeft} alt="Seta para esquerda" />
+          <Image
+            src={ArrowLeft}
+            alt="Seta para esquerda"
+            style={{
+              maxWidth: "100%",
+              height: "auto"
+            }} />
         </button>
       )}
 
@@ -142,7 +169,13 @@ const GoogleMapsCarousel = ({ estates }: CarouselProps) => {
           className="embla__next absolute top-1/2 translate-y-1/2 right-[5%]"
           onClick={scrollNext}
         >
-          <Image src={ArrowRight} alt="Seta para direita" />
+          <Image
+            src={ArrowRight}
+            alt="Seta para direita"
+            style={{
+              maxWidth: "100%",
+              height: "auto"
+            }} />
         </button>
       )}
     </div>

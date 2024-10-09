@@ -1,6 +1,6 @@
 "use client";
 import Header from "@/components/header";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import CheckIcon from "/public/marqueseleao/check-icon.svg";
 import Link from "next/link";
 
@@ -131,7 +131,13 @@ const AdvertiseEstate = () => {
                 </h2>
                 <ul className="*:mt-5 pb-10 *:flex *:gap-3">
                   <li>
-                    <Image src={CheckIcon} alt="Ícone de verificado" />
+                    <Image
+                      src={CheckIcon}
+                      alt="Ícone de verificado"
+                      style={{
+                        maxWidth: "100%",
+                        height: "auto"
+                      }} />
                     <div>
                       <h3 className="font-semibold text-xl">Localização</h3>
                       <p className="font-light text-[#707070]">
@@ -142,7 +148,13 @@ const AdvertiseEstate = () => {
                     </div>
                   </li>
                   <li>
-                    <Image src={CheckIcon} alt="Ícone de verificado" />
+                    <Image
+                      src={CheckIcon}
+                      alt="Ícone de verificado"
+                      style={{
+                        maxWidth: "100%",
+                        height: "auto"
+                      }} />
                     <div>
                       <h3 className="font-semibold text-xl">Valor mínimo</h3>
                       <p className="font-light text-[#707070]">
@@ -151,7 +163,13 @@ const AdvertiseEstate = () => {
                     </div>
                   </li>
                   <li>
-                    <Image src={CheckIcon} alt="Ícone de verificado" />
+                    <Image
+                      src={CheckIcon}
+                      alt="Ícone de verificado"
+                      style={{
+                        maxWidth: "100%",
+                        height: "auto"
+                      }} />
                     <div>
                       <h3 className="font-semibold text-xl">
                         Tipo de empreendimento
@@ -163,7 +181,13 @@ const AdvertiseEstate = () => {
                     </div>
                   </li>
                   <li>
-                    <Image src={CheckIcon} alt="Ícone de verificado" />
+                    <Image
+                      src={CheckIcon}
+                      alt="Ícone de verificado"
+                      style={{
+                        maxWidth: "100%",
+                        height: "auto"
+                      }} />
                     <div>
                       <h3 className="font-semibold text-xl">Lançamentos</h3>
                       <p className="font-light text-[#707070]">
@@ -181,7 +205,10 @@ const AdvertiseEstate = () => {
                     className="w-[4.5rem]"
                     src={MarquesInstagram}
                     alt="Foto de Pablo Marques e Gabriel Leão"
-                  />
+                    style={{
+                      maxWidth: "100%",
+                      height: "auto"
+                    }} />
                 </div>
                 <div>
                   <p className="mb-3">@marqueseleao</p>
@@ -190,7 +217,13 @@ const AdvertiseEstate = () => {
                     href="https://www.instagram.com/marqueseleao/"
                     target="_blank"
                   >
-                    <Image src={InstagramIcon} alt="Instagram" />
+                    <Image
+                      src={InstagramIcon}
+                      alt="Instagram"
+                      style={{
+                        maxWidth: "100%",
+                        height: "auto"
+                      }} />
                     Seguir no Instagram
                   </Link>
                 </div>
@@ -201,7 +234,10 @@ const AdvertiseEstate = () => {
                     className="w-[4.5rem]"
                     src={MarquesYoutube}
                     alt="Foto de Pablo Marques e Gabriel Leão"
-                  />
+                    style={{
+                      maxWidth: "100%",
+                      height: "auto"
+                    }} />
                 </div>
                 <div>
                   <p className="mb-3">@ImobiliariaMarquesLeao</p>
@@ -214,7 +250,10 @@ const AdvertiseEstate = () => {
                       className="w-[1.0625rem]"
                       src={YoutubeIcon}
                       alt="Youtube"
-                    />
+                      style={{
+                        maxWidth: "100%",
+                        height: "auto"
+                      }} />
                     Se inscreva no canal
                   </Link>
                 </div>
@@ -225,7 +264,10 @@ const AdvertiseEstate = () => {
                     className="w-[4.5rem]"
                     src={MarquesFacebook}
                     alt="Foto de Pablo Marques e Gabriel Leão"
-                  />
+                    style={{
+                      maxWidth: "100%",
+                      height: "auto"
+                    }} />
                 </div>
                 <div>
                   <p className="mb-3">@marqueseleao</p>
@@ -234,7 +276,13 @@ const AdvertiseEstate = () => {
                     href="https://web.facebook.com/marqueseleao"
                     target="_blank"
                   >
-                    <Image src={FacebookIcon} alt="Facebook" />
+                    <Image
+                      src={FacebookIcon}
+                      alt="Facebook"
+                      style={{
+                        maxWidth: "100%",
+                        height: "auto"
+                      }} />
                     Seguir no Facebook
                   </Link>
                 </div>

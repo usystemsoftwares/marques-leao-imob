@@ -1,7 +1,7 @@
 import Header from "@/components/header";
 import { WhatsappButton } from "@/components/whatsapp-btn";
 import processarFiltros from "@/utils/processar-filtros-backend";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import Link from "next/link";
 import { Corretor } from "smart-imob-types";
 
@@ -69,7 +69,10 @@ const TeamPage = async () => {
                       alt={corretor.nome}
                       width={370}
                       height={452}
-                    />
+                      style={{
+                        maxWidth: "100%",
+                        height: "auto"
+                      }} />
                     <div className="text-center absolute z-10 pb-3 w-full right-1/2 translate-x-1/2 bottom-0">
                       <h3 className="text-4xl font-semibold">
                         {corretor.nome}

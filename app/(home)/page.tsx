@@ -1,7 +1,7 @@
 import Header from "@/components/header";
 import SearchPropertyFilter from "./components/search-property-filter";
 import { WhatsappButton } from "@/components/whatsapp-btn";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import Link from "next/link";
 import MarquesELeao from "/public/marqueseleao/marques-leao.webp";
 import Lancamentos from "/public/marqueseleao/lancamentos.webp";
@@ -149,7 +149,10 @@ export default async function Home() {
         className="absolute -bottom-1/2 opacity-60 left-[-35%] w-[75%]"
         src={Ellipse}
         alt="Ellipse blur"
-      />
+        style={{
+          maxWidth: "100%",
+          height: "auto"
+        }} />
       <main>
         <section className="min-h-[100svh] relative w-[min(90%,80rem)] mx-auto">
           <h1 className="text-[clamp(.75rem,4.5vw,2.25rem)] md:text-[clamp(.75rem,9vw,2rem)] relative z-10 font-extralight leading-none max-w-[26ch] md:max-w-[24ch] mx-auto md:mx-0 pt-[23rem] md:pt-40">
@@ -180,7 +183,10 @@ export default async function Home() {
             src={MarquesELeao}
             alt="Marques e Leão"
             priority
-          />
+            style={{
+              maxWidth: "100%",
+              height: "auto"
+            }} />
           <HomeFilter className="absolute bottom-[17.5%] translate-x-1/2 z-50 right-1/2" />
         </section>
         <section className="w-full md:w-[min(90%,80rem)] mx-auto relative">
@@ -247,7 +253,10 @@ export default async function Home() {
                 className="lancamentos-img rounded-lg md:rounded-2xl"
                 src={Lancamentos}
                 alt="Varanda de prédios"
-              />
+                style={{
+                  maxWidth: "100%",
+                  height: "auto"
+                }} />
             </div>
             <div className="projects-wrapper w-[min(100%,25rem)]">
               <div className="bg-mainPurple md:h-full md:bg-transparent before:bg-gradient-to-t before:absolute before:inset-0 before:-z-20 before:from-[#141414] md:before:content-none md:bg-gradient-to-b translate-y-[-.5rem] md:translate-y-0 md:translate-x-[.75rem] lg:translate-x-[1.25rem] md:from-mainPurple rounded-lg md:rounded-xl px-6 py-8 md:p-8 projects">
@@ -302,7 +311,10 @@ export default async function Home() {
               className="absolute opacity-70 w-full right-[-40%] h-full"
               src={Ellipse}
               alt="Ellipse blur"
-            />
+              style={{
+                maxWidth: "100%",
+                height: "auto"
+              }} />
           </div>
           <div className="w-[min(90%,75rem)] mt-24 mb-12 mx-auto flex flex-col items-center md:flex-row md:items-center md:justify-between md:gap-20">
             <div className="relative w-[min(100%,30rem)] ml-4 sm:ml-0">
@@ -310,7 +322,10 @@ export default async function Home() {
                 className="rounded-xl mx-auto md:mx-0"
                 src={Media}
                 alt="Gabriel Leão de costa para foto, de frente para uma casa"
-              />
+                style={{
+                  maxWidth: "100%",
+                  height: "auto"
+                }} />
               <div className="text-sm lg:text-base absolute translate-x-[-15%] md:right-0 md:translate-x-[35%] bottom-[35.5%] sm:bottom-[40%] md:bottom-[60%] px-3 py-3 md:px-2 md:py-2 lg:px-4 lg:py-4 translate-y-[50%] backdrop-blur-2xl rounded-[.625rem]">
                 <span className="text-xl lg:text-[clamp(1rem,3vw,1.875rem)] font-bold block text-center">
                   +22mil
@@ -349,7 +364,13 @@ export default async function Home() {
                     href="/anunciar-imovel"
                   >
                     <div className="w-5 lg:w-auto">
-                      <Image src={WhiteSearchIcon} alt="Ícone de pesquisa" />
+                      <Image
+                        src={WhiteSearchIcon}
+                        alt="Ícone de pesquisa"
+                        style={{
+                          maxWidth: "100%",
+                          height: "auto"
+                        }} />
                     </div>
                     <p className="xl:leading-[1.5rem]">
                       Anuncie seu imóvel conosco
@@ -358,7 +379,13 @@ export default async function Home() {
                 </li>
                 <li className="bg-white text-mainPurple">
                   <div className="w-5 lg:w-auto">
-                    <Image src={WhatsappPurpleIcon} alt="Whatsapp" />
+                    <Image
+                      src={WhatsappPurpleIcon}
+                      alt="Whatsapp"
+                      style={{
+                        maxWidth: "100%",
+                        height: "auto"
+                      }} />
                   </div>
                   <p className="max-w-[15ch] leading-[1rem] lg:leading-[1.5rem] md:max-w-auto">
                     Fale com nossos corretores
@@ -366,7 +393,13 @@ export default async function Home() {
                 </li>
                 <li className="bg-white text-mainPurple">
                   <div className="w-5 lg:w-auto">
-                    <Image src={HandshakeIcon} alt="Ícones de aperto de mãos" />
+                    <Image
+                      src={HandshakeIcon}
+                      alt="Ícones de aperto de mãos"
+                      style={{
+                        maxWidth: "100%",
+                        height: "auto"
+                      }} />
                   </div>
                   <p className="max-w-[15ch] leading-[1rem] lg:leading-[1.5rem] md:max-w-auto">
                     Seja parceiro Marques&Leão
@@ -383,7 +416,10 @@ export default async function Home() {
               className="absolute right-[-40%] bottom-0 opacity-75 -z-10 w-full h-full"
               src={Ellipse}
               alt="Ellipse blur"
-            />
+              style={{
+                maxWidth: "100%",
+                height: "auto"
+              }} />
           </div>
           <div className="w-[min(90%,80rem)] mx-auto flex flex-col lg:flex-row items-center gap-[clamp(1rem,2.5vw,2.5rem)]">
             <div className="w-[min(100%,37.5rem)] relative lg:flex-1">
@@ -409,7 +445,10 @@ export default async function Home() {
                         className="w-[clamp(4.5rem,7vw,5.625rem)]"
                         src={MarquesInstagram}
                         alt="Foto de Pablo Marques e Gabriel Leão"
-                      />
+                        style={{
+                          maxWidth: "100%",
+                          height: "auto"
+                        }} />
                     </div>
                     <div>
                       <p className="text-[clamp(.875rem,1.5vw,1.125rem)] mb-3">
@@ -420,7 +459,13 @@ export default async function Home() {
                         href="https://www.instagram.com/marqueseleao/"
                         target="_blank"
                       >
-                        <Image src={InstagramIcon} alt="Instagram" />
+                        <Image
+                          src={InstagramIcon}
+                          alt="Instagram"
+                          style={{
+                            maxWidth: "100%",
+                            height: "auto"
+                          }} />
                         Seguir no Instagram
                       </Link>
                     </div>
@@ -431,7 +476,10 @@ export default async function Home() {
                         className="w-[clamp(4.5rem,7vw,5.625rem)]"
                         src={MarquesYoutube}
                         alt="Foto de Pablo Marques e Gabriel Leão"
-                      />
+                        style={{
+                          maxWidth: "100%",
+                          height: "auto"
+                        }} />
                     </div>
                     <div>
                       <p className="text-[clamp(.875rem,1.5vw,1.125rem)] mb-3">
@@ -446,7 +494,10 @@ export default async function Home() {
                           className="w-[1.0625rem]"
                           src={YoutubeIcon}
                           alt="Youtube"
-                        />
+                          style={{
+                            maxWidth: "100%",
+                            height: "auto"
+                          }} />
                         Se inscreva no canal
                       </Link>
                     </div>
@@ -457,7 +508,10 @@ export default async function Home() {
                         className="w-[clamp(4.5rem,7vw,5.625rem)]"
                         src={MarquesFacebook}
                         alt="Foto de Pablo Marques e Gabriel Leão"
-                      />
+                        style={{
+                          maxWidth: "100%",
+                          height: "auto"
+                        }} />
                     </div>
                     <div>
                       <p className="text-[clamp(.875rem,1.5vw,1.125rem)] mb-3">
@@ -468,7 +522,13 @@ export default async function Home() {
                         href="https://web.facebook.com/marqueseleao"
                         target="_blank"
                       >
-                        <Image src={FacebookIcon} alt="Facebook" />
+                        <Image
+                          src={FacebookIcon}
+                          alt="Facebook"
+                          style={{
+                            maxWidth: "100%",
+                            height: "auto"
+                          }} />
                         Seguir no Facebook
                       </Link>
                     </div>

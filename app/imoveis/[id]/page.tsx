@@ -1,5 +1,5 @@
 import Header from "@/components/header";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import Carousel from "@/components/carousel";
 import Link from "next/link";
 
@@ -23,6 +23,7 @@ import getWhatsappLink from "@/utils/generate_phone_href";
 import { toBRL } from "@/utils/toBrl";
 import { getPhotos } from "@/utils/get-photos";
 import FormContact from "../components/form-contact";
+import PropertyPhotos from "../components/property-photos";
 
 async function getData(
   houseId: string,
@@ -106,15 +107,8 @@ const RealEstatePage = async ({
   //   (imovel.imoveisRelacionados || []).includes(imovel.id)
   // );
   const relatedEstates = [];
-  const fotos = getPhotos(
-    empresa,
-    imovel,
-    imovel?.fotos || [],
-    !!uid,
-    VerFotos
-  );
 
-  if (!imovel) return <></>
+  if (!imovel) return <></>;
 
   return (
     <div className="bg-menu bg-no-repeat">
@@ -122,37 +116,13 @@ const RealEstatePage = async ({
       <PropertiesFilter className="hidden lg:flex w-[min(100%,31.875rem)] absolute mt-14 top-0 right-1/2 translate-x-[75%]" />
       <main className="mt-8">
         <section>
-          <ul className="w-[calc(100%-2rem)] mx-auto grid gap-2 md:grid-cols-2">
-            {fotos.map(({ resized, destaque, source }, index) => {
-              if (index + 1 != fotos.length) {
-                return (
-                  <li key={index}>
-                    <Image
-                      className="rounded-[.625rem]"
-                      src={source.uri || resized || ""}
-                      alt="Imóvel"
-                      width={924}
-                      height={598}
-                    />
-                  </li>
-                );
-              }
-              return (
-                <FormContact
-                  key={index}
-                  index={index}
-                  source={source}
-                  resized={resized}
-                  afiliado_id={afiliado}
-                  agenciador_id={imovel.agenciador_id}
-                  imovel_id={imovel.db_id}
-                  imovel_codigo={imovel.codigo}
-                  temporada={imovel.temporada || false}
-                  empresa_id={imovel.empresa_id}
-                />
-              );
-            })}
-          </ul>
+          <PropertyPhotos
+            empresa={empresa}
+            imovel={imovel}
+            afiliado={afiliado}
+            uid={!!uid || false}
+            VerFotos={VerFotos}
+          />
         </section>
         <section className="relative lg:pl-10 w-[min(90%,84.5rem)] mx-auto lg:ml-auto mt-16 lg:mr-28 lg:flex lg:justify-between lg:gap-28">
           <Image
@@ -160,12 +130,20 @@ const RealEstatePage = async ({
             className="hidden lg:block absolute opacity-70 right-[-40%] -z-10 w-[75%]"
             src={Ellipse}
             alt="Ellipse blur"
+            style={{
+              maxWidth: "100%",
+              height: "auto",
+            }}
           />
           <Image
             draggable={false}
             className="hidden lg:block absolute opacity-60 bottom-[-10%] left-[-45%] -z-10 w-[75%]"
             src={Ellipse}
             alt="Ellipse blur"
+            style={{
+              maxWidth: "100%",
+              height: "auto",
+            }}
           />
           <div className="lg:w-[55%]">
             <div className="mb-8">
@@ -191,7 +169,14 @@ const RealEstatePage = async ({
                 </p>
               </div>
               <p className="mt-3 flex gap-3 underline">
-                <Image src={LocationIcon} alt="Ícone de localização" />{" "}
+                <Image
+                  src={LocationIcon}
+                  alt="Ícone de localização"
+                  style={{
+                    maxWidth: "100%",
+                    height: "auto",
+                  }}
+                />{" "}
                 {imovel.bairro}, {imovel.cidade?.nome}
               </p>
               <p className="text-5xl lg:text-[clamp(2.75rem,4.8vw,3.75rem)] font-semibold mt-5">
@@ -282,6 +267,10 @@ const RealEstatePage = async ({
                       className="mx-auto mb-3"
                       src={DimensionIcon}
                       alt="Dimensão"
+                      style={{
+                        maxWidth: "100%",
+                        height: "auto",
+                      }}
                     />{" "}
                     Área do Terreno <br />
                     {imovel.area_terreno} m
@@ -295,6 +284,10 @@ const RealEstatePage = async ({
                       className="mx-auto mb-3"
                       src={DimensionIcon}
                       alt="Dimensão"
+                      style={{
+                        maxWidth: "100%",
+                        height: "auto",
+                      }}
                     />{" "}
                     Área privativa <br />
                     {imovel.area_privativa} m
@@ -308,6 +301,10 @@ const RealEstatePage = async ({
                       className="mx-auto mb-3"
                       src={EstateBedIcon}
                       alt="Cama"
+                      style={{
+                        maxWidth: "100%",
+                        height: "auto",
+                      }}
                     />{" "}
                     {imovel.dormitórios} dormitórios <br />{" "}
                     {imovel.suítes ? `${imovel.suítes} suíte` : ""}
@@ -317,7 +314,15 @@ const RealEstatePage = async ({
                 )}
                 {imovel.vagas ? (
                   <li>
-                    <Image className="mx-auto mb-3" src={CarIcon} alt="Carro" />
+                    <Image
+                      className="mx-auto mb-3"
+                      src={CarIcon}
+                      alt="Carro"
+                      style={{
+                        maxWidth: "100%",
+                        height: "auto",
+                      }}
+                    />
                     {imovel.vagas} vagas <br /> de garagem
                   </li>
                 ) : (
@@ -329,6 +334,10 @@ const RealEstatePage = async ({
                       className="mx-auto mb-3"
                       src={BathIcon}
                       alt="Banheiro"
+                      style={{
+                        maxWidth: "100%",
+                        height: "auto",
+                      }}
                     />{" "}
                     {imovel.banheiros} banheiros
                   </li>
@@ -357,7 +366,14 @@ const RealEstatePage = async ({
                 <ul className="mt-3 grid font-light text-[#E9E9E9] gap-2 lg:grid-cols-2">
                   {(imovel.caracteristicas || []).map((info) => (
                     <li className="flex items-end gap-3" key={info.id}>
-                      <Image src={CheckIcon} alt="Verificado" />
+                      <Image
+                        src={CheckIcon}
+                        alt="Verificado"
+                        style={{
+                          maxWidth: "100%",
+                          height: "auto",
+                        }}
+                      />
                       {info.nome}
                     </li>
                   ))}
@@ -377,6 +393,10 @@ const RealEstatePage = async ({
                   alt={corretor?.nome}
                   width={370}
                   height={452}
+                  style={{
+                    maxWidth: "100%",
+                    height: "auto",
+                  }}
                 />
               </Link>
               <h2
@@ -392,12 +412,28 @@ const RealEstatePage = async ({
                     href={getWhatsappLink(corretor)}
                     target="_blank"
                   >
-                    <Image src={Whatsapp} alt="Whatsapp" /> WhatsApp
+                    <Image
+                      src={Whatsapp}
+                      alt="Whatsapp"
+                      style={{
+                        maxWidth: "100%",
+                        height: "auto",
+                      }}
+                    />{" "}
+                    WhatsApp
                   </Link>
                 )}
                 {corretor.instagram && (
                   <Link className="border-white" href="#">
-                    <Image src={Instagram} alt="Instagram" /> Instagram
+                    <Image
+                      src={Instagram}
+                      alt="Instagram"
+                      style={{
+                        maxWidth: "100%",
+                        height: "auto",
+                      }}
+                    />{" "}
+                    Instagram
                   </Link>
                 )}
               </div>

@@ -1,4 +1,4 @@
-import Image from "next/legacy/image"
+import Image from "next/image"
 import Link from "next/link"
 import Whatsapp from "/public/marqueseleao/wpp-button.webp"
 
@@ -12,8 +12,11 @@ export const WhatsappButton = () => {
           alt="Whatsapp"
           width={0}
           height={0}
-        />
+          style={{
+            maxWidth: "100%",
+            height: "auto"
+          }} />
       </Link>
     </div>
-  )
+  );
 }

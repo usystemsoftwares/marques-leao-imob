@@ -1,4 +1,4 @@
-import Image from "next/legacy/image";
+import Image from "next/image";
 
 import MarquesLeaoLogo from "/public/marqueseleao/Logo-Marques-Leao.webp";
 import MarquesInstagram from "/public/marqueseleao/marques-instagram.webp";
@@ -13,11 +13,13 @@ import PhoneIcon from "/public/marqueseleao/phone-icon.svg";
 
 import Link from "next/link";
 import { Empresa } from "smart-imob-types";
+import { formatPhoneNumber } from "@/utils/formatarTelefoneParaWhatsApp";
+
 
 const Footer = ({ empresa }: { empresa: Empresa }) => {
   return (
-    <footer className="bg-gradient-to-t relative z-50 from-[#3a042f] to-[var(--background)] mx-auto py-8">
-      <div className="w-[min(90%,80rem)] mx-auto">
+    <footer className="bg-gradient-to-t relative z-50 from-[#3a042f] to-[var(--background)] py-8">
+      <div className="max-w-screen-xl mx-auto">
         <div className="flex lg:hidden justify-center flex-wrap gap-2">
           <Link
             className="border border-white text-[#530944] font-bold hover:text-white bg-white hover:bg-transparent transition-colors text-sm lg:text-lg py-3 px-6 rounded-lg"
@@ -38,7 +40,10 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
               className="w-12 mx-auto"
               src={MarquesInstagram}
               alt="Marques e Leão"
-            />
+              style={{
+                maxWidth: "100%",
+                height: "auto"
+              }} />
             <p className="text-[.5rem] my-1">@marqueseleao</p>
             <Link
               className="text-[.5rem] bg-[#530944] hover:bg-white hover:text-[#530944] px-3 py-2 rounded-lg"
@@ -53,7 +58,10 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
               className="w-12 mx-auto"
               src={MarquesFacebook}
               alt="Marques e Leão"
-            />
+              style={{
+                maxWidth: "100%",
+                height: "auto"
+              }} />
             <p className="text-[.5rem] my-1">@marqueseleao</p>
             <Link
               className="text-[.5rem] bg-[#530944] hover:bg-white hover:text-[#530944] px-3 py-2 rounded-lg"
@@ -68,7 +76,10 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
               className="w-12 mx-auto"
               src={MarquesYoutube}
               alt="Marques e Leão"
-            />
+              style={{
+                maxWidth: "100%",
+                height: "auto"
+              }} />
             <p className="text-[.5rem] my-1">@ImobiliariaMarquesLeao</p>
             <Link
               className="text-[.5rem] bg-[#530944] hover:bg-white hover:text-[#530944] px-3 py-2 rounded-lg"
@@ -86,15 +97,30 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
             width={234}
             height={50}
             alt="Marques & Leão Logo"
-          />
+            style={{
+              maxWidth: "100%",
+              height: "auto"
+            }} />
           <ul className="hidden *:flex *:items-center *:gap-2 lg:block">
             <li>
-              <Image src={EmailIcon} alt="Email" />
+              <Image
+                src={EmailIcon}
+                alt="Email"
+                style={{
+                  maxWidth: "100%",
+                  height: "auto"
+                }} />
               {empresa.email || "contato@marqueseleao.com"}
             </li>
             <li className="mt-3">
-              <Image src={PhoneIcon} alt="Telefone" />
-              {empresa.telefone_empresa || "00 9 0000-0000"}
+              <Image
+                src={PhoneIcon}
+                alt="Telefone"
+                style={{
+                  maxWidth: "100%",
+                  height: "auto"
+                }} />
+              {empresa.telefone ? formatPhoneNumber(empresa.telefone) : "00 9 0000-0000"}
             </li>
           </ul>
           <div className="hidden lg:block">
@@ -102,22 +128,46 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
             <ul className="flex items-center mt-1 gap-2">
               <li>
                 <Link href={""}>
-                  <Image src={InstagramIcon} alt="Instagram" />
+                  <Image
+                    src={InstagramIcon}
+                    alt="Instagram"
+                    style={{
+                      maxWidth: "100%",
+                      height: "auto"
+                    }} />
                 </Link>
               </li>
               <li>
                 <Link href={""}>
-                  <Image src={FacebookIcon} alt="Facebook" />
+                  <Image
+                    src={FacebookIcon}
+                    alt="Facebook"
+                    style={{
+                      maxWidth: "100%",
+                      height: "auto"
+                    }} />
                 </Link>
               </li>
               <li>
                 <Link href={""}>
-                  <Image src={LinkedInIcon} alt="LinkedIn" />
+                  <Image
+                    src={LinkedInIcon}
+                    alt="LinkedIn"
+                    style={{
+                      maxWidth: "100%",
+                      height: "auto"
+                    }} />
                 </Link>
               </li>
               <li>
                 <Link href={""}>
-                  <Image src={YoutubeIcon} alt="Youtube" />
+                  <Image
+                    src={YoutubeIcon}
+                    alt="Youtube"
+                    style={{
+                      maxWidth: "100%",
+                      height: "auto"
+                    }} />
                 </Link>
               </li>
             </ul>

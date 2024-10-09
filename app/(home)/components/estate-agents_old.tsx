@@ -3,7 +3,7 @@
 import { corretores } from "@/data"
 import { cn } from "@/lib/utils"
 import { motion, useScroll, useTransform } from "framer-motion"
-import Image from "next/legacy/image"
+import Image from "next/image"
 import Link from "next/link"
 import { useRef, useState } from "react"
 
@@ -26,7 +26,10 @@ const EstateAgents = () => {
             width={370}
             height={452}
             alt={corretores[currentEstateAgent].name}
-          />
+            style={{
+              maxWidth: "100%",
+              height: "auto"
+            }} />
           <div className="lg:hidden mt-7 gap-8">
             <p>
               <span className="text-3xl block font-bold">+{corretores[currentEstateAgent].imoveis}</span> imóveis <br /> em carteira
@@ -80,13 +83,16 @@ const EstateAgents = () => {
                 height={244}
                 src={corretor.image}
                 alt={corretor.name}
-              />
+                style={{
+                  maxWidth: "100%",
+                  height: "auto"
+                }} />
             </li>
           ))}
         </ul>
       </div>
     </div>
-  )
+  );
 }
 
 export default EstateAgents
