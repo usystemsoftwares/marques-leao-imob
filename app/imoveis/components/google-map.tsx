@@ -74,7 +74,7 @@ const GoogleMap = ({
       };
     });
     setMarkers(objs);
-  }, [imoveis]);
+  }, [imoveis, getColorForIndex]);
 
   return (
     <APIProvider apiKey={process.env.NEXT_PUBLIC_MAPS_API_KEY as string}>

@@ -12,8 +12,6 @@ const TestimonialsCarousel = ({
 }: {
   depoimentos: Depoimento[];
 }) => {
-  if (!depoimentos || depoimentos.length === 0) return null;
-
   const [emblaRef, emblaApi] = UseEmblaCarousel({ dragFree: true });
   const desktopBarRef = useRef<HTMLDivElement>(null);
   const mobileBarRef = useRef<HTMLDivElement>(null);
@@ -83,6 +81,8 @@ const TestimonialsCarousel = ({
       resizeObserver.disconnect();
     };
   }, [emblaApi, onScroll]);
+
+  if (!depoimentos || depoimentos.length === 0) return null;
 
   return (
     <div>

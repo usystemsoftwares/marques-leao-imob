@@ -10,9 +10,6 @@ import ArrowRight from "/public/marqueseleao/arrow-right.webp";
 import { Post } from "smart-imob-types";
 
 const MarquesLeaoMidiaCarousel = ({ posts }: { posts: Post[] }) => {
-  if (posts && (posts || []).filter((post) => post.banner).length === 0)
-    return null;
-
   const [emblaRef, emblaApi] = UseEmblaCarousel({ loop: true });
 
   const scrollPrev = useCallback(() => {
@@ -22,6 +19,10 @@ const MarquesLeaoMidiaCarousel = ({ posts }: { posts: Post[] }) => {
   const scrollNext = useCallback(() => {
     if (emblaApi) emblaApi.scrollNext();
   }, [emblaApi]);
+
+  if (posts && (posts || []).filter((post) => post.banner).length === 0) {
+    return null;
+  }
 
   return (
     <div className="embla overflow-x-hidden mt-2">
@@ -43,8 +44,9 @@ const MarquesLeaoMidiaCarousel = ({ posts }: { posts: Post[] }) => {
                     height={532}
                     style={{
                       maxWidth: "100%",
-                      height: "auto"
-                    }} />
+                      height: "auto",
+                    }}
+                  />
                 </div>
                 <div className="max-w-[100ch] mx-auto mt-8 md:mt-0">
                   <h3 className="max-w-[17ch] md:max-w-[25ch] text-2xl md:text-3xl font-bold tracking-wider md:tracking-widest">
@@ -73,8 +75,9 @@ const MarquesLeaoMidiaCarousel = ({ posts }: { posts: Post[] }) => {
           alt="Seta para esquerda"
           style={{
             maxWidth: "100%",
-            height: "auto"
-          }} />
+            height: "auto",
+          }}
+        />
       </button>
       <button
         className="embla__next absolute top-1/2 translate-y-1/2 right-0"
@@ -85,8 +88,9 @@ const MarquesLeaoMidiaCarousel = ({ posts }: { posts: Post[] }) => {
           alt="Seta para direita"
           style={{
             maxWidth: "100%",
-            height: "auto"
-          }} />
+            height: "auto",
+          }}
+        />
       </button>
     </div>
   );

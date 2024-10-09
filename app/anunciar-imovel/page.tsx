@@ -34,7 +34,7 @@ const AdvertiseEstate = () => {
   };
 
   const handlePhoneChange = (e: any) => {
-    let value = e.target.value;
+    const value = e.target.value;
     if (value.length <= 15) {
       const formattedNumber = formatPhoneNumber(value);
       setTelefone(formattedNumber);
