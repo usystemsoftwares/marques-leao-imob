@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Baskervville, Montserrat } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/footer";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import Ellipse from "/public/marqueseleao/ellipse4.webp";
 
 const baskervville = Baskervville({
@@ -29,12 +29,9 @@ async function getData() {
     process.env.BACKEND_API_URI ??
     (process.env.NEXT_PUBLIC_BACKEND_API_URI as string);
 
-  const data = await fetch(
-    `${uri}/empresas/site/${empresa_id}`,
-    {
-      next: { tags: ["empresas"], revalidate: 3600 },
-    }
-  );
+  const data = await fetch(`${uri}/empresas/site/${empresa_id}`, {
+    next: { tags: ["empresas"], revalidate: 3600 },
+  });
 
   if (!data.ok) {
     throw new Error("Failed to fetch data");
@@ -63,10 +60,19 @@ export default async function RootLayout({
             className="absolute top-[-20%] lg:top-[-35%] opacity-50 right-[-35%] lg:right-[-30%] w-full"
             src={Ellipse}
             alt="Ellipse blur"
+            style={{
+              maxWidth: "100%",
+              height: "auto",
+            }}
           />
         </div>
-        {children}
-        <Footer empresa={empresa} />
+        {/* Início do contêiner flexível */}
+        <div className="min-h-screen flex flex-col w-full">
+          {/* Conteúdo principal */}
+          <main className="flex-grow">{children}</main>
+          {/* Rodapé */}
+          <Footer empresa={empresa} />
+        </div>
       </body>
     </html>
   );

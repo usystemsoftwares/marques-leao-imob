@@ -2,7 +2,7 @@
 
 import UseEmblaCarousel from "embla-carousel-react";
 import { midia } from "@/data";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import Link from "next/link";
 import { useCallback } from "react";
 import ArrowLeft from "/public/marqueseleao/arrow-left.webp";
@@ -41,7 +41,10 @@ const MarquesLeaoMidiaCarousel = ({ posts }: { posts: Post[] }) => {
                     alt={post.titulo || ""}
                     width={400}
                     height={532}
-                  />
+                    style={{
+                      maxWidth: "100%",
+                      height: "auto"
+                    }} />
                 </div>
                 <div className="max-w-[100ch] mx-auto mt-8 md:mt-0">
                   <h3 className="max-w-[17ch] md:max-w-[25ch] text-2xl md:text-3xl font-bold tracking-wider md:tracking-widest">
@@ -65,13 +68,25 @@ const MarquesLeaoMidiaCarousel = ({ posts }: { posts: Post[] }) => {
         className="embla__prev absolute top-1/2 translate-y-1/2 left-0"
         onClick={scrollPrev}
       >
-        <Image src={ArrowLeft} alt="Seta para esquerda" />
+        <Image
+          src={ArrowLeft}
+          alt="Seta para esquerda"
+          style={{
+            maxWidth: "100%",
+            height: "auto"
+          }} />
       </button>
       <button
         className="embla__next absolute top-1/2 translate-y-1/2 right-0"
         onClick={scrollNext}
       >
-        <Image src={ArrowRight} alt="Seta para direita" />
+        <Image
+          src={ArrowRight}
+          alt="Seta para direita"
+          style={{
+            maxWidth: "100%",
+            height: "auto"
+          }} />
       </button>
     </div>
   );

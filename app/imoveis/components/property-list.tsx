@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Header from "@/components/header";
 import { WhatsappButton } from "@/components/whatsapp-btn";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import PropertyFilter from "@/components/property-filter";
 import Bed from "/public/marqueseleao/cama.svg";
 import ResizeIcon from "/public/marqueseleao/resize-icon.svg";
@@ -110,13 +110,19 @@ const PropertyList: React.FC<PropertyListProps> = ({
                                   className="w-8"
                                   src={SelectedHeartIcon}
                                   alt="Ícone de coração selecionado"
-                                />
+                                  style={{
+                                    maxWidth: "100%",
+                                    height: "auto"
+                                  }} />
                               ) : (
                                 <Image
                                   className="w-8"
                                   src={HeartIcon}
                                   alt="Ícone de coração"
-                                />
+                                  style={{
+                                    maxWidth: "100%",
+                                    height: "auto"
+                                  }} />
                               )}
                             </button>
                             <Link
@@ -129,7 +135,10 @@ const PropertyList: React.FC<PropertyListProps> = ({
                                 alt={estate.titulo || ""}
                                 width={538}
                                 height={375}
-                              />
+                                style={{
+                                  maxWidth: "100%",
+                                  height: "auto"
+                                }} />
                             </Link>
                           </div>
                           <Link
@@ -162,11 +171,20 @@ const PropertyList: React.FC<PropertyListProps> = ({
                                 <Image
                                   src={ResizeIcon}
                                   alt="Seta que indica tamanho"
-                                />
+                                  style={{
+                                    maxWidth: "100%",
+                                    height: "auto"
+                                  }} />
                                 {getSingleArea(estate)}
                               </span>
                               <span className="inline-flex gap-3 items-center">
-                                <Image src={Bed} alt="Cama" />{" "}
+                                <Image
+                                  src={Bed}
+                                  alt="Cama"
+                                  style={{
+                                    maxWidth: "100%",
+                                    height: "auto"
+                                  }} />{" "}
                                 {estate.dormitórios} quarto
                                 {`${
                                   Number(estate.dormitórios || 0) > 1 ? "s" : ""

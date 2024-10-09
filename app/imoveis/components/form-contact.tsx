@@ -1,9 +1,10 @@
 "use client";
 
 import { getUtms } from "@/utils/get-utms";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import React, { useState } from "react";
 import { Cliente } from "smart-imob-types";
+import InputMask from "react-input-mask";
 
 export default function FormContact({
   index,
@@ -35,6 +36,10 @@ export default function FormContact({
     const re =
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
+  }
+
+  function removerMascaraTelefone(telefone: string): string {
+    return telefone.replace(/\D/g, '');
   }
 
   const EnviarContato = async (config: any) => {
@@ -108,6 +113,10 @@ export default function FormContact({
         return alert("Insira um telefone válido!");
       }
 
+      const telefoneSemMascara = removerMascaraTelefone(telefone);
+      const DDD = telefoneSemMascara.slice(0, 2);
+      const numeroTelefone = telefoneSemMascara.slice(2);
+
       const utmData = getUtms();
       const cliente: Cliente = {
         foto: null,
@@ -115,8 +124,8 @@ export default function FormContact({
         created_at: new Date(),
         edited_at: new Date(),
         email,
-        DDD: telefone.slice(1, 3),
-        telefone: telefone.slice(5),
+        DDD,
+        telefone: numeroTelefone,
         CPF: null,
         FGTS: null,
         conjuge_nome: "",
@@ -176,11 +185,11 @@ export default function FormContact({
       setVerificando(false);
 
       window.location.pathname.slice(7, Infinity);
-      // window.location.replace(
-      //   `/imovel/${empresa.granato_gen["texto_validacao"] || "cadastrado"}` +
-      //     window.location.pathname.slice(7, Infinity) +
-      //     window.location.search
-      // );
+      window.location.replace(
+        `/imovel/cadastrado` +
+          window.location.pathname.slice(7, Infinity) +
+          window.location.search
+      );
     } catch (error) {
       console.log(error);
     }
@@ -208,21 +217,21 @@ export default function FormContact({
             placeholder="Nome Completo"
             className="font-normal px-2 py-1 sm:px-3 sm:py-2 rounded-md"
             value={nome}
-            onChange={e => setNome(e.target.value)}
+            onChange={(e) => setNome(e.target.value)}
           />
-          <input
-            type="tel"
-            placeholder="Telefone"
-            className="font-normal px-2 py-1 sm:px-3 sm:py-2 rounded-md"
+          <InputMask
+            mask="(99) 99999-9999"
             value={telefone}
-            onChange={e => setTelefone(e.target.value)}
+            onChange={(e) => setTelefone(e.target.value)}
+            className="font-normal px-2 py-1 sm:px-3 sm:py-2 rounded-md"
+            placeholder="Telefone"
           />
           <input
             type="email"
             placeholder="E-mail"
             className="font-normal px-2 py-1 sm:px-3 sm:py-2 rounded-md"
             value={email}
-            onChange={e => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <button
             className="bg-mainPurple text-white rounded-full py-1 sm:py-2"
@@ -238,6 +247,10 @@ export default function FormContact({
         alt="Imóvel"
         width={924}
         height={598}
+        style={{
+          maxWidth: "100%",
+          height: "auto",
+        }}
       />
     </li>
   );

@@ -6,7 +6,7 @@ import {
   InfoWindow as InfoWindowReact,
   Map,
 } from "@vis.gl/react-google-maps";
-import Image, { StaticImageData } from "next/legacy/image";
+import Image, { StaticImageData } from "next/image";
 import { useEffect, useState } from "react";
 import GoogleMapsCarousel from "./googlemaps-carousel";
 import MapsArrow from "/public/marqueseleao/maps-arrow.svg";
@@ -90,7 +90,13 @@ const GoogleMap = ({
           className="bg-white w-12 aspect-square flex justify-center items-center shadow-lg rounded-[.625rem] top-6 left-6 absolute lg:hidden"
           onClick={closeMap}
         >
-          <Image src={MapsArrow} alt="Seta para esquerda" />
+          <Image
+            src={MapsArrow}
+            alt="Seta para esquerda"
+            style={{
+              maxWidth: "100%",
+              height: "auto"
+            }} />
         </button>
         {(markers || []).map((marker) => (
           <AdvancedMarker

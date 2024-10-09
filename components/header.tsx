@@ -1,7 +1,7 @@
 "use client"
 
 import { cn } from "@/lib/utils"
-import Image from "next/legacy/image"
+import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
@@ -73,7 +73,10 @@ const Header = () => {
           alt="Logo"
           width={370}
           height={40}
-        />
+          style={{
+            maxWidth: "100%",
+            height: "auto"
+          }} />
       </Link>
       <motion.button
         onClick={toggleMenu}
@@ -107,7 +110,10 @@ const Header = () => {
             width={180}
             height={40}
             alt="Logo"
-          />
+            style={{
+              maxWidth: "100%",
+              height: "auto"
+            }} />
           <ul className="*:mt-6 pl-10">
             {routes.map(route => (
               <li
@@ -130,7 +136,10 @@ const Header = () => {
             <Image
               src={WhatsappIcon}
               alt="Whatsapp"
-            />
+              style={{
+                maxWidth: "100%",
+                height: "auto"
+              }} />
             WhatsApp</Link>
           <Link
             className="border-[1.78px] border-white"
@@ -138,12 +147,15 @@ const Header = () => {
             <Image
               src={InstagramIcon}
               alt="Instagram"
-            />
+              style={{
+                maxWidth: "100%",
+                height: "auto"
+              }} />
             Instagram</Link>
         </div>
       </motion.nav>
     </header>
-  )
+  );
 }
 
 export default Header

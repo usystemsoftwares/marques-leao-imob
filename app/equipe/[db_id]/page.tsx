@@ -1,6 +1,6 @@
 import Header from "@/components/header";
 import { equipe, imoveis } from "@/data";
-import Image from "next/legacy/image";
+import Image from "next/image";
 import Link from "next/link";
 import Whatsapp from "/public/marqueseleao/white-wpp-icon.svg";
 import Instagram from "/public/marqueseleao/instagram-icon.svg";
@@ -68,6 +68,10 @@ const Membro = async ({ params: { db_id } }: { params: { db_id: string } }) => {
               alt={corretor.nome}
               width={411}
               height={524}
+              style={{
+                maxWidth: "100%",
+                height: "auto",
+              }}
             />
           </div>
           <div className="md:w-1/2">
@@ -102,13 +106,29 @@ const Membro = async ({ params: { db_id } }: { params: { db_id: string } }) => {
                   href={getWhatsappLink(corretor)}
                   target="_blank"
                 >
-                  <Image src={Whatsapp} alt="Whatsapp" /> WhatsApp
+                  <Image
+                    src={Whatsapp}
+                    alt="Whatsapp"
+                    style={{
+                      maxWidth: "100%",
+                      height: "auto",
+                    }}
+                  />{" "}
+                  WhatsApp
                 </Link>
               )}
 
               {corretor.instagram && (
                 <Link className="border-white" href={corretor.instagram}>
-                  <Image src={Instagram} alt="Instagram" /> Instagram
+                  <Image
+                    src={Instagram}
+                    alt="Instagram"
+                    style={{
+                      maxWidth: "100%",
+                      height: "auto",
+                    }}
+                  />{" "}
+                  Instagram
                 </Link>
               )}
             </div>

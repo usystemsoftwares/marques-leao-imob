@@ -1,7 +1,7 @@
 "use client"
 
 import UseEmblaCarousel from "embla-carousel-react"
-import Image from "next/legacy/image"
+import Image from "next/image"
 import CampoBom from "/public/marqueseleao/campo-bom.webp"
 import NovoHamburgo from "/public/marqueseleao/novo-hamburgo.webp"
 import SantaCatarina from "/public/marqueseleao/santa-catarina.webp"
@@ -22,7 +22,10 @@ const CitiesCarousel = () => {
             <Image
               src={NovoHamburgo}
               alt="Novo Hamburgo prédios"
-            />
+              style={{
+                maxWidth: "100%",
+                height: "auto"
+              }} />
             <p className="absolute b-0 text-center w-full py-2 bg-mainPurple bg-opacity-60 bottom-0 opacity-0 group-hover:opacity-100 transition-opacity">Conhecer imóveis</p>
             <p className="absolute bottom-0 text-center w-full py-2 bg-[#666666] bg-opacity-60 group-hover:opacity-0 transition-opacity">Novo Hamburgo</p>
           </Link>
@@ -33,7 +36,10 @@ const CitiesCarousel = () => {
             <Image
               src={CampoBom}
               alt="Campo bom paisagem"
-            />
+              style={{
+                maxWidth: "100%",
+                height: "auto"
+              }} />
             <p className="absolute b-0 text-center w-full py-2 bg-mainPurple bg-opacity-60 bottom-0 opacity-0 group-hover:opacity-100 transition-opacity">Conhecer imóveis</p>
             <p className="absolute bottom-0 text-center w-full py-2 bg-[#666666] bg-opacity-60 group-hover:opacity-0 transition-opacity">Campo Bom</p>
           </Link>
@@ -44,7 +50,10 @@ const CitiesCarousel = () => {
             <Image
               src={EstanciaVelha}
               alt="Estancia Velha paisagem"
-            />
+              style={{
+                maxWidth: "100%",
+                height: "auto"
+              }} />
             <p className="absolute b-0 text-center w-full py-2 bg-mainPurple bg-opacity-60 bottom-0 opacity-0 group-hover:opacity-100 transition-opacity">Conhecer imóveis</p>
             <p className="absolute bottom-0 text-center w-full py-2 bg-[#666666] bg-opacity-60 group-hover:opacity-0 transition-opacity">Estancia Velha</p>
           </Link>
@@ -55,14 +64,17 @@ const CitiesCarousel = () => {
             <Image
               src={SantaCatarina}
               alt="Santa Catarina paisagem"
-            />
+              style={{
+                maxWidth: "100%",
+                height: "auto"
+              }} />
             <p className="absolute b-0 text-center w-full py-2 bg-mainPurple bg-opacity-60 bottom-0 opacity-0 group-hover:opacity-100 transition-opacity">Conhecer imóveis</p>
             <p className="absolute bottom-0 text-center w-full py-2 bg-[#666666] bg-opacity-60 group-hover:opacity-0 transition-opacity">Santa Catarina</p>
           </Link>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default CitiesCarousel
