@@ -38,7 +38,7 @@ const Pagination: FC<PaginationProps> = ({
     }
 
     let start = Math.max(2, page - 2);
-    let end = Math.min(start + windowSize - 1, pages);
+    const end = Math.min(start + windowSize - 1, pages);
 
     if (end - start < windowSize - 1) {
       start = Math.max(1, end - windowSize + 1);
