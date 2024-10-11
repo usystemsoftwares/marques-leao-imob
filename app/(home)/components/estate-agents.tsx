@@ -172,6 +172,7 @@ const EstateAgents = ({ corretores }: { corretores: Corretor[] }) => {
                   height: "100%",
                   objectFit: "cover",
                 }}
+                priority={true}
               />
             </li>
           ))}

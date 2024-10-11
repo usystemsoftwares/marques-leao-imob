@@ -3,10 +3,12 @@ import { WhatsappButton } from "@/components/whatsapp-btn";
 import processarFiltros from "@/utils/processar-filtros-backend";
 import Image from "next/image";
 import Link from "next/link";
-import { Corretor } from "smart-imob-types";
+import { notFound } from "next/navigation";
+import { Corretor, Empresa } from "smart-imob-types";
 
 async function getData(): Promise<{
   corretores: Corretor[];
+  empresa: Empresa;
 }> {
   const uri =
     process.env.BACKEND_API_URI ?? process.env.NEXT_PUBLIC_BACKEND_API_URI;
@@ -26,16 +28,25 @@ async function getData(): Promise<{
   });
 
   if (!corretores.ok) {
-    throw new Error("Failed to fetch data");
+    notFound();
+  }
+
+  const empresa = await fetch(`${uri}/empresas/site/${empresa_id}`, {
+    next: { tags: ["empresas"], revalidate: 3600 },
+  });
+
+  if (!empresa.ok) {
+    notFound();
   }
 
   return {
     corretores: await corretores.json(),
+    empresa: await empresa.json(),
   };
 }
 
 const TeamPage = async () => {
-  const { corretores } = await getData();
+  const { corretores, empresa } = await getData();
 
   return (
     <div className="bg-menu bg-no-repeat">
@@ -84,7 +95,7 @@ const TeamPage = async () => {
               ))}
           </ul>
         </section>
-        <WhatsappButton />
+        <WhatsappButton empresa={empresa} />
       </main>
     </div>
   );

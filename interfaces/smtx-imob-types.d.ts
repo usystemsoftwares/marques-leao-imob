@@ -478,6 +478,7 @@ declare module "smart-imob-types" {
 
   interface GranatoGen {
     pilger: boolean;
+    'whats-button-link': string;
     anuncios: {
       nome: string | null;
       sub_titulo: string | null;

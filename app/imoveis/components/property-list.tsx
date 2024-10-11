@@ -12,10 +12,11 @@ import SelectedHeartIcon from "/public/marqueseleao/selected-heart-icon.svg";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import GoogleMap from "./google-map";
-import { Imóvel } from "smart-imob-types";
+import { Empresa, Imóvel } from "smart-imob-types";
 import { getFotoDestaque } from "@/utils/get-foto-destaque";
 import { getSingleArea } from "@/utils/get-area";
 import { toBRL } from "@/utils/toBrl";
+import Pagination from "./pagination";
 
 interface PropertyListProps {
   imoveis: Imóvel[];
@@ -24,6 +25,11 @@ interface PropertyListProps {
   bairros: any[];
   tipos: any[];
   codigos: any[];
+  pages: number;
+  page: number;
+  pathname: string;
+  query: any;
+  empresa: Empresa;
 }
 
 const PropertyList: React.FC<PropertyListProps> = ({
@@ -33,6 +39,11 @@ const PropertyList: React.FC<PropertyListProps> = ({
   bairros,
   tipos,
   codigos,
+  pages,
+  page,
+  pathname,
+  query,
+  empresa,
 }) => {
   const [activeIndex, setActiveIndex] = useState<number[]>([]);
   const [openMap, setOpenMap] = useState(false);
@@ -112,8 +123,9 @@ const PropertyList: React.FC<PropertyListProps> = ({
                                   alt="Ícone de coração selecionado"
                                   style={{
                                     maxWidth: "100%",
-                                    height: "auto"
-                                  }} />
+                                    height: "auto",
+                                  }}
+                                />
                               ) : (
                                 <Image
                                   className="w-8"
@@ -121,8 +133,9 @@ const PropertyList: React.FC<PropertyListProps> = ({
                                   alt="Ícone de coração"
                                   style={{
                                     maxWidth: "100%",
-                                    height: "auto"
-                                  }} />
+                                    height: "auto",
+                                  }}
+                                />
                               )}
                             </button>
                             <Link
@@ -137,8 +150,10 @@ const PropertyList: React.FC<PropertyListProps> = ({
                                 height={375}
                                 style={{
                                   maxWidth: "100%",
-                                  height: "auto"
-                                }} />
+                                  height: "323px",
+                                }}
+                                priority
+                              />
                             </Link>
                           </div>
                           <Link
@@ -173,8 +188,9 @@ const PropertyList: React.FC<PropertyListProps> = ({
                                   alt="Seta que indica tamanho"
                                   style={{
                                     maxWidth: "100%",
-                                    height: "auto"
-                                  }} />
+                                    height: "auto",
+                                  }}
+                                />
                                 {getSingleArea(estate)}
                               </span>
                               <span className="inline-flex gap-3 items-center">
@@ -183,8 +199,9 @@ const PropertyList: React.FC<PropertyListProps> = ({
                                   alt="Cama"
                                   style={{
                                     maxWidth: "100%",
-                                    height: "auto"
-                                  }} />{" "}
+                                    height: "auto",
+                                  }}
+                                />{" "}
                                 {estate.dormitórios} quarto
                                 {`${
                                   Number(estate.dormitórios || 0) > 1 ? "s" : ""
@@ -200,22 +217,12 @@ const PropertyList: React.FC<PropertyListProps> = ({
                     </li>
                   ))}
                 </ul>
-
-                {/* Paginação que aparece em todas as telas */}
-                <div className="flex justify-center mt-12 items-center gap-3">
-                  <div className="bg-mainPurple w-10 h-10 grid place-items-center rounded-lg cursor-pointer">
-                    1
-                  </div>
-                  <div className="border border-white w-10 h-10 grid place-items-center rounded-lg cursor-pointer">
-                    2
-                  </div>
-                  <div className="border border-white w-10 h-10 grid place-items-center rounded-lg cursor-pointer">
-                    3
-                  </div>
-                  <div className="border border-white w-10 h-10 grid place-items-center rounded-lg cursor-pointer">
-                    4
-                  </div>
-                </div>
+                <Pagination
+                  pages={pages}
+                  page={page}
+                  pathname={pathname}
+                  query={query}
+                />
               </>
             )}
           </div>
@@ -234,7 +241,7 @@ const PropertyList: React.FC<PropertyListProps> = ({
               defaultCenter={defaultCenterImovel}
             />
           </div>
-          <WhatsappButton />
+          <WhatsappButton empresa={empresa} />
         </section>
       </main>
     </div>

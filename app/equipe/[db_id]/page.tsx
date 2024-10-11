@@ -88,16 +88,22 @@ const Membro = async ({ params: { db_id } }: { params: { db_id: string } }) => {
             <p className="mt-3 mb-4 text-[#d6d6d6]">{corretor.bio}</p>
             <p className="text-[#d6d6d6]">{corretor.cargo}</p>
             <div className="flex mt-7 items-center gap-6">
-              <p>
-                <span className="text-3xl block font-bold">
-                  +{imoveis.total}
-                </span>{" "}
-                imóveis <br /> em carteira
-              </p>
-              <p>
-                <span className="text-3xl block font-bold">+{0}</span> anos de{" "}
-                <br /> experiência
-              </p>
+              {corretor.qtdImoveis > 0 && (
+                <p>
+                  <span className="text-3xl block font-bold">
+                    +{corretor.qtdImoveis}
+                  </span>{" "}
+                  imóveis <br /> em carteira
+                </p>
+              )}
+              {Number(corretor.anos_de_experiencia || 0) > 0 && (
+                <p>
+                  <span className="text-3xl block font-bold">
+                    +{corretor.anos_de_experiencia}
+                  </span>{" "}
+                  anos de <br /> experiência
+                </p>
+              )}
             </div>
             <div className="lg:mr-28 mt-4 flex flex-col lg:flex-row flex-wrap lg:flex-nowrap gap-4 lg:gap-8 *:flex *:gap-2 *:items-center *:justify-center *:text-[1.0625rem] *:border-2 *:py-2 *:px-11 lg:px-0 *:w-fit lg:*:w-full *:rounded-lg">
               {(corretor.telefone || corretor.whatsapp) && (
@@ -119,7 +125,11 @@ const Membro = async ({ params: { db_id } }: { params: { db_id: string } }) => {
               )}
 
               {corretor.instagram && (
-                <Link className="border-white" href={corretor.instagram}>
+                <Link
+                  className="border-white"
+                  href={`https://www.instagram.com/${corretor.instagram}`}
+                  target="_blank"
+                >
                   <Image
                     src={Instagram}
                     alt="Instagram"
@@ -127,7 +137,7 @@ const Membro = async ({ params: { db_id } }: { params: { db_id: string } }) => {
                       maxWidth: "100%",
                       height: "auto",
                     }}
-                  />{" "}
+                  />
                   Instagram
                 </Link>
               )}

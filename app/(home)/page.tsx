@@ -23,6 +23,7 @@ import EstateAgents from "./components/estate-agents";
 import { Post } from "smart-imob-types";
 import HomeFilter from "./components/home-filter";
 import { ResponsivityButtons } from "./components/responsivity-buttons";
+import { notFound } from "next/navigation";
 
 async function getData() {
   const empresa_id: any =
@@ -37,7 +38,7 @@ async function getData() {
     startAt: "0",
     filtros: JSON.stringify(
       processarFiltros({
-        ["imovel.destaque"]: true,
+        // ["imovel.destaque"]: true,
         ["imovel.venda"]: true,
       })
     ),
@@ -56,12 +57,12 @@ async function getData() {
   const params_imoveis_novidades = new URLSearchParams({
     empresa_id,
     limit: PAGE_SIZE,
-    startAt: "0",
-    filtros: JSON.stringify(
-      processarFiltros({
-        ["caracteristicas"]: "Água Quente",
-      })
-    ),
+    startAt: "22",
+    // filtros: JSON.stringify(
+    //   processarFiltros({
+    //     ["caracteristicas"]: "Água Quente",
+    //   })
+    // ),
   });
   const imoveisNovidadeResponse = await fetch(
     `${uri}/imoveis/site/paginado?${params_imoveis_novidades.toString()}`,
@@ -126,17 +127,26 @@ async function getData() {
     throw new Error("Failed to fetch data");
   }
 
+  const empresa = await fetch(`${uri}/empresas/site/${empresa_id}`, {
+    next: { tags: ["empresas"], revalidate: 3600 },
+  });
+
+  if (!empresa.ok) {
+    notFound();
+  }
+
   return {
     imoveisDestaque: await imoveisDestaqueResponse.json(),
     imoveisNovidade: await imoveisNovidadeResponse.json(),
     corretores: await corretores.json(),
     depoimentos: await depoimentos.json(),
     posts: await posts.json(),
+    empresa: await empresa.json(),
   };
 }
 
 export default async function Home() {
-  const { imoveisDestaque, imoveisNovidade, corretores, depoimentos, posts } =
+  const { imoveisDestaque, imoveisNovidade, corretores, depoimentos, posts, empresa } =
     await getData();
 
   return (
@@ -572,7 +582,7 @@ export default async function Home() {
           <TestimonialsCarousel depoimentos={depoimentos} />
         </section>
       </main>
-      <WhatsappButton />
+      <WhatsappButton empresa={empresa} />
     </div>
   );
 }

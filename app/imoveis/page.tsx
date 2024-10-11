@@ -1,9 +1,10 @@
 // ListingStayPage.tsx
-import { Imóvel } from "smart-imob-types";
+import { Empresa, Imóvel } from "smart-imob-types";
 import processarFiltros from "@/utils/processar-filtros-backend";
 import checkFetchStatus from "@/utils/checkFetchStatus";
 import ordenacoesBackend from "@/utils/processar-ordenacoes-backend";
 import PropertyList from "./components/property-list";
+import { notFound } from "next/navigation";
 
 const PAGE_SIZE = 12;
 
@@ -20,6 +21,7 @@ async function getData(filtros: any): Promise<{
   cidades: any[];
   tipos: any[];
   codigos: any[];
+  empresa: Empresa;
 }> {
   const { pagina = 1, ordem = 1, ...rest } = filtros;
   const uri =
@@ -115,6 +117,14 @@ async function getData(filtros: any): Promise<{
     throw new Error(`Erro na requisição: ${responseCodigos.status}`);
   }
 
+  const empresa = await fetch(`${uri}/empresas/site/${empresa_id}`, {
+    next: { tags: ["empresas"], revalidate: 3600 },
+  });
+
+  if (!empresa.ok) {
+    notFound();
+  }
+
   return {
     imoveis,
     bairros,
@@ -122,6 +132,7 @@ async function getData(filtros: any): Promise<{
     cidades: await responseCidades.json(),
     tipos: await responseTipos.json(),
     codigos: await responseCodigos.json(),
+    empresa: await empresa.json(),
   };
 }
 
@@ -132,10 +143,13 @@ export default async function ListingStayPage({
   params: { slug: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-
-  const { imoveis, estados, cidades, bairros, tipos, codigos } = await getData(
+  const { imoveis, estados, cidades, bairros, tipos, codigos, empresa } = await getData(
     searchParams
   );
+
+  const totalPages = Math.ceil(imoveis.total / PAGE_SIZE);
+  const pagina = Number(searchParams.pagina ?? "1");
+
   return (
     <div>
       <PropertyList
@@ -145,6 +159,11 @@ export default async function ListingStayPage({
         bairros={bairros}
         tipos={tipos}
         codigos={codigos}
+        pages={totalPages}
+        page={pagina}
+        query={params}
+        pathname={"imoveis"}
+        empresa={empresa}
       />
     </div>
   );
