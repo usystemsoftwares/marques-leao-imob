@@ -13,9 +13,6 @@ import MarquesYoutube from "/public/marqueseleao/marques-youtube.webp";
 import FacebookIcon from "/public/marqueseleao/facebook-icon.svg";
 import InstagramIcon from "/public/marqueseleao/instagram-icon.svg";
 import YoutubeIcon from "/public/marqueseleao/youtube-icon.svg";
-import HandshakeIcon from "/public/marqueseleao/handshake-icon.svg";
-import WhatsappPurpleIcon from "/public/marqueseleao/whatsapp-purple-icon.svg";
-import WhiteSearchIcon from "/public/marqueseleao/white-search-icon.svg";
 import CitiesCarousel from "./components/cities-carousel";
 import TestimonialsCarousel from "./components/testimonials-carousel";
 import MarquesLeaoMidiaCarousel from "./components/marques-leao-midia-carousel";
@@ -25,6 +22,7 @@ import processarFiltros from "@/utils/processar-filtros-backend";
 import EstateAgents from "./components/estate-agents";
 import { Post } from "smart-imob-types";
 import HomeFilter from "./components/home-filter";
+import { ResponsivityButtons } from "./components/responsivity-buttons";
 
 async function getData() {
   const empresa_id: any =
@@ -357,7 +355,8 @@ export default async function Home() {
                 <span className="text-white">a maior vitrine imobiliária</span>{" "}
                 da região, investindo em vídeos, anúncios e inovação.
               </p>
-              <ul className="grid md:grid-cols-3 *:min-w-fit md:*:min-w-0 md:*:w-[min(100%,12.5rem)] md:*:h-full md:*:aspect-square *:inline-flex md:*:flex-col *:items-center md:*:items-start md:*:justify-between *:gap-2 sm:gap-4 md*:gap-0 *:font-bold md:*:font-medium xl:*:font-bold text-[.813rem] md:text-[clamp(.75rem,1.75vw,1rem)] lg:*:text-lg *:rounded-[.625rem] *:px-2 sm:px-4 md:*:px-1 lg:*:px-4 *:py-2 md:*:py-2 lg:*:py-8 gap-2 sm:gap-x-3 gap-y-3 marques_leao">
+              <ResponsivityButtons />
+              {/* <ul className="grid md:grid-cols-3 *:min-w-fit md:*:min-w-0 md:*:w-[min(100%,12.5rem)] md:*:h-full md:*:aspect-square *:inline-flex md:*:flex-col *:items-center md:*:items-start md:*:justify-between *:gap-2 sm:gap-4 md*:gap-0 *:font-bold md:*:font-medium xl:*:font-bold text-[.813rem] md:text-[clamp(.75rem,1.75vw,1rem)] lg:*:text-lg *:rounded-[.625rem] *:px-2 sm:px-4 md:*:px-1 lg:*:px-4 *:py-2 md:*:py-2 lg:*:py-8 gap-2 sm:gap-x-3 gap-y-3 marques_leao">
                 <li className="bg-mainPurple *:min-w-fit md:*:w-[min(100%,12.5rem)] md:*:h-full md:*:aspect-square *:inline-flex md:*:flex-col *:items-center md:*:items-start md:*:justify-between *:gap-4 md*:gap-0 *:font-medium xl:*:font-bold *:rounded-[.625rem] !px-4 md:!px-1 lg:!px-2 xl:!px-4">
                   <Link
                     className="!py-0 md:!py-0 lg:!py-0 !px-0 !text-[.9375rem] md:!text-[clamp(.75rem,1.75vw,1rem)] lg:!text-base xl:!text-lg"
@@ -405,7 +404,7 @@ export default async function Home() {
                     Seja parceiro Marques&Leão
                   </p>
                 </li>
-              </ul>
+              </ul> */}
             </div>
           </div>
         </section>

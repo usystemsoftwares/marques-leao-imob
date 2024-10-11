@@ -104,7 +104,7 @@ const EstateAgents = ({ corretores }: { corretores: Corretor[] }) => {
 
           <Link
             className="inline-block w-fit mb-5 lg:mb-0 lg:hidden bg-mainPurple hover:bg-white hover:text-black mt-3 md:text-center transition-colors text-sm py-3 px-12 rounded-lg"
-            href={""}
+            href={`/equipe/${corretores[currentEstateAgent].db_id}`}
           >
             Conhecer {corretores[currentEstateAgent].nome}
           </Link>
@@ -130,7 +130,7 @@ const EstateAgents = ({ corretores }: { corretores: Corretor[] }) => {
 
           <Link
             className="hidden lg:inline-block self-start bg-mainPurple hover:bg-white hover:text-black ml-5 text-center transition-colors text-sm py-3 px-12 rounded-lg"
-            href={""}
+            href={`/equipe/${corretores[currentEstateAgent].db_id}`}
           >
             Conhecer {corretores[currentEstateAgent].nome}
           </Link>
