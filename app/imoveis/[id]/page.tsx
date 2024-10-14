@@ -24,6 +24,8 @@ import { toBRL } from "@/utils/toBrl";
 import { getPhotos } from "@/utils/get-photos";
 import FormContact from "../components/form-contact";
 import PropertyPhotos from "../components/property-photos";
+import processarFiltros from "@/utils/processar-filtros-backend";
+import checkFetchStatus from "@/utils/checkFetchStatus";
 
 async function getData(
   houseId: string,
@@ -34,6 +36,18 @@ async function getData(
   corretor: Corretor | null;
   temporada: any;
   empreendimento: Empreendimento;
+  imoveisRelacionados: {
+    nodes: Imóvel[];
+    total: number;
+  };
+  bairros: string[];
+  estados: {
+    nodes: any[];
+    total: number;
+  };
+  cidades: any[];
+  tipos: any[];
+  codigos: any[];
 }> {
   const uri =
     process.env.BACKEND_API_URI ?? process.env.NEXT_PUBLIC_BACKEND_API_URI;
@@ -79,12 +93,118 @@ async function getData(
       }).then(parseJSON)
     : null;
 
+  const params_imoveis = new URLSearchParams({
+    limit: "24",
+    startAt: "0",
+    filtros: JSON.stringify(
+      processarFiltros({
+        relacionados: houseId,
+        venda: imovel.venda,
+        locação: imovel.locação,
+        temporada: imovel.temporada,
+        preco_max: imovel.venda ? imovel.preço_venda + 500000 : undefined,
+        preco_min: imovel.venda ? imovel.preço_venda - 500000 : undefined,
+        preco_min_locacao: imovel.locação
+          ? Number(imovel.preço_locação) + 750
+          : undefined,
+        preco_max_locacao: imovel.locação
+          ? Number(imovel.preço_locação) - 750
+          : undefined,
+        tipos: [imovel.tipo],
+        cidade_id: imovel.cidade && imovel.cidade.id,
+      })
+    ),
+    order: JSON.stringify([]),
+    empresa_id,
+  });
+
+  const imoveisResponse = await fetch(
+    `${uri}/imoveis/site/paginado?${params_imoveis.toString()}`,
+    {
+      next: { tags: ["imoveis-paginado"] },
+    }
+  );
+
+  const params_bairros = new URLSearchParams({
+    empresa_id,
+  });
+
+  const bairrosResponse = await fetch(
+    `${uri}/imoveis/bairros?${params_bairros.toString()}`,
+    {
+      next: { tags: ["imoveis-paginado"] },
+    }
+  );
+
+  await checkFetchStatus(bairrosResponse, "bairros");
+  const bairros = await bairrosResponse.json();
+
+  const responseEstados = await fetch(`${uri}/estados`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!responseEstados.ok) {
+    throw new Error(`Erro na requisição: ${responseEstados.status}`);
+  }
+
+  const responseCidades = await fetch(`${uri}/cidades`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!responseCidades.ok) {
+    throw new Error(`Erro na requisição: ${responseCidades.status}`);
+  }
+
+  const responseTipos = await fetch(
+    `${uri}/imoveis/tipos?${params_bairros.toString()}`,
+    {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  if (!responseTipos.ok) {
+    throw new Error(`Erro na requisição: ${responseTipos.status}`);
+  }
+
+  const responseCodigos = await fetch(
+    `${uri}/imoveis/codigos?${params_bairros.toString()}`,
+    {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  if (!responseCodigos.ok) {
+    throw new Error(`Erro na requisição: ${responseCodigos.status}`);
+  }
+
   return {
     empresa: await parseJSON(empresa),
     imovel,
     corretor,
     temporada,
     empreendimento,
+    imoveisRelacionados: await parseJSON(imoveisResponse),
+    bairros,
+    estados: await responseEstados.json(),
+    cidades: await responseCidades.json(),
+    tipos: await responseTipos.json(),
+    codigos: await responseCodigos.json(),
   };
 }
 
@@ -100,20 +220,34 @@ const RealEstatePage = async ({
   const VerFotos = searchParams.VerFotos === "true";
   const uid = searchParams.uid || "";
 
-  const { imovel, corretor, temporada, empreendimento, empresa } =
-    await getData(id, afiliado);
-
-  // const relatedEstates = imoveis.filter((imovel) =>
-  //   (imovel.imoveisRelacionados || []).includes(imovel.id)
-  // );
-  const relatedEstates = [];
+  const {
+    imovel,
+    corretor,
+    temporada,
+    empreendimento,
+    empresa,
+    imoveisRelacionados,
+    estados,
+    cidades,
+    bairros,
+    tipos,
+    codigos,
+  } = await getData(id, afiliado);
 
   if (!imovel) return <></>;
 
   return (
     <div className="bg-menu bg-no-repeat">
       <Header />
-      <PropertiesFilter className="hidden lg:flex w-[min(100%,31.875rem)] absolute mt-14 top-0 right-1/2 translate-x-[75%]" />
+      <PropertiesFilter
+        estados={estados.nodes}
+        cidades={cidades}
+        bairros={bairros}
+        tipos={tipos}
+        codigos={codigos}
+        searchParams={searchParams}
+        className="hidden lg:flex w-[min(100%,31.875rem)] absolute mt-14 top-0 right-1/2 translate-x-[75%]"
+      />
       <main className="mt-8">
         <section>
           <PropertyPhotos
@@ -449,9 +583,9 @@ const RealEstatePage = async ({
               Imóveis Relacionados
             </h2>
           </div>
-          {/* <div className="w-full md:w-[min(90%,80rem)] mx-auto pt-12 relative">
-            <Carousel estates={relatedEstates}  /> // TODO carregar imagens
-          </div> */}
+          <div className="w-full md:w-[min(90%,80rem)] mx-auto pt-12 relative">
+            <Carousel estates={imoveisRelacionados.nodes} />
+          </div>
         </section>
       </main>
     </div>

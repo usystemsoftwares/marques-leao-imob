@@ -161,7 +161,7 @@ export default async function ListingStayPage({
         codigos={codigos}
         pages={totalPages}
         page={pagina}
-        query={params}
+        query={searchParams}
         pathname={"imoveis"}
         empresa={empresa}
       />

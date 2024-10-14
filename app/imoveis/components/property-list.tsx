@@ -76,6 +76,7 @@ const PropertyList: React.FC<PropertyListProps> = ({
                 bairros={bairros}
                 tipos={tipos}
                 codigos={codigos}
+                searchParams={query}
               />
             </div>
             <div className="bg-white h-[2px] mt-10 mb-6"></div>

@@ -130,19 +130,19 @@ export default async function HomeFilter({
   params?: { slug: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const { imoveis, estados, cidades, bairros, tipos, codigos } = await getData(
+  const { estados, cidades, bairros, tipos, codigos } = await getData(
     searchParams
   );
   return (
     <div>
       <SearchPropertyFilter
         className={className}
-        imoveis={imoveis.nodes}
         estados={estados.nodes}
         cidades={cidades}
         bairros={bairros}
         tipos={tipos}
         codigos={codigos}
+        searchParams={searchParams}
       />
     </div>
   );
