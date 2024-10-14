@@ -285,16 +285,17 @@ const RealEstatePage = async ({
               </span>
               <h1 className="text-4xl mt-6 font-bold">{imovel.titulo}</h1>
               <div className="mt-4 flex items-center gap-3">
-                {imovel && (
+                {imovel.destaque && (
                   <span className="inline-block bg-[#530944] py-[.35rem] px-4 rounded-r-lg rounded-tl-lg">
                     EXCLUSIVIDADE
                   </span>
                 )}
-                {imovel["preço_venda_desconto"] && (
-                  <span className="bg-[#095310] py-[.35rem] px-4 rounded-r-lg rounded-tl-lg">
-                    imóvel COM DESCONTO
-                  </span>
-                )}
+                {imovel.preço_venda_desconto &&
+                  Number(imovel.preço_venda_desconto) > 0 && (
+                    <span className="bg-[#095310] py-[.35rem] px-4 rounded-r-lg rounded-tl-lg">
+                      imóvel COM DESCONTO
+                    </span>
+                  )}
                 <p className="text-[#707070]">
                   casa para comprar em
                   <br />

@@ -194,20 +194,26 @@ const PropertyList: React.FC<PropertyListProps> = ({
                                 />
                                 {getSingleArea(estate)}
                               </span>
-                              <span className="inline-flex gap-3 items-center">
-                                <Image
-                                  src={Bed}
-                                  alt="Cama"
-                                  style={{
-                                    maxWidth: "100%",
-                                    height: "auto",
-                                  }}
-                                />{" "}
-                                {estate.dormitórios} quarto
-                                {`${
-                                  Number(estate.dormitórios || 0) > 1 ? "s" : ""
-                                }`}
-                              </span>
+                              {estate.dormitórios ? (
+                                <span className="inline-flex gap-3 items-center">
+                                  <Image
+                                    src={Bed}
+                                    alt="Cama"
+                                    style={{
+                                      maxWidth: "100%",
+                                      height: "auto",
+                                    }}
+                                  />{" "}
+                                  {estate.dormitórios} quarto
+                                  {`${
+                                    Number(estate.dormitórios || 0) > 1
+                                      ? "s"
+                                      : ""
+                                  }`}
+                                </span>
+                              ) : (
+                                <></>
+                              )}
                             </div>
                             <div className="w-[35%] flex items-center md:block text-center bg-mainPurple px-3">
                               Conhecer

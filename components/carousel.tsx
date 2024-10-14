@@ -168,7 +168,7 @@ const Carousel = ({ estates }: CarouselProps) => {
                       }} />
                   </button>
                   <Link className="block" href={`/imoveis/${estate.db_id}`}>
-                    <div className="h-[375px] w-[538px] relative">
+                    <div className="h-[350px] w-[420px] relative">
                       <Image
                         className="rounded-lg"
                         src={getFotoDestaque(estate) || ""}
