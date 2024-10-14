@@ -15,7 +15,6 @@ export function getPhotos(
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedUID = localStorage.getItem("uid");
-      console.log('storedUID', storedUID)
       if (storedUID) {
         setHasUID(true);
       }
@@ -25,7 +24,6 @@ export function getPhotos(
   if (!fotos || fotos.length === 0) {
     return [];
   }
-  console.log('hasUID', hasUID)
 
   const compareFunction = (a: any, b: any) =>
     parseInt(String(a.ordem)) - parseInt(String(b.ordem));

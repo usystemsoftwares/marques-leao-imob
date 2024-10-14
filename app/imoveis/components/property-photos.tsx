@@ -19,7 +19,6 @@ export default function PropertyPhotos({
   liberado?: boolean;
   VerFotos?: boolean;
 }) {
-  console.log('liberado', liberado)
   const fotos = getPhotos(
     empresa,
     imovel,
