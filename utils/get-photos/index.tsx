@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Empresa, Foto, Imóvel } from "smart-imob-types";
 
 export function getPhotos(
@@ -9,9 +10,22 @@ export function getPhotos(
   liberado: boolean,
   verFotosUrl = false
 ) {
+  const [hasUID, setHasUID] = useState<boolean>(liberado);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedUID = localStorage.getItem("uid");
+      console.log('storedUID', storedUID)
+      if (storedUID) {
+        setHasUID(true);
+      }
+    }
+  }, []);
+
   if (!fotos || fotos.length === 0) {
     return [];
   }
+  console.log('hasUID', hasUID)
 
   const compareFunction = (a: any, b: any) =>
     parseInt(String(a.ordem)) - parseInt(String(b.ordem));
@@ -25,18 +39,18 @@ export function getPhotos(
   if (!verFotosUrl) {
     if (empresa.bloqueio_de_fotos === undefined) {
       if (imovel?.bloqueio_fotos) {
-        if (!liberado) {
+        if (!hasUID) {
           sliceLimit = isYoutubeVideo
             ? showQuantity - 1 || 2
             : showQuantity || 4;
         }
       }
-    } else if (empresa.bloqueio_de_fotos && !liberado) {
+    } else if (empresa.bloqueio_de_fotos && !hasUID) {
       sliceLimit = isYoutubeVideo ? showQuantity - 1 || 2 : showQuantity || 4;
     }
   }
 
-  if (!liberado && empresa.bloqueio_de_fotos) {
+  if (!hasUID && empresa.bloqueio_de_fotos) {
     const fotoDestaque = orderedFotos.find((foto) => foto.destaque);
     if (fotoDestaque) {
       orderedFotos = orderedFotos.filter((foto) => !foto.destaque);

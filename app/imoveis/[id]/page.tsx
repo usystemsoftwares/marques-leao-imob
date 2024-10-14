@@ -21,8 +21,6 @@ import { notFound } from "next/navigation";
 import { Corretor, Empreendimento, Empresa, Imóvel } from "smart-imob-types";
 import getWhatsappLink from "@/utils/generate_phone_href";
 import { toBRL } from "@/utils/toBrl";
-import { getPhotos } from "@/utils/get-photos";
-import FormContact from "../components/form-contact";
 import PropertyPhotos from "../components/property-photos";
 import processarFiltros from "@/utils/processar-filtros-backend";
 import checkFetchStatus from "@/utils/checkFetchStatus";
@@ -254,7 +252,7 @@ const RealEstatePage = async ({
             empresa={empresa}
             imovel={imovel}
             afiliado={afiliado}
-            uid={!!uid || false}
+            liberado={!!uid || false}
             VerFotos={VerFotos}
           />
         </section>

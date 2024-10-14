@@ -10,24 +10,21 @@ export default function PropertyPhotos({
   empresa,
   imovel,
   afiliado,
-  uid,
+  liberado,
   VerFotos,
 }: {
   empresa: Empresa;
   imovel: Imóvel;
   afiliado: any;
-  uid?: boolean;
+  liberado?: boolean;
   VerFotos?: boolean;
 }) {
-  if (localStorage.getItem("uid")) {
-    uid = true
-  }
-  
+  console.log('liberado', liberado)
   const fotos = getPhotos(
     empresa,
     imovel,
     imovel?.fotos || [],
-    !!uid,
+    liberado || false,
     VerFotos
   );
 
@@ -41,6 +38,7 @@ export default function PropertyPhotos({
                 className="rounded-[.625rem]"
                 src={source.uri || resized || ""}
                 alt="Imóvel"
+                priority
                 width={924}
                 height={598}
                 style={{
@@ -52,7 +50,7 @@ export default function PropertyPhotos({
           );
         }
 
-        if (uid) return null;
+        if (liberado) return null;
         return (
           <FormContact
             key={index}
