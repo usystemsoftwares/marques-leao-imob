@@ -156,28 +156,31 @@ const Carousel = ({ estates }: CarouselProps) => {
                       alt="Ícone de coração selecionado"
                       style={{
                         maxWidth: "100%",
-                        height: "auto"
-                      }} />
+                        height: "auto",
+                      }}
+                    />
                     <Image
                       className="w-8 top-0 right-0"
                       src={HeartIcon}
                       alt="Ícone de coração"
                       style={{
                         maxWidth: "100%",
-                        height: "auto"
-                      }} />
+                        height: "auto",
+                      }}
+                    />
                   </button>
                   <Link className="block" href={`/imoveis/${estate.db_id}`}>
-                    <div className="h-[350px] w-[420px] relative">
+                  <div className="h-[250px] sm:h-[350px] w-full relative">
                       <Image
-                        className="rounded-lg"
+                        className="rounded-lg object-cover w-full h-full"
                         src={getFotoDestaque(estate) || ""}
                         alt={estate.titulo || ""}
                         fill
                         sizes="100vw"
                         style={{
-                          objectFit: "cover"
-                        }} />
+                          objectFit: "cover",
+                        }}
+                      />
                     </div>
                   </Link>
                 </div>
@@ -213,23 +216,27 @@ const Carousel = ({ estates }: CarouselProps) => {
                         alt="Seta que indica tamanho"
                         style={{
                           maxWidth: "100%",
-                          height: "auto"
-                        }} />
+                          height: "auto",
+                        }}
+                      />
                       {getSingleArea(estate)}
                     </span>
-                    {(estate.dormitórios && !estate.não_mostrar_dormítorios) ? (
+                    {estate.dormitórios && !estate.não_mostrar_dormítorios ? (
                       <span className="inline-flex gap-3 items-center scale-90 group-hover:scale-100 delay-75 transition-transform">
                         <Image
                           src={Bed}
                           alt="Cama"
                           style={{
                             maxWidth: "100%",
-                            height: "auto"
-                          }} /> {estate.dormitórios}{" "}
-                        quarto
+                            height: "auto",
+                          }}
+                        />{" "}
+                        {estate.dormitórios} quarto
                         {`${Number(estate.dormitórios || 0) > 1 ? "s" : ""}`}
                       </span>
-                    ) : <></>}
+                    ) : (
+                      <></>
+                    )}
                   </div>
                   <div className="w-[35%] scale-90 group-hover:scale-100 delay-75 transition-transform flex items-center lg:block text-center bg-mainPurple px-3">
                     Conhecer
@@ -250,8 +257,9 @@ const Carousel = ({ estates }: CarouselProps) => {
             alt="Seta para esquerda"
             style={{
               maxWidth: "100%",
-              height: "auto"
-            }} />
+              height: "auto",
+            }}
+          />
         </button>
       )}
 
@@ -265,8 +273,9 @@ const Carousel = ({ estates }: CarouselProps) => {
             alt="Seta para direita"
             style={{
               maxWidth: "100%",
-              height: "auto"
-            }} />
+              height: "auto",
+            }}
+          />
         </button>
       )}
     </div>
