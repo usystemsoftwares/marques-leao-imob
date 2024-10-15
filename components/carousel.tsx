@@ -217,7 +217,7 @@ const Carousel = ({ estates }: CarouselProps) => {
                         }} />
                       {getSingleArea(estate)}
                     </span>
-                    {estate.dormitórios && !estate.não_mostrar_dormítorios && (
+                    {(estate.dormitórios && !estate.não_mostrar_dormítorios) ? (
                       <span className="inline-flex gap-3 items-center scale-90 group-hover:scale-100 delay-75 transition-transform">
                         <Image
                           src={Bed}
@@ -229,7 +229,7 @@ const Carousel = ({ estates }: CarouselProps) => {
                         quarto
                         {`${Number(estate.dormitórios || 0) > 1 ? "s" : ""}`}
                       </span>
-                    )}
+                    ) : <></>}
                   </div>
                   <div className="w-[35%] scale-90 group-hover:scale-100 delay-75 transition-transform flex items-center lg:block text-center bg-mainPurple px-3">
                     Conhecer

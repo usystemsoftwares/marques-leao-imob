@@ -428,7 +428,7 @@ const RealEstatePage = async ({
                 ) : (
                   <></>
                 )}
-                {imovel.dormitórios ? (
+                {imovel.dormitórios && !imovel.não_mostrar_dormítorios ? (
                   <li>
                     <Image
                       className="mx-auto mb-3"

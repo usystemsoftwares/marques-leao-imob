@@ -194,7 +194,8 @@ const PropertyList: React.FC<PropertyListProps> = ({
                                 />
                                 {getSingleArea(estate)}
                               </span>
-                              {estate.dormitórios ? (
+                              {estate.dormitórios &&
+                              !estate.não_mostrar_dormítorios ? (
                                 <span className="inline-flex gap-3 items-center">
                                   <Image
                                     src={Bed}
