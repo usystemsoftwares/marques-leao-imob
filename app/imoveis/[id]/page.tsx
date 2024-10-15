@@ -318,15 +318,15 @@ const RealEstatePage = async ({
                 (imovel["venda_exibir_valor_no_site"] === undefined ||
                   imovel["venda_exibir_valor_no_site"] === true) ? (
                   <>
+                    {toBRL(Number(imovel.preço_venda_desconto))}
                     <span
+                      className="text-gray-500 line-through text-2xl"
                       style={{
-                        textDecoration: "line-through",
                         marginRight: "0.5rem",
                       }}
                     >
                       {toBRL(imovel.preço_venda)}
                     </span>
-                    {toBRL(Number(imovel.preço_venda_desconto))}
                   </>
                 ) : !!imovel["preço_venda"] &&
                   Number(imovel["preço_venda"]) > 0 &&
@@ -345,8 +345,8 @@ const RealEstatePage = async ({
                   imovel["locação_exibir_valor_no_site"] === true) ? (
                   <>
                     <span
+                      className="text-gray-500 line-through text-2xl" // Letra menor e acinzentada
                       style={{
-                        textDecoration: "line-through",
                         marginLeft: "1rem",
                         marginRight: "0.5rem",
                       }}

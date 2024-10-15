@@ -366,55 +366,6 @@ export default async function Home() {
                 da região, investindo em vídeos, anúncios e inovação.
               </p>
               <ResponsivityButtons />
-              {/* <ul className="grid md:grid-cols-3 *:min-w-fit md:*:min-w-0 md:*:w-[min(100%,12.5rem)] md:*:h-full md:*:aspect-square *:inline-flex md:*:flex-col *:items-center md:*:items-start md:*:justify-between *:gap-2 sm:gap-4 md*:gap-0 *:font-bold md:*:font-medium xl:*:font-bold text-[.813rem] md:text-[clamp(.75rem,1.75vw,1rem)] lg:*:text-lg *:rounded-[.625rem] *:px-2 sm:px-4 md:*:px-1 lg:*:px-4 *:py-2 md:*:py-2 lg:*:py-8 gap-2 sm:gap-x-3 gap-y-3 marques_leao">
-                <li className="bg-mainPurple *:min-w-fit md:*:w-[min(100%,12.5rem)] md:*:h-full md:*:aspect-square *:inline-flex md:*:flex-col *:items-center md:*:items-start md:*:justify-between *:gap-4 md*:gap-0 *:font-medium xl:*:font-bold *:rounded-[.625rem] !px-4 md:!px-1 lg:!px-2 xl:!px-4">
-                  <Link
-                    className="!py-0 md:!py-0 lg:!py-0 !px-0 !text-[.9375rem] md:!text-[clamp(.75rem,1.75vw,1rem)] lg:!text-base xl:!text-lg"
-                    href="/anunciar-imovel"
-                  >
-                    <div className="w-5 lg:w-auto">
-                      <Image
-                        src={WhiteSearchIcon}
-                        alt="Ícone de pesquisa"
-                        style={{
-                          maxWidth: "100%",
-                          height: "auto"
-                        }} />
-                    </div>
-                    <p className="xl:leading-[1.5rem]">
-                      Anuncie seu imóvel conosco
-                    </p>
-                  </Link>
-                </li>
-                <li className="bg-white text-mainPurple">
-                  <div className="w-5 lg:w-auto">
-                    <Image
-                      src={WhatsappPurpleIcon}
-                      alt="Whatsapp"
-                      style={{
-                        maxWidth: "100%",
-                        height: "auto"
-                      }} />
-                  </div>
-                  <p className="max-w-[15ch] leading-[1rem] lg:leading-[1.5rem] md:max-w-auto">
-                    Fale com nossos corretores
-                  </p>
-                </li>
-                <li className="bg-white text-mainPurple">
-                  <div className="w-5 lg:w-auto">
-                    <Image
-                      src={HandshakeIcon}
-                      alt="Ícones de aperto de mãos"
-                      style={{
-                        maxWidth: "100%",
-                        height: "auto"
-                      }} />
-                  </div>
-                  <p className="max-w-[15ch] leading-[1rem] lg:leading-[1.5rem] md:max-w-auto">
-                    Seja parceiro Marques&Leão
-                  </p>
-                </li>
-              </ul> */}
             </div>
           </div>
         </section>

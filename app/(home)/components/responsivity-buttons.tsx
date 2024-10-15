@@ -46,11 +46,7 @@ export const ResponsivityButtons = () => {
           className="!py-0 md:!py-0 lg:!py-0 !px-0 !text-[.9375rem] md:!text-[clamp(.75rem,1.75vw,1rem)] lg:!text-base xl:!text-lg"
           href="/anunciar-imovel"
         >
-          <div
-            className={`${
-              hideText ? "" : "w-5 lg:w-auto"
-            }`}
-          >
+          <div className={`${hideText ? "" : "w-5 lg:w-auto"}`}>
             <Image
               src={WhiteSearchIcon}
               alt="Ícone de pesquisa"
@@ -66,10 +62,11 @@ export const ResponsivityButtons = () => {
         </Link>
       </li>
       <li className="bg-white text-mainPurple">
-        <div
+        <Link
           className={`${
             hideText ? "w-8 h-8 lg:w-12 lg:h-12" : "w-5 lg:w-auto"
           }`}
+          href={"/equipe"}
         >
           <Image
             src={WhatsappPurpleIcon}
@@ -79,18 +76,24 @@ export const ResponsivityButtons = () => {
               height: "auto",
             }}
           />
-        </div>
+        </Link>
         {!hideText && (
-          <p className="max-w-[15ch] leading-[1rem] lg:leading-[1.5rem] md:max-w-auto">
-            Fale com nossos corretores
-          </p>
+          <Link href={"/equipe"}>
+            <p className="max-w-[15ch] leading-[1rem] lg:leading-[1.5rem] md:max-w-auto">
+              Fale com nossos corretores
+            </p>
+          </Link>
         )}
       </li>
       <li className="bg-white text-mainPurple">
-        <div
+        <Link
           className={`${
             hideText ? "w-8 h-8 lg:w-12 lg:h-12" : "w-5 lg:w-auto"
           }`}
+          target="_blank"
+          href={
+            "https://s.tintim.app/whatsapp/a9760b6e-fc26-4493-b2e3-7ff652429152/95b5bf55-8193-4994-adb1-92d308cc6b49"
+          }
         >
           <Image
             src={HandshakeIcon}
@@ -100,11 +103,18 @@ export const ResponsivityButtons = () => {
               height: "auto",
             }}
           />
-        </div>
+        </Link>
         {!hideText && (
-          <p className="max-w-[15ch] leading-[1rem] lg:leading-[1.5rem] md:max-w-auto">
-            Seja parceiro Marques&Leão
-          </p>
+          <Link
+            target="_blank"
+            href={
+              "https://s.tintim.app/whatsapp/a9760b6e-fc26-4493-b2e3-7ff652429152/95b5bf55-8193-4994-adb1-92d308cc6b49"
+            }
+          >
+            <p className="max-w-[15ch] leading-[1rem] lg:leading-[1.5rem] md:max-w-auto">
+              Seja parceiro Marques&Leão
+            </p>
+          </Link>
         )}
       </li>
     </ul>

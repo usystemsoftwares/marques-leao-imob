@@ -15,7 +15,6 @@ import Link from "next/link";
 import { Empresa } from "smart-imob-types";
 import { formatPhoneNumber } from "@/utils/formatarTelefoneParaWhatsApp";
 
-
 const Footer = ({ empresa }: { empresa: Empresa }) => {
   return (
     <footer className="bg-gradient-to-t relative z-50 from-[#3a042f] to-[var(--background)] py-8">
@@ -42,8 +41,9 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
               alt="Marques e Leão"
               style={{
                 maxWidth: "100%",
-                height: "auto"
-              }} />
+                height: "auto",
+              }}
+            />
             <p className="text-[.5rem] my-1">@marqueseleao</p>
             <Link
               className="text-[.5rem] bg-[#530944] hover:bg-white hover:text-[#530944] px-3 py-2 rounded-lg"
@@ -60,8 +60,9 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
               alt="Marques e Leão"
               style={{
                 maxWidth: "100%",
-                height: "auto"
-              }} />
+                height: "auto",
+              }}
+            />
             <p className="text-[.5rem] my-1">@marqueseleao</p>
             <Link
               className="text-[.5rem] bg-[#530944] hover:bg-white hover:text-[#530944] px-3 py-2 rounded-lg"
@@ -78,8 +79,9 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
               alt="Marques e Leão"
               style={{
                 maxWidth: "100%",
-                height: "auto"
-              }} />
+                height: "auto",
+              }}
+            />
             <p className="text-[.5rem] my-1">@ImobiliariaMarquesLeao</p>
             <Link
               className="text-[.5rem] bg-[#530944] hover:bg-white hover:text-[#530944] px-3 py-2 rounded-lg"
@@ -99,8 +101,9 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
             alt="Marques & Leão Logo"
             style={{
               maxWidth: "100%",
-              height: "auto"
-            }} />
+              height: "auto",
+            }}
+          />
           <ul className="hidden *:flex *:items-center *:gap-2 lg:block">
             <li>
               <Image
@@ -108,8 +111,9 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
                 alt="Email"
                 style={{
                   maxWidth: "100%",
-                  height: "auto"
-                }} />
+                  height: "auto",
+                }}
+              />
               {empresa.email || "contato@marqueseleao.com"}
             </li>
             <li className="mt-3">
@@ -118,56 +122,77 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
                 alt="Telefone"
                 style={{
                   maxWidth: "100%",
-                  height: "auto"
-                }} />
-              {empresa.telefone ? formatPhoneNumber(empresa.telefone) : "00 9 0000-0000"}
+                  height: "auto",
+                }}
+              />
+              {empresa.telefone
+                ? formatPhoneNumber(empresa.telefone)
+                : "00 9 0000-0000"}
             </li>
           </ul>
           <div className="hidden lg:block">
             <p>Acompanhe-nos</p>
             <ul className="flex items-center mt-1 gap-2">
               <li>
-                <Link href={""}>
+                <Link
+                  href="https://www.instagram.com/marqueseleao/"
+                  target="_blank"
+                >
                   <Image
                     src={InstagramIcon}
                     alt="Instagram"
                     style={{
                       maxWidth: "100%",
-                      height: "auto"
-                    }} />
+                      height: "auto",
+                    }}
+                  />
                 </Link>
               </li>
               <li>
-                <Link href={""}>
+                <Link
+                  href="https://web.facebook.com/marqueseleao"
+                  target="_blank"
+                >
                   <Image
                     src={FacebookIcon}
                     alt="Facebook"
                     style={{
                       maxWidth: "100%",
-                      height: "auto"
-                    }} />
+                      height: "auto",
+                    }}
+                  />
                 </Link>
               </li>
               <li>
-                <Link href={""}>
+                <Link
+                  href={
+                    "https://br.linkedin.com/company/imobiliária-marques-&-leão"
+                  }
+                  target="_blank"
+                >
                   <Image
                     src={LinkedInIcon}
                     alt="LinkedIn"
                     style={{
                       maxWidth: "100%",
-                      height: "auto"
-                    }} />
+                      height: "auto",
+                    }}
+                  />
                 </Link>
               </li>
               <li>
-                <Link href={""}>
+                <Link
+                  href="https://www.youtube.com/c/ImobiliariaMarquesLeao/"
+                  target="_blank"
+                >
                   <Image
                     src={YoutubeIcon}
                     alt="Youtube"
                     style={{
                       maxWidth: "100%",
-                      height: "auto"
-                    }} />
+                      height: "auto",
+                    }}
+                  />
                 </Link>
               </li>
             </ul>
@@ -175,7 +200,10 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
           <div className="hidden lg:flex flex-col text-center gap-2">
             <Link
               className="border border-white text-[#530944] font-bold hover:text-white bg-white hover:bg-transparent transition-colors text-sm lg:text-base py-3 px-7 rounded-lg"
-              href={""}
+              href={
+                "https://s.tintim.app/whatsapp/a9760b6e-fc26-4493-b2e3-7ff652429152/95b5bf55-8193-4994-adb1-92d308cc6b49"
+              }
+              target="_blank"
             >
               Entrar em contato
             </Link>

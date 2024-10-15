@@ -58,7 +58,7 @@ const CitiesCarousel = () => {
             <p className="absolute bottom-0 text-center w-full py-2 bg-[#666666] bg-opacity-60 group-hover:opacity-0 transition-opacity">Estancia Velha</p>
           </Link>
           <Link
-            href="/imoveis?cidade.nome=Santa Catarina"
+            href="/imoveis?estado.nome=Santa Catarina"
             className="group"
           >
             <Image
