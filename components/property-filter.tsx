@@ -59,10 +59,10 @@ const SearchPropertyFilter = ({
   );
   const [codigo, setCodigo] = useState<string>(searchParams?.código ?? "");
   const [valorMin, setValorMin] = useState<number | "">(
-    searchParams?.preco_min ?? ""
+    searchParams?.['imovel.preco_min'] ?? ""
   );
   const [valorMax, setValorMax] = useState<number | "">(
-    searchParams?.preco_max ?? ""
+    searchParams?.['imovel.preco_max'] ?? ""
   );
 
   const inputRef = useRef<HTMLFormElement | null>(null);
@@ -90,8 +90,8 @@ const SearchPropertyFilter = ({
   if (bairro) query.bairros = [bairro];
   if (tipo) query.tipos = [tipo];
   if (codigo) query.código = codigo;
-  if (valorMin !== "") query.preco_min = valorMin.toString();
-  if (valorMax !== "") query.preco_max = valorMax.toString();
+  if (valorMin !== "") query['imovel.preco_min'] = valorMin.toString();
+  if (valorMax !== "") query['imovel.preco_max'] = valorMax.toString();
 
   const getSelectedFilters = () => {
     const filters = [];

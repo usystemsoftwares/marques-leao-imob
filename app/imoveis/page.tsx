@@ -29,6 +29,7 @@ async function getData(filtros: any): Promise<{
   const empresa_id: any =
     process.env.EMPRESA_ID ?? process.env.NEXT_PUBLIC_EMPRESA_ID;
 
+  console.log(JSON.stringify(processarFiltros(rest)));
   const params_imoveis = new URLSearchParams({
     limit: PAGE_SIZE.toString(),
     startAt: (((pagina ?? 1) - 1) * PAGE_SIZE).toString(),
@@ -143,9 +144,9 @@ export default async function ListingStayPage({
   params: { slug: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const { imoveis, estados, cidades, bairros, tipos, codigos, empresa } = await getData(
-    searchParams
-  );
+  console.log(searchParams);
+  const { imoveis, estados, cidades, bairros, tipos, codigos, empresa } =
+    await getData(searchParams);
 
   const totalPages = Math.ceil(imoveis.total / PAGE_SIZE);
   const pagina = Number(searchParams.pagina ?? "1");
