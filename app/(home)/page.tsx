@@ -146,8 +146,14 @@ async function getData() {
 }
 
 export default async function Home() {
-  const { imoveisDestaque, imoveisNovidade, corretores, depoimentos, posts, empresa } =
-    await getData();
+  const {
+    imoveisDestaque,
+    imoveisNovidade,
+    corretores,
+    depoimentos,
+    posts,
+    empresa,
+  } = await getData();
 
   return (
     <div className="bg-menu bg-no-repeat">
@@ -159,15 +165,16 @@ export default async function Home() {
         alt="Ellipse blur"
         style={{
           maxWidth: "100%",
-          height: "auto"
-        }} />
+          height: "auto",
+        }}
+      />
       <main>
         <section className="min-h-[100svh] relative w-[min(90%,80rem)] mx-auto">
           <h1 className="text-[clamp(.75rem,4.5vw,2.25rem)] md:text-[clamp(.75rem,9vw,2rem)] relative z-10 font-extralight leading-none max-w-[26ch] md:max-w-[24ch] mx-auto md:mx-0 pt-[23rem] md:pt-40">
             Conectamos
             <br />{" "}
             <span
-              className={`text-[clamp(2.5rem,12vw,5rem)] tracking-tighter md:tracking-normal md:text-[5.5rem] font-bold leading-[.75] font-baskervville md:pr-5`}
+              className={`text-[clamp(2.5rem,12vw,5rem)] tracking-tighter md:tracking-normal md:text-[5.5rem] font-extrabold leading-[.75] font-baskervville md:pr-3`}
             >
               <strong>pessoas</strong>
             </span>{" "}
@@ -175,7 +182,7 @@ export default async function Home() {
               a imóveis
             </span>
             <span
-              className={`flex items-center text-[clamp(2.5rem,12vw,5rem)] md:text-[5.5rem] leading-[1] font-baskervville before:inline-block before:w-[clamp(50%,10vw,100%)] font-bold before:h-[1px] before:bg-mainPurple`}
+              className={`flex items-center text-[clamp(2.5rem,12vw,5rem)] md:text-[5.5rem] leading-[1] font-extrabold before:inline-block before:w-[clamp(50%,10vw,100%)] font-baskervville before:h-[1px] before:bg-mainPurple`}
             >
               <strong className="pl-5 tracking-tighter md:tracking-normal">
                 incríveis
@@ -193,8 +200,9 @@ export default async function Home() {
             priority
             style={{
               maxWidth: "100%",
-              height: "auto"
-            }} />
+              height: "auto",
+            }}
+          />
           <HomeFilter className="absolute bottom-[17.5%] translate-x-1/2 z-50 right-1/2" />
         </section>
         <section className="w-full md:w-[min(90%,110rem)] mx-auto relative">
@@ -263,8 +271,9 @@ export default async function Home() {
                 alt="Varanda de prédios"
                 style={{
                   maxWidth: "100%",
-                  height: "auto"
-                }} />
+                  height: "auto",
+                }}
+              />
             </div>
             <div className="projects-wrapper w-[min(100%,25rem)]">
               <div className="bg-mainPurple md:h-full md:bg-transparent before:bg-gradient-to-t before:absolute before:inset-0 before:-z-20 before:from-[#141414] md:before:content-none md:bg-gradient-to-b translate-y-[-.5rem] md:translate-y-0 md:translate-x-[.75rem] lg:translate-x-[1.25rem] md:from-mainPurple rounded-lg md:rounded-xl px-6 py-8 md:p-8 projects">
@@ -321,8 +330,9 @@ export default async function Home() {
               alt="Ellipse blur"
               style={{
                 maxWidth: "100%",
-                height: "auto"
-              }} />
+                height: "auto",
+              }}
+            />
           </div>
           <div className="w-[min(90%,75rem)] mt-24 mb-12 mx-auto flex flex-col items-center md:flex-row md:items-center md:justify-between md:gap-20">
             <div className="relative w-[min(100%,30rem)] ml-4 sm:ml-0">
@@ -332,8 +342,9 @@ export default async function Home() {
                 alt="Gabriel Leão de costa para foto, de frente para uma casa"
                 style={{
                   maxWidth: "100%",
-                  height: "auto"
-                }} />
+                  height: "auto",
+                }}
+              />
               <div className="text-sm lg:text-base absolute translate-x-[-15%] md:right-0 md:translate-x-[35%] bottom-[35.5%] sm:bottom-[40%] md:bottom-[60%] px-3 py-3 md:px-2 md:py-2 lg:px-4 lg:py-4 translate-y-[50%] backdrop-blur-2xl rounded-[.625rem]">
                 <span className="text-xl lg:text-[clamp(1rem,3vw,1.875rem)] font-bold block text-center">
                   +22mil
@@ -378,8 +389,9 @@ export default async function Home() {
               alt="Ellipse blur"
               style={{
                 maxWidth: "100%",
-                height: "auto"
-              }} />
+                height: "auto",
+              }}
+            />
           </div>
           <div className="w-[min(90%,80rem)] mx-auto flex flex-col lg:flex-row items-center gap-[clamp(1rem,2.5vw,2.5rem)]">
             <div className="w-[min(100%,37.5rem)] relative lg:flex-1">
@@ -407,8 +419,9 @@ export default async function Home() {
                         alt="Foto de Pablo Marques e Gabriel Leão"
                         style={{
                           maxWidth: "100%",
-                          height: "auto"
-                        }} />
+                          height: "auto",
+                        }}
+                      />
                     </div>
                     <div>
                       <p className="text-[clamp(.875rem,1.5vw,1.125rem)] mb-3">
@@ -424,8 +437,9 @@ export default async function Home() {
                           alt="Instagram"
                           style={{
                             maxWidth: "100%",
-                            height: "auto"
-                          }} />
+                            height: "auto",
+                          }}
+                        />
                         Seguir no Instagram
                       </Link>
                     </div>
@@ -438,8 +452,9 @@ export default async function Home() {
                         alt="Foto de Pablo Marques e Gabriel Leão"
                         style={{
                           maxWidth: "100%",
-                          height: "auto"
-                        }} />
+                          height: "auto",
+                        }}
+                      />
                     </div>
                     <div>
                       <p className="text-[clamp(.875rem,1.5vw,1.125rem)] mb-3">
@@ -456,8 +471,9 @@ export default async function Home() {
                           alt="Youtube"
                           style={{
                             maxWidth: "100%",
-                            height: "auto"
-                          }} />
+                            height: "auto",
+                          }}
+                        />
                         Se inscreva no canal
                       </Link>
                     </div>
@@ -470,8 +486,9 @@ export default async function Home() {
                         alt="Foto de Pablo Marques e Gabriel Leão"
                         style={{
                           maxWidth: "100%",
-                          height: "auto"
-                        }} />
+                          height: "auto",
+                        }}
+                      />
                     </div>
                     <div>
                       <p className="text-[clamp(.875rem,1.5vw,1.125rem)] mb-3">
@@ -487,8 +504,9 @@ export default async function Home() {
                           alt="Facebook"
                           style={{
                             maxWidth: "100%",
-                            height: "auto"
-                          }} />
+                            height: "auto",
+                          }}
+                        />
                         Seguir no Facebook
                       </Link>
                     </div>

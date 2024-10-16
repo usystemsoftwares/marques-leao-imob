@@ -68,6 +68,9 @@ const config: Config = {
       fontFamily: {
         baskervville: ["var(--font-baskervville)"],
         montserrat: ["var(--font-montserrat)"]
+      },
+      fontWeight: {
+        'heavy': '950',
       }
     }
   },
