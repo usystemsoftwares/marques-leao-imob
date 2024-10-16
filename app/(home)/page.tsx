@@ -510,7 +510,7 @@ export default async function Home() {
           <h2
             className={`text-3xl text-center lg:text-start font-baskervville`}
           >
-            Equipe
+            Equipe Marques & Leão
           </h2>
           <EstateAgents corretores={corretores} />
         </section>
