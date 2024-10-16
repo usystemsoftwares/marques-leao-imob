@@ -91,7 +91,7 @@ const TestimonialsCarousel = ({
           <span className="text-[#898989] flex gap-4 items-center after:w-[7.5rem] after:bg-[#898989] after:h-[2px]">
             Depoimentos
           </span>
-          <h2 className={`text-4xl font-baskervville`}>
+          <h2 className={`text-3xl font-baskervville`}>
             Veja alguns comentários dos nossos clientes
           </h2>
         </div>

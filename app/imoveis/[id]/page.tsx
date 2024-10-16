@@ -74,8 +74,8 @@ async function getData(
 
   const imovel = await parseJSON(dataImovel);
   const corretor = imovel?.agenciador_id
-    ? await fetch(`${uri}/corretores/${afiliado ?? imovel.agenciador_id}`, {
-        next: { tags: [`corretores-${afiliado ?? imovel.agenciador_id}`] },
+    ? await fetch(`${uri}/corretores/${afiliado || imovel.agenciador_id}`, {
+        next: { tags: [`corretores-${afiliado || imovel.agenciador_id}`] },
       }).then(parseJSON)
     : null;
 
