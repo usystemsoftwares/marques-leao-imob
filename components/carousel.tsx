@@ -170,7 +170,7 @@ const Carousel = ({ estates }: CarouselProps) => {
                     />
                   </button>
                   <Link className="block" href={`/imoveis/${estate.db_id}`}>
-                  <div className="h-[250px] sm:h-[350px] w-full relative">
+                    <div className="h-[350px] sm:h-[340px] w-full relative">
                       <Image
                         className="rounded-lg object-cover w-full h-full"
                         src={getFotoDestaque(estate) || ""}
@@ -249,7 +249,7 @@ const Carousel = ({ estates }: CarouselProps) => {
       </div>
       {emblaApi?.canScrollPrev() && (
         <button
-          className="embla__prev absolute top-[calc(50%+1.25rem)] translate-y-1/2 left-[2%] md:left-[-4%]"
+          className="embla__prev absolute top-[calc(50%+1.25rem)] translate-y-1/2 left-[2%] md:left-[-1%]"
           onClick={scrollPrev}
         >
           <Image
@@ -265,7 +265,7 @@ const Carousel = ({ estates }: CarouselProps) => {
 
       {emblaApi?.canScrollNext() && (
         <button
-          className="embla__next absolute top-[calc(50%+1.25rem)] translate-y-1/2 right-[2%] md:right-[-4%]"
+          className="embla__next absolute top-[calc(50%+1.25rem)] translate-y-1/2 right-[2%] md:right-[-1%]"
           onClick={scrollNext}
         >
           <Image

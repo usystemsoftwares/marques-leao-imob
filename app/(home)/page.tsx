@@ -167,7 +167,7 @@ export default async function Home() {
             Conectamos
             <br />{" "}
             <span
-              className={`text-[clamp(2.5rem,12vw,5rem)] tracking-tighter md:tracking-normal md:text-[5.5rem] font-bold leading-[.75] font-baskervville md:pr-8`}
+              className={`text-[clamp(2.5rem,12vw,5rem)] tracking-tighter md:tracking-normal md:text-[5.5rem] font-bold leading-[.75] font-baskervville md:pr-5`}
             >
               <strong>pessoas</strong>
             </span>{" "}
@@ -197,7 +197,7 @@ export default async function Home() {
             }} />
           <HomeFilter className="absolute bottom-[17.5%] translate-x-1/2 z-50 right-1/2" />
         </section>
-        <section className="w-full md:w-[min(90%,80rem)] mx-auto relative">
+        <section className="w-full md:w-[min(90%,110rem)] mx-auto relative">
           <div className="w-[min(90%,68rem)] mx-auto flex items-center justify-center md:justify-between">
             <div className="relative">
               <span className="flex gap-4 items-center text-[#898989] after:inline-block after:w-28 after:h-[2px] after:bg-[#898989]">
@@ -510,7 +510,7 @@ export default async function Home() {
           <h2
             className={`text-3xl text-center lg:text-start font-baskervville`}
           >
-            Corretores Marques
+            Equipe
           </h2>
           <EstateAgents corretores={corretores} />
         </section>

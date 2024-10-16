@@ -18,6 +18,10 @@
   }
 }
 
+html {
+  zoom: 0.9; /* Ajuste o valor conforme necessário */
+}
+
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

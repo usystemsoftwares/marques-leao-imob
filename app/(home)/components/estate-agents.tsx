@@ -82,23 +82,6 @@ const EstateAgents = ({ corretores }: { corretores: Corretor[] }) => {
                       110
                     )}... `
                   : corretores[currentEstateAgent].bio || ""}
-                {/* {(corretores[currentEstateAgent].bio || '').length > 110 &&
-                  !isBioExpanded && (
-                    <button
-                      onClick={handleToggleBio}
-                      className="text-mainPurple font-bold ml-1"
-                    >
-                      ver mais
-                    </button>
-                  )} */}
-                {/* {isBioExpanded && (
-                  <button
-                    onClick={handleToggleBio}
-                    className="text-mainPurple font-bold ml-1"
-                  >
-                    ver menos
-                  </button>
-                )} */}
               </p>
             )}
 
