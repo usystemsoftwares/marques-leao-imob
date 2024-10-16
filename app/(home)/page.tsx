@@ -233,7 +233,7 @@ export default async function Home() {
             <CitiesCarousel />
           </div>
         </section>
-        <section className="w-full md:w-[min(90%,80rem)] mx-auto mt-20 mb-28 relative">
+        <section className="w-full md:w-[min(90%,110rem)] mx-auto mt-20 mb-28 relative">
           <div className="w-[min(90%,68rem)] mb-8 mx-auto flex items-center justify-center md:justify-between">
             <div>
               <span className="flex gap-4 items-center text-[#898989] after:inline-block after:w-28 after:h-[2px] after:bg-[#898989]">
