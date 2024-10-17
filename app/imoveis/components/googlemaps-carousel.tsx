@@ -49,6 +49,9 @@ const GoogleMapsCarousel = ({ estates }: CarouselProps) => {
             >
               <div className="embla__slide__number pt-5">
                 <div className="relative">
+                  <div className="absolute top-7 left-2 bg-white bg-opacity-70 text-black px-3 py-1 rounded-md z-[99]">
+                    {estate.codigo}
+                  </div>
                   <button
                     className="block absolute right-[5%] top-[7.5%]"
                     onClick={() => {
@@ -64,8 +67,9 @@ const GoogleMapsCarousel = ({ estates }: CarouselProps) => {
                         alt="Ícone de coração selecionado"
                         style={{
                           maxWidth: "100%",
-                          height: "auto"
-                        }} />
+                          height: "auto",
+                        }}
+                      />
                     ) : (
                       <Image
                         className="w-8"
@@ -73,8 +77,9 @@ const GoogleMapsCarousel = ({ estates }: CarouselProps) => {
                         alt="Ícone de coração"
                         style={{
                           maxWidth: "100%",
-                          height: "auto"
-                        }} />
+                          height: "auto",
+                        }}
+                      />
                     )}
                   </button>
                   <Link className="block" href={`/imoveis/${estate.db_id}`}>
@@ -86,8 +91,9 @@ const GoogleMapsCarousel = ({ estates }: CarouselProps) => {
                       height={375}
                       style={{
                         maxWidth: "100%",
-                        height: "auto"
-                      }} />
+                        height: "auto",
+                      }}
+                    />
                   </Link>
                 </div>
                 <Link
@@ -122,8 +128,9 @@ const GoogleMapsCarousel = ({ estates }: CarouselProps) => {
                         alt="Seta que indica tamanho"
                         style={{
                           maxWidth: "100%",
-                          height: "auto"
-                        }} />
+                          height: "auto",
+                        }}
+                      />
                       {getSingleArea(estate)}
                     </span>
                     {estate.dormitórios && !estate.não_mostrar_dormítorios && (
@@ -133,9 +140,10 @@ const GoogleMapsCarousel = ({ estates }: CarouselProps) => {
                           alt="Cama"
                           style={{
                             maxWidth: "100%",
-                            height: "auto"
-                          }} /> {estate.dormitórios}{" "}
-                        quarto
+                            height: "auto",
+                          }}
+                        />{" "}
+                        {estate.dormitórios} quarto
                         {`${Number(estate.dormitórios || 0) > 1 ? "s" : ""}`}
                       </span>
                     )}
@@ -159,8 +167,9 @@ const GoogleMapsCarousel = ({ estates }: CarouselProps) => {
             alt="Seta para esquerda"
             style={{
               maxWidth: "100%",
-              height: "auto"
-            }} />
+              height: "auto",
+            }}
+          />
         </button>
       )}
 
@@ -174,8 +183,9 @@ const GoogleMapsCarousel = ({ estates }: CarouselProps) => {
             alt="Seta para direita"
             style={{
               maxWidth: "100%",
-              height: "auto"
-            }} />
+              height: "auto",
+            }}
+          />
         </button>
       )}
     </div>

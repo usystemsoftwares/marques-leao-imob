@@ -69,7 +69,7 @@ const PropertyList: React.FC<PropertyListProps> = ({
             Mapa
           </button>
           <div className="lg:max-w-[57.5vw]">
-            <div className="relative z-20 w-[min(90%,80rem)] mb-20 mx-auto">
+            <div className="relative z-20 w-[min(90%,80rem)] mb-20 mx-auto ">
               <PropertyFilter
                 estados={estados}
                 cidades={cidades}
@@ -104,6 +104,9 @@ const PropertyList: React.FC<PropertyListProps> = ({
                               </div>
                             )}
                           <div className="relative">
+                            <div className="absolute top-7 left-2 bg-white bg-opacity-70 text-black px-3 py-1 rounded-md z-[9]">
+                              {estate.codigo}
+                            </div>
                             <button
                               className="block absolute right-[5%] top-[7.5%]"
                               onClick={() => {
@@ -245,7 +248,6 @@ const PropertyList: React.FC<PropertyListProps> = ({
             <GoogleMap
               closeMap={handleCloseMap}
               imoveis={imoveis}
-              bairros={bairros}
               defaultCenter={defaultCenterImovel}
             />
           </div>

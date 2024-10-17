@@ -139,6 +139,9 @@ const Carousel = ({ estates }: CarouselProps) => {
                     </div>
                   )}
                 <div className="relative">
+                  <div className="absolute top-7 left-2 bg-white bg-opacity-70 text-black px-3 py-1 rounded-md z-[99]">
+                    {estate.codigo}
+                  </div>
                   <button
                     className="block absolute right-[5%] top-[7.5%]"
                     onClick={() => {

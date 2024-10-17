@@ -8,10 +8,10 @@ import {
 } from "@vis.gl/react-google-maps";
 import Image, { StaticImageData } from "next/image";
 import { useEffect, useState } from "react";
-import GoogleMapsCarousel from "./googlemaps-carousel";
 import MapsArrow from "/public/marqueseleao/maps-arrow.svg";
 import { Imóvel } from "smart-imob-types";
 import { getFotoDestaque } from "@/utils/get-foto-destaque";
+import EstateDetails from "./estate-details";
 
 const InfoWindow = InfoWindowReact as any;
 
@@ -30,18 +30,12 @@ type BairroType = {
 type GoogleMapProps = {
   closeMap: () => void;
   imoveis: Imóvel[];
-  bairros: BairroType[];
   defaultCenter?: Imóvel;
 };
 
-const GoogleMap = ({
-  closeMap,
-  imoveis,
-  bairros,
-  defaultCenter,
-}: GoogleMapProps) => {
-  const [markers, setMarkers] = useState<BairroType[]>(bairros);
-  const [selectedMarker, setSelectedMarker] = useState<BairroType | null>(null);
+const GoogleMap = ({ closeMap, imoveis, defaultCenter }: GoogleMapProps) => {
+  const [markers, setMarkers] = useState<any[]>(imoveis);
+  const [selectedMarker, setSelectedMarker] = useState<any | null>(null);
 
   const mapPosition = {
     lat: defaultCenter?.lat || -29.6846,
@@ -71,6 +65,7 @@ const GoogleMap = ({
           lat: imovel.lat,
           lng: imovel.long,
         },
+        imovel,
       };
     });
     setMarkers(objs);
@@ -101,7 +96,7 @@ const GoogleMap = ({
         </button>
         {(markers || []).map((marker) => (
           <AdvancedMarker
-            key={marker.id}
+            key={marker.db_id}
             position={marker.position}
             onClick={() => setSelectedMarker(selectedMarker ? null : marker)}
           >
@@ -125,7 +120,7 @@ const GoogleMap = ({
                 onCloseClick={() => setSelectedMarker(null)}
                 onDoubleClick={() => setSelectedMarker(null)}
               >
-                <GoogleMapsCarousel estates={imoveis} />
+                <EstateDetails estate={selectedMarker?.imovel} />
               </InfoWindow>
             )}
           </AdvancedMarker>

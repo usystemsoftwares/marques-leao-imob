@@ -69,7 +69,12 @@ const PropertiesFilter = ({
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (!inputRef.current?.contains(e.target as Node)) {
+      const target = e.target as HTMLElement;
+
+      const clickedInsideInput = inputRef.current?.contains(target);
+      const clickedInsideSelectContent = target.closest(".select-content");
+
+      if (!clickedInsideInput && !clickedInsideSelectContent) {
         setIsOpen(false);
       }
     };
@@ -137,9 +142,9 @@ const PropertiesFilter = ({
     <form
       ref={inputRef}
       onSubmit={(e: FormEvent) => e.preventDefault()}
-      className={cn("group bg-white py-3 px-3 rounded-[.625rem]", className)}
+      className={cn("group bg-white py-3 px-3 rounded-[.625rem] z-[999999]", className)}
     >
-      <div className="flex justify-between w-full">
+      <div className="flex justify-between w-full z-[999999]">
         <input
           type="text"
           placeholder="Clique para iniciar sua busca"
@@ -164,13 +169,13 @@ const PropertiesFilter = ({
         animate={isOpen ? "open" : "closed"}
         variants={sideVariants}
       >
-        <div className="max-w-[37.5rem] px-3 mx-auto *:flex *:flex-wrap *:justify-center *:items-center">
-          <div className="*:w-[10.5rem] gap-4 *:rounded-xl *:border-black *:border">
+        <div className="max-w-[37.5rem] px-3 mx-auto *:flex *:flex-wrap *:justify-center *:items-center z-[999999]">
+          <div className="*:w-[10.5rem] gap-4 *:rounded-xl *:border-black *:border z-[999999]">
             <Select value={estado} onValueChange={setEstado}>
               <SelectTrigger>
                 <SelectValue placeholder="Estados" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="select-content">
                 {estados.map((estadoItem) => (
                   <SelectItem
                     key={estadoItem.value}
@@ -186,7 +191,7 @@ const PropertiesFilter = ({
               <SelectTrigger>
                 <SelectValue placeholder="Cidades" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="select-content">
                 {cidades
                   // .filter((cidadeItem) => cidadeItem.estado_id.toString() === estado)
                   .map((cidadeItem) => (
@@ -204,7 +209,7 @@ const PropertiesFilter = ({
               <SelectTrigger>
                 <SelectValue placeholder="Bairros" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="select-content">
                 {bairros
                   // .filter((bairroItem: any) => bairroItem.cidadeId.toString() === cidade)
                   .map((bairroItem: any, index: number) => (
@@ -219,7 +224,7 @@ const PropertiesFilter = ({
               <SelectTrigger>
                 <SelectValue placeholder="Tipos" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="select-content">
                 {tipos.map((tipoItem, index) => (
                   <SelectItem key={index} value={tipoItem}>
                     {tipoItem}
@@ -232,7 +237,7 @@ const PropertiesFilter = ({
               <SelectTrigger>
                 <SelectValue placeholder="Códigos" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="select-content">
                 {codigos.map((codigoItem, index) => (
                   <SelectItem key={index} value={codigoItem}>
                     {codigoItem}
