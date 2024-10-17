@@ -52,7 +52,7 @@ const MarquesAndLeaoImg = () => {
           animate={showPablo ? "open" : "closed"}
           variants={textVariants}
         >Pablo Marques</motion.p>
-        <p className="mt-2 text-[clamp(.75rem,3vw,1rem)] sm:text-lg lg:text-base xl:text-lg !leading-[1.3]">Atuando a mais de 12 anos no mercado imobiliário, tive o privilégio de impactar dezenas de pessoas ao longo da minha trajetório, o que me trouxe expertise quando o assunto é imóveis e transformação de vidas. Com foco em imóveis de médio e alto padrão na região de Novo Hamburgo e Campo Bom, sou especialista em ativos imobiliários e estratégias de marketing imobiliário.</p>
+        <p className="mt-2 text-[clamp(.75rem,3vw,1rem)] sm:text-lg lg:text-base xl:text-lg !leading-[1.3]">Com 14 anos de experiência no mercado imobiliário, tive o privilégio de impactar muitas vidas. Especialista em imóveis de alto padrão em Novo Hamburgo, Campo Bom, Estância Velha e em investimentos no litoral de Santa Catarina, combino expertise em ativos imobiliários e marketing estratégico. Minha missão é conectar pessoas a imóveis que expressem seus valores, sempre proporcionando uma experiência transformadora.</p>
       </div>
     </motion.div>
     <Image
@@ -82,7 +82,7 @@ const MarquesAndLeaoImg = () => {
           animate={showGabriel ? "open" : "closed"}
           variants={textVariants}
         >Gabriel Leão</motion.p>
-        <p className="mt-2 lg:mt-4 text-[clamp(.75rem,3vw,1rem)] sm:text-lg lg:text-base xl:text-lg !leading-[1.3]">Meu nome é Gabriel Leão, sou um dos fundadores da Marques & Leão, tenho 32 anos, morador de Novo Hamburgo, casado com a Nina, que é dona do meu coração e pai de pet do meu cachorrinho chamado Véio, atuo no mercado imobiliário há quase 11 anos, profissão onde me encontrei e sou apaixonado pelo que faço!</p>
+        <p className="mt-2 lg:mt-4 text-[clamp(.75rem,3vw,1rem)] sm:text-lg lg:text-base xl:text-lg !leading-[1.3]">Há quase 13 anos no mercado imobiliário, sou apaixonado pelo que faço! Com uma personalidade sinestésica, adoro conversar, desafios e sou competitivo. Responsável pela gestão de equipe e negociações, já liderei a venda de mais de 1.500 imóveis. Tenho certeza de que podemos alcançar o melhor negócio. Será um prazer te conhecer e fazer parte da sua história!</p>
       </div>
     </motion.div>
   </>;
