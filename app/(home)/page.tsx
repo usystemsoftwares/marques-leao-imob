@@ -359,7 +359,7 @@ export default async function Home() {
               </div>
               <div className="text-sm lg:text-base absolute translate-x-[-15%] md:right-0 md:translate-x-[40%] bottom-[78.5%] md:bottom-[15%] px-3 py-3 md:px-2 md:py-2 lg:px-4 lg:py-4 translate-y-1/2 backdrop-blur-2xl rounded-[.625rem]">
                 <span className="text-xl lg:text-[clamp(1rem,3vw,1.875rem)] font-bold block">
-                  +100 mil
+                  +1 milhão
                 </span>{" "}
                 de alcance mensal
               </div>
