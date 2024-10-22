@@ -26,16 +26,11 @@ const EstateAgents = ({ corretores }: { corretores: Corretor[] }) => {
       <div className="flex flex-col lg:w-[80%] lg:block">
         <div className="flex justify-between w-[80%] sm:w-[60%] mx-auto lg:mx-0 lg:w-auto sm:gap-8 items-center lg:block">
           <Image
-            className="w-[370px] h-[452px] lg:max-w-full rounded-[.625rem] border-[.313rem] border-mainPurple"
+            className="w-[320px] sm:w-[370px] h-[450px] sm:h-[452px] lg:max-w-full rounded-[0.625rem] border-[0.313rem] border-mainPurple object-cover"
             src={corretores[currentEstateAgent].foto || ""}
             width={370}
             height={452}
             alt={corretores[currentEstateAgent].nome}
-            style={{
-              width: "370px",
-              height: "452px",
-              objectFit: "cover",
-            }}
           />
           <div className="lg:hidden mt-7 gap-8">
             {corretores[currentEstateAgent].qtdImoveis > 0 && (
@@ -86,7 +81,21 @@ const EstateAgents = ({ corretores }: { corretores: Corretor[] }) => {
             )}
 
           <Link
-            className="inline-block w-fit mb-5 lg:mb-0 lg:hidden bg-mainPurple hover:bg-white hover:text-black mt-3 md:text-center transition-colors text-sm py-3 px-12 rounded-lg"
+            className="
+    inline-block 
+    w-full sm:w-fit 
+    mb-5 lg:mb-0 lg:hidden 
+    bg-mainPurple 
+    hover:bg-white 
+    hover:text-black 
+    mt-4 
+    text-lg sm:text-sm 
+    py-4 sm:py-3 
+    px-16 sm:px-12 
+    rounded-lg 
+    transition-colors 
+    text-center
+  "
             href={`/equipe/${corretores[currentEstateAgent].db_id}`}
           >
             Conhecer {corretores[currentEstateAgent].nome}

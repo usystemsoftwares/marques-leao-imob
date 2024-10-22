@@ -129,13 +129,13 @@ const Carousel = ({ estates }: CarouselProps) => {
               <div className="embla__slide__number pt-5">
                 {estate.destaque && (
                   <div className="absolute z-10 top-0 bg-[#530944] py-[.35rem] px-4 rounded-r-[100vmax] rounded-tl-[100vmax]">
-                    EXCLUSIVIDADE
+                    Exclusividade
                   </div>
                 )}
                 {estate.preço_venda_desconto &&
                   Number(estate.preço_venda_desconto) > 0 && (
                     <div className="absolute z-10 top-0 bg-[#095310] py-[.35rem] px-4 rounded-r-[100vmax] rounded-tl-[100vmax]">
-                      IMÓVEL COM DESCONTO
+                      imóvel COM DESCONTO
                     </div>
                   )}
                 <div className="relative">

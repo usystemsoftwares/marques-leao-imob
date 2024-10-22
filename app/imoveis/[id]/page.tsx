@@ -24,6 +24,44 @@ import { toBRL } from "@/utils/toBrl";
 import PropertyPhotos from "../components/property-photos";
 import processarFiltros from "@/utils/processar-filtros-backend";
 import checkFetchStatus from "@/utils/checkFetchStatus";
+import { Metadata, ResolvingMetadata } from "next";
+
+// export async function generateMetadata(
+//   { params }: { params: { houseId: string } },
+//   parent: ResolvingMetadata
+// ): Promise<Metadata> {
+//   const uri =
+//     process.env.BACKEND_API_URI ?? process.env.NEXT_PUBLIC_BACKEND_API_URI;
+//   const empresa_id: any =
+//     process.env.EMPRESA_ID ?? process.env.NEXT_PUBLIC_EMPRESA_ID;
+
+//   const dataImovel = await fetch(`${uri}/imoveis/site/${params.houseId}`);
+//   const dataEmpresa = await fetch(`${uri}/empresas/site/${empresa_id}`, {
+//     next: { tags: ["empresas"] },
+//   });
+
+//   if (!dataEmpresa.ok || !dataImovel.ok) {
+//     notFound();
+//   }
+//   const imovel: Imóvel = await dataImovel.json();
+//   const empresa: Empresa = await dataEmpresa.json();
+//   const firstImage =
+//     imovel.fotos.find((image) => image.destaque) || imovel.fotos[0];
+//   return {
+//     title: imovel.titulo ?? empresa.titulo_site ?? "",
+//     description: imovel.descrição ?? empresa.descrição ?? "",
+//     openGraph: {
+//       title: imovel.titulo ?? empresa.titulo_site ?? "",
+//       description: imovel.descrição ?? empresa.descrição ?? "",
+//       type: "website",
+//       images:
+//         firstImage.resized_webp ??
+//         firstImage.resized_md ??
+//         firstImage.resized ??
+//         "",
+//     },
+//   };
+// }
 
 async function getData(
   houseId: string,
@@ -287,12 +325,12 @@ const RealEstatePage = async ({
               <div className="mt-4 flex items-center gap-3">
                 {imovel.destaque && (
                   <span className="inline-block bg-[#530944] py-[.35rem] px-4 rounded-r-lg rounded-tl-lg">
-                    EXCLUSIVIDADE
+                    Exclusividade
                   </span>
                 )}
                 {imovel.preço_venda_desconto &&
                   Number(imovel.preço_venda_desconto) > 0 && (
-                    <span className="bg-[#095310] py-[.35rem] px-4 rounded-r-lg rounded-tl-lg">
+                    <span className="bg-[#095310] py-[.35rem] px-4 rounded-r-lg rounded-tl-lg whitespace-nowrap">
                       imóvel COM DESCONTO
                     </span>
                   )}
@@ -313,73 +351,84 @@ const RealEstatePage = async ({
                 {imovel.bairro}, {imovel.cidade?.nome}
               </p>
               <p className="text-5xl lg:text-[clamp(2.75rem,4.8vw,3.75rem)] font-semibold mt-5">
-                {!!imovel["preço_venda_desconto"] &&
-                Number(imovel["preço_venda_desconto"]) > 0 &&
-                (imovel["venda_exibir_valor_no_site"] === undefined ||
-                  imovel["venda_exibir_valor_no_site"] === true) ? (
-                  <>
-                    {toBRL(Number(imovel.preço_venda_desconto))}
-                    <span
-                      className="text-gray-500 line-through text-2xl"
-                      style={{
-                        marginRight: "0.5rem",
-                      }}
-                    >
-                      {toBRL(imovel.preço_venda)}
-                    </span>
-                  </>
-                ) : !!imovel["preço_venda"] &&
-                  Number(imovel["preço_venda"]) > 0 &&
-                  (imovel["venda_exibir_valor_no_site"] === undefined ||
-                    imovel["venda_exibir_valor_no_site"] === true) ? (
-                  <>{toBRL(imovel["preço_venda"])}</>
-                ) : imovel.venda &&
-                  imovel["preço_venda"] &&
-                  imovel["venda_exibir_valor_no_site"] === false ? (
-                  <>Consulte-nos</>
-                ) : null}
+                {(() => {
+                  if (
+                    imovel["preço_venda_desconto"] &&
+                    Number(imovel["preço_venda_desconto"]) > 0 &&
+                    (imovel["venda_exibir_valor_no_site"] === undefined ||
+                      imovel["venda_exibir_valor_no_site"] === true)
+                  ) {
+                    return (
+                      <div className="flex flex-col">
+                        <span className="text-gray-500 line-through text-2xl">
+                          {toBRL(imovel.preço_venda)}
+                        </span>
+                        <span className="text-5xl font-semibold">
+                          {toBRL(Number(imovel.preço_venda_desconto))}
+                        </span>
+                      </div>
+                    );
+                  } else if (
+                    imovel["preço_venda"] &&
+                    Number(imovel["preço_venda"]) > 0 &&
+                    (imovel["venda_exibir_valor_no_site"] === undefined ||
+                      imovel["venda_exibir_valor_no_site"] === true)
+                  ) {
+                    return <span>{toBRL(imovel["preço_venda"])}</span>;
+                  } else if (
+                    imovel.venda &&
+                    imovel["preço_venda"] &&
+                    imovel["venda_exibir_valor_no_site"] === false
+                  ) {
+                    return <span>Consulte-nos</span>;
+                  }
+                  return null;
+                })()}
 
-                {!!imovel["preço_locação_desconto"] &&
-                Number(imovel["preço_locação_desconto"]) > 0 &&
-                (imovel["locação_exibir_valor_no_site"] === undefined ||
-                  imovel["locação_exibir_valor_no_site"] === true) ? (
-                  <>
-                    <span
-                      className="text-gray-500 line-through text-2xl" // Letra menor e acinzentada
-                      style={{
-                        marginLeft: "1rem",
-                        marginRight: "0.5rem",
-                      }}
-                    >
-                      {toBRL(imovel.preço_locação)} / locação
-                    </span>
-                    {toBRL(Number(imovel.preço_locação_desconto))} / locação
-                  </>
-                ) : !!imovel.preço_locação &&
-                  Number(imovel.preço_locação) > 0 &&
-                  (imovel.locação_exibir_valor_no_site === undefined ||
-                    imovel.locação_exibir_valor_no_site === true) ? (
-                  <>
-                    <span style={{ marginLeft: "1rem" }}>
-                      {toBRL(imovel.preço_locação)} / locação
-                    </span>
-                  </>
-                ) : imovel.locação &&
-                  imovel.preço_locação &&
-                  imovel.locação_exibir_valor_no_site === false ? (
-                  <>
-                    <span style={{ marginLeft: "1rem" }}>
-                      Consulte-nos / locação
-                    </span>
-                  </>
-                ) : null}
+                {(() => {
+                  if (
+                    imovel["preço_locação_desconto"] &&
+                    Number(imovel["preço_locação_desconto"]) > 0 &&
+                    (imovel["locação_exibir_valor_no_site"] === undefined ||
+                      imovel["locação_exibir_valor_no_site"] === true)
+                  ) {
+                    return (
+                      <div className="flex flex-col mt-4">
+                        <span className="text-gray-500 line-through text-2xl">
+                          {toBRL(imovel.preço_locação)} / locação
+                        </span>
+                        <span className="text-5xl font-semibold">
+                          {toBRL(Number(imovel.preço_locação_desconto))} /
+                          locação
+                        </span>
+                      </div>
+                    );
+                  } else if (
+                    imovel.preço_locação &&
+                    Number(imovel.preço_locação) > 0 &&
+                    (imovel.locação_exibir_valor_no_site === undefined ||
+                      imovel.locação_exibir_valor_no_site === true)
+                  ) {
+                    return (
+                      <span className="mt-4">
+                        {toBRL(imovel.preço_locação)} / locação
+                      </span>
+                    );
+                  } else if (
+                    imovel.locação &&
+                    imovel.preço_locação &&
+                    imovel.locação_exibir_valor_no_site === false
+                  ) {
+                    return <span className="mt-4">Consulte-nos / locação</span>;
+                  }
+                  return null;
+                })()}
 
+                {/* Preço de Temporada */}
                 {imovel.temporada && imovel["padrao_diaria"] && (
-                  <>
-                    <span style={{ marginLeft: "1rem" }}>
-                      Diária: {toBRL(imovel.padrao_diaria)}
-                    </span>
-                  </>
+                  <span className="mt-4">
+                    Diária: {toBRL(imovel.padrao_diaria)}
+                  </span>
                 )}
               </p>
               <p className="mt-4 text-[#707070]">

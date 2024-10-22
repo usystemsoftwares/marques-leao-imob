@@ -218,9 +218,11 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
         <p className="text-center lg:max-w-[20ch] ml-auto mr-2 my-4 lg:my-0 lg:mt-4 text-sm">
           Política de Privacidade Termos de Uso
         </p>
-        <p className={`text-center text-sm tracking-widest`}>
+        <p className="text-center text-sm tracking-widest">
           Todos os direitos reservados para{" "}
-          <strong>Imobiliária Marques & Leão</strong>
+          <strong className="whitespace-nowrap">
+            Imobiliária Marques & Leão
+          </strong>
         </p>
       </div>
     </footer>

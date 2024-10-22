@@ -25,7 +25,7 @@ const MarquesLeaoMidiaCarousel = ({ posts }: { posts: Post[] }) => {
   }
 
   return (
-    <div className="embla overflow-x-hidden mt-2">
+    <div className="embla overflow-x-hidden mt-10">
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container flex">
           {posts

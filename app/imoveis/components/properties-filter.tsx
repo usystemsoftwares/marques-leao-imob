@@ -142,7 +142,10 @@ const PropertiesFilter = ({
     <form
       ref={inputRef}
       onSubmit={(e: FormEvent) => e.preventDefault()}
-      className={cn("group bg-white py-3 px-3 rounded-[.625rem] z-[999999]", className)}
+      className={cn(
+        "group bg-white py-3 px-3 rounded-[.625rem] z-[999999]",
+        className
+      )}
     >
       <div className="flex justify-between w-full z-[999999]">
         <input
@@ -164,7 +167,7 @@ const PropertiesFilter = ({
         </Link>
       </div>
       <motion.div
-        className="bg-white [--display-from:none] [--display-to:block] [--opacity-from:0] [--opacity-to:90%] *:text-black *:font-semibold z-50 absolute py-4 px-5 w-full bottom-0 translate-y-full left-0 md:gap-3 rounded-[.625rem] "
+        className="bg-white [--display-from:none] [--display-to:block] [--opacity-from:0] [--opacity-to:95%] *:text-black *:font-semibold z-50 absolute py-4 px-5 w-full bottom-0 translate-y-full left-0 md:gap-3 rounded-[.625rem] "
         initial={false}
         animate={isOpen ? "open" : "closed"}
         variants={sideVariants}

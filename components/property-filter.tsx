@@ -167,7 +167,7 @@ const SearchPropertyFilter = ({
         </Link>
       </div>
       <motion.div
-        className="bg-white [--display-from:none] [--display-to:block] [--opacity-from:0] [--opacity-to:90%] *:text-black *:font-semibold z-50 absolute py-4 px-5 w-full bottom-0 translate-y-full left-0 md:gap-3 rounded-[.625rem] "
+        className="bg-white [--display-from:none] [--display-to:block] [--opacity-from:0] [--opacity-to:95%] *:text-black *:font-semibold z-50 absolute py-4 px-5 w-full bottom-0 translate-y-full left-0 md:gap-3 rounded-[.625rem] "
         initial={false}
         animate={isOpen ? "open" : "closed"}
         variants={sideVariants}

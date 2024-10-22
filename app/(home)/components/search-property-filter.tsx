@@ -59,10 +59,10 @@ const SearchPropertyFilter = ({
   );
   const [codigo, setCodigo] = useState<string>(searchParams?.código ?? "");
   const [valorMin, setValorMin] = useState<number | "">(
-    searchParams?.['imovel.preco_min'] ?? ""
+    searchParams?.["imovel.preco_min"] ?? ""
   );
   const [valorMax, setValorMax] = useState<number | "">(
-    searchParams?.['imovel.preco_max'] ?? ""
+    searchParams?.["imovel.preco_max"] ?? ""
   );
 
   const inputRef = useRef<HTMLFormElement | null>(null);
@@ -95,8 +95,8 @@ const SearchPropertyFilter = ({
   if (bairro) query.bairros = [bairro];
   if (tipo) query.tipos = [tipo];
   if (codigo) query.código = codigo;
-  if (valorMin !== "") query['imovel.preco_min'] = valorMin.toString();
-  if (valorMax !== "") query['imovel.preco_max'] = valorMax.toString();
+  if (valorMin !== "") query["imovel.preco_min"] = valorMin.toString();
+  if (valorMax !== "") query["imovel.preco_max"] = valorMax.toString();
 
   const getSelectedFilters = () => {
     const filters = [];
@@ -167,7 +167,7 @@ const SearchPropertyFilter = ({
         </Link>
       </div>
       <motion.div
-        className="bg-white [--display-from:none] [--display-to:block] md:[--display-to:flex] [--opacity-from:0] [--opacity-to:80%] *:text-black *:font-semibold absolute py-4 px-5 w-full bottom-0 translate-y-full left-0 md:gap-3 rounded-[.625rem] *:flex *:flex-wrap md:*:flex-nowrap *:justify-center md:*:justify-between *:items-center"
+        className="bg-white [--display-from:none] [--display-to:block] md:[--display-to:flex] [--opacity-from:0] [--opacity-to:95%] *:text-black *:font-semibold absolute py-4 px-5 w-full bottom-0 translate-y-full left-0 md:gap-3 rounded-[.625rem] *:flex *:flex-wrap md:*:flex-nowrap *:justify-center md:*:justify-between *:items-center"
         initial={false}
         animate={isOpen ? "open" : "closed"}
         variants={sideVariants}
@@ -177,7 +177,7 @@ const SearchPropertyFilter = ({
             <SelectTrigger>
               <SelectValue placeholder="Estados" />
             </SelectTrigger>
-              <SelectContent className="select-content">
+            <SelectContent className="select-content">
               {estados.map((estadoItem) => (
                 <SelectItem
                   key={estadoItem.value}
@@ -193,7 +193,7 @@ const SearchPropertyFilter = ({
             <SelectTrigger>
               <SelectValue placeholder="Cidades" />
             </SelectTrigger>
-              <SelectContent className="select-content">
+            <SelectContent className="select-content">
               {cidades
                 // .filter((cidadeItem) => cidadeItem.estado_id.toString() === estado)
                 .map((cidadeItem) => (
@@ -211,7 +211,7 @@ const SearchPropertyFilter = ({
             <SelectTrigger>
               <SelectValue placeholder="Bairros" />
             </SelectTrigger>
-              <SelectContent className="select-content">
+            <SelectContent className="select-content">
               {bairros
                 // .filter((bairroItem: any) => bairroItem.cidadeId.toString() === cidade)
                 .map((bairroItem: any, index: number) => (
@@ -226,7 +226,7 @@ const SearchPropertyFilter = ({
             <SelectTrigger>
               <SelectValue placeholder="Tipos" />
             </SelectTrigger>
-              <SelectContent className="select-content">
+            <SelectContent className="select-content">
               {tipos.map((tipoItem, index) => (
                 <SelectItem key={index} value={tipoItem}>
                   {tipoItem}
@@ -239,7 +239,7 @@ const SearchPropertyFilter = ({
             <SelectTrigger>
               <SelectValue placeholder="Códigos" />
             </SelectTrigger>
-              <SelectContent className="select-content">
+            <SelectContent className="select-content">
               {codigos.map((codigoItem, index) => (
                 <SelectItem key={index} value={codigoItem}>
                   {codigoItem}
