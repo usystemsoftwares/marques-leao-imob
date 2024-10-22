@@ -110,10 +110,6 @@ const Carousel = ({ estates }: CarouselProps) => {
       .on("slideFocus", tweenScale);
   }, [emblaApi, tweenScale, setTweenFactor, setTweenNodes]);
 
-  /* TODO: SCALE FROM .9 TO 1 ON FONT SIZES */
-
-  /* TODO: SCALE FROM 0 TO 1 ON HEART, BUT NOT ON EMPTY HEART */
-
   return (
     <div className="embla">
       <div className="embla__viewport" ref={emblaRef}>
@@ -123,7 +119,7 @@ const Carousel = ({ estates }: CarouselProps) => {
               key={estate.db_id}
               className={cn(
                 "group flex-shrink-0 flex-grow-0 embla__slide relative",
-                estates.length <= 4 && "min-w-[33.4%]"
+                estates.length <= 3 && "min-w-[33.4%]"
               )}
             >
               <div className="embla__slide__number pt-5">

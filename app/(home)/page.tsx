@@ -31,15 +31,14 @@ async function getData() {
   const uri =
     process.env.BACKEND_API_URI ??
     (process.env.NEXT_PUBLIC_BACKEND_API_URI as string);
-  const PAGE_SIZE = "12";
+  const PAGE_SIZE = "100";
   const params_imoveis = new URLSearchParams({
     empresa_id,
     limit: PAGE_SIZE,
     startAt: "0",
     filtros: JSON.stringify(
       processarFiltros({
-        // ["imovel.destaque"]: true,
-        ["imovel.venda"]: true,
+        ["imovel.destaque"]: true,
       })
     ),
   });
@@ -57,12 +56,12 @@ async function getData() {
   const params_imoveis_novidades = new URLSearchParams({
     empresa_id,
     limit: PAGE_SIZE,
-    startAt: "22",
-    // filtros: JSON.stringify(
-    //   processarFiltros({
-    //     ["caracteristicas"]: "Água Quente",
-    //   })
-    // ),
+    startAt: "0",
+    filtros: JSON.stringify(
+      processarFiltros({
+        ["caracteristicas"]: "Imoveis Lancamentos",
+      })
+    ),
   });
   const imoveisNovidadeResponse = await fetch(
     `${uri}/imoveis/site/paginado?${params_imoveis_novidades.toString()}`,
