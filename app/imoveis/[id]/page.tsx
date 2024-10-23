@@ -276,10 +276,8 @@ const RealEstatePage = async ({
     <div className="bg-menu bg-no-repeat">
       <Header />
       <PropertiesFilter
-        estados={estados.nodes}
         cidades={cidades}
         bairros={bairros}
-        tipos={tipos}
         codigos={codigos}
         searchParams={searchParams}
         className="hidden lg:flex w-[min(100%,31.875rem)] absolute mt-14 top-0 right-1/2 translate-x-[75%]"
@@ -323,7 +321,9 @@ const RealEstatePage = async ({
               </span>
               <h1 className="text-4xl mt-6 font-bold">{imovel.titulo}</h1>
               <div className="mt-4 flex items-center gap-3">
-                {imovel.destaque && (
+                {(imovel.caracteristicas || []).some(
+                  (carac) => carac.nome === "Exclusividade"
+                ) && (
                   <span className="inline-block bg-[#530944] py-[.35rem] px-4 rounded-r-lg rounded-tl-lg">
                     Exclusividade
                   </span>
@@ -331,7 +331,7 @@ const RealEstatePage = async ({
                 {imovel.preço_venda_desconto &&
                   Number(imovel.preço_venda_desconto) > 0 && (
                     <span className="bg-[#095310] py-[.35rem] px-4 rounded-r-lg rounded-tl-lg whitespace-nowrap">
-                      imóvel COM DESCONTO
+                      Imóvel com desconto
                     </span>
                   )}
                 <p className="text-[#707070]">

@@ -144,7 +144,6 @@ export default async function ListingStayPage({
   params: { slug: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  console.log(searchParams);
   const { imoveis, estados, cidades, bairros, tipos, codigos, empresa } =
     await getData(searchParams);
 

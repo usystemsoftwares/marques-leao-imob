@@ -137,10 +137,8 @@ export default async function HomeFilter({
     <div>
       <SearchPropertyFilter
         className={className}
-        estados={estados.nodes}
         cidades={cidades}
         bairros={bairros}
-        tipos={tipos}
         codigos={codigos}
         searchParams={searchParams}
       />

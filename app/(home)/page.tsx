@@ -1,11 +1,9 @@
 import Header from "@/components/header";
-import SearchPropertyFilter from "./components/search-property-filter";
 import { WhatsappButton } from "@/components/whatsapp-btn";
 import Image from "next/image";
 import Link from "next/link";
 import MarquesELeao from "/public/marqueseleao/marques-leao.webp";
 import Lancamentos from "/public/marqueseleao/lancamentos.webp";
-import Media from "/public/marqueseleao/media.webp";
 import Ellipse from "/public/marqueseleao/ellipse4.webp";
 import MarquesInstagram from "/public/marqueseleao/marques-instagram.webp";
 import MarquesFacebook from "/public/marqueseleao/marques-facebook.webp";
@@ -22,8 +20,8 @@ import processarFiltros from "@/utils/processar-filtros-backend";
 import EstateAgents from "./components/estate-agents";
 import { Post } from "smart-imob-types";
 import HomeFilter from "./components/home-filter";
-import { ResponsivityButtons } from "./components/responsivity-buttons";
 import { notFound } from "next/navigation";
+import SectionVideo from "@/components/section-video";
 
 async function getData() {
   const empresa_id: any =
@@ -83,7 +81,7 @@ async function getData() {
     ),
   });
   const corretores = await fetch(`${uri}/corretores?${params.toString()}`, {
-    next: { tags: ["corretores"], revalidate: 3600 },
+    next: { tags: ["corretores"], revalidate: 1 },
   });
 
   if (!corretores.ok) {
@@ -153,7 +151,6 @@ export default async function Home() {
     posts,
     empresa,
   } = await getData();
-
   return (
     <div className="bg-menu bg-no-repeat">
       <Header />
@@ -333,51 +330,7 @@ export default async function Home() {
               }}
             />
           </div>
-          <div className="w-[min(90%,75rem)] mt-24 mb-12 mx-auto flex flex-col items-center md:flex-row md:items-center md:justify-between md:gap-20">
-            <div className="relative w-[min(100%,30rem)] ml-4 sm:ml-0">
-              <Image
-                className="rounded-xl mx-auto md:mx-0"
-                src={Media}
-                alt="Gabriel Leão de costa para foto, de frente para uma casa"
-                style={{
-                  maxWidth: "100%",
-                  height: "auto",
-                }}
-              />
-              <div className="text-sm lg:text-base absolute translate-x-[-15%] md:right-0 md:translate-x-[35%] bottom-[35.5%] sm:bottom-[40%] md:bottom-[60%] px-3 py-3 md:px-2 md:py-2 lg:px-4 lg:py-4 translate-y-[50%] backdrop-blur-2xl rounded-[.625rem]">
-                <span className="text-xl lg:text-[clamp(1rem,3vw,1.875rem)] font-bold block text-center">
-                  +23mil
-                </span>{" "}
-                nas redes sociais
-              </div>
-              <div className="text-sm lg:text-base absolute translate-x-[-15%] md:right-0 md:translate-x-[50%] bottom-[57%] sm:bottom-[60%] md:bottom-[37.5%] px-3 py-3 md:px-2 md:py-2 lg:px-3 lg:py-3 translate-y-1/2 backdrop-blur-2xl rounded-[.625rem]">
-                <span className="text-xl lg:text-[clamp(1rem,3vw,1.875rem)] font-bold block text-center">
-                  +1500
-                </span>{" "}
-                imóveis vendidos
-              </div>
-              <div className="text-sm lg:text-base absolute translate-x-[-15%] md:right-0 md:translate-x-[40%] bottom-[78.5%] md:bottom-[15%] px-3 py-3 md:px-2 md:py-2 lg:px-4 lg:py-4 translate-y-1/2 backdrop-blur-2xl rounded-[.625rem]">
-                <span className="text-xl lg:text-[clamp(1rem,3vw,1.875rem)] font-bold block">
-                  +1 milhão
-                </span>{" "}
-                de alcance mensal
-              </div>
-            </div>
-            <div className="mt-16 md:mt-0">
-              <span className="flex items-center gap-2 text-[#898989] after:inline-block after:w-28 after:h-[1.75px] after:bg-[#898989]">
-                Por que
-              </span>
-              <h2 className={`text-3xl tracking-wide font-baskervville`}>
-                Por que a Marques&Leão?
-              </h2>
-              <p className="mt-3 mb-6 max-w-[40ch] text-[#a7a7a7] leading-5">
-                Somos{" "}
-                <span className="text-white">a maior vitrine imobiliária</span>{" "}
-                da região, investindo em vídeos, anúncios e inovação.
-              </p>
-              <ResponsivityButtons />
-            </div>
-          </div>
+          <SectionVideo />
         </section>
         <section className="relative mt-12 lg:mt-36">
           <div className="hidden lg:block absolute overflow-hidden right-0 bottom-[-30%] -z-10 w-[35%] aspect-square">

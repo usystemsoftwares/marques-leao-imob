@@ -71,10 +71,8 @@ const PropertyList: React.FC<PropertyListProps> = ({
           <div className="lg:max-w-[57.5vw]">
             <div className="relative z-20 w-[min(90%,80rem)] mb-20 mx-auto ">
               <PropertyFilter
-                estados={estados}
                 cidades={cidades}
                 bairros={bairros}
-                tipos={tipos}
                 codigos={codigos}
                 searchParams={query}
               />
@@ -92,7 +90,9 @@ const PropertyList: React.FC<PropertyListProps> = ({
                     <li className="w-[min(100%,28.125rem)]" key={estate.db_id}>
                       <div className="group block relative">
                         <div className="pt-5">
-                          {estate.destaque && (
+                          {(estate.caracteristicas || []).some(
+                            (carac) => carac.nome === "Exclusividade"
+                          ) && (
                             <div className="absolute z-10 top-0 bg-[#530944] py-[.35rem] px-4 rounded-r-[100vmax] rounded-tl-[100vmax]">
                               Exclusividade
                             </div>
@@ -100,7 +100,7 @@ const PropertyList: React.FC<PropertyListProps> = ({
                           {estate.preço_venda_desconto &&
                             Number(estate.preço_venda_desconto) > 0 && (
                               <div className="absolute z-10 top-0 bg-[#095310] py-[.35rem] px-4 rounded-r-[100vmax] rounded-tl-[100vmax]">
-                                imóvel COM DESCONTO
+                                Imóvel com desconto
                               </div>
                             )}
                           <div className="relative">

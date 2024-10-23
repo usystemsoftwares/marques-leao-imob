@@ -10,7 +10,7 @@ import {
 import { useEffect, useRef, useState, FormEvent } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { Cidade, Estado } from "smart-imob-types";
+import { Cidade } from "smart-imob-types";
 import Link from "next/link";
 
 const sideVariants = {
@@ -26,10 +26,8 @@ const sideVariants = {
 
 type FormProps = {
   className?: string;
-  estados: Estado[];
   cidades: Cidade[];
   bairros: any[];
-  tipos: string[];
   codigos: string[];
   searchParams: any;
 };
@@ -38,9 +36,7 @@ const SearchPropertyFilter = ({
   className,
   cidades,
   bairros,
-  tipos,
   codigos,
-  estados,
   searchParams,
 }: FormProps) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -58,6 +54,9 @@ const SearchPropertyFilter = ({
       : searchParams?.tipos ?? ""
   );
   const [codigo, setCodigo] = useState<string>(searchParams?.código ?? "");
+  const [codigoInput, setCodigoInput] = useState<string>(searchParams?.código ?? "");
+  const [codigoSuggestions, setCodigoSuggestions] = useState<string[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
   const [valorMin, setValorMin] = useState<number | "">(
     searchParams?.["imovel.preco_min"] ?? ""
   );
@@ -76,6 +75,7 @@ const SearchPropertyFilter = ({
 
       if (!clickedInsideInput && !clickedInsideSelectContent) {
         setIsOpen(false);
+        setShowSuggestions(false);
       }
     };
 
@@ -137,6 +137,31 @@ const SearchPropertyFilter = ({
 
     return filters.join(", ");
   };
+
+  const estados = [
+    { value: "42", nome: "SC" },
+    { value: "43", nome: "RS" },
+  ];
+
+  const tipos = [
+    "Apartamento",
+    "Casa",
+    "Casa em Condomínio",
+    "Cobertura",
+    "Terreno",
+    "Terreno em Condomínio",
+  ];
+
+  useEffect(() => {
+    if (codigoInput) {
+      const filtered = codigos.filter(codigoItem =>
+        codigoItem.toLowerCase().includes(codigoInput.toLowerCase())
+      );
+      setCodigoSuggestions(filtered);
+    } else {
+      setCodigoSuggestions([]);
+    }
+  }, [codigoInput, codigos]);
 
   return (
     <form
@@ -235,18 +260,40 @@ const SearchPropertyFilter = ({
             </SelectContent>
           </Select>
 
-          <Select value={codigo} onValueChange={setCodigo}>
-            <SelectTrigger>
-              <SelectValue placeholder="Códigos" />
-            </SelectTrigger>
-            <SelectContent className="select-content">
-              {codigos.map((codigoItem, index) => (
-                <SelectItem key={index} value={codigoItem}>
-                  {codigoItem}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Código"
+              className="w-full pl-2 pr-2 py-2 border rounded-lg outline-none"
+              value={codigoInput}
+              onChange={(e) => {
+                setCodigoInput(e.target.value);
+                setCodigo(e.target.value);
+                setShowSuggestions(true);
+              }}
+              onFocus={() => setShowSuggestions(true)}
+              onBlur={() => {
+                setTimeout(() => setShowSuggestions(false), 100);
+              }}
+            />
+            {showSuggestions && codigoSuggestions.length > 0 && (
+              <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-lg max-h-60 overflow-y-auto mt-1">
+                {codigoSuggestions.map((suggestion, index) => (
+                  <li
+                    key={index}
+                    className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                    onClick={() => {
+                      setCodigoInput(suggestion);
+                      setCodigo(suggestion);
+                      setShowSuggestions(false);
+                    }}
+                  >
+                    {suggestion}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
         <div className="relative justify-between w-full flex-col mt-3 md:mt-0 *:w-full *:flex *:justify-between *:border-black *:border *:rounded-lg md:flex-row *:text-sm gap-3 *:py-2 *:px-3 lg:before:bg-black lg:before:h-full lg:before:absolute lg:before:w-[1px]">
           <label className="md:ml-4">
