@@ -81,7 +81,7 @@ async function getData() {
     ),
   });
   const corretores = await fetch(`${uri}/corretores?${params.toString()}`, {
-    next: { tags: ["corretores"], revalidate: 1 },
+    next: { tags: ["corretores"], revalidate: 3600 },
   });
 
   if (!corretores.ok) {

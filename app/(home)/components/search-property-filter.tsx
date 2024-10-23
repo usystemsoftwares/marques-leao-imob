@@ -197,12 +197,12 @@ const SearchPropertyFilter = ({
         animate={isOpen ? "open" : "closed"}
         variants={sideVariants}
       >
-        <div className="md:w-[55%] *:w-[10.5rem] gap-2 *:rounded-xl *:border-black *:border">
+        <div className="md:w-[55%] gap-2 *:w-[10.5rem] gap-2 *:rounded-xl *:border-black *:border">
           <Select value={estado} onValueChange={setEstado}>
             <SelectTrigger>
               <SelectValue placeholder="Estados" />
             </SelectTrigger>
-            <SelectContent className="select-content">
+            <SelectContent>
               {estados.map((estadoItem) => (
                 <SelectItem
                   key={estadoItem.value}
