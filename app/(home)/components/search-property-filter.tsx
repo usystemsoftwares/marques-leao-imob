@@ -54,7 +54,9 @@ const SearchPropertyFilter = ({
       : searchParams?.tipos ?? ""
   );
   const [codigo, setCodigo] = useState<string>(searchParams?.código ?? "");
-  const [codigoInput, setCodigoInput] = useState<string>(searchParams?.código ?? "");
+  const [codigoInput, setCodigoInput] = useState<string>(
+    searchParams?.código ?? ""
+  );
   const [codigoSuggestions, setCodigoSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
   const [valorMin, setValorMin] = useState<number | "">(
@@ -154,7 +156,7 @@ const SearchPropertyFilter = ({
 
   useEffect(() => {
     if (codigoInput) {
-      const filtered = codigos.filter(codigoItem =>
+      const filtered = codigos.filter((codigoItem) =>
         codigoItem.toLowerCase().includes(codigoInput.toLowerCase())
       );
       setCodigoSuggestions(filtered);
@@ -192,12 +194,12 @@ const SearchPropertyFilter = ({
         </Link>
       </div>
       <motion.div
-        className="bg-white [--display-from:none] [--display-to:block] md:[--display-to:flex] [--opacity-from:0] [--opacity-to:95%] *:text-black *:font-semibold absolute py-4 px-5 w-full bottom-0 translate-y-full left-0 md:gap-3 rounded-[.625rem] *:flex *:flex-wrap md:*:flex-nowrap *:justify-center md:*:justify-between *:items-center"
+        className="bg-white [--display-from:none] [--display-to:block] md:[--display-to:flex] [--opacity-from:0] [--opacity-to:80%] *:text-black *:font-semibold absolute py-4 px-5 w-full bottom-0 translate-y-full left-0 md:gap-3 rounded-[.625rem] *:flex *:flex-wrap md:*:flex-nowrap *:justify-center md:*:justify-between *:items-center"
         initial={false}
         animate={isOpen ? "open" : "closed"}
         variants={sideVariants}
       >
-        <div className="md:w-[55%] gap-2 *:w-[10.5rem] gap-2 *:rounded-xl *:border-black *:border">
+        <div className="md:w-[55%] *:w-[10.5rem] gap-2 *:rounded-xl *:border-black *:border">
           <Select value={estado} onValueChange={setEstado}>
             <SelectTrigger>
               <SelectValue placeholder="Estados" />
