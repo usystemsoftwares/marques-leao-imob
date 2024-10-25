@@ -57,7 +57,7 @@ const GoogleMap = ({ closeMap, imoveis, defaultCenter }: GoogleMapProps) => {
       const color = getColorForIndex(index);
       return {
         id: imovel.db_id,
-        name: imovel.bairro,
+        name: imovel.codigo,
         img: getFotoDestaque(imovel) || "",
         bg: color.bg,
         clr: color.clr,
