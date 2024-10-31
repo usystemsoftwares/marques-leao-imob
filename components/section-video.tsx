@@ -2,13 +2,14 @@
 
 import { ResponsivityButtons } from "@/app/(home)/components/responsivity-buttons";
 import Image from "next/image";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { FaPlay } from "react-icons/fa";
 import Media from "/public/marqueseleao/media.webp";
 
 const SectionVideo = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef<any>(null);
+  const sectionRef = useRef(null);
 
   const handlePlay = () => {
     setIsPlaying(true);
@@ -22,8 +23,34 @@ const SectionVideo = () => {
     setIsPlaying(false);
   };
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !isPlaying) {
+            handlePlay();
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, [isPlaying]);
+
   return (
-    <div className="w-[min(90%,75rem)] mt-24 mb-12 mx-auto flex flex-col items-center md:flex-row md:items-center md:justify-between md:gap-20">
+    <div
+      ref={sectionRef}
+      className="w-[min(90%,75rem)] mt-24 mb-12 mx-auto flex flex-col items-center md:flex-row md:items-center md:justify-between md:gap-20"
+    >
       <div className="relative w-[min(100%,30rem)] ml-4 sm:ml-0">
         {!isPlaying ? (
           <div className="relative w-full h-auto">
