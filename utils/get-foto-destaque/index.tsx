@@ -1,8 +1,11 @@
 import { Imóvel } from "smart-imob-types";
 
-export const getFotoDestaque = (imovel: Imóvel, resized?: boolean): undefined | string => {
+export const getFotoDestaque = (
+  imovel: Imóvel,
+  resized?: boolean
+): undefined | string => {
   const fotos = imovel.fotos || [];
-  const firstImage = fotos.find(image => image.destaque);
+  const firstImage = fotos.find((image) => image.destaque);
   if (firstImage) {
     if (resized) {
       return firstImage.resized || firstImage.source.uri;
@@ -12,8 +15,8 @@ export const getFotoDestaque = (imovel: Imóvel, resized?: boolean): undefined |
   }
 
   const foto =
-    (imovel.foto_destaque_index !== undefined ? fotos[imovel.foto_destaque_index] : null) ||
-    fotos.find(foto => foto.destaque) ||
+    fotos.find((foto) => foto.destaque) ||
+    fotos.find((e) => e.ordem == 1) ||
     fotos[0];
   if (!foto) return undefined;
   if (resized) {
