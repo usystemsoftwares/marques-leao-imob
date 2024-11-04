@@ -48,6 +48,16 @@ const SearchPropertyFilter = ({
       ? searchParams.bairros[0]
       : searchParams?.bairros ?? ""
   );
+  const [filteredDistricts, setFilteredDistricts] = useState(bairros);
+  useEffect(() => {
+    setFilteredDistricts(
+      (bairros ?? []).filter(
+        (bairro: any) =>
+          (bairro?.cidadeNome ?? "").toLowerCase() === cidade.toLowerCase()
+      )
+    );
+  }, [cidade, bairros]);
+
   const [tipo, setTipo] = useState<string>(
     Array.isArray(searchParams?.tipos)
       ? searchParams.tipos[0]
@@ -110,10 +120,7 @@ const SearchPropertyFilter = ({
     }
 
     if (cidade) {
-      const nomeCidade = cidades.find(
-        (c) => c.value.toString() === cidade
-      )?.nome;
-      if (nomeCidade) filters.push(nomeCidade);
+      filters.push(cidade);
     }
 
     if (bairro) {
@@ -222,13 +229,10 @@ const SearchPropertyFilter = ({
               </SelectTrigger>
               <SelectContent className="select-content">
                 {cidades
-                  // .filter((cidadeItem) => cidadeItem.estado_id.toString() === estado)
-                  .map((cidadeItem) => (
-                    <SelectItem
-                      key={cidadeItem.value}
-                      value={cidadeItem.value.toString()}
-                    >
-                      {cidadeItem.nome}
+                  .filter((cidade: any) => cidade && cidade !== "null")
+                  .map((cidade: any) => (
+                    <SelectItem key={cidade} value={cidade.toString()}>
+                      {cidade}
                     </SelectItem>
                   ))}
               </SelectContent>
@@ -239,13 +243,24 @@ const SearchPropertyFilter = ({
                 <SelectValue placeholder="Bairros" />
               </SelectTrigger>
               <SelectContent className="select-content">
-                {bairros
-                  // .filter((bairroItem: any) => bairroItem.cidadeId.toString() === cidade)
-                  .map((bairroItem: any, index: number) => (
-                    <SelectItem key={index} value={bairroItem}>
-                      {bairroItem}
-                    </SelectItem>
-                  ))}
+                {!cidade ? (
+                  <p className="px-4 py-2 text-gray-500">
+                    Por favor, selecione uma cidade primeiro para ver a lista de
+                    bairros disponíveis.
+                  </p>
+                ) : filteredDistricts.length === 0 ? (
+                  <p className="px-4 py-2 text-gray-500">
+                    Não há bairros disponíveis para a cidade selecionada.
+                  </p>
+                ) : (
+                  filteredDistricts
+                    .filter((v: any) => v.bairro)
+                    .map((bairro: any, index: number) => (
+                      <SelectItem key={index} value={bairro.bairro || ""}>
+                        {bairro.bairro}
+                      </SelectItem>
+                    ))
+                )}
               </SelectContent>
             </Select>
 

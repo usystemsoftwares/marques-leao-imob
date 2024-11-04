@@ -18,7 +18,13 @@ import Whatsapp from "/public/marqueseleao/white-wpp-icon.svg";
 import Instagram from "/public/marqueseleao/instagram-icon.svg";
 import PropertiesFilter from "../components/properties-filter";
 import { notFound } from "next/navigation";
-import { Corretor, Empreendimento, Empresa, Imóvel } from "smart-imob-types";
+import {
+  Corretor,
+  Empreendimento,
+  Empresa,
+  ImoveisInfoType,
+  Imóvel,
+} from "smart-imob-types";
 import getWhatsappLink from "@/utils/generate_phone_href";
 import { toBRL } from "@/utils/toBrl";
 import PropertyPhotos from "../components/property-photos";
@@ -76,7 +82,6 @@ async function getData(
     nodes: Imóvel[];
     total: number;
   };
-  bairros: string[];
   estados: {
     nodes: any[];
     total: number;
@@ -84,6 +89,7 @@ async function getData(
   cidades: any[];
   tipos: any[];
   codigos: any[];
+  info: ImoveisInfoType;
 }> {
   const uri =
     process.env.BACKEND_API_URI ?? process.env.NEXT_PUBLIC_BACKEND_API_URI;
@@ -161,19 +167,9 @@ async function getData(
     }
   );
 
-  const params_bairros = new URLSearchParams({
+  const params = new URLSearchParams({
     empresa_id,
   });
-
-  const bairrosResponse = await fetch(
-    `${uri}/imoveis/bairros?${params_bairros.toString()}`,
-    {
-      next: { tags: ["imoveis-paginado"] },
-    }
-  );
-
-  await checkFetchStatus(bairrosResponse, "bairros");
-  const bairros = await bairrosResponse.json();
 
   const responseEstados = await fetch(`${uri}/estados`, {
     method: "GET",
@@ -183,24 +179,25 @@ async function getData(
     },
   });
 
-  if (!responseEstados.ok) {
-    throw new Error(`Erro na requisição: ${responseEstados.status}`);
-  }
-
-  const responseCidades = await fetch(`${uri}/cidades`, {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
+  const info = await fetch(`${uri}/imoveis/info?${params.toString()}`, {
+    next: { tags: ["imoveis-info"], revalidate: 3600 },
   });
 
-  if (!responseCidades.ok) {
-    throw new Error(`Erro na requisição: ${responseCidades.status}`);
+  const cidades = await fetch(
+    `${uri}/imoveis/cidades/contagem?${params.toString()}`,
+    {
+      next: { tags: ["imoveis-info", "imoveis-cidades"], revalidate: 3600 },
+    }
+  );
+
+
+  if (!responseEstados.ok || !info.ok || !cidades.ok) {
+    throw new Error("Failed to fetch data");
   }
 
+
   const responseTipos = await fetch(
-    `${uri}/imoveis/tipos?${params_bairros.toString()}`,
+    `${uri}/imoveis/tipos?${params.toString()}`,
     {
       method: "GET",
       headers: {
@@ -215,7 +212,7 @@ async function getData(
   }
 
   const responseCodigos = await fetch(
-    `${uri}/imoveis/codigos?${params_bairros.toString()}`,
+    `${uri}/imoveis/codigos?${params.toString()}`,
     {
       method: "GET",
       headers: {
@@ -236,9 +233,9 @@ async function getData(
     temporada,
     empreendimento,
     imoveisRelacionados: await parseJSON(imoveisResponse),
-    bairros,
+    info: await info.json(),
     estados: await responseEstados.json(),
-    cidades: await responseCidades.json(),
+    cidades: await cidades.json(),
     tipos: await responseTipos.json(),
     codigos: await responseCodigos.json(),
   };
@@ -265,7 +262,7 @@ const RealEstatePage = async ({
     imoveisRelacionados,
     estados,
     cidades,
-    bairros,
+    info,
     tipos,
     codigos,
   } = await getData(id, afiliado);
@@ -276,8 +273,8 @@ const RealEstatePage = async ({
     <div className="bg-menu bg-no-repeat">
       <Header />
       <PropertiesFilter
-        cidades={cidades}
-        bairros={bairros}
+        cidades={Object.keys(cidades ?? {})}
+        bairros={info.bairros_disponiveis}
         codigos={codigos}
         searchParams={searchParams}
         className="hidden lg:flex w-[min(100%,31.875rem)] absolute mt-14 top-0 right-1/2 translate-x-[75%]"

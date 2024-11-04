@@ -1,4 +1,4 @@
-import { Imóvel } from "smart-imob-types";
+import { ImoveisInfoType, Imóvel } from "smart-imob-types";
 import processarFiltros from "@/utils/processar-filtros-backend";
 import checkFetchStatus from "@/utils/checkFetchStatus";
 import ordenacoesBackend from "@/utils/processar-ordenacoes-backend";
@@ -11,14 +11,13 @@ async function getData(filtros: any): Promise<{
     nodes: Imóvel[];
     total: number;
   };
-  bairros: string[];
   estados: {
     nodes: any[];
     total: number;
   };
   cidades: any[];
-  tipos: any[];
   codigos: any[];
+  info: ImoveisInfoType;
 }> {
   const uri =
     process.env.BACKEND_API_URI ?? process.env.NEXT_PUBLIC_BACKEND_API_URI;
@@ -43,19 +42,9 @@ async function getData(filtros: any): Promise<{
   await checkFetchStatus(imoveisResponse, "imoveis");
   const imoveis = await imoveisResponse.json();
 
-  const params_bairros = new URLSearchParams({
+  const params = new URLSearchParams({
     empresa_id,
   });
-
-  const bairrosResponse = await fetch(
-    `${uri}/imoveis/bairros?${params_bairros.toString()}`,
-    {
-      next: { tags: ["imoveis-paginado"] },
-    }
-  );
-
-  await checkFetchStatus(bairrosResponse, "bairros");
-  const bairros = await bairrosResponse.json();
 
   const responseEstados = await fetch(`${uri}/estados`, {
     method: "GET",
@@ -65,39 +54,15 @@ async function getData(filtros: any): Promise<{
     },
   });
 
-  if (!responseEstados.ok) {
-    throw new Error(`Erro na requisição: ${responseEstados.status}`);
-  }
-
-  const responseCidades = await fetch(`${uri}/cidades`, {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  });
-
-  if (!responseCidades.ok) {
-    throw new Error(`Erro na requisição: ${responseCidades.status}`);
-  }
-
-  const responseTipos = await fetch(
-    `${uri}/imoveis/tipos?${params_bairros.toString()}`,
+  const cidades = await fetch(
+    `${uri}/imoveis/cidades/contagem?${params.toString()}`,
     {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
+      next: { tags: ["imoveis-info", "imoveis-cidades"], revalidate: 3600 },
     }
   );
-
-  if (!responseTipos.ok) {
-    throw new Error(`Erro na requisição: ${responseTipos.status}`);
-  }
 
   const responseCodigos = await fetch(
-    `${uri}/imoveis/codigos?${params_bairros.toString()}`,
+    `${uri}/imoveis/codigos?${params.toString()}`,
     {
       method: "GET",
       headers: {
@@ -106,17 +71,24 @@ async function getData(filtros: any): Promise<{
       },
     }
   );
+  const info = await fetch(`${uri}/imoveis/info?${params.toString()}`, {
+    next: { tags: ["imoveis-info"], revalidate: 3600 },
+  });
 
-  if (!responseCodigos.ok) {
-    throw new Error(`Erro na requisição: ${responseCodigos.status}`);
+  if (
+    !responseEstados.ok ||
+    !info.ok ||
+    !cidades.ok
+  ) {
+    throw new Error("Failed to fetch data");
   }
+
 
   return {
     imoveis,
-    bairros,
+    info: await info.json(),
     estados: await responseEstados.json(),
-    cidades: await responseCidades.json(),
-    tipos: await responseTipos.json(),
+    cidades: await cidades.json(),
     codigos: await responseCodigos.json(),
   };
 }
@@ -130,15 +102,15 @@ export default async function HomeFilter({
   params?: { slug: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const { estados, cidades, bairros, tipos, codigos } = await getData(
+  const { estados, cidades, info, codigos } = await getData(
     searchParams
   );
   return (
     <div>
       <SearchPropertyFilter
         className={className}
-        cidades={cidades}
-        bairros={bairros}
+        cidades={Object.keys(cidades ?? {})}
+        bairros={info.bairros_disponiveis}
         codigos={codigos}
         searchParams={searchParams}
       />

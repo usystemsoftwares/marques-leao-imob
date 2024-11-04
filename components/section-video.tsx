@@ -75,7 +75,7 @@ const SectionVideo = () => {
             <video
               ref={videoRef}
               className="rounded-xl mx-auto md:mx-0 w-full h-auto"
-              src="/marqueseleao/video-site.mp4"
+              src="https://firebasestorage.googleapis.com/v0/b/smartimob-dev-test.appspot.com/o/empresas%2F4IYSm7WrQ8naKm28ArY7%2Fvideo-site.mp4?alt=media&token=890a7a4c-5289-4861-baed-412ef30721b2"
               autoPlay
               loop
               muted
