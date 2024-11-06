@@ -56,8 +56,13 @@ async function getData(filtros: any): Promise<{
   });
 
 
+  const paramsCidades = new URLSearchParams({
+    empresa_id,
+    site: '1',
+  });
+
   const cidades = await fetch(
-    `${uri}/cidades?${params.toString()}`,
+    `${uri}/cidades?${paramsCidades.toString()}`,
     {
       next: { tags: ["imoveis-info", "imoveis-cidades"], revalidate: 3600 },
     }
