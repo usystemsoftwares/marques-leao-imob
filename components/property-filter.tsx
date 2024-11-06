@@ -176,7 +176,7 @@ const SearchPropertyFilter = ({
       ref={inputRef}
       onSubmit={(e: FormEvent) => e.preventDefault()}
       className={cn(
-        "group w-[min(100%,71.875rem)] bg-white py-3 px-3 rounded-[.625rem]",
+        "group w-[100%] bg-white py-3 px-3 pl-10 pr-10 rounded-[.625rem]",
         className
       )}
     >
