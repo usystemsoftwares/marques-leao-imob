@@ -237,7 +237,7 @@ const PropertyList: React.FC<PropertyListProps> = ({
               </>
             )}
           </div>
-          <div
+          {/* <div
             className={cn(
               "lg:w-[42.5vw] lg:h-full fixed lg:right-0 lg:top-0 bg-black z-20",
               openMap
@@ -250,7 +250,7 @@ const PropertyList: React.FC<PropertyListProps> = ({
               imoveis={imoveis}
               defaultCenter={defaultCenterImovel}
             />
-          </div>
+          </div> */}
           <WhatsappButton empresa={empresa} />
         </section>
       </main>

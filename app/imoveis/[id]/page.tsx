@@ -332,7 +332,7 @@ const RealEstatePage = async ({
                     </span>
                   )}
                 <p className="text-[#707070]">
-                  casa para comprar em
+                  ${(imovel.tipo || '').toLowerCase()} para comprar em
                   <br />
                 </p>
               </div>
