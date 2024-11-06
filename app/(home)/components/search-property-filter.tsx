@@ -10,7 +10,6 @@ import {
 import { useEffect, useRef, useState, FormEvent } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { Cidade } from "smart-imob-types";
 import Link from "next/link";
 
 const sideVariants = {
@@ -27,6 +26,7 @@ const sideVariants = {
 type FormProps = {
   className?: string;
   cidades: any[];
+  estados: any[];
   bairros: any[];
   codigos: string[];
   searchParams: any;
@@ -35,6 +35,7 @@ type FormProps = {
 const SearchPropertyFilter = ({
   className,
   cidades,
+  estados,
   bairros,
   codigos,
   searchParams,
@@ -53,7 +54,7 @@ const SearchPropertyFilter = ({
     setFilteredDistricts(
       (bairros ?? []).filter(
         (bairro: any) =>
-          (bairro?.cidadeNome ?? "").toLowerCase() === cidade.toLowerCase()
+          (bairro?.cidadeId ?? "").toLowerCase() === cidade.toLowerCase()
       )
     );
   }, [cidade, bairros]);
@@ -121,7 +122,10 @@ const SearchPropertyFilter = ({
     }
 
     if (cidade) {
-      filters.push(cidade);
+      const nomeCidade = cidades.find(
+        (e) => e.value.toString() === cidade
+      )?.nome;
+      if (nomeCidade) filters.push(nomeCidade);
     }
 
     if (bairro) {
@@ -146,11 +150,6 @@ const SearchPropertyFilter = ({
 
     return filters.join(", ");
   };
-
-  const estados = [
-    { value: "42", nome: "SC" },
-    { value: "43", nome: "RS" },
-  ];
 
   const tipos = [
     "Apartamento",
@@ -207,34 +206,48 @@ const SearchPropertyFilter = ({
         variants={sideVariants}
       >
         <div className="md:w-[55%] *:w-[10.5rem] gap-2 *:rounded-xl *:border-black *:border">
-          <Select value={estado} onValueChange={setEstado}>
+          <Select
+            value={estado}
+            onValueChange={(value) => {
+              setEstado(value);
+              setCidade("");
+              setBairro("");
+            }}
+          >
             <SelectTrigger>
               <SelectValue placeholder="Estados" />
             </SelectTrigger>
             <SelectContent>
               {estados
-                .filter((v: any) => v.value)
+                .filter((estadoItem: any) => estadoItem.sigla !== "PA")
                 .map((estadoItem) => (
-                  <SelectItem
-                    key={estadoItem.value}
-                    value={estadoItem.value.toString()}
-                  >
-                    {estadoItem.nome}
+                  <SelectItem key={estadoItem.value} value={estadoItem.value}>
+                    {estadoItem.sigla}
                   </SelectItem>
                 ))}
             </SelectContent>
           </Select>
 
-          <Select value={cidade} onValueChange={setCidade} disabled={!estado}>
+          <Select
+            value={cidade}
+            onValueChange={(value) => {
+              setCidade(value);
+              setBairro("");
+            }}
+            disabled={!estado}
+          >
             <SelectTrigger>
               <SelectValue placeholder="Cidades" />
             </SelectTrigger>
             <SelectContent className="select-content">
               {cidades
-                .filter((cidade: any) => cidade && cidade !== "null")
+                .filter(
+                  (cidade: any) =>
+                    cidade && cidade !== "null" && cidade.estado_id === estado
+                )
                 .map((cidade: any) => (
-                  <SelectItem key={cidade} value={cidade.toString()}>
-                    {cidade}
+                  <SelectItem key={cidade.id} value={cidade.value}>
+                    {cidade.nome}
                   </SelectItem>
                 ))}
             </SelectContent>

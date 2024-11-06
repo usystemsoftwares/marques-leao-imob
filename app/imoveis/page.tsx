@@ -13,15 +13,12 @@ async function getData(filtros: any): Promise<{
     nodes: Imóvel[];
     total: number;
   };
-  estados: {
-    nodes: any[];
-    total: number;
-  };
+  estados: any[];
   cidades: any[];
   tipos: any[];
   codigos: any[];
   empresa: Empresa;
-  info: ImoveisInfoType;
+  bairros: any[];
 }> {
   const { pagina = 1, ordem = 1, ...rest } = filtros;
   const uri =
@@ -53,17 +50,13 @@ async function getData(filtros: any): Promise<{
     empresa_id,
   });
 
-  const responseEstados = await fetch(`${uri}/estados`, {
+  const responseEstados = await fetch(`${uri}/estados?${params.toString()}`, {
     method: "GET",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
   });
-
-  if (!responseEstados.ok) {
-    throw new Error(`Erro na requisição: ${responseEstados.status}`);
-  }
 
   const responseTipos = await fetch(
     `${uri}/imoveis/tipos?${params.toString()}`,
@@ -91,18 +84,26 @@ async function getData(filtros: any): Promise<{
     }
   );
 
-  const info = await fetch(`${uri}/imoveis/info?${params.toString()}`, {
-    next: { tags: ["imoveis-info"], revalidate: 3600 },
-  });
-
-  const cidades = await fetch(
-    `${uri}/imoveis/cidades/contagem?${params.toString()}`,
+  const responseBairros = await fetch(
+    `${uri}/imoveis/bairros-por-cidade?${params.toString()}`,
     {
-      next: { tags: ["imoveis-info", "imoveis-cidades"], revalidate: 3600 },
+      next: { tags: ["imoveis-info"], revalidate: 3600 },
     }
   );
 
-  if (!responseEstados.ok || !info.ok || !cidades.ok) {
+  const cidades = await fetch(`${uri}/cidades?${params.toString()}`, {
+    next: { tags: ["imoveis-info", "imoveis-cidades"], revalidate: 3600 },
+  });
+
+  if (!responseEstados.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  if (!responseBairros.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  if (!cidades.ok) {
     throw new Error("Failed to fetch data");
   }
 
@@ -116,7 +117,7 @@ async function getData(filtros: any): Promise<{
 
   return {
     imoveis,
-    info: await info.json(),
+    bairros: await responseBairros.json(),
     estados: await responseEstados.json(),
     cidades: await cidades.json(),
     tipos: await responseTipos.json(),
@@ -132,19 +133,19 @@ export default async function ListingStayPage({
   params: { slug: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  const { imoveis, estados, cidades, tipos, codigos, empresa, info } =
+  const { imoveis, estados, cidades, tipos, codigos, empresa, bairros } =
     await getData(searchParams);
 
   const totalPages = Math.ceil(imoveis.total / PAGE_SIZE);
   const pagina = Number(searchParams.pagina ?? "1");
-
+  console.log("estados", estados, bairros);
   return (
     <div>
       <PropertyList
         imoveis={imoveis.nodes}
-        estados={estados.nodes}
-        cidades={Object.keys(cidades ?? {})}
-        bairros={info.bairros_disponiveis}
+        estados={estados}
+        cidades={cidades}
+        bairros={bairros}
         tipos={tipos}
         codigos={codigos}
         pages={totalPages}

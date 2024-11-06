@@ -11,13 +11,10 @@ async function getData(filtros: any): Promise<{
     nodes: Imóvel[];
     total: number;
   };
-  estados: {
-    nodes: any[];
-    total: number;
-  };
+  estados: any[];
   cidades: any[];
   codigos: any[];
-  info: ImoveisInfoType;
+  bairros: any[];
 }> {
   const uri =
     process.env.BACKEND_API_URI ?? process.env.NEXT_PUBLIC_BACKEND_API_URI;
@@ -46,7 +43,7 @@ async function getData(filtros: any): Promise<{
     empresa_id,
   });
 
-  const responseEstados = await fetch(`${uri}/estados`, {
+  const responseEstados = await fetch(`${uri}/estados?${params.toString()}`, {
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -54,8 +51,13 @@ async function getData(filtros: any): Promise<{
     },
   });
 
+  const responseBairros = await fetch(`${uri}/imoveis/bairros-por-cidade?${params.toString()}`, {
+    next: { tags: ["imoveis-info"], revalidate: 3600 },
+  });
+
+
   const cidades = await fetch(
-    `${uri}/imoveis/cidades/contagem?${params.toString()}`,
+    `${uri}/cidades?${params.toString()}`,
     {
       next: { tags: ["imoveis-info", "imoveis-cidades"], revalidate: 3600 },
     }
@@ -86,7 +88,7 @@ async function getData(filtros: any): Promise<{
 
   return {
     imoveis,
-    info: await info.json(),
+    bairros: await responseBairros.json(),
     estados: await responseEstados.json(),
     cidades: await cidades.json(),
     codigos: await responseCodigos.json(),
@@ -102,15 +104,16 @@ export default async function HomeFilter({
   params?: { slug: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const { estados, cidades, info, codigos } = await getData(
+  const { estados, cidades, bairros, codigos } = await getData(
     searchParams
   );
   return (
     <div>
       <SearchPropertyFilter
         className={className}
-        cidades={Object.keys(cidades ?? {})}
-        bairros={info.bairros_disponiveis}
+        estados={estados}
+        cidades={cidades}
+        bairros={bairros}
         codigos={codigos}
         searchParams={searchParams}
       />

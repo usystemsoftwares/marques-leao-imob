@@ -82,14 +82,11 @@ async function getData(
     nodes: Imóvel[];
     total: number;
   };
-  estados: {
-    nodes: any[];
-    total: number;
-  };
+  estados: any[];
   cidades: any[];
+  bairros: any[];
   tipos: any[];
   codigos: any[];
-  info: ImoveisInfoType;
 }> {
   const uri =
     process.env.BACKEND_API_URI ?? process.env.NEXT_PUBLIC_BACKEND_API_URI;
@@ -171,7 +168,7 @@ async function getData(
     empresa_id,
   });
 
-  const responseEstados = await fetch(`${uri}/estados`, {
+  const responseEstados = await fetch(`${uri}/estados?${empresa_id}`, {
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -179,22 +176,20 @@ async function getData(
     },
   });
 
-  const info = await fetch(`${uri}/imoveis/info?${params.toString()}`, {
-    next: { tags: ["imoveis-info"], revalidate: 3600 },
-  });
-
-  const cidades = await fetch(
-    `${uri}/imoveis/cidades/contagem?${params.toString()}`,
+  const responseBairros = await fetch(
+    `${uri}/imoveis/bairros-por-cidade?${params.toString()}`,
     {
-      next: { tags: ["imoveis-info", "imoveis-cidades"], revalidate: 3600 },
+      next: { tags: ["imoveis-info"], revalidate: 3600 },
     }
   );
 
+  const cidades = await fetch(`${uri}/cidades?${params.toString()}`, {
+    next: { tags: ["imoveis-info", "imoveis-cidades"], revalidate: 3600 },
+  });
 
-  if (!responseEstados.ok || !info.ok || !cidades.ok) {
+  if (!responseEstados.ok || !responseBairros.ok || !cidades.ok) {
     throw new Error("Failed to fetch data");
   }
-
 
   const responseTipos = await fetch(
     `${uri}/imoveis/tipos?${params.toString()}`,
@@ -233,7 +228,7 @@ async function getData(
     temporada,
     empreendimento,
     imoveisRelacionados: await parseJSON(imoveisResponse),
-    info: await info.json(),
+    bairros: await responseBairros.json(),
     estados: await responseEstados.json(),
     cidades: await cidades.json(),
     tipos: await responseTipos.json(),
@@ -262,7 +257,7 @@ const RealEstatePage = async ({
     imoveisRelacionados,
     estados,
     cidades,
-    info,
+    bairros,
     tipos,
     codigos,
   } = await getData(id, afiliado);
@@ -273,8 +268,9 @@ const RealEstatePage = async ({
     <div className="bg-menu bg-no-repeat">
       <Header />
       <PropertiesFilter
-        cidades={Object.keys(cidades ?? {})}
-        bairros={info.bairros_disponiveis}
+        estados={estados}
+        cidades={cidades}
+        bairros={bairros}
         codigos={codigos}
         searchParams={searchParams}
         className="hidden lg:flex w-[min(100%,31.875rem)] absolute mt-14 top-0 right-1/2 translate-x-[75%]"
@@ -332,7 +328,7 @@ const RealEstatePage = async ({
                     </span>
                   )}
                 <p className="text-[#707070]">
-                  ${(imovel.tipo || '').toLowerCase()} para comprar em
+                  ${(imovel.tipo || "").toLowerCase()} para comprar em
                   <br />
                 </p>
               </div>

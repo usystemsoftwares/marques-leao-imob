@@ -67,11 +67,12 @@ const PropertyList: React.FC<PropertyListProps> = ({
           >
             Mapa
           </button>
-          
+
           {/* Container Principal Ajustado para Ocupação Total */}
           <div className="w-full px-4">
             <div className="relative z-20 w-full mb-20 mx-auto">
               <PropertyFilter
+                estados={estados}
                 cidades={cidades}
                 bairros={bairros}
                 codigos={codigos}
@@ -247,7 +248,7 @@ const PropertyList: React.FC<PropertyListProps> = ({
             />
           </div> 
           */}
-          
+
           <WhatsappButton empresa={empresa} />
         </section>
       </main>

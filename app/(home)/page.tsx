@@ -29,7 +29,7 @@ async function getData() {
   const uri =
     process.env.BACKEND_API_URI ??
     (process.env.NEXT_PUBLIC_BACKEND_API_URI as string);
-  const PAGE_SIZE = "100";
+  const PAGE_SIZE = "25";
   const params_imoveis = new URLSearchParams({
     empresa_id,
     limit: PAGE_SIZE,
