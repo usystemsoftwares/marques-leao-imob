@@ -11,7 +11,6 @@ import HeartIcon from "/public/marqueseleao/heart-icon.svg";
 import SelectedHeartIcon from "/public/marqueseleao/selected-heart-icon.svg";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import GoogleMap from "./google-map";
 import { Empresa, Imóvel } from "smart-imob-types";
 import { getFotoDestaque } from "@/utils/get-foto-destaque";
 import { getSingleArea } from "@/utils/get-area";
@@ -50,7 +49,7 @@ const PropertyList: React.FC<PropertyListProps> = ({
 
   const handleCloseMap = () => setOpenMap(false);
 
-  const defaultCenterImovel = Object.values(imoveis).find(
+  const defaultCenterImovel = imoveis.find(
     (imovel) => imovel.lat && imovel.long
   );
 
@@ -68,8 +67,10 @@ const PropertyList: React.FC<PropertyListProps> = ({
           >
             Mapa
           </button>
-          <div className="lg:max-w-[57.5vw]">
-            <div className="relative z-20 w-[min(90%,80rem)] mb-20 mx-auto ">
+          
+          {/* Container Principal Ajustado para Ocupação Total */}
+          <div className="w-full px-4">
+            <div className="relative z-20 w-full mb-20 mx-auto">
               <PropertyFilter
                 cidades={cidades}
                 bairros={bairros}
@@ -215,9 +216,7 @@ const PropertyList: React.FC<PropertyListProps> = ({
                                       : ""
                                   }`}
                                 </span>
-                              ) : (
-                                <></>
-                              )}
+                              ) : null}
                             </div>
                             <div className="w-[35%] flex items-center md:block text-center bg-mainPurple px-3">
                               Conhecer
@@ -237,20 +236,18 @@ const PropertyList: React.FC<PropertyListProps> = ({
               </>
             )}
           </div>
-          {/* <div
-            className={cn(
-              "lg:w-[42.5vw] lg:h-full fixed lg:right-0 lg:top-0 bg-black z-20",
-              openMap
-                ? "inset-[10rem_0rem_2rem_0rem] sm:inset-[10rem_4rem_2rem_4rem] md:inset-[10rem_5rem_2rem_5rem] lg:inset-[0_0_auto_auto]"
-                : ""
-            )}
-          >
+
+          {/* Mapa temporariamente comentado */}
+          {/* 
+          <div className="lg:w-[42.5vw] lg:h-full fixed lg:right-0 lg:top-0 bg-black z-20">
             <GoogleMap
               closeMap={handleCloseMap}
               imoveis={imoveis}
               defaultCenter={defaultCenterImovel}
             />
-          </div> */}
+          </div> 
+          */}
+          
           <WhatsappButton empresa={empresa} />
         </section>
       </main>
