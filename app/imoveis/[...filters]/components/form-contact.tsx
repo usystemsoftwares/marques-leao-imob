@@ -180,7 +180,7 @@ export default function FormContact({
 
       window.location.pathname.slice(7, Infinity);
       window.location.replace(
-        `/imovel/cadastrado` +
+        `/imovel` +
           window.location.pathname.slice(7, Infinity) +
           window.location.search
       );
