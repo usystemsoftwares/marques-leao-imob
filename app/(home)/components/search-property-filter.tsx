@@ -256,7 +256,7 @@ const SearchPropertyFilter = ({
             <SelectTrigger>
               <SelectValue placeholder="Estados" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="select-content">
               {estados
                 .filter((estadoItem: any) => estadoItem.sigla !== "PA")
                 .map((estadoItem) => (
