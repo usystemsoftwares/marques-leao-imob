@@ -124,7 +124,7 @@ const SearchPropertyFilter = ({
     if (codigo) urlSegments.push(`codigo-${slugifyString(codigo)}`);
 
     // Construir a URL final
-    let url = `/imoveis/${urlSegments.join("/")}`;
+    const url = `/imoveis/${urlSegments.join("/")}`;
     // Aqui você pode incluir outros filtros ou query params, se necessário
 
     console.log("URL construída:", url);
