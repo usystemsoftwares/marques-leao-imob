@@ -64,25 +64,19 @@ export default function FormContact({
         alert("O número de telefone não está em um formato aceitavel!");
         return config.cliente;
       }
-      // const response = await fetch(`${uri}/clientes`, {
-      //   method: "POST",
-      //   headers: {
-      //     Accept: "application/json",
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({
-      //     ...config.cliente,
-      //     empresa_id,
-      //     email,
-      //   }),
-      // });
-      // const res = await response.json();
-      const res = {
-        id: "1",
-        visitante_id: "1",
-        nome: "Nome Teste",
-        email: "lP3bI@example.com",
-      };
+      const response = await fetch(`${uri}/clientes`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...config.cliente,
+          empresa_id,
+          email,
+        }),
+      });
+      const res = await response.json();
 
       if (res.visitante_id) {
         localStorage.setItem("visitante_id", res.visitante_id);

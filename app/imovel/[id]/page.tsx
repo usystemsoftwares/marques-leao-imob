@@ -206,7 +206,6 @@ const RealEstatePage = async ({
   const afiliado = searchParams.afiliado || "";
   const VerFotos = searchParams.VerFotos === "true";
   const uid = searchParams.uid || "";
-
   const {
     imovel,
     corretor,
@@ -220,7 +219,6 @@ const RealEstatePage = async ({
     tipos,
     codigos,
   } = await getData(id, afiliado);
-  console.log("template-marques-gen/app/imovel/[id]/page.tsx", estados);
 
   if (!imovel) return <></>;
 
