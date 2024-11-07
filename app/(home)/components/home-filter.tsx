@@ -78,13 +78,9 @@ async function getData(filtros: any): Promise<{
       },
     }
   );
-  const info = await fetch(`${uri}/imoveis/info?${params.toString()}`, {
-    next: { tags: ["imoveis-info"], revalidate: 3600 },
-  });
 
   if (
     !responseEstados.ok ||
-    !info.ok ||
     !cidades.ok
   ) {
     throw new Error("Failed to fetch data");

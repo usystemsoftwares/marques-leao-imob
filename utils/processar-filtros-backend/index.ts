@@ -12,6 +12,7 @@ const processarFiltros = (
       valor === "" ||
       (typeof valor !== "string" &&
         typeof valor !== "number" &&
+        // !Array.isArray(valor) &&
         typeof valor !== "boolean")
     )
       continue;
@@ -29,6 +30,7 @@ const processarFiltros = (
       operator: operator,
     });
   }
+  console.log('filtrosProcessados', filtrosProcessados)
   return filtrosProcessados;
 };
 

@@ -21,7 +21,6 @@ const EstateDetails = ({ estate }: EstateDetailsProps) => {
 
   const toggleFavorite = () => {
     setIsFavorited(!isFavorited);
-    // Aqui você pode adicionar lógica adicional para salvar a preferência do usuário
   };
 
   return (

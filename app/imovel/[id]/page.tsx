@@ -16,58 +16,13 @@ import CheckIcon from "/public/marqueseleao/check-icon.svg";
 
 import Whatsapp from "/public/marqueseleao/white-wpp-icon.svg";
 import Instagram from "/public/marqueseleao/instagram-icon.svg";
-import PropertiesFilter from "../components/properties-filter";
+import PropertiesFilter from "../../imoveis/[...filters]/components/properties-filter";
 import { notFound } from "next/navigation";
-import {
-  Corretor,
-  Empreendimento,
-  Empresa,
-  ImoveisInfoType,
-  Imóvel,
-} from "smart-imob-types";
+import { Corretor, Empreendimento, Empresa, Imóvel } from "smart-imob-types";
 import getWhatsappLink from "@/utils/generate_phone_href";
 import { toBRL } from "@/utils/toBrl";
-import PropertyPhotos from "../components/property-photos";
+import PropertyPhotos from "../../imoveis/[...filters]/components/property-photos";
 import processarFiltros from "@/utils/processar-filtros-backend";
-import checkFetchStatus from "@/utils/checkFetchStatus";
-import { Metadata, ResolvingMetadata } from "next";
-
-// export async function generateMetadata(
-//   { params }: { params: { houseId: string } },
-//   parent: ResolvingMetadata
-// ): Promise<Metadata> {
-//   const uri =
-//     process.env.BACKEND_API_URI ?? process.env.NEXT_PUBLIC_BACKEND_API_URI;
-//   const empresa_id: any =
-//     process.env.EMPRESA_ID ?? process.env.NEXT_PUBLIC_EMPRESA_ID;
-
-//   const dataImovel = await fetch(`${uri}/imoveis/site/${params.houseId}`);
-//   const dataEmpresa = await fetch(`${uri}/empresas/site/${empresa_id}`, {
-//     next: { tags: ["empresas"] },
-//   });
-
-//   if (!dataEmpresa.ok || !dataImovel.ok) {
-//     notFound();
-//   }
-//   const imovel: Imóvel = await dataImovel.json();
-//   const empresa: Empresa = await dataEmpresa.json();
-//   const firstImage =
-//     imovel.fotos.find((image) => image.destaque) || imovel.fotos[0];
-//   return {
-//     title: imovel.titulo ?? empresa.titulo_site ?? "",
-//     description: imovel.descrição ?? empresa.descrição ?? "",
-//     openGraph: {
-//       title: imovel.titulo ?? empresa.titulo_site ?? "",
-//       description: imovel.descrição ?? empresa.descrição ?? "",
-//       type: "website",
-//       images:
-//         firstImage.resized_webp ??
-//         firstImage.resized_md ??
-//         firstImage.resized ??
-//         "",
-//     },
-//   };
-// }
 
 async function getData(
   houseId: string,
@@ -168,7 +123,7 @@ async function getData(
     empresa_id,
   });
 
-  const responseEstados = await fetch(`${uri}/estados?${empresa_id}`, {
+  const responseEstados = await fetch(`${uri}/estados?${params.toString()}`, {
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -185,7 +140,7 @@ async function getData(
 
   const paramsCidades = new URLSearchParams({
     empresa_id,
-    site: '1',
+    site: "1",
   });
   const cidades = await fetch(`${uri}/cidades?${paramsCidades.toString()}`, {
     next: { tags: ["imoveis-info", "imoveis-cidades"], revalidate: 3600 },
@@ -265,6 +220,7 @@ const RealEstatePage = async ({
     tipos,
     codigos,
   } = await getData(id, afiliado);
+  console.log("template-marques-gen/app/imovel/[id]/page.tsx", estados);
 
   if (!imovel) return <></>;
 
@@ -276,6 +232,7 @@ const RealEstatePage = async ({
         cidades={cidades}
         bairros={bairros}
         codigos={codigos}
+        tipos={tipos}
         searchParams={searchParams}
         className="hidden lg:flex w-[min(100%,31.875rem)] absolute mt-14 top-0 right-1/2 translate-x-[75%]"
       />

@@ -283,8 +283,8 @@ export default async function Home() {
                 </p>
                 <Link
                   className="bg-mainPurple hover:scale-110 md:hover:scale-100 inline-block hover:bg-white hover:text-black transition-all text-sm py-3 px-5 rounded-lg"
-                  href="/imoveis?caracteristicas=Água Quente"
-                >
+                  href="/imoveis/caracteristicas-Imoveis%20Lancamentos"
+                  >
                   Conhecer Lançamentos
                 </Link>
                 <svg

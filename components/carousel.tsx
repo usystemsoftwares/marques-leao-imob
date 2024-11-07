@@ -168,7 +168,7 @@ const Carousel = ({ estates }: CarouselProps) => {
                       }}
                     />
                   </button>
-                  <Link className="block" href={`/imoveis/${estate.db_id}`}>
+                  <Link className="block" href={`/imovel/${estate.db_id}`}>
                     <div className="h-[350px] sm:h-[340px] w-full relative">
                       <Image
                         className="rounded-lg object-cover w-full h-full"
@@ -184,7 +184,7 @@ const Carousel = ({ estates }: CarouselProps) => {
                   </Link>
                 </div>
                 <Link
-                  href={`/imoveis/${estate.db_id}`}
+                  href={`/imovel/${estate.db_id}`}
                   className="flex items-center justify-between rounded-b-lg bg-[#666666] bg-opacity-60 py-2 px-2 md:px-8 absolute bottom-0 w-full left-0 group-hover:opacity-0 transition-opacity duration-300"
                 >
                   {estate.preço_venda &&
@@ -205,7 +205,7 @@ const Carousel = ({ estates }: CarouselProps) => {
                   </p>
                 </Link>
                 <Link
-                  href={`/imoveis/${estate.db_id}`}
+                  href={`/imovel/${estate.db_id}`}
                   className="absolute flex items-stretch rounded-b-lg overflow-hidden w-full bottom-0 left-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 *:py-2"
                 >
                   <div className="w-[65%] bg-white flex pl-2 md:pl-4 gap-2 md:gap-7 text-black text-[.75rem]">

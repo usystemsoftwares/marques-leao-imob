@@ -10,8 +10,8 @@ import {
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { Cidade, Estado } from "smart-imob-types";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import slugify from "slugify";
 
 const sideVariants = {
   closed: {
@@ -43,31 +43,13 @@ const SearchPropertyFilter = ({
 }: FormProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const [estado, setEstado] = useState<string>(searchParams?.estado_id ?? "");
-  const [cidade, setCidade] = useState<string>(searchParams?.cidade_id ?? "");
-  const [bairro, setBairro] = useState<string>(
-    Array.isArray(searchParams?.bairros)
-      ? searchParams.bairros[0]
-      : searchParams?.bairros ?? ""
-  );
-  const [filteredDistricts, setFilteredDistricts] = useState(bairros);
-  useEffect(() => {
-    setFilteredDistricts(
-      (bairros ?? []).filter(
-        (bairro: any) =>
-          (bairro?.cidadeId ?? "").toLowerCase() === cidade.toLowerCase()
-      )
-    );
-  }, [cidade, bairros]);
-
-  const [tipo, setTipo] = useState<string>(
-    Array.isArray(searchParams?.tipos)
-      ? searchParams.tipos[0]
-      : searchParams?.tipos ?? ""
-  );
-  const [codigo, setCodigo] = useState<string>(searchParams?.código ?? "");
+  const [estado, setEstado] = useState<string>(searchParams?.estado ?? "");
+  const [cidade, setCidade] = useState<string>(searchParams?.cidade ?? "");
+  const [bairro, setBairro] = useState<string>(searchParams?.bairro ?? "");
+  const [tipo, setTipo] = useState<string>(searchParams?.tipo ?? "");
+  const [codigo, setCodigo] = useState<string>(searchParams?.codigo ?? "");
   const [codigoInput, setCodigoInput] = useState<string>(
-    searchParams?.código ?? ""
+    searchParams?.codigo ?? ""
   );
   const [codigoSuggestions, setCodigoSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
@@ -78,7 +60,19 @@ const SearchPropertyFilter = ({
     searchParams?.["imovel.preco_max"] ?? ""
   );
 
+  const router = useRouter();
+
   const inputRef = useRef<HTMLFormElement | null>(null);
+
+  const [filteredDistricts, setFilteredDistricts] = useState(bairros);
+  useEffect(() => {
+    setFilteredDistricts(
+      (bairros ?? []).filter(
+        (bairro: any) =>
+          (bairro?.cidadeNome ?? "").toLowerCase() === cidade.toLowerCase()
+      )
+    );
+  }, [cidade, bairros]);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -89,6 +83,7 @@ const SearchPropertyFilter = ({
 
       if (!clickedInsideInput && !clickedInsideSelectContent) {
         setIsOpen(false);
+        setShowSuggestions(false);
       }
     };
 
@@ -101,31 +96,52 @@ const SearchPropertyFilter = ({
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
-  const query: Record<string, string | string[] | undefined> = {};
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
 
-  if (estado) query.estado_id = estado;
-  if (cidade) query.cidade_id = cidade;
-  if (bairro) query.bairros = [bairro];
-  if (tipo) query.tipos = [tipo];
-  if (codigo) query.código = codigo;
-  if (valorMin !== "") query["imovel.preco_min"] = valorMin.toString();
-  if (valorMax !== "") query["imovel.preco_max"] = valorMax.toString();
+    // Opções para slugify
+    const slugifyOptions = {
+      lower: true, // Converte para minúsculas
+      strict: true, // Remove caracteres especiais
+      locale: "pt", // Define o locale para português
+      remove: /[*+~.()'"!:@]/g, // Remove caracteres adicionais
+    };
+
+    // Função auxiliar para slugificar
+    const slugifyString = (str: string) => slugify(str, slugifyOptions);
+
+    // Construir segmentos de URL baseados nos nomes selecionados com prefixos
+    const urlSegments = [];
+
+    if (estado) urlSegments.push(`estado-${slugifyString(estado)}`);
+    if (cidade) urlSegments.push(`cidade-${slugifyString(cidade)}`);
+    if (bairro) urlSegments.push(`bairro-${slugifyString(bairro)}`);
+    if (tipo) urlSegments.push(`tipo-${slugifyString(tipo)}`);
+    if (valorMin)
+      urlSegments.push(`preco-min-${slugifyString(String(valorMin))}`);
+    if (valorMax)
+      urlSegments.push(`preco-max-${slugifyString(String(valorMax))}`);
+    if (codigo) urlSegments.push(`codigo-${slugifyString(codigo)}`);
+
+    // Construir a URL final
+    let url = `/imoveis/${urlSegments.join("/")}`;
+    // Aqui você pode incluir outros filtros ou query params, se necessário
+
+    console.log("URL construída:", url);
+
+    // Navegar para a URL construída
+    router.push(url);
+  };
 
   const getSelectedFilters = () => {
-    const filters = [];
+    const filters: string[] = [];
 
     if (estado) {
-      const nomeEstado = estados.find(
-        (e) => e.value.toString() === estado
-      )?.nome;
-      if (nomeEstado) filters.push(nomeEstado);
+      filters.push(estado)
     }
 
     if (cidade) {
-      const nomeCidade = cidades.find(
-        (e) => e.value.toString() === cidade
-      )?.nome;
-      if (nomeCidade) filters.push(nomeCidade);
+      filters.push(cidade)
     }
 
     if (bairro) {
@@ -151,7 +167,7 @@ const SearchPropertyFilter = ({
     return filters.join(", ");
   };
 
-  const tipos = [
+  const tiposOptions = [
     "Apartamento",
     "Casa",
     "Casa em Condomínio",
@@ -174,7 +190,7 @@ const SearchPropertyFilter = ({
   return (
     <form
       ref={inputRef}
-      onSubmit={(e: FormEvent) => e.preventDefault()}
+      onSubmit={handleSubmit}
       className={cn(
         "group w-full max-w-[71.875rem] bg-white py-3 px-3 rounded-[.625rem] mx-auto",
         className
@@ -189,18 +205,15 @@ const SearchPropertyFilter = ({
           readOnly
           value={getSelectedFilters()}
         />
-        <Link
+        <button
+          type="submit"
           className="bg-[#2a2b2f] text-[.75rem] flex-shrink-0 py-2 px-4 lg:px-6 rounded-lg"
-          href={{
-            pathname: "/imoveis",
-            query: query,
-          }}
         >
           Buscar imóveis
-        </Link>
+        </button>
       </div>
       <motion.div
-        className="bg-white [--display-from:none] [--display-to:block] [--opacity-from:0] [--opacity-to:95%] *:text-black *:font-semibold z-50 absolute py-4 px-5 w-full bottom-0 translate-y-full left-0 md:gap-3 rounded-[.625rem] "
+        className="bg-white [--display-from:none] [--display-to:block] [--opacity-from:0] [--opacity-to:95%] *:text-black *:font-semibold z-50 absolute py-4 px-5 w-full bottom-0 translate-y-full left-0 md:gap-3 rounded-[.625rem]"
         initial={false}
         animate={isOpen ? "open" : "closed"}
         variants={sideVariants}
@@ -223,8 +236,8 @@ const SearchPropertyFilter = ({
                   .filter((estadoItem: any) => estadoItem.sigla !== "PA")
                   .map((estadoItem) => (
                     <SelectItem
-                      key={estadoItem.value}
-                      value={estadoItem.value.toString()}
+                      key={estadoItem.nome}
+                      value={estadoItem.nome}
                     >
                       {estadoItem.sigla}
                     </SelectItem>
@@ -232,6 +245,7 @@ const SearchPropertyFilter = ({
               </SelectContent>
             </Select>
 
+            {/* Seleção de Cidades */}
             <Select
               value={cidade}
               onValueChange={(value) => {
@@ -246,17 +260,20 @@ const SearchPropertyFilter = ({
               <SelectContent className="select-content">
                 {cidades
                   .filter(
-                    (cidade: any) =>
-                      cidade && cidade !== "null" && cidade.estado_id === estado
+                    (cidadeItem: any) =>
+                      cidadeItem &&
+                      cidadeItem !== "null" &&
+                      cidadeItem.estado?.nome === estado
                   )
-                  .map((cidade: any) => (
-                    <SelectItem key={cidade.id} value={cidade.value}>
-                      {cidade.nome}
+                  .map((cidadeItem: any) => (
+                    <SelectItem key={cidadeItem.nome} value={cidadeItem.nome}>
+                      {cidadeItem.nome}
                     </SelectItem>
                   ))}
               </SelectContent>
             </Select>
 
+            {/* Seleção de Bairros */}
             <Select value={bairro} onValueChange={setBairro} disabled={!cidade}>
               <SelectTrigger>
                 <SelectValue placeholder="Bairros" />
@@ -283,12 +300,13 @@ const SearchPropertyFilter = ({
               </SelectContent>
             </Select>
 
+            {/* Seleção de Tipos */}
             <Select value={tipo} onValueChange={setTipo}>
               <SelectTrigger>
                 <SelectValue placeholder="Tipos" />
               </SelectTrigger>
               <SelectContent className="select-content">
-                {tipos.map((tipoItem, index) => (
+                {tiposOptions.map((tipoItem, index) => (
                   <SelectItem key={index} value={tipoItem}>
                     {tipoItem}
                   </SelectItem>
@@ -296,6 +314,7 @@ const SearchPropertyFilter = ({
               </SelectContent>
             </Select>
 
+            {/* Campo de Código com Sugestões */}
             <div className="relative">
               <input
                 type="text"

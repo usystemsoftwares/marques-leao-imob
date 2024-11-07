@@ -10,7 +10,8 @@ import {
 import { useEffect, useRef, useState, FormEvent } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import slugify from "slugify";
 
 const sideVariants = {
   closed: {
@@ -41,43 +42,42 @@ const SearchPropertyFilter = ({
   searchParams,
 }: FormProps) => {
   const [isOpen, setIsOpen] = useState(false);
-
-  const [estado, setEstado] = useState<string>(searchParams?.estado_id ?? "");
-  const [cidade, setCidade] = useState<string>(searchParams?.cidade_id ?? "");
-  const [bairro, setBairro] = useState<string>(
-    Array.isArray(searchParams?.bairros)
-      ? searchParams.bairros[0]
-      : searchParams?.bairros ?? ""
+  const [transacao, setTransacao] = useState<string>(
+    searchParams?.transacao ?? ""
   );
+  const [estado, setEstado] = useState<string>(searchParams?.estado ?? "");
+  const [cidade, setCidade] = useState<string>(searchParams?.cidade ?? "");
+  const [bairro, setBairro] = useState<string>(searchParams?.bairro ?? "");
+  const [tipo, setTipo] = useState<string>(searchParams?.tipo ?? "");
+  const [codigo, setCodigo] = useState<string>(searchParams?.codigo ?? "");
+  const [codigoInput, setCodigoInput] = useState<string>(
+    searchParams?.codigo ?? ""
+  );
+  const [codigoSuggestions, setCodigoSuggestions] = useState<string[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
+  const [valorMin, setValorMin] = useState<number | "">(
+    searchParams?.valorMin ?? ""
+  );
+  const [valorMax, setValorMax] = useState<number | "">(
+    searchParams?.valorMax ?? ""
+  );
+  const router = useRouter();
+
+  const [condominio, setCondominio] = useState<string>(""); // Novo
+  const [dormitorios, setDormitorios] = useState<string>(""); // Novo
+  const [vagas, setVagas] = useState<string>(""); // Novo
+
+  const inputRef = useRef<HTMLFormElement | null>(null);
+
   const [filteredDistricts, setFilteredDistricts] = useState(bairros);
   useEffect(() => {
     setFilteredDistricts(
       (bairros ?? []).filter(
         (bairro: any) =>
-          (bairro?.cidadeId ?? "").toLowerCase() === cidade.toLowerCase()
+          (bairro?.cidadeNome ?? "").toLowerCase() === cidade.toLowerCase()
       )
     );
   }, [cidade, bairros]);
-
-  const [tipo, setTipo] = useState<string>(
-    Array.isArray(searchParams?.tipos)
-      ? searchParams.tipos[0]
-      : searchParams?.tipos ?? ""
-  );
-  const [codigo, setCodigo] = useState<string>(searchParams?.código ?? "");
-  const [codigoInput, setCodigoInput] = useState<string>(
-    searchParams?.código ?? ""
-  );
-  const [codigoSuggestions, setCodigoSuggestions] = useState<string[]>([]);
-  const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
-  const [valorMin, setValorMin] = useState<number | "">(
-    searchParams?.["imovel.preco_min"] ?? ""
-  );
-  const [valorMax, setValorMax] = useState<number | "">(
-    searchParams?.["imovel.preco_max"] ?? ""
-  );
-
-  const inputRef = useRef<HTMLFormElement | null>(null);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -101,31 +101,62 @@ const SearchPropertyFilter = ({
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
-  const query: Record<string, string | string[] | undefined> = {};
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
 
-  if (estado) query.estado_id = estado;
-  if (cidade) query.cidade_id = cidade;
-  if (bairro) query.bairros = [bairro];
-  if (tipo) query.tipos = [tipo];
-  if (codigo) query.código = codigo;
-  if (valorMin !== "") query["imovel.preco_min"] = valorMin.toString();
-  if (valorMax !== "") query["imovel.preco_max"] = valorMax.toString();
+    // Opções para slugify
+    const slugifyOptions = {
+      lower: true, // Converte para minúsculas
+      strict: true, // Remove caracteres especiais
+      locale: "pt", // Define o locale para português
+      remove: /[*+~.()'"!:@]/g, // Remove caracteres adicionais
+    };
+
+    // Função auxiliar para slugificar
+    const slugifyString = (str: string) => slugify(str, slugifyOptions);
+
+    // Construir segmentos de URL baseados nos nomes selecionados com prefixos
+    const urlSegments = [];
+
+    if (transacao) urlSegments.push(`transacao-${slugifyString(transacao)}`);
+    if (estado) urlSegments.push(`estado-${slugifyString(estado)}`);
+    if (cidade) urlSegments.push(`cidade-${slugifyString(cidade)}`);
+    if (bairro) urlSegments.push(`bairro-${slugifyString(bairro)}`);
+    if (tipo) urlSegments.push(`tipo-${slugifyString(tipo)}`);
+    if (dormitorios)
+      urlSegments.push(`dormitorios-${slugifyString(dormitorios)}`);
+    if (vagas) urlSegments.push(`vagas-${slugifyString(vagas)}`);
+    if (valorMin)
+      urlSegments.push(`preco-min-${slugifyString(String(valorMin))}`);
+    if (valorMax)
+      urlSegments.push(`preco-max-${slugifyString(String(valorMax))}`);
+    if (codigo) urlSegments.push(`codigo-${slugifyString(codigo)}`);
+    if (searchParams?.pagina) {
+      urlSegments.push(`pagina-${searchParams.pagina}`);
+    }
+    // Construir a URL final
+    let url = `/imoveis/${urlSegments.join("/")}`;
+    // Aqui você pode incluir outros filtros ou query params, se necessário
+
+    console.log("URL construída:", url);
+
+    // Navegar para a URL construída
+    router.push(url);
+  };
 
   const getSelectedFilters = () => {
-    const filters = [];
+    const filters: string[] = [];
+
+    if (transacao) {
+      filters.push(transacao);
+    }
 
     if (estado) {
-      const nomeEstado = estados.find(
-        (e) => e.value.toString() === estado
-      )?.nome;
-      if (nomeEstado) filters.push(nomeEstado);
+      filters.push(estado);
     }
 
     if (cidade) {
-      const nomeCidade = cidades.find(
-        (e) => e.value.toString() === cidade
-      )?.nome;
-      if (nomeCidade) filters.push(nomeCidade);
+      filters.push(cidade);
     }
 
     if (bairro) {
@@ -148,10 +179,21 @@ const SearchPropertyFilter = ({
       filters.push(`R$${valorMax.toLocaleString("pt-BR")}`);
     }
 
+    // Opcional: Incluir filtros adicionais no display
+    if (condominio) {
+      filters.push(condominio);
+    }
+    if (dormitorios) {
+      filters.push(`${dormitorios} Dormitório(s)`);
+    }
+    if (vagas) {
+      filters.push(`${vagas} Vaga(s)`);
+    }
+
     return filters.join(", ");
   };
 
-  const tipos = [
+  const tiposOptions = [
     "Apartamento",
     "Casa",
     "Casa em Condomínio",
@@ -178,7 +220,7 @@ const SearchPropertyFilter = ({
         className
       )}
       ref={inputRef}
-      onSubmit={(e: FormEvent) => e.preventDefault()}
+      onSubmit={handleSubmit}
     >
       <div className="flex justify-between">
         <input
@@ -189,15 +231,12 @@ const SearchPropertyFilter = ({
           readOnly
           value={getSelectedFilters()}
         />
-        <Link
-          href={{
-            pathname: "/imoveis",
-            query: query,
-          }}
+        <button
+          type="submit"
           className="bg-[#2a2b2f] flex-shrink-0 text-[.75rem] md:text-sm py-2 px-4 md:px-6 rounded-lg"
         >
           Buscar imóveis
-        </Link>
+        </button>
       </div>
       <motion.div
         className="bg-white [--display-from:none] [--display-to:block] md:[--display-to:flex] [--opacity-from:0] [--opacity-to:80%] *:text-black *:font-semibold absolute py-4 px-5 w-full bottom-0 translate-y-full left-0 md:gap-3 rounded-[.625rem] *:flex *:flex-wrap md:*:flex-nowrap *:justify-center md:*:justify-between *:items-center"
@@ -221,13 +260,17 @@ const SearchPropertyFilter = ({
               {estados
                 .filter((estadoItem: any) => estadoItem.sigla !== "PA")
                 .map((estadoItem) => (
-                  <SelectItem key={estadoItem.value} value={estadoItem.value}>
+                  <SelectItem
+                    key={estadoItem.nome}
+                    value={estadoItem.nome.toString()}
+                  >
                     {estadoItem.sigla}
                   </SelectItem>
                 ))}
             </SelectContent>
           </Select>
 
+          {/* Seleção de Cidades */}
           <Select
             value={cidade}
             onValueChange={(value) => {
@@ -242,17 +285,20 @@ const SearchPropertyFilter = ({
             <SelectContent className="select-content">
               {cidades
                 .filter(
-                  (cidade: any) =>
-                    cidade && cidade !== "null" && cidade.estado_id === estado
+                  (cidadeItem: any) =>
+                    cidadeItem &&
+                    cidadeItem !== "null" &&
+                    cidadeItem.estado?.nome === estado
                 )
-                .map((cidade: any) => (
-                  <SelectItem key={cidade.id} value={cidade.value}>
-                    {cidade.nome}
+                .map((cidadeItem: any) => (
+                  <SelectItem key={cidadeItem.nome} value={cidadeItem.nome}>
+                    {cidadeItem.nome}
                   </SelectItem>
                 ))}
             </SelectContent>
           </Select>
 
+          {/* Seleção de Bairros */}
           <Select value={bairro} onValueChange={setBairro} disabled={!cidade}>
             <SelectTrigger>
               <SelectValue placeholder="Bairros" />
@@ -270,21 +316,22 @@ const SearchPropertyFilter = ({
               ) : (
                 filteredDistricts
                   .filter((v: any) => v.bairro)
-                  .map((bairro: any, index: number) => (
-                    <SelectItem key={index} value={bairro.bairro || ""}>
-                      {bairro.bairro}
+                  .map((bairroItem: any, index: number) => (
+                    <SelectItem key={index} value={bairroItem.bairro || ""}>
+                      {bairroItem.bairro}
                     </SelectItem>
                   ))
               )}
             </SelectContent>
           </Select>
 
+          {/* Seleção de Tipos */}
           <Select value={tipo} onValueChange={setTipo}>
             <SelectTrigger>
               <SelectValue placeholder="Tipos" />
             </SelectTrigger>
             <SelectContent className="select-content">
-              {tipos.map((tipoItem, index) => (
+              {tiposOptions.map((tipoItem, index) => (
                 <SelectItem key={index} value={tipoItem}>
                   {tipoItem}
                 </SelectItem>
@@ -292,6 +339,7 @@ const SearchPropertyFilter = ({
             </SelectContent>
           </Select>
 
+          {/* Campo de Código com Sugestões */}
           <div className="relative">
             <input
               type="text"
@@ -327,6 +375,8 @@ const SearchPropertyFilter = ({
             )}
           </div>
         </div>
+
+        {/* Campos de Valor Mínimo e Máximo */}
         <div className="relative justify-between w-full flex-col mt-3 md:mt-0 *:w-full *:flex *:justify-between *:border-black *:border *:rounded-lg md:flex-row *:text-sm gap-3 *:py-2 *:px-3 lg:before:bg-black lg:before:h-full lg:before:absolute lg:before:w-[1px]">
           <label className="md:ml-4">
             Valor mínimo
