@@ -9,7 +9,7 @@ interface PaginationProps {
   page: number;
   pathname: string;
   query: any;
-  filters: any[]
+  filters: any[];
 }
 
 const Pagination: FC<PaginationProps> = ({
@@ -30,20 +30,22 @@ const Pagination: FC<PaginationProps> = ({
   }, [page]);
 
   const generatePageNumbers = () => {
-    const numbers = [];
+    const numbers: number[] = [];
     const windowSize = 5;
 
+    // Sempre adiciona a primeira página
     numbers.push(1);
 
+    // Adiciona um separador se necessário
     if (page > 4) {
       numbers.push(-1);
     }
 
     let start = Math.max(2, page - 2);
-    const end = Math.min(start + windowSize - 1, pages);
+    let end = Math.min(start + windowSize - 1, pages);
 
     if (end - start < windowSize - 1) {
-      start = Math.max(1, end - windowSize + 1);
+      start = Math.max(2, end - windowSize + 1);
     }
 
     for (let i = start; i <= end; i++) {
@@ -52,11 +54,13 @@ const Pagination: FC<PaginationProps> = ({
       }
     }
 
+    // Adiciona um separador se necessário
     if (pages - page > 3) {
       numbers.push(-2);
     }
 
-    if (end <= pages) {
+    // Adiciona a última página se for diferente da primeira
+    if (pages > 1 && !numbers.includes(pages)) {
       numbers.push(pages);
     }
 
@@ -71,7 +75,7 @@ const Pagination: FC<PaginationProps> = ({
 
     // Construir os segmentos de URL atualizados incluindo `pagina-xxx`
     const newFilters = [...(filters || [])];
-    console.log('newFilters', newFilters, query)
+    console.log("newFilters", newFilters, query);
 
     // Remover qualquer segmento existente de paginação
     const filteredFilters = newFilters.filter(
@@ -80,13 +84,12 @@ const Pagination: FC<PaginationProps> = ({
 
     // Adicionar o novo segmento de paginação
     filteredFilters.push(`pagina-${pagina}`);
-    console.log('filteredFilters', filteredFilters)
+    console.log("filteredFilters", filteredFilters);
 
     const newPath = `/imoveis/${filteredFilters.join("/")}`;
 
     router.push(newPath as any);
   }, 300);
-
 
   const renderItem = (pagina: number, index: number) => {
     const isSelected = pagina == page && !isLoading;

@@ -187,11 +187,8 @@ async function getData(filtros: any): Promise<{
     backendFilters['imovel.preco_max'] = rest.preco_max;
   }
 
-  if (rest.codigoSlug) {
-    const codigo = getIdByName(codigos, rest.codigoSlug, "codigo");
-    if (codigo) {
-      backendFilters.código = codigo;
-    }
+  if (rest.codigo) {
+    backendFilters.código = rest.codigo;
   }
 
   const processedFilters = processarFiltros(backendFilters);
