@@ -224,6 +224,11 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
             Imobiliária Marques & Leão
           </strong>
         </p>
+        <a href={"http://smartimob.io"} target="_blank">
+          <p className="text-center text-sm tracking-widest">
+            Desenvolvido por <strong className="whitespace-nowrap">SMTX</strong>
+          </p>
+        </a>
       </div>
     </footer>
   );
