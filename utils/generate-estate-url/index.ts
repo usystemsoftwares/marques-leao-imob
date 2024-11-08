@@ -16,14 +16,12 @@ export const generateEstateUrl = (estate: Imóvel): string => {
 
   const urlSegments = [];
 
-  if (tipo) urlSegments.push(`tipo-${slugifyString(tipo)}`);
-  if (cidade) urlSegments.push(`cidade-${slugifyString(cidade?.nome)}`);
-  if (bairro) urlSegments.push(`bairro-${slugifyString(bairro)}`);
+  if (tipo) urlSegments.push(slugifyString(tipo));
+  if (cidade) urlSegments.push(slugifyString(cidade?.nome));
+  if (bairro) urlSegments.push(slugifyString(bairro));
 
   if (empreendimento)
-    urlSegments.push(
-      `empreendimento-${slugifyString(String(empreendimento?.nome))}`
-    );
+    urlSegments.push(slugifyString(String(empreendimento?.nome)));
 
   if (dormitórios && Number(dormitórios) > 0)
     urlSegments.push(`dormitorios-${slugifyString(String(dormitórios))}`);
