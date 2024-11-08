@@ -25,7 +25,7 @@ import PropertyPhotos from "../../imoveis/[...filters]/components/property-photo
 import processarFiltros from "@/utils/processar-filtros-backend";
 
 async function getData(
-  houseId: string,
+  codigo: string,
   afiliado: any
 ): Promise<{
   empresa: Empresa;
@@ -48,8 +48,8 @@ async function getData(
   const empresa_id: any =
     process.env.EMPRESA_ID ?? process.env.NEXT_PUBLIC_EMPRESA_ID;
 
-  const dataImovel = await fetch(`${uri}/imoveis/site/codigo/${houseId}`, {
-    next: { tags: [`imovel-${houseId}`] },
+  const dataImovel = await fetch(`${uri}/imoveis/site/codigo/${codigo}`, {
+    next: { tags: [`imovel-${codigo}`] },
   });
   const empresa = await fetch(`${uri}/empresas/site/${empresa_id}`, {
     next: { tags: ["empresas"] },
@@ -92,7 +92,7 @@ async function getData(
     startAt: "0",
     filtros: JSON.stringify(
       processarFiltros({
-        relacionados: houseId,
+        relacionados: imovel.db_id,
         venda: imovel.venda,
         locação: imovel.locação,
         temporada: imovel.temporada,
@@ -208,7 +208,7 @@ const RealEstatePage = async ({
   const uid = searchParams.uid || "";
 
   const codigo: any = path.pop();
-
+  console.log('codigo', codigo)
   const {
     imovel,
     corretor,
@@ -221,7 +221,7 @@ const RealEstatePage = async ({
     bairros,
     tipos,
     codigos,
-  } = await getData(codigo || "", afiliado);
+  } = await getData(codigo, afiliado);
 
   if (!imovel) return <></>;
 
