@@ -207,7 +207,7 @@ const RealEstatePage = async ({
   const VerFotos = searchParams.VerFotos === "true";
   const uid = searchParams.uid || "";
 
-  let codigo: any = path.pop();
+  const codigo: any = path.pop();
 
   const {
     imovel,
