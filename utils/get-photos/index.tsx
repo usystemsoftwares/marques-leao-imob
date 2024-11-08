@@ -10,17 +10,6 @@ export function getPhotos(
   liberado: boolean,
   verFotosUrl = false
 ) {
-  const [hasUID, setHasUID] = useState<boolean>(liberado);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedUID = localStorage.getItem("uid");
-      if (storedUID) {
-        setHasUID(true);
-      }
-    }
-  }, []);
-
   if (!fotos || fotos.length === 0) {
     return [];
   }
@@ -37,18 +26,18 @@ export function getPhotos(
   if (!verFotosUrl) {
     if (empresa.bloqueio_de_fotos === undefined) {
       if (imovel?.bloqueio_fotos) {
-        if (!hasUID) {
+        if (!liberado) {
           sliceLimit = isYoutubeVideo
             ? showQuantity - 1 || 2
             : showQuantity || 4;
         }
       }
-    } else if (empresa.bloqueio_de_fotos && !hasUID) {
+    } else if (empresa.bloqueio_de_fotos && !liberado) {
       sliceLimit = isYoutubeVideo ? showQuantity - 1 || 2 : showQuantity || 4;
     }
   }
 
-  if (!hasUID && empresa.bloqueio_de_fotos) {
+  if (!liberado && empresa.bloqueio_de_fotos) {
     const fotoDestaque = orderedFotos.find((foto) => foto.destaque);
     if (fotoDestaque) {
       orderedFotos = orderedFotos.filter((foto) => !foto.destaque);

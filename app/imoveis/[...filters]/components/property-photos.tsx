@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Empresa, Imóvel } from "smart-imob-types";
 import FormContact from "./form-contact";
@@ -16,14 +16,25 @@ export default function PropertyPhotos({
   empresa: Empresa;
   imovel: Imóvel;
   afiliado: any;
-  liberado?: boolean;
+  liberado: boolean;
   VerFotos?: boolean;
 }) {
+  const [hasUID, setHasUID] = useState<boolean>(liberado);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedUID = localStorage.getItem("uid");
+      if (storedUID) {
+        setHasUID(true);
+      }
+    }
+  }, []);
+
   const fotos = getPhotos(
     empresa,
     imovel,
     imovel?.fotos || [],
-    liberado || false,
+    hasUID,
     VerFotos
   );
 
@@ -43,13 +54,15 @@ export default function PropertyPhotos({
                 style={{
                   maxWidth: "100%",
                   height: "auto",
+                  maxHeight: "598px",
+                  objectFit: "cover",
                 }}
               />
             </li>
           );
         }
 
-        if (liberado) return null;
+        if (hasUID) return null;
         return (
           <FormContact
             key={index}
