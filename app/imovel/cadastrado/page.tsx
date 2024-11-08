@@ -1,4 +1,4 @@
-import RealEstatePage from "../[id]/page";
+import RealEstatePage from "../[...path]/page";
 
 export default async function Page({
   params,

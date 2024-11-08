@@ -48,7 +48,7 @@ async function getData(
   const empresa_id: any =
     process.env.EMPRESA_ID ?? process.env.NEXT_PUBLIC_EMPRESA_ID;
 
-  const dataImovel = await fetch(`${uri}/imoveis/site/${houseId}`, {
+  const dataImovel = await fetch(`${uri}/imoveis/site/codigo/${houseId}`, {
     next: { tags: [`imovel-${houseId}`] },
   });
   const empresa = await fetch(`${uri}/empresas/site/${empresa_id}`, {
@@ -199,13 +199,16 @@ const RealEstatePage = async ({
   params,
   searchParams,
 }: {
-  params: { id: string };
+  params: { path: string[] };
   searchParams: { [key: string]: any };
 }) => {
-  const { id } = params;
+  const { path } = params;
   const afiliado = searchParams.afiliado || "";
   const VerFotos = searchParams.VerFotos === "true";
   const uid = searchParams.uid || "";
+
+  let codigo: any = path.pop();
+
   const {
     imovel,
     corretor,
@@ -218,7 +221,7 @@ const RealEstatePage = async ({
     bairros,
     tipos,
     codigos,
-  } = await getData(id, afiliado);
+  } = await getData(codigo || "", afiliado);
 
   if (!imovel) return <></>;
 

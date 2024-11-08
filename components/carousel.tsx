@@ -19,6 +19,7 @@ import { Imóvel } from "smart-imob-types";
 import { getFotoDestaque } from "@/utils/get-foto-destaque";
 import { getSingleArea } from "@/utils/get-area";
 import { toBRL } from "@/utils/toBrl";
+import { generateEstateUrl } from "@/utils/generate-estate-url";
 
 const TWEEN_FACTOR_BASE = 0.05;
 
@@ -123,7 +124,9 @@ const Carousel = ({ estates }: CarouselProps) => {
               )}
             >
               <div className="embla__slide__number pt-5">
-                {(estate.caracteristicas || []).some((carac) => carac.nome === 'Exclusividade') && (
+                {(estate.caracteristicas || []).some(
+                  (carac) => carac.nome === "Exclusividade"
+                ) && (
                   <div className="absolute z-10 top-0 bg-[#530944] py-[.35rem] px-4 rounded-r-[100vmax] rounded-tl-[100vmax]">
                     Exclusividade
                   </div>
@@ -168,7 +171,7 @@ const Carousel = ({ estates }: CarouselProps) => {
                       }}
                     />
                   </button>
-                  <Link className="block" href={`/imovel/${estate.db_id}`}>
+                  <Link className="block" href={generateEstateUrl(estate)}>
                     <div className="h-[350px] sm:h-[340px] w-full relative">
                       <Image
                         className="rounded-lg object-cover w-full h-full"
@@ -184,7 +187,7 @@ const Carousel = ({ estates }: CarouselProps) => {
                   </Link>
                 </div>
                 <Link
-                  href={`/imovel/${estate.db_id}`}
+                  href={generateEstateUrl(estate)}
                   className="flex items-center justify-between rounded-b-lg bg-[#666666] bg-opacity-60 py-2 px-2 md:px-8 absolute bottom-0 w-full left-0 group-hover:opacity-0 transition-opacity duration-300"
                 >
                   {estate.preço_venda &&
@@ -205,7 +208,7 @@ const Carousel = ({ estates }: CarouselProps) => {
                   </p>
                 </Link>
                 <Link
-                  href={`/imovel/${estate.db_id}`}
+                  href={generateEstateUrl(estate)}
                   className="absolute flex items-stretch rounded-b-lg overflow-hidden w-full bottom-0 left-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 *:py-2"
                 >
                   <div className="w-[65%] bg-white flex pl-2 md:pl-4 gap-2 md:gap-7 text-black text-[.75rem]">

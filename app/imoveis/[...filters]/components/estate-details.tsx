@@ -11,6 +11,7 @@ import { toBRL } from "@/utils/toBrl";
 import { getSingleArea } from "@/utils/get-area";
 import { getFotoDestaque } from "@/utils/get-foto-destaque";
 import { Imóvel } from "smart-imob-types";
+import { generateEstateUrl } from "@/utils/generate-estate-url";
 
 type EstateDetailsProps = {
   estate: Imóvel;
@@ -31,7 +32,7 @@ const EstateDetails = ({ estate }: EstateDetailsProps) => {
     >
       <div className="embla__slide__number pt-5">
         <div className="relative">
-        <div className="absolute top-7 left-2 bg-white bg-opacity-70 text-black px-3 py-1 rounded-md z-[99]">
+          <div className="absolute top-7 left-2 bg-white bg-opacity-70 text-black px-3 py-1 rounded-md z-[99]">
             {estate.codigo}
           </div>
           <button
@@ -52,7 +53,7 @@ const EstateDetails = ({ estate }: EstateDetailsProps) => {
               }}
             />
           </button>
-          <Link className="block" href={`/imoveis/${estate.db_id}`}>
+          <Link className="block" href={generateEstateUrl(estate)}>
             <Image
               className="w-full rounded-lg h-[375px] w-[538px] relative"
               src={getFotoDestaque(estate) || ""}
@@ -67,7 +68,7 @@ const EstateDetails = ({ estate }: EstateDetailsProps) => {
           </Link>
         </div>
         <Link
-          href={`/imoveis/${estate.db_id}`}
+          href={generateEstateUrl(estate)}
           className="flex items-center justify-between rounded-b-lg bg-[#666666] bg-opacity-60 py-2 px-2 md:px-8 absolute bottom-0 w-full left-0 group-hover:opacity-0 transition-opacity"
         >
           {estate.preço_venda &&
@@ -85,7 +86,7 @@ const EstateDetails = ({ estate }: EstateDetailsProps) => {
           </p>
         </Link>
         <Link
-          href={`/imoveis/${estate.db_id}`}
+          href={generateEstateUrl(estate)}
           className="absolute flex items-stretch rounded-b-lg overflow-hidden w-full bottom-0 left-0 opacity-0 group-hover:opacity-100 transition-opacity *:py-2"
         >
           <div className="w-[65%] bg-white flex pl-2 md:pl-4 gap-2 md:gap-7 text-black text-[.75rem]">
