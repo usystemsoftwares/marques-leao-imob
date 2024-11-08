@@ -9,7 +9,7 @@ const slugifyOptions = {
 };
 
 export const generateEstateUrl = (estate: Imóvel): string => {
-  const { tipo, cidade, bairro, empreendimento, dormitórios, vagas, codigo } =
+  const { tipo, cidade, bairro, empreendimento, dormitórios, vagas, suítes, codigo } =
     estate;
 
   const slugifyString = (str: string) => slugify(str, slugifyOptions);
@@ -23,11 +23,14 @@ export const generateEstateUrl = (estate: Imóvel): string => {
   if (empreendimento)
     urlSegments.push(slugifyString(String(empreendimento?.nome)));
 
+  if (suítes && Number(suítes) > 0)
+    urlSegments.push(`${slugifyString(String(suítes))}-suites`);
+
   if (dormitórios && Number(dormitórios) > 0)
-    urlSegments.push(`dormitorios-${slugifyString(String(dormitórios))}`);
+    urlSegments.push(`${slugifyString(String(dormitórios))}-dormitorios`);
 
   if (vagas && Number(vagas) > 0)
-    urlSegments.push(`vagas-${slugifyString(String(vagas))}`);
+    urlSegments.push(`${slugifyString(String(vagas))}-vagas`);
 
   if (codigo) urlSegments.push(`${slugifyString(String(codigo))}`);
   const url = `/imovel/${urlSegments.join("/")}`;
