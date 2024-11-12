@@ -208,7 +208,6 @@ const RealEstatePage = async ({
   const uid = searchParams.uid || "";
 
   const codigo: any = path.pop();
-  console.log('codigo', codigo)
   const {
     imovel,
     corretor,
@@ -243,11 +242,11 @@ const RealEstatePage = async ({
             empresa={empresa}
             imovel={imovel}
             afiliado={afiliado}
-            liberado={!!uid || false}
+            liberado={!!uid || VerFotos || false}
             VerFotos={VerFotos}
           />
         </section>
-        <section className="relative lg:pl-10 w-[min(90%,84.5rem)] mx-auto lg:ml-auto mt-16 lg:mr-28 lg:flex lg:justify-between lg:gap-28">
+        <section className="relative w-full mx-auto mt-16 lg:flex lg:gap-28 px-4 md:px-6 lg:px-0 max-w-[80rem]">
           <Image
             draggable={false}
             className="hidden lg:block absolute opacity-70 right-[-40%] -z-10 w-[75%]"
@@ -268,7 +267,7 @@ const RealEstatePage = async ({
               height: "auto",
             }}
           />
-          <div className="lg:w-[55%]">
+          <div className="lg:w-2/3">
             <div className="mb-8">
               <span className="text-[#707070]">
                 Casa à venda · {imovel.estado?.nome} · {imovel.cidade?.nome} ·
@@ -519,7 +518,7 @@ const RealEstatePage = async ({
             )}
           </div>
           {corretor && corretor.aparecer_site && (
-            <div className="mt-12 lg:mt-0 lg:w-[45%]">
+            <div className="mt-12 lg:mt-0 lg:w-1/3">
               <Link
                 className="inline-block max-w-[23.125rem]"
                 href={`/equipe/${corretor?.db_id}`}
