@@ -34,8 +34,13 @@ export async function generateMetadata(
     process.env.BACKEND_API_URI ?? process.env.NEXT_PUBLIC_BACKEND_API_URI;
   const empresa_id: any =
     process.env.EMPRESA_ID ?? process.env.NEXT_PUBLIC_EMPRESA_ID;
-  const path = params?.params?.path || params?.path;
-  const codigo: any = (path || []).pop();
+  const path = Array.isArray(params?.params?.path)
+    ? params.params.path
+    : Array.isArray(params?.path)
+    ? params.path
+    : [];
+
+  const codigo: any = path.pop();
 
   const dataImovel = await fetch(`${uri}/imoveis/site/codigo/${codigo}`, {
     next: { tags: [`imovel-${codigo}`] },
