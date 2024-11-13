@@ -7,5 +7,5 @@ export default async function Page({
   params: { path: string[] };
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  return <RealEstatePage params={params} searchParams={searchParams} />;
+  return <RealEstatePage params={params || { path: [] }} searchParams={searchParams} />;
 }
