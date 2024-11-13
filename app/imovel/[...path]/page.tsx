@@ -39,7 +39,7 @@ export async function generateMetadata(
     : Array.isArray(params?.path)
     ? params.path
     : [];
-
+  console.log("path", path);
   const codigo: any = path.pop();
 
   const dataImovel = await fetch(`${uri}/imoveis/site/codigo/${codigo}`, {
@@ -245,7 +245,7 @@ const RealEstatePage = async ({
   params: { path: string[] };
   searchParams: { [key: string]: any };
 }) => {
-  const { path } = params;
+  const path = Array.isArray(params?.path) ? params.path : [];
   const codigo: any = path.pop();
 
   const afiliado = searchParams.afiliado || "";
