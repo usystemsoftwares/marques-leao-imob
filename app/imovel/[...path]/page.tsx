@@ -27,15 +27,14 @@ import { Metadata, ResolvingMetadata } from "next";
 import { getFotoDestaque } from "@/utils/get-foto-destaque";
 
 export async function generateMetadata(
-  params1: { params: any },
+  params: any,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const uri =
     process.env.BACKEND_API_URI ?? process.env.NEXT_PUBLIC_BACKEND_API_URI;
   const empresa_id: any =
     process.env.EMPRESA_ID ?? process.env.NEXT_PUBLIC_EMPRESA_ID;
-  const { params } = params1;
-  const { path } = params;
+  const path = params?.params?.path || params?.path;
   const codigo: any = (path || []).pop();
 
   const dataImovel = await fetch(`${uri}/imoveis/site/codigo/${codigo}`, {
