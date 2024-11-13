@@ -23,6 +23,45 @@ import getWhatsappLink from "@/utils/generate_phone_href";
 import { toBRL } from "@/utils/toBrl";
 import PropertyPhotos from "../../imoveis/[...filters]/components/property-photos";
 import processarFiltros from "@/utils/processar-filtros-backend";
+import { Metadata, ResolvingMetadata } from "next";
+import { getFotoDestaque } from "@/utils/get-foto-destaque";
+
+export async function generateMetadata(
+  params1: { params: any },
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const uri =
+    process.env.BACKEND_API_URI ?? process.env.NEXT_PUBLIC_BACKEND_API_URI;
+  const empresa_id: any =
+    process.env.EMPRESA_ID ?? process.env.NEXT_PUBLIC_EMPRESA_ID;
+  const { params } = params1;
+  const { path } = params;
+  const codigo: any = (path || []).pop();
+
+  const dataImovel = await fetch(`${uri}/imoveis/site/codigo/${codigo}`, {
+    next: { tags: [`imovel-${codigo}`] },
+  });
+  const dataEmpresa = await fetch(`${uri}/empresas/site/${empresa_id}`, {
+    next: { tags: ["empresas"] },
+  });
+
+  if (!dataEmpresa.ok || !dataImovel.ok) {
+    notFound();
+  }
+  const imovel: Imóvel = await dataImovel.json();
+  const empresa: Empresa = await dataEmpresa.json();
+  const firstImage = getFotoDestaque(imovel, true) || "";
+  return {
+    title: imovel.titulo ?? empresa.titulo_site ?? "",
+    description: imovel.descrição ?? empresa.descrição ?? "",
+    openGraph: {
+      title: imovel.titulo ?? empresa.titulo_site ?? "",
+      description: imovel.descrição ?? empresa.descrição ?? "",
+      type: "website",
+      images: firstImage || "",
+    },
+  };
+}
 
 async function getData(
   codigo: string,
@@ -203,11 +242,12 @@ const RealEstatePage = async ({
   searchParams: { [key: string]: any };
 }) => {
   const { path } = params;
+  const codigo: any = path.pop();
+
   const afiliado = searchParams.afiliado || "";
   const VerFotos = searchParams.VerFotos === "true";
   const uid = searchParams.uid || "";
 
-  const codigo: any = path.pop();
   const {
     imovel,
     corretor,
