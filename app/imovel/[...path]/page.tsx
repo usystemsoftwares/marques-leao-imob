@@ -314,7 +314,7 @@ const RealEstatePage = async ({
           <div className="lg:w-2/3">
             <div className="mb-8">
               <span className="text-[#707070]">
-                ${imovel.tipo} à venda · {imovel.estado?.nome} · {imovel.cidade?.nome} ·
+                {imovel.tipo} à venda · {imovel.estado?.nome} · {imovel.cidade?.nome} ·
                 Cód {imovel.codigo}
               </span>
               <h1 className="text-4xl mt-6 font-bold">{imovel.titulo}</h1>
