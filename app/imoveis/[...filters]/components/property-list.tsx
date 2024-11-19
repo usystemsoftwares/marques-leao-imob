@@ -14,9 +14,9 @@ import { cn } from "@/lib/utils";
 import { Empresa, Imóvel } from "smart-imob-types";
 import { getFotoDestaque } from "@/utils/get-foto-destaque";
 import { getSingleArea } from "@/utils/get-area";
-import { toBRL } from "@/utils/toBrl";
 import Pagination from "./pagination";
 import { generateEstateUrl } from "@/utils/generate-estate-url";
+import { getDisplayPrice } from "@/utils/get-display-price";
 
 interface PropertyListProps {
   imoveis: Imóvel[];
@@ -168,17 +168,9 @@ const PropertyList: React.FC<PropertyListProps> = ({
                             href={generateEstateUrl(estate)}
                             className="flex items-center justify-between rounded-b-lg bg-[#666666] bg-opacity-60 py-2 px-2 md:px-8 absolute bottom-0 w-full left-0 group-hover:opacity-0 transition-opacity"
                           >
-                            {estate.preço_venda &&
-                            (estate.venda_exibir_valor_no_site === undefined ||
-                              estate.venda_exibir_valor_no_site === true) ? (
-                              <p className="font-semibold text-sm lg:text-base">
-                                {toBRL(estate.preço_venda)}
-                              </p>
-                            ) : (
-                              <p className="font-semibold text-sm lg:text-base">
-                                Consulte-nos
-                              </p>
-                            )}
+                            <p className="font-semibold text-sm lg:text-base">
+                              {getDisplayPrice(estate)}
+                            </p>
 
                             <p className="text-[.75rem]">
                               {estate.bairro ? `${estate.bairro} /` : ""}{" "}
