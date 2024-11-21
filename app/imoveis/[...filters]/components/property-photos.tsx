@@ -53,7 +53,7 @@ export default function PropertyPhotos({
                 height={598}
                 style={{
                   maxWidth: "100%",
-                  height: "auto",
+                  height: "100%",
                   maxHeight: "598px",
                   objectFit: "cover",
                 }}
