@@ -55,11 +55,14 @@ async function getData() {
     empresa_id,
     limit: PAGE_SIZE,
     startAt: "0",
-    filtros: JSON.stringify(
-      processarFiltros({
-        ["caracteristicas"]: "Imoveis Lancamentos",
-      })
-    ),
+    // filtros: JSON.stringify(
+    //   processarFiltros({
+    //     ["caracteristicas"]: "Imoveis Lancamentos",
+    //   })
+    // ),
+    order: JSON.stringify([
+      { field: 'imovel.created_at', order: 'DESC' },
+    ])
   });
   const imoveisNovidadeResponse = await fetch(
     `${uri}/imoveis/site/paginado?${params_imoveis_novidades.toString()}`,
