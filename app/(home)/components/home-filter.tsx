@@ -1,4 +1,4 @@
-import { ImoveisInfoType, Imóvel } from "smart-imob-types";
+import { Imóvel } from "smart-imob-types";
 import processarFiltros from "@/utils/processar-filtros-backend";
 import checkFetchStatus from "@/utils/checkFetchStatus";
 import ordenacoesBackend from "@/utils/processar-ordenacoes-backend";
