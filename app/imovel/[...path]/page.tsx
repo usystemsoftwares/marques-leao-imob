@@ -39,10 +39,11 @@ export async function generateMetadata(
     : Array.isArray(params?.path)
     ? params.path
     : [];
-  console.log("path", path);
   const codigo: any = path.pop();
-
-  const dataImovel = await fetch(`${uri}/imoveis/site/codigo/${codigo}`, {
+  const queryParams = new URLSearchParams({
+    empresa_id,
+  });
+  const dataImovel = await fetch(`${uri}/imoveis/site/codigo/${codigo}?${queryParams.toString()}`, {
     next: { tags: [`imovel-${codigo}`] },
   });
   const dataEmpresa = await fetch(`${uri}/empresas/site/${empresa_id}`, {
@@ -90,10 +91,15 @@ async function getData(
     process.env.BACKEND_API_URI ?? process.env.NEXT_PUBLIC_BACKEND_API_URI;
   const empresa_id: any =
     process.env.EMPRESA_ID ?? process.env.NEXT_PUBLIC_EMPRESA_ID;
-
-  const dataImovel = await fetch(`${uri}/imoveis/site/codigo/${codigo}`, {
-    next: { tags: [`imovel-${codigo}`] },
+  const queryParams = new URLSearchParams({
+    empresa_id,
   });
+  const dataImovel = await fetch(
+    `${uri}/imoveis/site/codigo/${codigo}?${queryParams.toString()}`,
+    {
+      next: { tags: [`imovel-${codigo}`] },
+    }
+  );
   const empresa = await fetch(`${uri}/empresas/site/${empresa_id}`, {
     next: { tags: ["empresas"] },
   });
@@ -162,11 +168,7 @@ async function getData(
     }
   );
 
-  const params = new URLSearchParams({
-    empresa_id,
-  });
-
-  const responseEstados = await fetch(`${uri}/estados?${params.toString()}`, {
+  const responseEstados = await fetch(`${uri}/estados?${queryParams.toString()}`, {
     method: "GET",
     headers: {
       Accept: "application/json",
@@ -175,7 +177,7 @@ async function getData(
   });
 
   const responseBairros = await fetch(
-    `${uri}/imoveis/bairros-por-cidade?${params.toString()}`,
+    `${uri}/imoveis/bairros-por-cidade?${queryParams.toString()}`,
     {
       next: { tags: ["imoveis-info"], revalidate: 3600 },
     }
@@ -194,7 +196,7 @@ async function getData(
   }
 
   const responseTipos = await fetch(
-    `${uri}/imoveis/tipos?${params.toString()}`,
+    `${uri}/imoveis/tipos?${queryParams.toString()}`,
     {
       method: "GET",
       headers: {
@@ -209,7 +211,7 @@ async function getData(
   }
 
   const responseCodigos = await fetch(
-    `${uri}/imoveis/codigos?${params.toString()}`,
+    `${uri}/imoveis/codigos?${queryParams.toString()}`,
     {
       method: "GET",
       headers: {
@@ -314,8 +316,8 @@ const RealEstatePage = async ({
           <div className="lg:w-2/3">
             <div className="mb-8">
               <span className="text-[#707070]">
-                {imovel.tipo} à venda · {imovel.estado?.nome} · {imovel.cidade?.nome} ·
-                Cód {imovel.codigo}
+                {imovel.tipo} à venda · {imovel.estado?.nome} ·{" "}
+                {imovel.cidade?.nome} · Cód {imovel.codigo}
               </span>
               <h1 className="text-4xl mt-6 font-bold">{imovel.titulo}</h1>
               <div className="mt-4 flex items-center gap-3">

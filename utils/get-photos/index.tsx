@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Empresa, Foto, Imóvel } from "smart-imob-types";
 
 export function getPhotos(
