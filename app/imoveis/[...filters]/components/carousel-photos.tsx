@@ -11,15 +11,11 @@ export default function CarouselPhotos({ images }: { images: Foto[] }) {
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   const prevSlide = () => {
-    setCurrentIndex(
-      currentIndex === 0 ? images.length - 1 : currentIndex - 1
-    );
+    setCurrentIndex(currentIndex === 0 ? images.length - 1 : currentIndex - 1);
   };
 
   const nextSlide = () => {
-    setCurrentIndex(
-      currentIndex === images.length - 1 ? 0 : currentIndex + 1
-    );
+    setCurrentIndex(currentIndex === images.length - 1 ? 0 : currentIndex + 1);
   };
 
   const toggleFullscreen = () => {
@@ -47,10 +43,13 @@ export default function CarouselPhotos({ images }: { images: Foto[] }) {
             }}
           >
             {images.map(({ resized, source }, index) => (
-              <div key={index} className="rounded-[.625rem] flex-shrink-0 w-full">
+              <div
+                key={index}
+                className="rounded-[.625rem] flex-shrink-0 w-full"
+              >
                 <Image
                   onClick={toggleFullscreen}
-                  className="rounded-[.625rem] cursor-pointer object-cover w-full h-[600px]"
+                  className="rounded-[.625rem] cursor-pointer object-contain w-full h-auto"
                   src={source.uri || resized || ""}
                   alt={`Imóvel ${index + 1}`}
                   priority
@@ -58,9 +57,7 @@ export default function CarouselPhotos({ images }: { images: Foto[] }) {
                   height={1200}
                   style={{
                     maxWidth: "100%",
-                    height: "100%",
-                    maxHeight: "598px",
-                    objectFit: "cover",
+                    height: "auto",
                   }}
                 />
               </div>
@@ -83,31 +80,6 @@ export default function CarouselPhotos({ images }: { images: Foto[] }) {
           </button>
         </div>
       </div>
-
-      {/* {isFullscreen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
-          <button
-            className="absolute top-4 right-4 text-white text-3xl"
-            onClick={toggleFullscreen}
-            aria-label="Close"
-          >
-            <IoMdClose />
-          </button>
-          <Image
-            className="object-contain w-full h-full"
-            src={
-              images[currentIndex].source.uri ||
-              images[currentIndex].resized ||
-              ""
-            }
-            alt={`Imóvel ${currentIndex + 1}`}
-            priority
-            fill
-            sizes="100vw"
-            style={{ objectFit: "contain" }}
-          />
-        </div>
-      )} */}
     </>
   );
 }

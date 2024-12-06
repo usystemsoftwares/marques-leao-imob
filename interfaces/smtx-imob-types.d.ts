@@ -35,6 +35,7 @@ declare module "smart-imob-types" {
   }
   interface Imóvel {
     empreendimento?: Empreendimento
+    ano_de_construcao?: number;
     empresa_id: string;
     não_mostrar_dormítorios?: boolean;
     temporada?: boolean;

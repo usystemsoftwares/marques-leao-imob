@@ -11,6 +11,8 @@ import EstateBedIcon from "/public/marqueseleao/estate-bed-icon.svg";
 import BathIcon from "/public/marqueseleao/bath-icon.svg";
 import CarIcon from "/public/marqueseleao/car-icon.svg";
 import DimensionIcon from "/public/marqueseleao/dimension-icon.svg";
+import SketchIcon from "/public/marqueseleao/construction.png";
+import BrickwallhIcon from "/public/marqueseleao/brickwall.png";
 
 import CheckIcon from "/public/marqueseleao/check-icon.svg";
 
@@ -43,9 +45,12 @@ export async function generateMetadata(
   const queryParams = new URLSearchParams({
     empresa_id,
   });
-  const dataImovel = await fetch(`${uri}/imoveis/site/codigo/${codigo}?${queryParams.toString()}`, {
-    next: { tags: [`imovel-${codigo}`] },
-  });
+  const dataImovel = await fetch(
+    `${uri}/imoveis/site/codigo/${codigo}?${queryParams.toString()}`,
+    {
+      next: { tags: [`imovel-${codigo}`] },
+    }
+  );
   const dataEmpresa = await fetch(`${uri}/empresas/site/${empresa_id}`, {
     next: { tags: ["empresas"] },
   });
@@ -168,13 +173,16 @@ async function getData(
     }
   );
 
-  const responseEstados = await fetch(`${uri}/estados?${queryParams.toString()}`, {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  });
+  const responseEstados = await fetch(
+    `${uri}/estados?${queryParams.toString()}`,
+    {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    }
+  );
 
   const responseBairros = await fetch(
     `${uri}/imoveis/bairros-por-cidade?${queryParams.toString()}`,
@@ -522,6 +530,24 @@ const RealEstatePage = async ({
                       }}
                     />{" "}
                     {imovel.banheiros} banheiros
+                  </li>
+                ) : (
+                  <></>
+                )}
+                {imovel.ano_de_construcao ? (
+                  <li>
+                    <Image
+                      className="mx-auto mb-3"
+                      src={SketchIcon}
+                      alt="ano_de_construcao"
+                      style={{
+                        maxWidth: "100%",
+                        height: "auto",
+                        backgroundColor: "transparent",
+                      }}
+                    />{" "}
+                    Ano de Construção
+                    <br /> {imovel.ano_de_construcao}{" "}
                   </li>
                 ) : (
                   <></>

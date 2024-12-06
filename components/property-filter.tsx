@@ -137,11 +137,11 @@ const SearchPropertyFilter = ({
     const filters: string[] = [];
 
     if (estado) {
-      filters.push(estado)
+      filters.push(estado);
     }
 
     if (cidade) {
-      filters.push(cidade)
+      filters.push(cidade);
     }
 
     if (bairro) {
@@ -213,7 +213,7 @@ const SearchPropertyFilter = ({
         </button>
       </div>
       <motion.div
-        className="bg-white [--display-from:none] [--display-to:block] [--opacity-from:0] [--opacity-to:95%] *:text-black *:font-semibold z-50 absolute py-4 px-5 w-full bottom-0 translate-y-full left-0 md:gap-3 rounded-[.625rem]"
+        className="bg-white max-w-[71.875rem] [--display-from:none] [--display-to:block] [--opacity-from:0] [--opacity-to:95%] *:text-black *:font-semibold z-50 absolute py-4 px-5 w-full bottom-0 left-1/2 -translate-x-1/2 translate-y-full md:gap-3 rounded-[.625rem]"
         initial={false}
         animate={isOpen ? "open" : "closed"}
         variants={sideVariants}
@@ -235,10 +235,7 @@ const SearchPropertyFilter = ({
                 {estados
                   .filter((estadoItem: any) => estadoItem.sigla !== "PA")
                   .map((estadoItem) => (
-                    <SelectItem
-                      key={estadoItem.nome}
-                      value={estadoItem.nome}
-                    >
+                    <SelectItem key={estadoItem.nome} value={estadoItem.nome}>
                       {estadoItem.sigla}
                     </SelectItem>
                   ))}
