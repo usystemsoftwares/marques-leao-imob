@@ -552,6 +552,28 @@ const RealEstatePage = async ({
                 ) : (
                   <></>
                 )}
+                {imovel.data_de_entrega ? (
+                  <li>
+                    <Image
+                      className="mx-auto mb-3"
+                      src={BrickwallhIcon}
+                      alt="data_de_entrega"
+                      style={{
+                        maxWidth: "100%",
+                        height: "auto",
+                        backgroundColor: "transparent",
+                      }}
+                    />{" "}
+                    Data de entrega
+                    <br />
+                    {new Date(imovel.data_de_entrega).toLocaleDateString(
+                      "pt-BR",
+                      { month: "long", year: "numeric" }
+                    )}{" "}
+                  </li>
+                ) : (
+                  <></>
+                )}
               </ul>
             </div>
             <div className="pt-8 border-t border-[#707070]">

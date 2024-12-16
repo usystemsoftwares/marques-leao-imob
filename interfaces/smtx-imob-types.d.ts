@@ -34,6 +34,7 @@ declare module "smart-imob-types" {
     nome: string;
   }
   interface Imóvel {
+    data_de_entrega?: Date;
     empreendimento?: Empreendimento
     ano_de_construcao?: number;
     empresa_id: string;
@@ -321,7 +322,7 @@ declare module "smart-imob-types" {
     horario_funcionamento: string | null;
     imovel_use_bg?: boolean;
     imoveis_total?: number;
-    imoveis_total_tipos?: {};
+    imoveis_total_tipos?: any;
     img_fixed?: {
       link?: string;
       img?: string;
