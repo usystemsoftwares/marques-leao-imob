@@ -463,7 +463,7 @@ const RealEstatePage = async ({
                       }}
                     />{" "}
                     Área do Terreno <br />
-                    {imovel.area_terreno} m
+                    <strong>{imovel.area_terreno}</strong> m
                   </li>
                 ) : (
                   <></>
@@ -480,7 +480,7 @@ const RealEstatePage = async ({
                       }}
                     />{" "}
                     Área privativa <br />
-                    {imovel.area_privativa} m
+                    <strong>{imovel.area_privativa}</strong> m
                   </li>
                 ) : (
                   <></>
@@ -496,8 +496,8 @@ const RealEstatePage = async ({
                         height: "auto",
                       }}
                     />{" "}
-                    {imovel.dormitórios} dormitórios <br />{" "}
-                    {imovel.suítes ? `${imovel.suítes} suíte` : ""}
+                    <strong>{imovel.dormitórios}</strong> dormitórios
+                    {imovel.suítes ? <><br /><strong>{imovel.suítes}</strong> suítes</> : ""}
                   </li>
                 ) : (
                   <></>
@@ -513,7 +513,7 @@ const RealEstatePage = async ({
                         height: "auto",
                       }}
                     />
-                    {imovel.vagas} vagas <br /> de garagem
+                    <strong>{imovel.vagas}</strong> vagas <br /> de garagem
                   </li>
                 ) : (
                   <></>
@@ -529,7 +529,7 @@ const RealEstatePage = async ({
                         height: "auto",
                       }}
                     />{" "}
-                    {imovel.banheiros} banheiros
+                    <strong>{imovel.banheiros}</strong> banheiros
                   </li>
                 ) : (
                   <></>
@@ -541,13 +541,13 @@ const RealEstatePage = async ({
                       src={SketchIcon}
                       alt="ano_de_construcao"
                       style={{
-                        maxWidth: "100%",
+                        maxWidth: "26px",
                         height: "auto",
                         backgroundColor: "transparent",
                       }}
                     />{" "}
                     Ano de Construção
-                    <br /> {imovel.ano_de_construcao}{" "}
+                    <br /><strong>{imovel.ano_de_construcao}</strong>
                   </li>
                 ) : (
                   <></>
@@ -559,17 +559,19 @@ const RealEstatePage = async ({
                       src={BrickwallhIcon}
                       alt="data_de_entrega"
                       style={{
-                        maxWidth: "100%",
+                        maxWidth: "26px",
                         height: "auto",
                         backgroundColor: "transparent",
                       }}
                     />{" "}
                     Data de entrega
                     <br />
-                    {new Date(imovel.data_de_entrega).toLocaleDateString(
-                      "pt-BR",
-                      { month: "long", year: "numeric" }
-                    )}{" "}
+                    <strong>
+                      {new Date(imovel.data_de_entrega).toLocaleDateString("pt-BR", {
+                        month: "2-digit",
+                        year: "numeric",
+                      })}
+                    </strong>
                   </li>
                 ) : (
                   <></>
