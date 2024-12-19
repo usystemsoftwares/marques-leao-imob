@@ -17,11 +17,15 @@ export default function CarouselPhotos({ images }: { images: Foto[] }) {
 
   // Funções memoizadas com useCallback
   const prevSlide = useCallback(() => {
-    setCurrentIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? images.length - 1 : prevIndex - 1
+    );
   }, [images.length]);
 
   const nextSlide = useCallback(() => {
-    setCurrentIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
+    setCurrentIndex((prevIndex) =>
+      prevIndex === images.length - 1 ? 0 : prevIndex + 1
+    );
   }, [images.length]);
 
   const toggleFullscreen = useCallback(() => {
@@ -38,19 +42,21 @@ export default function CarouselPhotos({ images }: { images: Foto[] }) {
     trackMouse: true,
   });
 
-  // Listener de teclado para navegação com setas
+  // Listener de teclado para navegação com setas e tecla Esc
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft") {
         prevSlide();
       } else if (e.key === "ArrowRight") {
         nextSlide();
+      } else if (e.key === "Escape" && isFullscreen) {
+        setIsFullscreen(false);
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [prevSlide, nextSlide]);
+  }, [prevSlide, nextSlide, isFullscreen]);
 
   // Controle de rolagem do body para fullscreen
   useEffect(() => {
@@ -69,7 +75,8 @@ export default function CarouselPhotos({ images }: { images: Foto[] }) {
     const half = Math.floor(visibleThumbs / 2);
     let start = currentIndex - half;
     if (start < 0) start = 0;
-    if (start > images.length - visibleThumbs) start = Math.max(images.length - visibleThumbs, 0);
+    if (start > images.length - visibleThumbs)
+      start = Math.max(images.length - visibleThumbs, 0);
     return start;
   }, [currentIndex, images.length, visibleThumbs]);
 
@@ -180,7 +187,7 @@ export default function CarouselPhotos({ images }: { images: Foto[] }) {
                 onClick={toggleFullscreen}
                 aria-label="Sair da Tela Cheia"
               >
-                Sair da Tela Cheia
+                Clique ou aperte ESC para sair
               </button>
             </div>
           </div>
@@ -195,9 +202,9 @@ export default function CarouselPhotos({ images }: { images: Foto[] }) {
             {...handlers}
             className="relative w-full mx-auto overflow-hidden"
             style={{
-              width: "80rem",
+              width: "70rem",
               height: "40rem",
-              maxWidth: "80rem",
+              maxWidth: "70rem",
               maxHeight: "40rem",
               transition: "width 0.3s, height 0.3s",
             }}
