@@ -534,7 +534,7 @@ const RealEstatePage = async ({
                 ) : (
                   <></>
                 )}
-                {imovel.ano_de_construcao ? (
+                {!imovel.ano_de_construcao ? (
                   <li>
                     <Image
                       className="mx-auto mb-3"
@@ -547,12 +547,12 @@ const RealEstatePage = async ({
                       }}
                     />{" "}
                     Ano de Construção
-                    <br /><strong>{imovel.ano_de_construcao}</strong>
+                    <br /><strong>{2024}</strong>
                   </li>
                 ) : (
                   <></>
                 )}
-                {imovel.data_de_entrega ? (
+                {!imovel.data_de_entrega ? (
                   <li>
                     <Image
                       className="mx-auto mb-3"
@@ -567,7 +567,7 @@ const RealEstatePage = async ({
                     Data de entrega
                     <br />
                     <strong>
-                      {new Date(imovel.data_de_entrega).toLocaleDateString("pt-BR", {
+                      {new Date().toLocaleDateString("pt-BR", {
                         month: "2-digit",
                         year: "numeric",
                       })}
