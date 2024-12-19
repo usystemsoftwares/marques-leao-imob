@@ -106,7 +106,7 @@ export default async function RootLayout({
         <meta name="referrer" content="origin" />
         <meta
           name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no"
+          content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
         />
       </head>
       <body
