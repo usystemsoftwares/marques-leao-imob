@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import Image from "next/image";
 import { useSwipeable } from "react-swipeable";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
@@ -15,30 +15,44 @@ export default function CarouselPhotos({ images }: { images: Foto[] }) {
   const thumbGap = 8; // Espaço entre as miniaturas
   const totalThumbWidth = thumbWidth + thumbGap;
 
-  const prevSlide = () => {
-    const newIndex = currentIndex === 0 ? images.length - 1 : currentIndex - 1;
-    setCurrentIndex(newIndex);
-  };
+  // Funções memoizadas com useCallback
+  const prevSlide = useCallback(() => {
+    setCurrentIndex((prevIndex) => (prevIndex === 0 ? images.length - 1 : prevIndex - 1));
+  }, [images.length]);
 
-  const nextSlide = () => {
-    const newIndex = currentIndex === images.length - 1 ? 0 : currentIndex + 1;
-    setCurrentIndex(newIndex);
-  };
+  const nextSlide = useCallback(() => {
+    setCurrentIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
+  }, [images.length]);
 
-  const toggleFullscreen = () => {
-    setIsFullscreen(!isFullscreen);
-  };
+  const toggleFullscreen = useCallback(() => {
+    setIsFullscreen((prev) => !prev);
+  }, []);
 
-  const selectSlide = (index: number) => {
+  const selectSlide = useCallback((index: number) => {
     setCurrentIndex(index);
-  };
+  }, []);
 
   const handlers = useSwipeable({
-    onSwipedLeft: () => nextSlide(),
-    onSwipedRight: () => prevSlide(),
+    onSwipedLeft: nextSlide,
+    onSwipedRight: prevSlide,
     trackMouse: true,
   });
 
+  // Listener de teclado para navegação com setas
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") {
+        prevSlide();
+      } else if (e.key === "ArrowRight") {
+        nextSlide();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [prevSlide, nextSlide]);
+
+  // Controle de rolagem do body para fullscreen
   useEffect(() => {
     if (isFullscreen) {
       document.body.classList.add("overflow-hidden");
@@ -50,27 +64,21 @@ export default function CarouselPhotos({ images }: { images: Foto[] }) {
     };
   }, [isFullscreen]);
 
-  // Calcular quantas miniaturas podem ser mostradas baseado no índice atual.
-  // Mantemos o índice atual sempre visível no centro da faixa de miniaturas se possível.
+  // Cálculo do índice inicial das miniaturas
   const startThumbIndex = useMemo(() => {
-    // A ideia é tentar centralizar o índice atual na janela visível de miniaturas.
-    // Por exemplo, se visíveis=5, o índice do meio é 2 (0-based).
-    // Tentamos deslocar o bloco de miniaturas para que currentIndex fique no meio.
     const half = Math.floor(visibleThumbs / 2);
     let start = currentIndex - half;
     if (start < 0) start = 0;
-    if (start > images.length - visibleThumbs)
-      start = Math.max(images.length - visibleThumbs, 0);
+    if (start > images.length - visibleThumbs) start = Math.max(images.length - visibleThumbs, 0);
     return start;
-  }, [currentIndex, images.length]);
+  }, [currentIndex, images.length, visibleThumbs]);
 
+  // Imagens visíveis nas miniaturas
   const visibleImages = useMemo(() => {
     return images.slice(startThumbIndex, startThumbIndex + visibleThumbs);
   }, [images, startThumbIndex, visibleThumbs]);
 
-  // Cálculo do deslocamento do slider de miniaturas.
-  // Ele desloca com base no startThumbIndex para que as miniaturas 
-  // corretas estejam sempre visíveis.
+  // Deslocamento do slider de miniaturas
   const thumbsTranslate = useMemo(() => {
     return -(startThumbIndex * totalThumbWidth);
   }, [startThumbIndex, totalThumbWidth]);
@@ -78,7 +86,7 @@ export default function CarouselPhotos({ images }: { images: Foto[] }) {
   const ThumbCarousel = (
     <div className="mt-4 flex justify-center items-center relative">
       <div
-        className="relative overflow-hidden"
+        className="relative overflow-hidden no-scrollbar"
         style={{ width: visibleThumbs * totalThumbWidth - thumbGap }}
       >
         <div
@@ -90,12 +98,13 @@ export default function CarouselPhotos({ images }: { images: Foto[] }) {
           {images.map(({ resized, source }, index) => (
             <div
               key={index}
-              className={`relative flex-shrink-0 cursor-pointer border-2 transition-all`}
+              className={`relative flex-shrink-0 cursor-pointer border-2 transition-all ${
+                currentIndex === index ? "border-white" : "border-transparent"
+              }`}
               style={{
                 width: thumbWidth,
                 height: 64,
                 marginRight: thumbGap,
-                borderColor: currentIndex === index ? "#fff" : "transparent",
               }}
               onClick={() => selectSlide(index)}
             >
@@ -104,6 +113,7 @@ export default function CarouselPhotos({ images }: { images: Foto[] }) {
                 alt={`Miniatura ${index + 1}`}
                 fill
                 style={{ objectFit: "cover" }}
+                priority
               />
             </div>
           ))}
@@ -114,11 +124,12 @@ export default function CarouselPhotos({ images }: { images: Foto[] }) {
 
   return (
     <>
+      {/* Modal Fullscreen */}
       {isFullscreen && (
         <div className="fixed inset-0 bg-black bg-opacity-90 flex flex-col justify-center items-center z-[999999999]">
           <div
             {...handlers}
-            className="relative w-full h-full bg-black"
+            className="relative w-full h-full bg-black flex justify-center items-center"
             style={{ zIndex: 9999999999 }}
           >
             <div className="relative w-full h-full">
@@ -147,6 +158,7 @@ export default function CarouselPhotos({ images }: { images: Foto[] }) {
                 ))}
               </div>
 
+              {/* Botões de Navegação */}
               <button
                 className="hover:bg-opacity-70 transition absolute top-1/2 left-4 transform -translate-y-1/2 bg-white bg-opacity-50 p-3 rounded-full focus:outline-none"
                 onClick={prevSlide}
@@ -162,6 +174,7 @@ export default function CarouselPhotos({ images }: { images: Foto[] }) {
                 <IoIosArrowForward size={24} />
               </button>
 
+              {/* Botão para sair do fullscreen */}
               <button
                 className="absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-70 px-6 py-3 rounded-md shadow-md hover:bg-opacity-90 transition text-sm text-white"
                 onClick={toggleFullscreen}
@@ -175,6 +188,7 @@ export default function CarouselPhotos({ images }: { images: Foto[] }) {
         </div>
       )}
 
+      {/* Carousel Normal */}
       {!isFullscreen && (
         <div className="flex flex-col items-center">
           <div
@@ -188,7 +202,7 @@ export default function CarouselPhotos({ images }: { images: Foto[] }) {
               transition: "width 0.3s, height 0.3s",
             }}
           >
-            <div className="relative w-full h-full">
+            <div className="relative w-full h-64 sm:h-80 md:h-96 lg:h-[40rem]">
               <div
                 className="flex transition-transform duration-500 h-full"
                 style={{
@@ -206,7 +220,8 @@ export default function CarouselPhotos({ images }: { images: Foto[] }) {
                       src={source.uri || resized || "/default-image.jpg"}
                       alt={`Imóvel ${index + 1}`}
                       priority
-                      fill
+                      width={2200}
+                      height={1200}
                       style={{ objectFit: "contain" }}
                       quality={100}
                     />
@@ -214,6 +229,7 @@ export default function CarouselPhotos({ images }: { images: Foto[] }) {
                 ))}
               </div>
 
+              {/* Botões de Navegação */}
               <button
                 className="hover:bg-opacity-70 transition absolute top-1/2 left-4 transform -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full focus:outline-none"
                 onClick={prevSlide}
@@ -229,6 +245,7 @@ export default function CarouselPhotos({ images }: { images: Foto[] }) {
                 <IoIosArrowForward size={24} />
               </button>
 
+              {/* Botão para expandir o carousel */}
               <div
                 onClick={toggleFullscreen}
                 className="hover:bg-opacity-70 transition cursor-pointer absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-60 text-white px-4 py-2 rounded-md text-sm"
