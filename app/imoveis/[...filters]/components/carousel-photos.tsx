@@ -220,8 +220,7 @@ export default function CarouselPhotos({ images }: { images: Foto[] }) {
                       src={source.uri || resized || "/default-image.jpg"}
                       alt={`Imóvel ${index + 1}`}
                       priority
-                      width={2200}
-                      height={1200}
+                      fill
                       style={{ objectFit: "contain" }}
                       quality={100}
                     />
