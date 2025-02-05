@@ -27,6 +27,7 @@ import PropertyPhotos from "../../imoveis/[...filters]/components/property-photo
 import processarFiltros from "@/utils/processar-filtros-backend";
 import { Metadata, ResolvingMetadata } from "next";
 import { getFotoDestaque } from "@/utils/get-foto-destaque";
+import { PropertyViewer } from "@/components/viewer";
 
 export async function generateMetadata(
   params: any,
@@ -497,7 +498,14 @@ const RealEstatePage = async ({
                       }}
                     />{" "}
                     <strong>{imovel.dormitórios}</strong> dormitórios
-                    {imovel.suítes ? <><br /><strong>{imovel.suítes}</strong> suítes</> : ""}
+                    {imovel.suítes ? (
+                      <>
+                        <br />
+                        <strong>{imovel.suítes}</strong> suítes
+                      </>
+                    ) : (
+                      ""
+                    )}
                   </li>
                 ) : (
                   <></>
@@ -547,7 +555,8 @@ const RealEstatePage = async ({
                       }}
                     />{" "}
                     Ano de Construção
-                    <br /><strong>{imovel.ano_de_construcao}</strong>
+                    <br />
+                    <strong>{imovel.ano_de_construcao}</strong>
                   </li>
                 ) : (
                   <></>
@@ -567,10 +576,13 @@ const RealEstatePage = async ({
                     Data de entrega
                     <br />
                     <strong>
-                      {new Date(imovel.data_de_entrega).toLocaleDateString("pt-BR", {
-                        month: "2-digit",
-                        year: "numeric",
-                      })}
+                      {new Date(imovel.data_de_entrega).toLocaleDateString(
+                        "pt-BR",
+                        {
+                          month: "2-digit",
+                          year: "numeric",
+                        }
+                      )}
                     </strong>
                   </li>
                 ) : (
@@ -686,6 +698,11 @@ const RealEstatePage = async ({
           </div>
         </section>
       </main>
+      {empresa.liberar_viewr &&
+        imovel.viewer &&
+        (imovel.viewer || []).length > 0 && (
+          <PropertyViewer viewer={imovel.viewer || []} />
+        )}
     </div>
   );
 };

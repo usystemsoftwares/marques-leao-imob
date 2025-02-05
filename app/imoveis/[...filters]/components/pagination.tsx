@@ -33,10 +33,8 @@ const Pagination: FC<PaginationProps> = ({
     const numbers: number[] = [];
     const windowSize = 5;
 
-    // Sempre adiciona a primeira página
     numbers.push(1);
 
-    // Adiciona um separador se necessário
     if (page > 4) {
       numbers.push(-1);
     }
@@ -54,12 +52,10 @@ const Pagination: FC<PaginationProps> = ({
       }
     }
 
-    // Adiciona um separador se necessário
     if (pages - page > 3) {
       numbers.push(-2);
     }
 
-    // Adiciona a última página se for diferente da primeira
     if (pages > 1 && !numbers.includes(pages)) {
       numbers.push(pages);
     }
@@ -73,16 +69,12 @@ const Pagination: FC<PaginationProps> = ({
     setIsLoading(true);
     setLoadingPage(pagina);
 
-    // Construir os segmentos de URL atualizados incluindo `pagina-xxx`
     const newFilters = [...(filters || [])];
-    console.log("newFilters", newFilters, query);
 
-    // Remover qualquer segmento existente de paginação
     const filteredFilters = newFilters.filter(
       (segment: string) => !segment.startsWith("pagina-")
     );
 
-    // Adicionar o novo segmento de paginação
     filteredFilters.push(`pagina-${pagina}`);
     console.log("filteredFilters", filteredFilters);
 

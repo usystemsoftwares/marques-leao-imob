@@ -3112,6 +3112,11 @@ slugify@^1.6.6:
   resolved "https://registry.yarnpkg.com/slugify/-/slugify-1.6.6.tgz#2d4ac0eacb47add6af9e04d3be79319cbcc7924b"
   integrity sha512-h+z7HKHYXj6wJU+AnS/+IH8Uh9fdcX1Lrhg1/VMdf9PwoBQXFcXiAdsy2tSK0P6gKwJLXp02r90ahUCqHk9rrw==
 
+smtximob-viewr@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/smtximob-viewr/-/smtximob-viewr-1.0.3.tgz#bb9a64a3855d5c57f195a69d62caa71a869e395a"
+  integrity sha512-1dSb4JYqsHQLm9bOV+2oP0r4WFkNZsB8YRAgNy2+J8ZAGh0CPVkZFKS8g1vZaTA7FTpL2yAk25UNwUVZnIVm6Q==
+
 source-map-js@^1.0.2, source-map-js@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/source-map-js/-/source-map-js-1.2.1.tgz#1ce5650fddd87abc099eda37dcff024c2667ae46"

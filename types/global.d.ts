@@ -1,8 +1,7 @@
 declare global {
-    interface Window {
-      track?: SmartTrack;
-    }
+  interface Window {
+    track?: SmartTrack;
   }
-  
-  export {};
-  
+}
+
+export {};

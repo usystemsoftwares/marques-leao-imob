@@ -39,6 +39,7 @@ declare module "smart-imob-types" {
     ano_de_construcao?: number;
     empresa_id: string;
     não_mostrar_dormítorios?: boolean;
+    viewer?: any[];
     temporada?: boolean;
     CEP?: string | null;
     tipo_iptu?: string | null;
@@ -285,6 +286,7 @@ declare module "smart-imob-types" {
     CRECI?: string;
     CNPJ?: string;
     db_id: string;
+    liberar_viewr?: boolean;
     descrição: string | null;
     depoimentos: Depoimento[];
     endereço_link: string | null;
