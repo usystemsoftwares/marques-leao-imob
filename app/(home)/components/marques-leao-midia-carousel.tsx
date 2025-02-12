@@ -46,6 +46,8 @@ const MarquesLeaoMidiaCarousel = ({ posts }: { posts: Post[] }) => {
                       maxWidth: "100%",
                       height: "auto",
                     }}
+                    priority
+                    quality={100}
                   />
                 </div>
                 <div className="max-w-[100ch] mx-auto mt-8 md:mt-0">

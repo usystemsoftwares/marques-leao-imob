@@ -641,6 +641,8 @@ const RealEstatePage = async ({
                     maxWidth: "100%",
                     height: "auto",
                   }}
+                  priority
+                  quality={100}
                 />
               </Link>
               <h2

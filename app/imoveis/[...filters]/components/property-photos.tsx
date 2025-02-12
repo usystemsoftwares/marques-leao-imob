@@ -75,6 +75,7 @@ export default function PropertyPhotos({
                     maxHeight: "598px",
                     objectFit: "cover",
                   }}
+                  quality={100}
                 />
               </li>
             );

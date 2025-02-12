@@ -152,7 +152,7 @@ const PropertyList: React.FC<PropertyListProps> = ({
                             >
                               <Image
                                 className="w-full rounded-lg h-[375px] w-[538px] relative"
-                                src={getFotoDestaque(estate) || ""}
+                                src={getFotoDestaque(estate, false, false) || ""}
                                 alt={estate.titulo || ""}
                                 width={538}
                                 height={375}
@@ -161,6 +161,7 @@ const PropertyList: React.FC<PropertyListProps> = ({
                                   height: "323px",
                                 }}
                                 priority
+                                quality={100}
                               />
                             </Link>
                           </div>

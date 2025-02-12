@@ -86,7 +86,7 @@ const GoogleMapsCarousel = ({ estates }: CarouselProps) => {
                   <Link className="block" href={generateEstateUrl(estate)}>
                     <Image
                       className="w-full rounded-lg h-[375px] w-[538px] relative"
-                      src={getFotoDestaque(estate) || ""}
+                      src={getFotoDestaque(estate, false, false) || ""}
                       alt={estate.titulo || ""}
                       width={538}
                       height={375}
@@ -94,6 +94,8 @@ const GoogleMapsCarousel = ({ estates }: CarouselProps) => {
                         maxWidth: "100%",
                         height: "auto",
                       }}
+                      quality={100}
+                      priority
                     />
                   </Link>
                 </div>

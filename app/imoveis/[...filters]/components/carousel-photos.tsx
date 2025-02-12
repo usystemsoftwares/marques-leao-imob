@@ -116,11 +116,12 @@ export default function CarouselPhotos({ images }: { images: Foto[] }) {
               onClick={() => selectSlide(index)}
             >
               <Image
-                src={source.uri || resized || "/default-image.jpg"}
+                src={source.uri || "/default-image.jpg"}
                 alt={`Miniatura ${index + 1}`}
                 fill
                 style={{ objectFit: "cover" }}
                 priority
+                quality={100}
               />
             </div>
           ))}
@@ -154,7 +155,7 @@ export default function CarouselPhotos({ images }: { images: Foto[] }) {
                     <Image
                       onClick={toggleFullscreen}
                       className="cursor-pointer"
-                      src={source.uri || resized || "/default-image.jpg"}
+                      src={source.uri || "/default-image.jpg"}
                       alt={`Imóvel ${index + 1}`}
                       priority
                       fill
@@ -224,7 +225,7 @@ export default function CarouselPhotos({ images }: { images: Foto[] }) {
                     <Image
                       onClick={toggleFullscreen}
                       className="cursor-pointer"
-                      src={source.uri || resized || "/default-image.jpg"}
+                      src={source.uri || "/default-image.jpg"}
                       alt={`Imóvel ${index + 1}`}
                       priority
                       fill

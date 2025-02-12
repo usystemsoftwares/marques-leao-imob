@@ -176,13 +176,15 @@ const Carousel = ({ estates }: CarouselProps) => {
                     <div className="h-[350px] sm:h-[340px] w-full relative">
                       <Image
                         className="rounded-lg object-cover w-full h-full"
-                        src={getFotoDestaque(estate) || ""}
+                        src={getFotoDestaque(estate, false, false) || ""}
                         alt={estate.titulo || ""}
                         fill
                         sizes="100vw"
                         style={{
                           objectFit: "cover",
                         }}
+                        priority
+                        quality={100}
                       />
                     </div>
                   </Link>
