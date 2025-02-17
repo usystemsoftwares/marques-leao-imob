@@ -594,7 +594,7 @@ const RealEstatePage = async ({
               <h2 className="text-3xl mb-6 font-semibold">
                 Descrição do imóvel
               </h2>
-              <p className="text-[#E9E9E9] text-lg font-light">
+              <p className="text-[#E9E9E9] text-lg font-light whitespace-pre-wrap">
                 {imovel["descrição"] && (
                   <div
                     dangerouslySetInnerHTML={{ __html: imovel["descrição"] }}
