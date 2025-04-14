@@ -39,7 +39,7 @@ export default function FormContact({
   }
 
   function removerMascaraTelefone(telefone: string): string {
-    return telefone.replace(/\D/g, '');
+    return telefone.replace(/\D/g, "");
   }
 
   const EnviarContato = async (config: any) => {
@@ -94,7 +94,8 @@ export default function FormContact({
 
   async function onConfirm() {
     try {
-      console.log("onConfirm", nome, email, telefone);
+      if (verificando) return;
+
       setVerificando(true);
 
       if (!validateEmail(email)) {
@@ -229,6 +230,7 @@ export default function FormContact({
           />
           <button
             className="bg-mainPurple text-white rounded-full py-1 sm:py-2"
+            disabled={verificando}
             onClick={() => onConfirm()}
           >
             {verificando ? "Enviando..." : "Ver fotos"}

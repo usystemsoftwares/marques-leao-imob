@@ -325,7 +325,7 @@ const RealEstatePage = async ({
           <div className="lg:w-2/3">
             <div className="mb-8">
               <span className="text-[#707070]">
-                {imovel.tipo} à venda · {imovel.estado?.nome} ·{" "}
+                {imovel.tipo} à venda · {imovel.estado?.nome} ·
                 {imovel.cidade?.nome} · Cód {imovel.codigo}
               </span>
               <h1 className="text-4xl mt-6 font-bold">{imovel.titulo}</h1>
@@ -356,7 +356,7 @@ const RealEstatePage = async ({
                     maxWidth: "100%",
                     height: "auto",
                   }}
-                />{" "}
+                />
                 {imovel.bairro}, {imovel.cidade?.nome}
               </p>
               <p className="text-5xl lg:text-[clamp(2.75rem,4.8vw,3.75rem)] font-semibold mt-5">
@@ -462,7 +462,7 @@ const RealEstatePage = async ({
                         maxWidth: "100%",
                         height: "auto",
                       }}
-                    />{" "}
+                    />
                     Área do Terreno <br />
                     <strong>{imovel.area_terreno}</strong> m
                   </li>
@@ -479,7 +479,7 @@ const RealEstatePage = async ({
                         maxWidth: "100%",
                         height: "auto",
                       }}
-                    />{" "}
+                    />
                     Área privativa <br />
                     <strong>{imovel.area_privativa}</strong> m
                   </li>
@@ -496,7 +496,7 @@ const RealEstatePage = async ({
                         maxWidth: "100%",
                         height: "auto",
                       }}
-                    />{" "}
+                    />
                     <strong>{imovel.dormitórios}</strong> dormitórios
                     {imovel.suítes ? (
                       <>
@@ -536,7 +536,7 @@ const RealEstatePage = async ({
                         maxWidth: "100%",
                         height: "auto",
                       }}
-                    />{" "}
+                    />
                     <strong>{imovel.banheiros}</strong> banheiros
                   </li>
                 ) : (
@@ -553,7 +553,7 @@ const RealEstatePage = async ({
                         height: "auto",
                         backgroundColor: "transparent",
                       }}
-                    />{" "}
+                    />
                     Ano de Construção
                     <br />
                     <strong>{imovel.ano_de_construcao}</strong>
@@ -572,7 +572,7 @@ const RealEstatePage = async ({
                         height: "auto",
                         backgroundColor: "transparent",
                       }}
-                    />{" "}
+                    />
                     Data de entrega
                     <br />
                     <strong>
@@ -665,7 +665,7 @@ const RealEstatePage = async ({
                         maxWidth: "100%",
                         height: "auto",
                       }}
-                    />{" "}
+                    />
                     WhatsApp
                   </Link>
                 )}
@@ -678,7 +678,7 @@ const RealEstatePage = async ({
                         maxWidth: "100%",
                         height: "auto",
                       }}
-                    />{" "}
+                    />
                     Instagram
                   </Link>
                 )}
