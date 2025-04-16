@@ -272,6 +272,7 @@ export default async function Home() {
                   maxWidth: "100%",
                   height: "auto",
                 }}
+                priority
               />
             </div>
             <div className="projects-wrapper w-[min(100%,25rem)]">
@@ -331,6 +332,7 @@ export default async function Home() {
                 maxWidth: "100%",
                 height: "auto",
               }}
+              priority
             />
           </div>
           <SectionVideo />
@@ -376,6 +378,7 @@ export default async function Home() {
                           maxWidth: "100%",
                           height: "auto",
                         }}
+                        priority
                       />
                     </div>
                     <div>
@@ -394,6 +397,7 @@ export default async function Home() {
                             maxWidth: "100%",
                             height: "auto",
                           }}
+                          priority
                         />
                         Seguir no Instagram
                       </Link>
@@ -409,6 +413,7 @@ export default async function Home() {
                           maxWidth: "100%",
                           height: "auto",
                         }}
+                        priority
                       />
                     </div>
                     <div>
@@ -428,6 +433,7 @@ export default async function Home() {
                             maxWidth: "100%",
                             height: "auto",
                           }}
+                          priority
                         />
                         Se inscreva no canal
                       </Link>
@@ -443,6 +449,7 @@ export default async function Home() {
                           maxWidth: "100%",
                           height: "auto",
                         }}
+                        priority
                       />
                     </div>
                     <div>
@@ -461,6 +468,7 @@ export default async function Home() {
                             maxWidth: "100%",
                             height: "auto",
                           }}
+                          priority
                         />
                         Seguir no Facebook
                       </Link>
