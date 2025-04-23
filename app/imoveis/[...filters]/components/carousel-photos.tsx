@@ -130,12 +130,12 @@ export default function CarouselPhotos({
                 quality={100}
               />
               {logo && (
-                <div className="absolute top-2 right-2 z-50">
+                <div className="absolute bottom-2 right-5 z-50">
                   <Image
                     src={logo}
                     alt="Logo da empresa"
-                    width={150}
-                    height={75}
+                    width={50}
+                    height={25}
                     className="opacity-80"
                   />
                 </div>
@@ -180,7 +180,7 @@ export default function CarouselPhotos({
                       quality={100}
                     />
                     {logo && (
-                      <div className="absolute top-2 right-2 z-50">
+                      <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-50">
                         <Image
                           src={logo}
                           alt="Logo da empresa"
@@ -261,7 +261,7 @@ export default function CarouselPhotos({
                       quality={100}
                     />
                     {logo && (
-                      <div className="absolute top-2 right-2 z-50">
+                      <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-50">
                         <Image
                           src={logo}
                           alt="Logo da empresa"
