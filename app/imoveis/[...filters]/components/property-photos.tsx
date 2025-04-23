@@ -52,7 +52,7 @@ export default function PropertyPhotos({
   if (hasUID && isDesktopOrTablet) {
     return (
       <div className="w-full mx-auto">
-        <CarouselPhotos images={fotos} logo={empresa.logo || ''} />
+        <CarouselPhotos images={fotos} logo={empresa.logo || ""} />
       </div>
     );
   } else {
@@ -82,8 +82,8 @@ export default function PropertyPhotos({
                     <Image
                       src={empresa.logo}
                       alt="Logo da empresa"
-                      width={60}
-                      height={30}
+                      width={150}
+                      height={75}
                       className="opacity-80"
                     />
                   </div>

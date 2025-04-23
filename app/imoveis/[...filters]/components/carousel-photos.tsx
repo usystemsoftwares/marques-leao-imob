@@ -134,8 +134,8 @@ export default function CarouselPhotos({
                   <Image
                     src={logo}
                     alt="Logo da empresa"
-                    width={60}
-                    height={30}
+                    width={150}
+                    height={75}
                     className="opacity-80"
                   />
                 </div>
@@ -184,8 +184,8 @@ export default function CarouselPhotos({
                         <Image
                           src={logo}
                           alt="Logo da empresa"
-                          width={60}
-                          height={30}
+                          width={150}
+                          height={75}
                           className="opacity-80"
                         />
                       </div>
@@ -265,8 +265,8 @@ export default function CarouselPhotos({
                         <Image
                           src={logo}
                           alt="Logo da empresa"
-                          width={60}
-                          height={30}
+                          width={150}
+                          height={75}
                           className="opacity-80"
                         />
                       </div>

@@ -192,8 +192,8 @@ const Carousel = ({ estates, logo }: CarouselProps) => {
                           <Image
                             src={logo}
                             alt="Logo da empresa"
-                            width={60}
-                            height={30}
+                            width={90}
+                            height={45} 
                             className="opacity-80"
                           />
                         </div>
