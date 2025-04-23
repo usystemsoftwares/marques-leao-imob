@@ -696,7 +696,7 @@ const RealEstatePage = async ({
             </h2>
           </div>
           <div className="w-full md:w-[min(90%,80rem)] mx-auto pt-12 relative">
-            <Carousel estates={imoveisRelacionados.nodes} />
+            <Carousel estates={imoveisRelacionados.nodes} logo={empresa.logo || ''} />
           </div>
         </section>
       </main>

@@ -6,7 +6,13 @@ import { useSwipeable } from "react-swipeable";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { Foto } from "smart-imob-types";
 
-export default function CarouselPhotos({ images }: { images: Foto[] }) {
+export default function CarouselPhotos({
+  images,
+  logo,
+}: {
+  images: Foto[];
+  logo?: string;
+}) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
@@ -123,6 +129,17 @@ export default function CarouselPhotos({ images }: { images: Foto[] }) {
                 priority
                 quality={100}
               />
+              {logo && (
+                <div className="absolute top-2 right-2 z-50">
+                  <Image
+                    src={logo}
+                    alt="Logo da empresa"
+                    width={60}
+                    height={30}
+                    className="opacity-80"
+                  />
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -162,6 +179,17 @@ export default function CarouselPhotos({ images }: { images: Foto[] }) {
                       style={{ objectFit: "contain" }}
                       quality={100}
                     />
+                    {logo && (
+                      <div className="absolute top-2 right-2 z-50">
+                        <Image
+                          src={logo}
+                          alt="Logo da empresa"
+                          width={60}
+                          height={30}
+                          className="opacity-80"
+                        />
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
@@ -232,6 +260,17 @@ export default function CarouselPhotos({ images }: { images: Foto[] }) {
                       style={{ objectFit: "contain" }}
                       quality={100}
                     />
+                    {logo && (
+                      <div className="absolute top-2 right-2 z-50">
+                        <Image
+                          src={logo}
+                          alt="Logo da empresa"
+                          width={60}
+                          height={30}
+                          className="opacity-80"
+                        />
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>

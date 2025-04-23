@@ -29,9 +29,10 @@ const numberWithinRange = (number: number, min: number, max: number): number =>
 
 type CarouselProps = {
   estates: Imóvel[];
+  logo?: string;
 };
 
-const Carousel = ({ estates }: CarouselProps) => {
+const Carousel = ({ estates, logo }: CarouselProps) => {
   const [activeIndex, setActiveIndex] = useState<number[]>([]);
   const [emblaRef, emblaApi] = UseEmblaCarousel({ loop: true });
   const tweenFactor = useRef(0);
@@ -186,6 +187,17 @@ const Carousel = ({ estates }: CarouselProps) => {
                         priority
                         quality={100}
                       />
+                      {logo && (
+                        <div className="absolute top-2 right-2 z-10">
+                          <Image
+                            src={logo}
+                            alt="Logo da empresa"
+                            width={60}
+                            height={30}
+                            className="opacity-80"
+                          />
+                        </div>
+                      )}
                     </div>
                   </Link>
                 </div>

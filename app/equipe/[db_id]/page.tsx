@@ -154,7 +154,7 @@ const Membro = async ({ params: { db_id } }: { params: { db_id: string } }) => {
             </h2>
           </div>
           <div>
-            <Carousel estates={imoveis.nodes} />
+            <Carousel estates={imoveis.nodes} logo={corretor?.empresa?.logo || ''} />
           </div>
         </section>
       </main>

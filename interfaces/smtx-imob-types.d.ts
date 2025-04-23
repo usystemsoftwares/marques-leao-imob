@@ -777,7 +777,7 @@ declare module "smart-imob-types" {
     descricao: string | null;
     destaque: boolean;
     email: string;
-    empresa: string;
+    empresa: Empresa;
     equipe_id: null | string;
     expo_tokens: [];
     foto: string | null;

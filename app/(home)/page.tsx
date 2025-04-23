@@ -60,9 +60,7 @@ async function getData() {
     //     ["caracteristicas"]: "Imoveis Lancamentos",
     //   })
     // ),
-    order: JSON.stringify([
-      { field: 'imovel.created_at', order: 'DESC' },
-    ])
+    order: JSON.stringify([{ field: "imovel.created_at", order: "DESC" }]),
   });
   const imoveisNovidadeResponse = await fetch(
     `${uri}/imoveis/site/paginado?${params_imoveis_novidades.toString()}`,
@@ -223,7 +221,10 @@ export default async function Home() {
               Ver todos os imóveis
             </Link>
           </div>
-          <Carousel estates={imoveisDestaque.nodes} />
+          <Carousel
+            estates={imoveisDestaque.nodes}
+            logo={empresa?.logo || ""}
+          />
         </section>
         <section className="w-[min(90%,80rem)] mx-auto mt-20">
           <div className="grid place-items-center">
@@ -259,7 +260,10 @@ export default async function Home() {
               Ver todos os imóveis
             </Link>
           </div>
-          <Carousel estates={imoveisNovidade.nodes} />
+          <Carousel
+            estates={imoveisNovidade.nodes}
+            logo={empresa?.logo || ""}
+          />
         </section>
         <section className="w-[min(90%,68rem)] mx-auto">
           <article className="w-[min(100%,20rem)] md:w-auto mx-auto md:mx-0 md:flex md:flex-row-reverse">
@@ -288,7 +292,7 @@ export default async function Home() {
                 <Link
                   className="bg-mainPurple hover:scale-110 md:hover:scale-100 inline-block hover:bg-white hover:text-black transition-all text-sm py-3 px-5 rounded-lg"
                   href="/imoveis/caracteristicas-Imoveis%20Lancamentos"
-                  >
+                >
                   Conhecer Lançamentos
                 </Link>
                 <svg

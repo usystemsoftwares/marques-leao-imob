@@ -32,7 +32,7 @@ export default function PropertyPhotos({
 
       const handleResize = () => {
         setWindowWidth(window.innerWidth);
-      }
+      };
       window.addEventListener("resize", handleResize);
       handleResize();
       return () => window.removeEventListener("resize", handleResize);
@@ -52,7 +52,7 @@ export default function PropertyPhotos({
   if (hasUID && isDesktopOrTablet) {
     return (
       <div className="w-full mx-auto">
-        <CarouselPhotos images={fotos} />
+        <CarouselPhotos images={fotos} logo={empresa.logo || ''} />
       </div>
     );
   } else {
@@ -61,7 +61,7 @@ export default function PropertyPhotos({
         {fotos.map(({ resized, destaque, source }, index) => {
           if (index + 1 !== fotos.length) {
             return (
-              <li key={index}>
+              <li key={index} className="relative">
                 <Image
                   className="rounded-[.625rem]"
                   src={source.uri || resized || ""}
@@ -77,6 +77,17 @@ export default function PropertyPhotos({
                   }}
                   quality={100}
                 />
+                {empresa.logo && (
+                  <div className="absolute top-2 right-2">
+                    <Image
+                      src={empresa.logo}
+                      alt="Logo da empresa"
+                      width={60}
+                      height={30}
+                      className="opacity-80"
+                    />
+                  </div>
+                )}
               </li>
             );
           }
