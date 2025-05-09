@@ -84,6 +84,16 @@ export default function FormContact({
       });
       const res = await response.json();
 
+      if (typeof window !== "undefined") {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: "gtm.formSubmit",
+          formName: "FormContact",
+          uid: res.visitante_id || res.id || null,
+          imovel_id,
+        });
+      }
+
       if (res.visitante_id) {
         localStorage.setItem("visitante_id", res.visitante_id);
         localStorage.setItem("uid", res.id);
@@ -173,16 +183,6 @@ export default function FormContact({
         empresa_id,
         cliente,
       });
-
-      if (typeof window !== "undefined") {
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({
-          event: "gtm.formSubmit",
-          formName: "FormContact",
-          uid,
-          imovel_id,
-        });
-      }
 
       if (typeof uid === "string") {
         localStorage.setItem("uid", uid);
