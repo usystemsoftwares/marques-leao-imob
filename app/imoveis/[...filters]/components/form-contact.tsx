@@ -6,6 +6,12 @@ import React, { useState } from "react";
 import { Cliente } from "smart-imob-types";
 import InputMask from "react-input-mask";
 
+declare global {
+  interface Window {
+    dataLayer: Record<string, any>[];
+  }
+}
+
 export default function FormContact({
   index,
   source,
@@ -167,6 +173,16 @@ export default function FormContact({
         empresa_id,
         cliente,
       });
+
+      if (typeof window !== "undefined") {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: "gtm.formSubmit",
+          formName: "FormContact",
+          uid,
+          imovel_id,
+        });
+      }
 
       if (typeof uid === "string") {
         localStorage.setItem("uid", uid);

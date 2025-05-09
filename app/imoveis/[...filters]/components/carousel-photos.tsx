@@ -194,7 +194,6 @@ export default function CarouselPhotos({
                 ))}
               </div>
 
-              {/* Botões de Navegação */}
               <button
                 className="hover:bg-opacity-70 transition absolute top-1/2 left-4 transform -translate-y-1/2 bg-white bg-opacity-50 p-3 rounded-full focus:outline-none"
                 onClick={prevSlide}
@@ -210,7 +209,6 @@ export default function CarouselPhotos({
                 <IoIosArrowForward size={24} />
               </button>
 
-              {/* Botão para sair do fullscreen */}
               <button
                 className="absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-70 px-6 py-3 rounded-md shadow-md hover:bg-opacity-90 transition text-sm text-white"
                 onClick={toggleFullscreen}
@@ -224,7 +222,6 @@ export default function CarouselPhotos({
         </div>
       )}
 
-      {/* Carousel Normal */}
       {!isFullscreen && (
         <div className="flex flex-col items-center">
           <div
@@ -275,7 +272,6 @@ export default function CarouselPhotos({
                 ))}
               </div>
 
-              {/* Botões de Navegação */}
               <button
                 className="hover:bg-opacity-70 transition absolute top-1/2 left-4 transform -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full focus:outline-none"
                 onClick={prevSlide}
@@ -291,7 +287,6 @@ export default function CarouselPhotos({
                 <IoIosArrowForward size={24} />
               </button>
 
-              {/* Botão para expandir o carousel */}
               <div
                 onClick={toggleFullscreen}
                 className="hover:bg-opacity-70 transition cursor-pointer absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-60 text-white px-4 py-2 rounded-md text-sm"
