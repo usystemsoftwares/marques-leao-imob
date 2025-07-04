@@ -201,7 +201,7 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
             <Link
               className="border border-white text-[#530944] font-bold hover:text-white bg-white hover:bg-transparent transition-colors text-sm lg:text-base py-3 px-7 rounded-lg"
               href={
-                "https://s.tintim.app/whatsapp/a9760b6e-fc26-4493-b2e3-7ff652429152/95b5bf55-8193-4994-adb1-92d308cc6b49"
+                "https://wa.me/5193209037"
               }
               target="_blank"
             >
