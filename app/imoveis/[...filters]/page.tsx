@@ -75,9 +75,15 @@ export default async function ListingStayPage({
       if (!isNaN(valorMax)) {
         filters.preco_max = valorMax;
       }
+    } else if (segment.startsWith("codigos-")) {
+      // Novo formato: codigos-123,456-789
+      const codigosSlug = decodeURIComponent(segment.replace("codigos-", ""));
+      // Aceita hífen ou vírgula como separador
+      filters.codigos = codigosSlug.split(/[-,]/).map(c => c.trim()).filter(Boolean);
     } else if (segment.startsWith("codigo-")) {
+      // Retrocompatibilidade: codigo-123
       const codigoSlug = segment.replace("codigo-", "");
-      filters.codigo = codigoSlug;
+      filters.codigos = [codigoSlug];
     } else if (segment.startsWith("pagina-")) {
       const paginaNum = Number(segment.replace("pagina-", ""));
       if (!isNaN(paginaNum)) {
@@ -127,16 +133,22 @@ export default async function ListingStayPage({
   const tipoValido = filters.tipo
     ? tipos.some((t) => t.toLowerCase() === filters.tipo.toLowerCase())
     : true;
-  const codigoValido = filters.codigo
-    ? codigos.some((c) => c.toLowerCase() === filters.codigo.toLowerCase())
+  // Padronizar todos os códigos para string
+  const codigosStr = (codigos || []).map(String);
+  // Validação dos códigos (agora array)
+  const codigosValidos = filters.codigos
+    ? filters.codigos.every((codigo: string) => codigosStr.some((c: string) => c.toLowerCase() === codigo.toLowerCase()))
     : true;
+  console.log('codigosStr', codigosStr);
+  console.log('filters', filters);
+  console.log('codigosValidos', codigosValidos);
 
   if (
     (filters.estado && !estadoValido) ||
     (filters.cidade && !cidadeValida) ||
     (filters.bairro && !bairroValido) ||
     (filters.tipo && !tipoValido) ||
-    (filters.codigo && !codigoValido)
+    (filters.codigos && !codigosValidos)
   ) {
     console.warn("Filtros inválidos encontrados, redirecionando para 404.");
     notFound();

@@ -187,11 +187,22 @@ async function getData(filtros: any): Promise<{
     backendFilters['imovel.preco_max'] = rest.preco_max;
   }
 
-  if (rest.codigo) {
-    backendFilters.código = rest.codigo;
+  // Suporte a múltiplos códigos
+  const operadoresEspecificos: any = {};
+  if (rest.codigos) {
+    if (Array.isArray(rest.codigos)) {
+      backendFilters.codigo = rest.codigos.join(',');
+      operadoresEspecificos.codigo = 'in';
+    } else if (typeof rest.codigos === 'string') {
+      backendFilters.codigo = rest.codigos;
+      operadoresEspecificos.codigo = 'equal';
+    }
+  } else if (rest.codigo) {
+    backendFilters.codigo = rest.codigo;
+    operadoresEspecificos.codigo = 'equal';
   }
 
-  const processedFilters = processarFiltros(backendFilters);
+  const processedFilters = processarFiltros(backendFilters, operadoresEspecificos);
 
   const params_imoveis = new URLSearchParams({
     limit: PAGE_SIZE.toString(),
