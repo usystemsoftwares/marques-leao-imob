@@ -56,11 +56,11 @@ const TeamPage = async () => {
           <h1
             className={`font-baskervville text-4xl font-bold text-center mb-2`}
           >
-            <span className="font-bold">Equipe Marques & Leão</span>
+            <span className="font-bold">Equipe MARQUES&LEÃO</span>
           </h1>
           <h2>
             Conheça todas as pessoas que fazem a{" "}
-            <span className="font-bold">Marques & Leão</span> ser a maior
+            <span className="font-bold">MARQUES&LEÃO</span> ser a maior
             vitrine imobiliária da região.
           </h2>
         </div>

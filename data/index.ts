@@ -1787,7 +1787,7 @@ const midia = [
     imagem: "/marqueseleao/midia-revista.webp",
     title: "Capa da revista Expansão Edição 21 anos",
     subtitle:
-      "Muito além da venda, imobiliária Marques & Leão fideliza clientes na busca por imóveis.",
+      "Muito além da venda, imobiliária MARQUES&LEÃO fideliza clientes na busca por imóveis.",
     link: "/#",
   },
   {
@@ -1795,7 +1795,7 @@ const midia = [
     imagem: "/marqueseleao/midia-revista.webp",
     title: "Capa da revista 2",
     subtitle:
-      "Muito além da venda, imobiliária Marques & Leão fideliza clientes na busca por imóveis.",
+      "Muito além da venda, imobiliária MARQUES&LEÃO fideliza clientes na busca por imóveis.",
     link: "/#",
   },
   {
@@ -1803,7 +1803,7 @@ const midia = [
     imagem: "/marqueseleao/midia-revista.webp",
     title: "Capa da revista 3",
     subtitle:
-      "Muito além da venda, imobiliária Marques & Leão fideliza clientes na busca por imóveis.",
+      "Muito além da venda, imobiliária MARQUES&LEÃO fideliza clientes na busca por imóveis.",
     link: "/#",
   },
   {
@@ -1811,7 +1811,7 @@ const midia = [
     imagem: "/marqueseleao/midia-revista.webp",
     title: "Capa da revista 4",
     subtitle:
-      "Muito além da venda, imobiliária Marques & Leão fideliza clientes na busca por imóveis.",
+      "Muito além da venda, imobiliária MARQUES&LEÃO fideliza clientes na busca por imóveis.",
     link: "/#",
   },
 ];

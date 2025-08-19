@@ -48,7 +48,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
     });
   }
   return {
-    title: "Imobiliária Marques & Leão",
+    title: "Imobiliária MARQUES&LEÃO",
     description: empresa.descrição,
     keywords: empresa.palavras_chave,
     icons: {

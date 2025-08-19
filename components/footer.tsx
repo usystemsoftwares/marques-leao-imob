@@ -98,7 +98,7 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
             src={MarquesLeaoLogo}
             width={234}
             height={50}
-            alt="Marques & Leão Logo"
+            alt="MARQUES&LEÃO Logo"
             style={{
               maxWidth: "100%",
               height: "auto",
@@ -221,7 +221,7 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
         <p className="text-center text-sm tracking-widest">
           Todos os direitos reservados para{" "}
           <strong className="whitespace-nowrap">
-            Imobiliária Marques & Leão
+            Imobiliária MARQUES&LEÃO
           </strong>
         </p>
         <a href={"https://smtximob.com"} target="_blank">
