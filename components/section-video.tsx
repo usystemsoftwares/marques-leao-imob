@@ -113,7 +113,7 @@ const SectionVideo = () => {
           Por que
         </span>
         <h2 className={`text-3xl tracking-wide font-baskervville`}>
-          Por que a Marques&Leão?
+          Por que a Marques & Leão?
         </h2>
         <p className="mt-3 mb-6 max-w-[40ch] text-[#a7a7a7] leading-5">
           Somos <span className="text-white">a maior vitrine imobiliária</span>{" "}
