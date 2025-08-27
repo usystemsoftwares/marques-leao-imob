@@ -221,7 +221,7 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
         <p className="text-center text-sm tracking-widest">
           Todos os direitos reservados para{" "}
           <strong className="whitespace-nowrap">
-            Imobiliária Marques & Leão
+            Imobiliária Marques&Leão
           </strong>
         </p>
         <a href={"https://smtximob.com"} target="_blank">
