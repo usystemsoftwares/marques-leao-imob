@@ -33,6 +33,17 @@ type FormProps = {
   searchParams: any;
 };
 
+// Função de normalização melhorada
+const normalizeString = (str: string): string => {
+  if (!str) return '';
+  return str
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .replace(/\s+/g, ' ');
+};
+
 const SearchPropertyFilter = ({
   className,
   estados,
@@ -64,15 +75,75 @@ const SearchPropertyFilter = ({
 
   const inputRef = useRef<HTMLFormElement | null>(null);
 
-  const [filteredDistricts, setFilteredDistricts] = useState(bairros);
+  const [filteredDistricts, setFilteredDistricts] = useState<any[]>([]);
+  
+  // Adicionar bairro "Centro" manualmente se estiver faltando
+  const [bairrosCompletos, setBairrosCompletos] = useState<any[]>(bairros);
+
   useEffect(() => {
-    setFilteredDistricts(
-      (bairros ?? []).filter(
-        (bairro: any) =>
-          (bairro?.cidadeNome ?? "").toLowerCase() === cidade.toLowerCase()
-      )
+    // Verifica se o bairro "Centro" já existe para Novo Hamburgo
+    const centroExists = bairros.some(b => 
+      b.bairro && normalizeString(b.bairro) === normalizeString("Centro") && 
+      b.cidadeNome && normalizeString(b.cidadeNome) === normalizeString("Novo Hamburgo")
     );
-  }, [cidade, bairros]);
+    
+    if (!centroExists) {
+      // Adiciona o bairro "Centro" para Novo Hamburgo
+      setBairrosCompletos([
+        ...bairros,
+        {bairro: 'Centro', cidadeId: '4313409', cidadeNome: 'Novo Hamburgo'}
+      ]);
+      console.log("📍 Bairro 'Centro' adicionado manualmente para Novo Hamburgo");
+    } else {
+      setBairrosCompletos(bairros);
+      console.log("📍 Bairro 'Centro' já existe nos dados");
+    }
+  }, [bairros]);
+
+  // DEBUG: Log dos bairros recebidos
+  useEffect(() => {
+    console.log("📍 Bairros recebidos no frontend:", bairros);
+    console.log("📍 Bairros completos (com Centro):", bairrosCompletos);
+    
+    // Verificar se há bairros de Novo Hamburgo
+    const bairrosNH = bairrosCompletos.filter((b: any) => 
+      b.cidadeNome && normalizeString(b.cidadeNome) === normalizeString("Novo Hamburgo")
+    );
+    console.log("📍 Bairros de Novo Hamburgo:", bairrosNH);
+    
+    // Verificar se "Centro" existe
+    const centroExists = bairrosNH.some((b: any) => 
+      b.bairro && normalizeString(b.bairro) === normalizeString("Centro")
+    );
+    console.log("📍 Centro existe em Novo Hamburgo:", centroExists);
+  }, [bairros, bairrosCompletos]);
+
+  useEffect(() => {
+    if (!cidade) {
+      setFilteredDistricts([]);
+      setBairro("");
+      return;
+    }
+
+    const normalizedCidade = normalizeString(cidade);
+    
+    const filtered = bairrosCompletos.filter((bairroItem: any) => {
+      const bairroCidade = bairroItem?.cidadeNome || "";
+      const normalizedBairroCidade = normalizeString(bairroCidade);
+      
+      return normalizedBairroCidade === normalizedCidade;
+    });
+
+    console.log("📍 Cidade selecionada:", cidade);
+    console.log("📍 Bairros filtrados para", cidade, ":", filtered);
+
+    setFilteredDistricts(filtered);
+    
+    // Reset bairro selecionado se não estiver mais na lista filtrada
+    if (bairro && !filtered.some((b: any) => normalizeString(b.bairro) === normalizeString(bairro))) {
+      setBairro("");
+    }
+  }, [cidade, bairrosCompletos, bairro]);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -207,7 +278,7 @@ const SearchPropertyFilter = ({
         />
         <button
           type="submit"
-          className="bg-[#2a2b2f] text-[.75rem] flex-shrink-0 py-2 px-4 lg:px-6 rounded-lg"
+          className="bg-[#2a2b2f] text-[.75rem] flex-shrink-0 py-2 px-4 lg:px-6 rounded-lg text-white"
         >
           Buscar imóveis
         </button>
@@ -270,7 +341,7 @@ const SearchPropertyFilter = ({
               </SelectContent>
             </Select>
 
-            {/* Seleção de Bairros */}
+            {/* Seleção de Bairros - CORRIGIDO */}
             <Select value={bairro} onValueChange={setBairro} disabled={!cidade}>
               <SelectTrigger>
                 <SelectValue placeholder="Bairros" />
@@ -287,10 +358,11 @@ const SearchPropertyFilter = ({
                   </p>
                 ) : (
                   filteredDistricts
-                    .filter((v: any) => v.bairro)
-                    .map((bairro: any, index: number) => (
-                      <SelectItem key={index} value={bairro.bairro || ""}>
-                        {bairro.bairro}
+                    .filter((v: any) => v.bairro && v.bairro.trim() !== "")
+                    .sort((a: any, b: any) => a.bairro.localeCompare(b.bairro))
+                    .map((bairroItem: any, index: number) => (
+                      <SelectItem key={index} value={bairroItem.bairro || ""}>
+                        {bairroItem.bairro}
                       </SelectItem>
                     ))
                 )}
