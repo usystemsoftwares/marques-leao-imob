@@ -63,21 +63,55 @@ const SearchPropertyFilter = ({
   );
   const router = useRouter();
 
-  const [condominio, setCondominio] = useState<string>(""); // Novo
-  const [dormitorios, setDormitorios] = useState<string>(""); // Novo
-  const [vagas, setVagas] = useState<string>(""); // Novo
+  const [condominio, setCondominio] = useState<string>("");
+  const [dormitorios, setDormitorios] = useState<string>("");
+  const [vagas, setVagas] = useState<string>("");
 
   const inputRef = useRef<HTMLFormElement | null>(null);
 
-  const [filteredDistricts, setFilteredDistricts] = useState(bairros);
+  const [filteredDistricts, setFilteredDistricts] = useState<any[]>([]);
+  
+  // Adicionar bairro "Centro" manualmente se estiver faltando
+  const [bairrosCompletos, setBairrosCompletos] = useState<any[]>(bairros);
+
   useEffect(() => {
-    setFilteredDistricts(
-      (bairros ?? []).filter(
-        (bairro: any) =>
-          (bairro?.cidadeNome ?? "").toLowerCase() === cidade.toLowerCase()
-      )
+    // Verifica se o bairro "Centro" já existe para Novo Hamburgo
+    const centroExists = bairros.some(b => 
+      b.bairro === 'Centro' && b.cidadeNome === 'Novo Hamburgo'
     );
-  }, [cidade, bairros]);
+    
+    if (!centroExists) {
+      // Adiciona o bairro "Centro" para Novo Hamburgo
+      setBairrosCompletos([
+        ...bairros,
+        {bairro: 'Centro', cidadeId: '4313409', cidadeNome: 'Novo Hamburgo'}
+      ]);
+    } else {
+      setBairrosCompletos(bairros);
+    }
+  }, [bairros]);
+
+  // Filtro de bairros corrigido
+  useEffect(() => {
+    if (!cidade) {
+      setFilteredDistricts([]);
+      return;
+    }
+
+    const filtered = (bairrosCompletos ?? []).filter((bairroItem: any) => {
+      // Verifica múltiplas possibilidades de nome de cidade
+      const cidadeBairro = bairroItem?.cidadeNome || bairroItem?.cidade?.nome || '';
+      
+      // Normaliza as strings para comparação (remove acentos e coloca em minúsculas)
+      const normalizeString = (str: string) => {
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+      };
+      
+      return normalizeString(cidadeBairro) === normalizeString(cidade);
+    });
+    
+    setFilteredDistricts(filtered);
+  }, [cidade, bairrosCompletos]);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -106,16 +140,15 @@ const SearchPropertyFilter = ({
 
     // Opções para slugify
     const slugifyOptions = {
-      lower: true, // Converte para minúsculas
-      strict: true, // Remove caracteres especiais
-      locale: "pt", // Define o locale para português
-      remove: /[*+~.()'"!:@]/g, // Remove caracteres adicionais
+      lower: true,
+      strict: true,
+      locale: "pt",
+      remove: /[*+~.()'"!:@]/g,
     };
 
-    // Função auxiliar para slugificar
     const slugifyString = (str: string) => slugify(str, slugifyOptions);
 
-    // Construir segmentos de URL baseados nos nomes selecionados com prefixos
+    // Construir segmentos de URL
     const urlSegments = [];
 
     if (transacao) urlSegments.push(`transacao-${slugifyString(transacao)}`);
@@ -123,74 +156,35 @@ const SearchPropertyFilter = ({
     if (cidade) urlSegments.push(`cidade-${slugifyString(cidade)}`);
     if (bairro) urlSegments.push(`bairro-${slugifyString(bairro)}`);
     if (tipo) urlSegments.push(`tipo-${slugifyString(tipo)}`);
-    if (dormitorios)
-      urlSegments.push(`dormitorios-${slugifyString(dormitorios)}`);
+    if (dormitorios) urlSegments.push(`dormitorios-${slugifyString(dormitorios)}`);
     if (vagas) urlSegments.push(`vagas-${slugifyString(vagas)}`);
-    if (valorMin)
-      urlSegments.push(`preco-min-${slugifyString(String(valorMin))}`);
-    if (valorMax)
-      urlSegments.push(`preco-max-${slugifyString(String(valorMax))}`);
+    if (valorMin) urlSegments.push(`preco-min-${slugifyString(String(valorMin))}`);
+    if (valorMax) urlSegments.push(`preco-max-${slugifyString(String(valorMax))}`);
     if (codigo) urlSegments.push(`codigo-${slugifyString(codigo)}`);
     if (searchParams?.pagina) {
       urlSegments.push(`pagina-${searchParams.pagina}`);
     }
-    // Construir a URL final
+
     const url = `/imoveis/${urlSegments.join("/")}`;
-    // Aqui você pode incluir outros filtros ou query params, se necessário
-
-    console.log("URL construída:", url);
-
-    // Navegar para a URL construída
     router.push(url);
   };
 
   const getSelectedFilters = () => {
     const filters: string[] = [];
 
-    if (transacao) {
-      filters.push(transacao);
-    }
+    if (transacao) filters.push(transacao);
+    if (estado) filters.push(estado);
+    if (cidade) filters.push(cidade);
+    if (bairro) filters.push(bairro);
+    if (tipo) filters.push(tipo);
+    if (codigo) filters.push(codigo);
+    if (valorMin !== "") filters.push(`R$${valorMin.toLocaleString("pt-BR")}`);
+    if (valorMax !== "") filters.push(`R$${valorMax.toLocaleString("pt-BR")}`);
+    if (condominio) filters.push(condominio);
+    if (dormitorios) filters.push(`${dormitorios} Dormitório(s)`);
+    if (vagas) filters.push(`${vagas} Vaga(s)`);
 
-    if (estado) {
-      filters.push(estado);
-    }
-
-    if (cidade) {
-      filters.push(cidade);
-    }
-
-    if (bairro) {
-      filters.push(bairro);
-    }
-
-    if (tipo) {
-      filters.push(tipo);
-    }
-
-    if (codigo) {
-      filters.push(codigo);
-    }
-
-    if (valorMin !== "") {
-      filters.push(`R$${valorMin.toLocaleString("pt-BR")}`);
-    }
-
-    if (valorMax !== "") {
-      filters.push(`R$${valorMax.toLocaleString("pt-BR")}`);
-    }
-
-    // Opcional: Incluir filtros adicionais no display
-    if (condominio) {
-      filters.push(condominio);
-    }
-    if (dormitorios) {
-      filters.push(`${dormitorios} Dormitório(s)`);
-    }
-    if (vagas) {
-      filters.push(`${vagas} Vaga(s)`);
-    }
-
-    return filters.join(", ");
+    return filters.join(", ") || "Clique para iniciar sua busca";
   };
 
   const tiposOptions = [
@@ -213,10 +207,19 @@ const SearchPropertyFilter = ({
     }
   }, [codigoInput, codigos]);
 
+  // Obter cidades filtradas por estado
+  const filteredCities = estado
+    ? cidades.filter(
+        (cidadeItem: any) =>
+          cidadeItem &&
+          cidadeItem.estado?.nome === estado
+      )
+    : [];
+
   return (
     <form
       className={cn(
-        "group w-[min(100%,62.5rem)] bg-white py-3 px-3 md:py-4 md:px-5 rounded-[.625rem]",
+        "group w-[min(100%,62.5rem)] bg-white py-3 px-3 md:py-4 md:px-5 rounded-[.625rem] relative",
         className
       )}
       ref={inputRef}
@@ -226,125 +229,141 @@ const SearchPropertyFilter = ({
         <input
           type="text"
           placeholder="Clique para iniciar sua busca"
-          className="w-full md:flex-1 pl-8 sm:pl-10 md:pl-12 bg-hero-input bg-[size:1.5rem] sm:bg-[size:auto] bg-no-repeat bg-left placeholder:text-black placeholder:text-sm md:placeholder:text-base placeholder:italic text-black outline-none"
+          className="w-full md:flex-1 pl-8 sm:pl-10 md:pl-12 bg-hero-input bg-[size:1.5rem] sm:bg-[size:auto] bg-no-repeat bg-left placeholder:text-black placeholder:text-sm md:placeholder:text-base placeholder:italic text-black outline-none cursor-pointer"
           onClick={toggleMenu}
           readOnly
           value={getSelectedFilters()}
         />
         <button
           type="submit"
-          className="bg-[#2a2b2f] flex-shrink-0 text-[.75rem] md:text-sm py-2 px-4 md:px-6 rounded-lg"
+          className="bg-[#2a2b2f] flex-shrink-0 text-[.75rem] md:text-sm py-2 px-4 md:px-6 rounded-lg text-white hover:bg-[#3a3b3f] transition-colors"
         >
           Buscar imóveis
         </button>
       </div>
+      
       <motion.div
-        className="bg-white [--display-from:none] [--display-to:block] md:[--display-to:flex] [--opacity-from:0] [--opacity-to:80%] *:text-black *:font-semibold absolute py-4 px-5 w-full bottom-0 translate-y-full left-0 md:gap-3 rounded-[.625rem] *:flex *:flex-wrap md:*:flex-nowrap *:justify-center md:*:justify-between *:items-center"
+        className="bg-white [--display-from:none] [--display-to:block] md:[--display-to:flex] [--opacity-from:0] [--opacity-to:1] text-black font-semibold absolute py-4 px-5 w-full bottom-0 left-0 translate-y-full rounded-[.625rem] shadow-lg z-50 flex flex-wrap md:flex-nowrap justify-center md:justify-between items-center gap-3"
         initial={false}
         animate={isOpen ? "open" : "closed"}
         variants={sideVariants}
+        transition={{ duration: 0.2 }}
       >
-        <div className="md:w-[55%] *:w-[10.5rem] gap-2 *:rounded-xl *:border-black *:border">
-          <Select
-            value={estado}
-            onValueChange={(value) => {
-              setEstado(value);
-              setCidade("");
-              setBairro("");
-            }}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Estados" />
-            </SelectTrigger>
-            <SelectContent className="select-content">
-              {estados
-                .filter((estadoItem: any) => estadoItem.sigla !== "PA")
-                .map((estadoItem) => (
-                  <SelectItem
-                    key={estadoItem.nome}
-                    value={estadoItem.nome.toString()}
-                  >
-                    {estadoItem.sigla}
-                  </SelectItem>
-                ))}
-            </SelectContent>
-          </Select>
+        <div className="w-full md:w-[55%] flex flex-wrap gap-2">
+          <div className="min-w-[10.5rem] rounded-xl border border-black">
+            <Select
+              value={estado}
+              onValueChange={(value) => {
+                setEstado(value);
+                setCidade("");
+                setBairro("");
+              }}
+            >
+              <SelectTrigger className="h-10">
+                <SelectValue placeholder="Estados" />
+              </SelectTrigger>
+              <SelectContent className="select-content max-h-60">
+                {estados
+                  .filter((estadoItem: any) => estadoItem.sigla !== "PA")
+                  .map((estadoItem) => (
+                    <SelectItem
+                      key={estadoItem.nome}
+                      value={estadoItem.nome.toString()}
+                    >
+                      {estadoItem.sigla}
+                    </SelectItem>
+                  ))}
+              </SelectContent>
+            </Select>
+          </div>
 
           {/* Seleção de Cidades */}
-          <Select
-            value={cidade}
-            onValueChange={(value) => {
-              setCidade(value);
-              setBairro("");
-            }}
-            disabled={!estado}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Cidades" />
-            </SelectTrigger>
-            <SelectContent className="select-content">
-              {cidades
-                .filter(
-                  (cidadeItem: any) =>
-                    cidadeItem &&
-                    cidadeItem !== "null" &&
-                    cidadeItem.estado?.nome === estado
-                )
-                .map((cidadeItem: any) => (
-                  <SelectItem key={cidadeItem.nome} value={cidadeItem.nome}>
-                    {cidadeItem.nome}
-                  </SelectItem>
-                ))}
-            </SelectContent>
-          </Select>
-
-          {/* Seleção de Bairros */}
-          <Select value={bairro} onValueChange={setBairro} disabled={!cidade}>
-            <SelectTrigger>
-              <SelectValue placeholder="Bairros" />
-            </SelectTrigger>
-            <SelectContent className="select-content">
-              {!cidade ? (
-                <p className="px-4 py-2 text-gray-500">
-                  Por favor, selecione uma cidade primeiro para ver a lista de
-                  bairros disponíveis.
-                </p>
-              ) : filteredDistricts.length === 0 ? (
-                <p className="px-4 py-2 text-gray-500">
-                  Não há bairros disponíveis para a cidade selecionada.
-                </p>
-              ) : (
-                filteredDistricts
-                  .filter((v: any) => v.bairro)
-                  .map((bairroItem: any, index: number) => (
-                    <SelectItem key={index} value={bairroItem.bairro || ""}>
-                      {bairroItem.bairro}
+          <div className="min-w-[10.5rem] rounded-xl border border-black">
+            <Select
+              value={cidade}
+              onValueChange={(value) => {
+                setCidade(value);
+                setBairro("");
+              }}
+              disabled={!estado}
+            >
+              <SelectTrigger className="h-10">
+                <SelectValue placeholder="Cidades" />
+              </SelectTrigger>
+              <SelectContent className="select-content max-h-60">
+                {filteredCities.length === 0 ? (
+                  <p className="px-4 py-2 text-gray-500">
+                    {estado ? "Nenhuma cidade encontrada" : "Selecione um estado primeiro"}
+                  </p>
+                ) : (
+                  filteredCities.map((cidadeItem: any) => (
+                    <SelectItem key={cidadeItem.nome} value={cidadeItem.nome}>
+                      {cidadeItem.nome}
                     </SelectItem>
                   ))
-              )}
-            </SelectContent>
-          </Select>
+                )}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Seleção de Bairros - CORRIGIDO */}
+          <div className="min-w-[10.5rem] rounded-xl border border-black">
+            <Select 
+              value={bairro} 
+              onValueChange={setBairro} 
+              disabled={!cidade}
+            >
+              <SelectTrigger className="h-10">
+                <SelectValue placeholder="Bairros" />
+              </SelectTrigger>
+              <SelectContent className="select-content max-h-60">
+                {!cidade ? (
+                  <p className="px-4 py-2 text-gray-500">
+                    Selecione uma cidade primeiro
+                  </p>
+                ) : filteredDistricts.length === 0 ? (
+                  <p className="px-4 py-2 text-gray-500">
+                    Nenhum bairro encontrado para {cidade}
+                  </p>
+                ) : (
+                  filteredDistricts
+                    .filter((v: any) => v.bairro && v.bairro.trim() !== "")
+                    .sort((a: any, b: any) => a.bairro.localeCompare(b.bairro))
+                    .map((bairroItem: any, index: number) => (
+                      <SelectItem 
+                        key={`${bairroItem.bairro}-${index}`} 
+                        value={bairroItem.bairro || ""}
+                      >
+                        {bairroItem.bairro}
+                      </SelectItem>
+                    ))
+                )}
+              </SelectContent>
+            </Select>
+          </div>
 
           {/* Seleção de Tipos */}
-          <Select value={tipo} onValueChange={setTipo}>
-            <SelectTrigger>
-              <SelectValue placeholder="Tipos" />
-            </SelectTrigger>
-            <SelectContent className="select-content">
-              {tiposOptions.map((tipoItem, index) => (
-                <SelectItem key={index} value={tipoItem}>
-                  {tipoItem}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <div className="min-w-[10.5rem] rounded-xl border border-black">
+            <Select value={tipo} onValueChange={setTipo}>
+              <SelectTrigger className="h-10">
+                <SelectValue placeholder="Tipos" />
+              </SelectTrigger>
+              <SelectContent className="select-content">
+                {tiposOptions.map((tipoItem, index) => (
+                  <SelectItem key={index} value={tipoItem}>
+                    {tipoItem}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
 
           {/* Campo de Código com Sugestões */}
-          <div className="relative">
+          <div className="min-w-[10.5rem] relative">
             <input
               type="text"
               placeholder="Código"
-              className="w-full pl-2 pr-2 py-2 border rounded-lg outline-none"
+              className="w-full h-10 pl-3 pr-3 py-2 border border-black rounded-xl outline-none"
               value={codigoInput}
               onChange={(e) => {
                 setCodigoInput(e.target.value);
@@ -357,11 +376,11 @@ const SearchPropertyFilter = ({
               }}
             />
             {showSuggestions && codigoSuggestions.length > 0 && (
-              <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-lg max-h-60 overflow-y-auto mt-1">
+              <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-lg max-h-60 overflow-y-auto mt-1 shadow-md">
                 {codigoSuggestions.map((suggestion, index) => (
                   <li
                     key={index}
-                    className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                     onClick={() => {
                       setCodigoInput(suggestion);
                       setCodigo(suggestion);
@@ -376,13 +395,13 @@ const SearchPropertyFilter = ({
           </div>
         </div>
 
-        {/* Campos de Valor Mínimo e Máximo */}
-        <div className="relative justify-between w-full flex-col mt-3 md:mt-0 *:w-full *:flex *:justify-between *:border-black *:border *:rounded-lg md:flex-row *:text-sm gap-3 *:py-2 *:px-3 lg:before:bg-black lg:before:h-full lg:before:absolute lg:before:w-[1px]">
-          <label className="md:ml-4">
-            Valor mínimo
+        {/* Campos de Valor Mínimo e Máximo - CORRIGIDO */}
+        <div className="w-full md:w-[40%] flex flex-col md:flex-row gap-3 mt-3 md:mt-0">
+          <div className="flex-1 flex justify-between items-center border border-black rounded-lg py-2 px-3">
+            <span className="text-sm whitespace-nowrap">Valor mínimo</span>
             <input
-              placeholder="R$0,00"
-              className="outline-none w-16 placeholder:text-black"
+              placeholder="R$ 0,00"
+              className="outline-none w-20 placeholder:text-black text-right bg-transparent"
               type="number"
               value={valorMin}
               onChange={(e) =>
@@ -390,12 +409,13 @@ const SearchPropertyFilter = ({
               }
               min={0}
             />
-          </label>
-          <label>
-            Valor máximo
+          </div>
+          
+          <div className="flex-1 flex justify-between items-center border border-black rounded-lg py-2 px-3">
+            <span className="text-sm whitespace-nowrap">Valor máximo</span>
             <input
-              placeholder="R$0,00"
-              className="outline-none w-16 placeholder:text-black"
+              placeholder="R$ 0,00"
+              className="outline-none w-20 placeholder:text-black text-right bg-transparent"
               type="number"
               value={valorMax}
               onChange={(e) =>
@@ -403,7 +423,7 @@ const SearchPropertyFilter = ({
               }
               min={0}
             />
-          </label>
+          </div>
         </div>
       </motion.div>
     </form>
