@@ -165,20 +165,34 @@ export default async function Home() {
         }}
       />
       <main>
-        <section className="min-h-[100svh] relative w-full">
+        <section className="min-h-[100svh] relative w-full overflow-hidden">
+          {/* Vídeo desktop */}
           <video
               autoPlay
               muted
               loop
               playsInline
-              preload="auto"
-              className="absolute inset-0 w-full h-full object-cover"
+              preload="metadata"
+              className="hidden md:block absolute inset-0 w-full h-full object-cover"
             >
               <source
                 src="https://firebasestorage.googleapis.com/v0/b/smartimob-dev-test.appspot.com/o/empresas%2F4IYSm7WrQ8naKm28ArY7%2FTAMBYNAIL%20FEITO.mp4?alt=media&token=856ad4ff-1f80-49b5-ae82-094bafb18f43"
                 type="video/mp4"
               />
             </video>
+
+          {/* Imagem mobile (fallback) */}
+          <Image
+            src={MarquesELeao}
+            alt="Marques e Leão"
+            priority
+            fill
+            className="md:hidden object-cover object-center"
+            style={{
+              objectFit: "cover",
+            }}
+          />
+
           <Header />
           <HomeFilter className="absolute bottom-[17.5%] translate-x-1/2 z-50 right-1/2" />
         </section>
