@@ -43,21 +43,45 @@ const SearchPropertyFilter = ({
 }: FormProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const [estado, setEstado] = useState<string>(searchParams?.estado ?? "");
-  const [cidade, setCidade] = useState<string>(searchParams?.cidade ?? "");
-  const [bairro, setBairro] = useState<string>(searchParams?.bairro ?? "");
-  const [tipo, setTipo] = useState<string>(searchParams?.tipo ?? "");
-  const [codigo, setCodigo] = useState<string>(searchParams?.codigo ?? "");
+  // Processar valores iniciais que podem ser arrays
+  const getInitialValue = (value: any): string => {
+    if (Array.isArray(value)) {
+      return value[0] || "";
+    }
+    return value || "";
+  };
+
+  console.log("[PropertyFilter] searchParams recebidos:", searchParams);
+
+  const [estado, setEstado] = useState<string>(getInitialValue(searchParams?.estado));
+  const [cidade, setCidade] = useState<string>(getInitialValue(searchParams?.cidade));
+  
+  // Para bairro, se tem vírgula, pegar apenas o primeiro
+  const getBairroInicial = (value: any): string => {
+    const valorInicial = getInitialValue(value);
+    if (valorInicial && valorInicial.includes(',')) {
+      return valorInicial.split(',')[0].trim();
+    }
+    return valorInicial;
+  };
+  
+  const [bairro, setBairro] = useState<string>(getBairroInicial(searchParams?.bairro));
+  
+  console.log("[PropertyFilter] Estado inicial:", estado);
+  console.log("[PropertyFilter] Cidade inicial:", cidade);
+  console.log("[PropertyFilter] Bairro inicial:", bairro);
+  const [tipo, setTipo] = useState<string>(getInitialValue(searchParams?.tipo));
+  const [codigo, setCodigo] = useState<string>(getInitialValue(searchParams?.codigo || searchParams?.codigos));
   const [codigoInput, setCodigoInput] = useState<string>(
-    searchParams?.codigo ?? ""
+    getInitialValue(searchParams?.codigo || searchParams?.codigos)
   );
   const [codigoSuggestions, setCodigoSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
   const [valorMin, setValorMin] = useState<number | "">(
-    searchParams?.["imovel.preco_min"] ?? ""
+    searchParams?.preco_min || searchParams?.["imovel.preco_min"] || ""
   );
   const [valorMax, setValorMax] = useState<number | "">(
-    searchParams?.["imovel.preco_max"] ?? ""
+    searchParams?.preco_max || searchParams?.["imovel.preco_max"] || ""
   );
 
   const router = useRouter();
@@ -66,10 +90,14 @@ const SearchPropertyFilter = ({
 
   const [filteredDistricts, setFilteredDistricts] = useState(bairros);
   useEffect(() => {
+    // Se cidade é um array, pegar o primeiro valor ou converter para string
+    const cidadeValue = Array.isArray(cidade) ? cidade[0] : cidade;
+    const cidadeStr = cidadeValue ? String(cidadeValue) : "";
+    
     setFilteredDistricts(
       (bairros ?? []).filter(
         (bairro: any) =>
-          (bairro?.cidadeNome ?? "").toLowerCase() === cidade.toLowerCase()
+          cidadeStr && (bairro?.cidadeNome ?? "").toLowerCase() === cidadeStr.toLowerCase()
       )
     );
   }, [cidade, bairros]);
@@ -246,6 +274,7 @@ const SearchPropertyFilter = ({
             <Select
               value={cidade}
               onValueChange={(value) => {
+                console.log("[Select Cidade] Mudando para:", value);
                 setCidade(value);
                 setBairro("");
               }}
@@ -257,10 +286,15 @@ const SearchPropertyFilter = ({
               <SelectContent className="select-content">
                 {cidades
                   .filter(
-                    (cidadeItem: any) =>
-                      cidadeItem &&
-                      cidadeItem !== "null" &&
-                      cidadeItem.estado?.nome === estado
+                    (cidadeItem: any) => {
+                      const match = cidadeItem &&
+                        cidadeItem !== "null" &&
+                        cidadeItem.estado?.nome === estado;
+                      if (match) {
+                        console.log("[Select Cidade] Cidade disponível:", cidadeItem.nome, "- Estado:", cidadeItem.estado?.nome, "- Match com:", estado);
+                      }
+                      return match;
+                    }
                   )
                   .map((cidadeItem: any) => (
                     <SelectItem key={cidadeItem.nome} value={cidadeItem.nome}>
@@ -271,7 +305,10 @@ const SearchPropertyFilter = ({
             </Select>
 
             {/* Seleção de Bairros */}
-            <Select value={bairro} onValueChange={setBairro} disabled={!cidade}>
+            <Select value={bairro} onValueChange={(value) => {
+              console.log("[Select Bairro] Mudando para:", value);
+              setBairro(value);
+            }} disabled={!cidade}>
               <SelectTrigger>
                 <SelectValue placeholder="Bairros" />
               </SelectTrigger>

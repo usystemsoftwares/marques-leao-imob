@@ -45,10 +45,17 @@ export default function FormContact({
 
   const removerMascaraTelefone = (t: string) => t.replace(/\D/g, "");
 
-  const EnviarContato = async (config: {
-    empresa_id: string;
-    cliente: Cliente;
-  }): Promise<string | null> => {
+  const EnviarContato = async (
+    config: {
+      empresa_id: string;
+      cliente: Cliente;
+    },
+    retryCount = 0
+  ): Promise<string | null> => {
+    const MAX_RETRIES = 3;
+    const TIMEOUT_MS = 15000;
+    const RETRY_DELAY_BASE = 1000;
+
     try {
       const uri =
         process.env.BACKEND_API_URI ?? process.env.NEXT_PUBLIC_BACKEND_API_URI;
@@ -64,12 +71,22 @@ export default function FormContact({
       const email = rawEmail.toLowerCase();
 
       if (!nome?.trim() || !email || !telefone || !DDD) {
+        console.error("Campos obrigatórios faltando:", {
+          nome: !nome?.trim(),
+          email: !email,
+          telefone: !telefone,
+          DDD: !DDD,
+        });
         alert(
           "Algum campo no formulário de cadastro não foi preenchido corretamente"
         );
         return null;
       }
 
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), TIMEOUT_MS);
+
+      console.log(`Tentativa ${retryCount + 1} de enviar contato...`);
       const response = await fetch(`${uri}/clientes`, {
         method: "POST",
         headers: {
@@ -84,24 +101,108 @@ export default function FormContact({
           empresa_id: config.empresa_id,
           email,
         }),
+        signal: controller.signal,
       });
 
+      clearTimeout(timeoutId);
+
       if (!response.ok) {
-        console.error("Falha na criação do cliente:", await response.text());
-        return null;
+        const errorText = await response.text().catch(() => "Sem detalhes");
+        console.error(
+          `Erro HTTP ${response.status}: ${response.statusText}`,
+          errorText
+        );
+
+        if (response.status >= 500 && retryCount < MAX_RETRIES) {
+          const delay = RETRY_DELAY_BASE * Math.pow(2, retryCount);
+          console.log(`Aguardando ${delay}ms antes da próxima tentativa...`);
+          await new Promise((resolve) => setTimeout(resolve, delay));
+          return EnviarContato(config, retryCount + 1);
+        }
+
+        throw new Error(
+          `Falha na criação do cliente: ${response.status} - ${errorText}`
+        );
       }
 
-      const res = await response.json();
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        console.error(
+          "Resposta não é JSON. Content-Type:",
+          contentType
+        );
+        const text = await response.text();
+        console.error("Resposta recebida:", text);
+        throw new Error("Resposta inválida do servidor (não é JSON)");
+      }
+
+      const responseText = await response.text();
+      if (!responseText) {
+        console.error("Resposta vazia do servidor");
+        throw new Error("Resposta vazia do servidor");
+      }
+
+      let res;
+      try {
+        res = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error("Erro ao fazer parse do JSON:", parseError);
+        console.error("Texto recebido:", responseText);
+        throw new Error("Resposta JSON inválida do servidor");
+      }
 
       if (res.visitante_id) {
         localStorage.setItem("visitante_id", res.visitante_id);
       }
-      localStorage.setItem("uid", res.id);
+      if (res.id) {
+        localStorage.setItem("uid", res.id);
+        console.log("Cliente criado com sucesso. ID:", res.id);
+      } else {
+        console.warn("Resposta sem ID do cliente:", res);
+      }
 
       return res.id as string;
-    } catch (error) {
-      console.error("Erro no cadastro:", error);
-      alert("Um erro inesperado ocorreu ao tentar enviar um contato!");
+    } catch (error: any) {
+      console.error(`Erro no cadastro (tentativa ${retryCount + 1}):`, error);
+
+      if (error.name === "AbortError") {
+        if (retryCount < MAX_RETRIES) {
+          const delay = RETRY_DELAY_BASE * Math.pow(2, retryCount);
+          console.log(
+            `Timeout atingido. Aguardando ${delay}ms antes da próxima tentativa...`
+          );
+          await new Promise((resolve) => setTimeout(resolve, delay));
+          return EnviarContato(config, retryCount + 1);
+        }
+        alert(
+          "A conexão está demorando muito. Por favor, verifique sua internet e tente novamente."
+        );
+      } else if (
+        error.message?.includes("fetch failed") ||
+        error.message?.includes("NetworkError") ||
+        error.message?.includes("Failed to fetch")
+      ) {
+        if (retryCount < MAX_RETRIES) {
+          const delay = RETRY_DELAY_BASE * Math.pow(2, retryCount);
+          console.log(
+            `Erro de rede. Aguardando ${delay}ms antes da próxima tentativa...`
+          );
+          await new Promise((resolve) => setTimeout(resolve, delay));
+          return EnviarContato(config, retryCount + 1);
+        }
+        alert(
+          "Erro de conexão com o servidor. Por favor, verifique sua internet e tente novamente."
+        );
+      } else if (error.message?.includes("JSON")) {
+        alert(
+          "O servidor retornou uma resposta inválida. Por favor, tente novamente mais tarde."
+        );
+      } else {
+        alert(
+          "Um erro inesperado ocorreu ao tentar enviar o contato. Por favor, tente novamente."
+        );
+      }
+
       return null;
     }
   };
@@ -177,7 +278,7 @@ export default function FormContact({
       });
     }
 
-    const uid = await EnviarContato({ empresa_id, cliente });
+    const uid = await EnviarContato({ empresa_id, cliente }, 0);
 
     setVerificando(false);
 

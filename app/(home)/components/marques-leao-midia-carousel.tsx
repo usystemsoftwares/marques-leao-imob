@@ -1,7 +1,6 @@
 "use client";
 
 import UseEmblaCarousel from "embla-carousel-react";
-import { midia } from "@/data";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback } from "react";
@@ -59,7 +58,9 @@ const MarquesLeaoMidiaCarousel = ({ posts }: { posts: Post[] }) => {
                   </p>
                   <Link
                     className="bg-mainPurple inline-block hover:bg-white hover:text-black transition-colors text-xl w-[min(100%,15.625rem)] text-center py-3 px-5 rounded-lg"
-                    href={`/blogs/${post.id}`}
+                    href="https://heyzine.com/flip-book/4f9ad53bbd.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     Ver matéria
                   </Link>

@@ -10,6 +10,7 @@ import LinkedInIcon from "/public/marqueseleao/linkedin-icon.svg";
 import YoutubeIcon from "/public/marqueseleao/youtube-icon.svg";
 import EmailIcon from "/public/marqueseleao/email-icon.svg";
 import PhoneIcon from "/public/marqueseleao/phone-icon.svg";
+import LocationIcon from "/public/marqueseleao/location-icon.svg";
 
 import Link from "next/link";
 import { Empresa } from "smart-imob-types";
@@ -104,32 +105,59 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
               height: "auto",
             }}
           />
-          <ul className="hidden *:flex *:items-center *:gap-2 lg:block">
-            <li>
-              <Image
-                src={EmailIcon}
-                alt="Email"
-                style={{
-                  maxWidth: "100%",
-                  height: "auto",
-                }}
-              />
-              {empresa.email || "contato@marqueseleao.com"}
-            </li>
-            <li className="mt-3">
-              <Image
-                src={PhoneIcon}
-                alt="Telefone"
-                style={{
-                  maxWidth: "100%",
-                  height: "auto",
-                }}
-              />
-              {empresa.telefone
-                ? formatPhoneNumber(empresa.telefone)
-                : "00 9 0000-0000"}
-            </li>
-          </ul>
+          {/* NAP - Nome, Endereço e Telefone para SEO Local */}
+          <div className="hidden lg:block" itemScope itemType="https://schema.org/RealEstateAgent">
+            <h3 className="font-bold text-lg mb-3" itemProp="name">MARQUES&LEÃO Imobiliária</h3>
+            <ul className="*:flex *:items-center *:gap-2">
+              <li itemProp="address" itemScope itemType="https://schema.org/PostalAddress">
+                <Image
+                  src={LocationIcon}
+                  alt="Endereço"
+                  style={{
+                    maxWidth: "100%",
+                    height: "auto",
+                  }}
+                />
+                <span>
+                  <span itemProp="streetAddress">{empresa.endereço || "Rua Principal, 123"}</span>, 
+                  <span itemProp="addressLocality"> Novo Hamburgo</span>, 
+                  <span itemProp="addressRegion"> RS</span>
+                  <meta itemProp="addressCountry" content="BR" />
+                </span>
+              </li>
+              <li className="mt-3">
+                <Image
+                  src={EmailIcon}
+                  alt="Email"
+                  style={{
+                    maxWidth: "100%",
+                    height: "auto",
+                  }}
+                />
+                <span itemProp="email">{empresa.email || "contato@marqueseleao.com"}</span>
+              </li>
+              <li className="mt-3">
+                <Image
+                  src={PhoneIcon}
+                  alt="Telefone"
+                  style={{
+                    maxWidth: "100%",
+                    height: "auto",
+                  }}
+                />
+                <span itemProp="telephone">
+                  {empresa.telefone
+                    ? formatPhoneNumber(empresa.telefone)
+                    : "(51) 9 3209-0377"}
+                </span>
+              </li>
+            </ul>
+            <p className="mt-3 text-sm text-gray-400">
+              <strong>Horário de Funcionamento:</strong><br/>
+              Segunda a Sexta: 09:00 - 18:00<br/>
+              Sábado: 09:00 - 13:00
+            </p>
+          </div>
           <div className="hidden lg:block">
             <p>Acompanhe-nos</p>
             <ul className="flex items-center mt-1 gap-2">
@@ -215,6 +243,23 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
             </Link>
           </div>
         </div>
+        {/* NAP Information for Mobile */}
+        <div className="lg:hidden text-center my-6 px-4" itemScope itemType="https://schema.org/RealEstateAgent">
+          <h3 className="font-bold text-lg mb-2" itemProp="name">MARQUES&LEÃO Imobiliária</h3>
+          <p className="text-sm mb-1" itemProp="address" itemScope itemType="https://schema.org/PostalAddress">
+            <span itemProp="streetAddress">{empresa.endereço || "Rua Principal, 123"}</span>, 
+            <span itemProp="addressLocality"> Novo Hamburgo</span>, 
+            <span itemProp="addressRegion"> RS</span>
+            <meta itemProp="addressCountry" content="BR" />
+          </p>
+          <p className="text-sm mb-1">
+            <span itemProp="telephone">{empresa.telefone ? formatPhoneNumber(empresa.telefone) : "(51) 9 3209-0377"}</span>
+          </p>
+          <p className="text-sm mb-4">
+            <span itemProp="email">{empresa.email || "contato@marqueseleao.com"}</span>
+          </p>
+        </div>
+        
         <p className="text-center lg:max-w-[20ch] ml-auto mr-2 my-4 lg:my-0 lg:mt-4 text-sm">
           Política de Privacidade Termos de Uso
         </p>

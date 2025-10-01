@@ -2,6 +2,9 @@ import Header from "@/components/header";
 import Image from "next/image";
 import Carousel from "@/components/carousel";
 import Link from "next/link";
+import Breadcrumb from "@/components/breadcrumb";
+import { generatePropertyTitle, generatePropertyDescription, generatePropertyStructuredData } from "@/utils/seo-utils";
+import { generateRichDescription } from "@/utils/generate-rich-description";
 
 import Ellipse from "/public/marqueseleao/ellipse4.webp";
 
@@ -33,6 +36,37 @@ export async function generateMetadata(
   params: any,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
+  const parseJSON = async (response: Response) => {
+    try {
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        console.error(
+          `Invalid content-type: expected application/json, got ${contentType}`
+        );
+        const text = await response.text();
+        console.error("Response body:", text.substring(0, 500));
+        return null;
+      }
+
+      const text = await response.text();
+      if (!text) {
+        console.error("Empty response body");
+        return null;
+      }
+
+      try {
+        return JSON.parse(text);
+      } catch (parseError) {
+        console.error("JSON parse error:", parseError);
+        console.error("Invalid JSON:", text.substring(0, 500));
+        return null;
+      }
+    } catch (error) {
+      console.error("Failed to process response:", error);
+      return null;
+    }
+  };
+
   const uri =
     process.env.BACKEND_API_URI ?? process.env.NEXT_PUBLIC_BACKEND_API_URI;
   const empresa_id: any =
@@ -46,32 +80,117 @@ export async function generateMetadata(
   const queryParams = new URLSearchParams({
     empresa_id,
   });
-  const dataImovel = await fetch(
-    `${uri}/imoveis/site/codigo/${codigo}?${queryParams.toString()}`,
-    {
-      next: { tags: [`imovel-${codigo}`] },
-    }
-  );
-  const dataEmpresa = await fetch(`${uri}/empresas/site/${empresa_id}`, {
-    next: { tags: ["empresas"] },
-  });
+  
+  try {
+    const dataImovel = await fetchWithRetry(
+      `${uri}/imoveis/site/codigo/${codigo}?${queryParams.toString()}`,
+      {
+        next: { tags: [`imovel-${codigo}`] },
+      }
+    );
+    const dataEmpresa = await fetchWithRetry(
+      `${uri}/empresas/site/${empresa_id}`,
+      {
+        next: { tags: ["empresas"] },
+      }
+    );
 
-  if (!dataEmpresa.ok || !dataImovel.ok) {
-    notFound();
+    if (!dataEmpresa.ok || !dataImovel.ok) {
+      notFound();
+    }
+    const imovel: Imóvel = await parseJSON(dataImovel) || {};
+    const empresa: Empresa = await parseJSON(dataEmpresa) || {};
+    const firstImage = getFotoDestaque(imovel, true) || "";
+    
+    // SEO otimizado para imóveis
+    const title = generatePropertyTitle(imovel, empresa);
+    const description = generatePropertyDescription(imovel);
+    
+    // Keywords específicas do imóvel
+    const keywords = [
+      imovel.tipo,
+      `${imovel.tipo} em ${imovel.cidade?.nome}`,
+      `${imovel.tipo} ${imovel.bairro}`,
+      imovel.venda ? "venda" : "locação",
+      "imóvel de luxo",
+      "alto padrão",
+      imovel.bairro,
+      imovel.cidade?.nome,
+      "Novo Hamburgo",
+      "MARQUES&LEÃO"
+    ].filter(Boolean).join(", ");
+    
+    return {
+      title,
+      description,
+      keywords,
+      openGraph: {
+        title,
+        description,
+        type: "website",
+        images: firstImage ? [{ url: firstImage }] : [],
+        locale: "pt_BR",
+        siteName: "MARQUES&LEÃO Imobiliária",
+      },
+      twitter: {
+        card: "summary_large_image",
+        title,
+        description,
+        images: firstImage ? [firstImage] : [],
+      },
+      alternates: {
+        canonical: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.marqueseleao.com.br'}/imovel/${path.join('/')}/${codigo}`,
+      },
+      robots: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
+    };
+  } catch (error) {
+    console.error("Error generating metadata:", error);
+    return {
+      title: "Imóvel - MARQUES&LEÃO Imobiliária",
+      description: "Encontre o imóvel dos seus sonhos com a MARQUES&LEÃO Imobiliária",
+    };
   }
-  const imovel: Imóvel = await dataImovel.json();
-  const empresa: Empresa = await dataEmpresa.json();
-  const firstImage = getFotoDestaque(imovel, true) || "";
-  return {
-    title: imovel.titulo ?? empresa.titulo_site ?? "",
-    description: imovel.descrição ?? empresa.descrição ?? "",
-    openGraph: {
-      title: imovel.titulo ?? empresa.titulo_site ?? "",
-      description: imovel.descrição ?? empresa.descrição ?? "",
-      type: "website",
-      images: firstImage || "",
-    },
-  };
+}
+
+async function fetchWithRetry(
+  url: string,
+  options: RequestInit = {},
+  retries = 3,
+  timeout = 15000
+): Promise<Response> {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+      const response = await fetch(url, {
+        ...options,
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeoutId);
+      return response;
+    } catch (error: any) {
+      console.error(
+        `Fetch attempt ${i + 1} failed for ${url}:`,
+        error.message
+      );
+
+      if (i === retries - 1) {
+        throw error;
+      }
+
+      const delay = Math.min(1000 * Math.pow(2, i), 5000);
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
+  }
+
+  throw new Error(`Failed to fetch ${url} after ${retries} attempts`);
 }
 
 async function getData(
@@ -100,13 +219,13 @@ async function getData(
   const queryParams = new URLSearchParams({
     empresa_id,
   });
-  const dataImovel = await fetch(
+  const dataImovel = await fetchWithRetry(
     `${uri}/imoveis/site/codigo/${codigo}?${queryParams.toString()}`,
     {
       next: { tags: [`imovel-${codigo}`] },
     }
   );
-  const empresa = await fetch(`${uri}/empresas/site/${empresa_id}`, {
+  const empresa = await fetchWithRetry(`${uri}/empresas/site/${empresa_id}`, {
     next: { tags: ["empresas"] },
   });
 
@@ -116,30 +235,58 @@ async function getData(
 
   const parseJSON = async (response: Response) => {
     try {
-      return await response.json();
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        console.error(
+          `Invalid content-type: expected application/json, got ${contentType}`
+        );
+        const text = await response.text();
+        console.error("Response body:", text.substring(0, 500));
+        return null;
+      }
+
+      const text = await response.text();
+      if (!text) {
+        console.error("Empty response body");
+        return null;
+      }
+
+      try {
+        return JSON.parse(text);
+      } catch (parseError) {
+        console.error("JSON parse error:", parseError);
+        console.error("Invalid JSON:", text.substring(0, 500));
+        return null;
+      }
     } catch (error) {
-      console.error("Failed to parse JSON:", error);
+      console.error("Failed to process response:", error);
       return null;
     }
   };
 
   const imovel = await parseJSON(dataImovel);
   const corretor = imovel?.agenciador_id
-    ? await fetch(`${uri}/corretores/${afiliado || imovel.agenciador_id}`, {
-        next: { tags: [`corretores-${afiliado || imovel.agenciador_id}`] },
-      }).then(parseJSON)
+    ? await fetchWithRetry(
+        `${uri}/corretores/${afiliado || imovel.agenciador_id}`,
+        {
+          next: { tags: [`corretores-${afiliado || imovel.agenciador_id}`] },
+        }
+      ).then(parseJSON)
     : null;
 
   const temporada = imovel?.temporada
-    ? await fetch(`${uri}/reservas/imovel/${imovel.db_id}`, {
+    ? await fetchWithRetry(`${uri}/reservas/imovel/${imovel.db_id}`, {
         next: { tags: [`reservas-${imovel.db_id}`] },
       }).then(parseJSON)
     : null;
 
   const empreendimento = imovel?.empreendimento_id
-    ? await fetch(`${uri}/empreendimentos/${imovel.empreendimento_id}`, {
-        next: { tags: [`empreendimento-${imovel.empreendimento_id}`] },
-      }).then(parseJSON)
+    ? await fetchWithRetry(
+        `${uri}/empreendimentos/${imovel.empreendimento_id}`,
+        {
+          next: { tags: [`empreendimento-${imovel.empreendimento_id}`] },
+        }
+      ).then(parseJSON)
     : null;
 
   const params_imoveis = new URLSearchParams({
@@ -167,14 +314,14 @@ async function getData(
     empresa_id,
   });
 
-  const imoveisResponse = await fetch(
+  const imoveisResponse = await fetchWithRetry(
     `${uri}/imoveis/site/paginado?${params_imoveis.toString()}`,
     {
       next: { tags: ["imoveis-paginado"] },
     }
   );
 
-  const responseEstados = await fetch(
+  const responseEstados = await fetchWithRetry(
     `${uri}/estados?${queryParams.toString()}`,
     {
       method: "GET",
@@ -185,7 +332,7 @@ async function getData(
     }
   );
 
-  const responseBairros = await fetch(
+  const responseBairros = await fetchWithRetry(
     `${uri}/imoveis/bairros-por-cidade?${queryParams.toString()}`,
     {
       next: { tags: ["imoveis-info"], revalidate: 3600 },
@@ -196,15 +343,18 @@ async function getData(
     empresa_id,
     site: "1",
   });
-  const cidades = await fetch(`${uri}/cidades?${paramsCidades.toString()}`, {
-    next: { tags: ["imoveis-info", "imoveis-cidades"], revalidate: 3600 },
-  });
+  const cidades = await fetchWithRetry(
+    `${uri}/cidades?${paramsCidades.toString()}`,
+    {
+      next: { tags: ["imoveis-info", "imoveis-cidades"], revalidate: 3600 },
+    }
+  );
 
   if (!responseEstados.ok || !responseBairros.ok || !cidades.ok) {
     throw new Error("Failed to fetch data");
   }
 
-  const responseTipos = await fetch(
+  const responseTipos = await fetchWithRetry(
     `${uri}/imoveis/tipos?${queryParams.toString()}`,
     {
       method: "GET",
@@ -219,7 +369,7 @@ async function getData(
     throw new Error(`Erro na requisição: ${responseTipos.status}`);
   }
 
-  const responseCodigos = await fetch(
+  const responseCodigos = await fetchWithRetry(
     `${uri}/imoveis/codigos?${queryParams.toString()}`,
     {
       method: "GET",
@@ -240,12 +390,12 @@ async function getData(
     corretor,
     temporada,
     empreendimento,
-    imoveisRelacionados: await parseJSON(imoveisResponse),
-    bairros: await responseBairros.json(),
-    estados: await responseEstados.json(),
-    cidades: await cidades.json(),
-    tipos: await responseTipos.json(),
-    codigos: await responseCodigos.json(),
+    imoveisRelacionados: (await parseJSON(imoveisResponse)) || { nodes: [], total: 0 },
+    bairros: (await parseJSON(responseBairros)) || [],
+    estados: (await parseJSON(responseEstados)) || [],
+    cidades: (await parseJSON(cidades)) || [],
+    tipos: (await parseJSON(responseTipos)) || [],
+    codigos: (await parseJSON(responseCodigos)) || [],
   };
 }
 
@@ -278,9 +428,18 @@ const RealEstatePage = async ({
   } = await getData(codigo, afiliado);
 
   if (!imovel) return <></>;
+  
+  // Gerar structured data para o imóvel
+  const propertyStructuredData = generatePropertyStructuredData(imovel, empresa);
 
   return (
     <div className="bg-menu bg-no-repeat">
+      {/* Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(propertyStructuredData) }}
+      />
+      
       <Header />
       <PropertiesFilter
         estados={estados}
@@ -292,6 +451,18 @@ const RealEstatePage = async ({
         className="hidden lg:flex w-[min(100%,31.875rem)] absolute mt-14 top-0 right-1/2 translate-x-[75%]"
       />
       <main className="mt-8">
+        {/* Breadcrumb Navigation */}
+        <div className="max-w-[80rem] mx-auto px-4 md:px-6 lg:px-0 mb-6">
+          <Breadcrumb 
+            items={[
+              { name: "Imóveis", url: "/imoveis" },
+              { name: imovel.cidade?.nome || "Cidade", url: `/imoveis/${imovel.cidade?.nome?.toLowerCase().replace(/\s+/g, '-')}` },
+              { name: imovel.bairro || "Bairro", url: `/imoveis/${imovel.cidade?.nome?.toLowerCase().replace(/\s+/g, '-')}/${imovel.bairro?.toLowerCase().replace(/\s+/g, '-')}` },
+              { name: `${imovel.tipo} - Cód ${imovel.codigo}` }
+            ]}
+          />
+        </div>
+        
         <section>
           <PropertyPhotos
             empresa={empresa}
@@ -561,6 +732,25 @@ const RealEstatePage = async ({
                 ) : (
                   <></>
                 )}
+                {(imovel as any).andar && !(imovel as any).não_mostrar_andar ? (
+                  <li>
+                    <Image
+                      className="mx-auto mb-3"
+                      src={BrickwallhIcon}
+                      alt="andar"
+                      style={{
+                        maxWidth: "26px",
+                        height: "auto",
+                        backgroundColor: "transparent",
+                      }}
+                    />
+                    Andar
+                    <br />
+                    <strong>{(imovel as any).andar}º</strong>
+                  </li>
+                ) : (
+                  <></>
+                )}
                 {imovel.data_de_entrega ? (
                   <li>
                     <Image
@@ -594,13 +784,17 @@ const RealEstatePage = async ({
               <h2 className="text-3xl mb-6 font-semibold">
                 Descrição do imóvel
               </h2>
-              <p className="text-[#E9E9E9] text-lg font-light whitespace-pre-wrap">
-                {imovel["descrição"] && (
+              <div className="text-[#E9E9E9] text-lg font-light whitespace-pre-wrap">
+                {imovel["descrição"] ? (
                   <div
                     dangerouslySetInnerHTML={{ __html: imovel["descrição"] }}
                   ></div>
+                ) : (
+                  <div
+                    dangerouslySetInnerHTML={{ __html: generateRichDescription(imovel) }}
+                  ></div>
                 )}
-              </p>
+              </div>
             </div>
             {imovel.caracteristicas && imovel.caracteristicas.length > 0 && (
               <div className="mt-8">

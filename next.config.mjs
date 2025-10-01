@@ -40,6 +40,19 @@ const nextConfig = {
       },
     ],
   },
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: "media-src 'self' https://firebasestorage.googleapis.com https://storage.googleapis.com data: blob:;"
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

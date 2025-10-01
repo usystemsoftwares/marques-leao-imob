@@ -30,6 +30,8 @@ type FormProps = {
   estados: any[];
   bairros: any[];
   codigos: string[];
+  tipos?: any[];
+  caracteristicas?: any[];
   searchParams: any;
 };
 
@@ -39,16 +41,21 @@ const SearchPropertyFilter = ({
   estados,
   bairros,
   codigos,
+  tipos = [],
+  caracteristicas = [],
   searchParams,
 }: FormProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [transacao, setTransacao] = useState<string>(
     searchParams?.transacao ?? ""
   );
-  const [estado, setEstado] = useState<string>(searchParams?.estado ?? "");
-  const [cidade, setCidade] = useState<string>(searchParams?.cidade ?? "");
-  const [bairro, setBairro] = useState<string>(searchParams?.bairro ?? "");
-  const [tipo, setTipo] = useState<string>(searchParams?.tipo ?? "");
+  
+  // Estados para múltipla seleção
+  const [selectedEstados, setSelectedEstados] = useState<string[]>([]);
+  const [selectedCidades, setSelectedCidades] = useState<string[]>([]);
+  const [selectedBairros, setSelectedBairros] = useState<string[]>([]);
+  const [selectedTipos, setSelectedTipos] = useState<string[]>([]);
+  
   const [codigo, setCodigo] = useState<string>(searchParams?.codigo ?? "");
   const [codigoInput, setCodigoInput] = useState<string>(
     searchParams?.codigo ?? ""
@@ -63,21 +70,40 @@ const SearchPropertyFilter = ({
   );
   const router = useRouter();
 
-  const [condominio, setCondominio] = useState<string>(""); // Novo
-  const [dormitorios, setDormitorios] = useState<string>(""); // Novo
-  const [vagas, setVagas] = useState<string>(""); // Novo
+  const [condominio, setCondominio] = useState<string>("");
+  const [dormitorios, setDormitorios] = useState<string>("");
+  const [vagas, setVagas] = useState<string>("");
 
   const inputRef = useRef<HTMLFormElement | null>(null);
 
   const [filteredDistricts, setFilteredDistricts] = useState(bairros);
+  
+  // Função para slugificar strings
+  const slugifyOptions = {
+    lower: true,
+    strict: true,
+    locale: "pt",
+    remove: /[*+~.()'"!:@]/g,
+  };
+
+  const slugifyString = (str: string) => slugify(str, slugifyOptions);
+
+  // Atualizar bairros quando cidades mudarem
   useEffect(() => {
-    setFilteredDistricts(
-      (bairros ?? []).filter(
-        (bairro: any) =>
-          (bairro?.cidadeNome ?? "").toLowerCase() === cidade.toLowerCase()
-      )
-    );
-  }, [cidade, bairros]);
+    if (selectedCidades.length > 0) {
+      // Filtrar bairros baseado nas cidades selecionadas
+      const bairrosFiltrados = (bairros ?? []).filter((bairro: any) => {
+        const cidadeNome = bairro?.cidadeNome || "";
+        return selectedCidades.some(cidadeSlug => {
+          const cidade = cidades.find(c => slugifyString(c.nome) === cidadeSlug);
+          return cidade && cidadeNome.toLowerCase() === cidade.nome.toLowerCase();
+        });
+      });
+      setFilteredDistricts(bairrosFiltrados);
+    } else {
+      setFilteredDistricts(bairros);
+    }
+  }, [selectedCidades, bairros, cidades]);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -104,25 +130,22 @@ const SearchPropertyFilter = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Opções para slugify
-    const slugifyOptions = {
-      lower: true, // Converte para minúsculas
-      strict: true, // Remove caracteres especiais
-      locale: "pt", // Define o locale para português
-      remove: /[*+~.()'"!:@]/g, // Remove caracteres adicionais
-    };
-
-    // Função auxiliar para slugificar
-    const slugifyString = (str: string) => slugify(str, slugifyOptions);
-
     // Construir segmentos de URL baseados nos nomes selecionados com prefixos
     const urlSegments = [];
 
     if (transacao) urlSegments.push(`transacao-${slugifyString(transacao)}`);
-    if (estado) urlSegments.push(`estado-${slugifyString(estado)}`);
-    if (cidade) urlSegments.push(`cidade-${slugifyString(cidade)}`);
-    if (bairro) urlSegments.push(`bairro-${slugifyString(bairro)}`);
-    if (tipo) urlSegments.push(`tipo-${slugifyString(tipo)}`);
+    if (selectedEstados.length > 0) {
+      urlSegments.push(`estado-${selectedEstados.join(",")}`);
+    }
+    if (selectedCidades.length > 0) {
+      urlSegments.push(`cidade-${selectedCidades.join(",")}`);
+    }
+    if (selectedBairros.length > 0) {
+      urlSegments.push(`bairro-${selectedBairros.join(",")}`);
+    }
+    if (selectedTipos.length > 0) {
+      urlSegments.push(`tipo-${selectedTipos.join(",")}`);
+    }
     if (dormitorios)
       urlSegments.push(`dormitorios-${slugifyString(dormitorios)}`);
     if (vagas) urlSegments.push(`vagas-${slugifyString(vagas)}`);
@@ -134,9 +157,9 @@ const SearchPropertyFilter = ({
     if (searchParams?.pagina) {
       urlSegments.push(`pagina-${searchParams.pagina}`);
     }
+    
     // Construir a URL final
     const url = `/imoveis/${urlSegments.join("/")}`;
-    // Aqui você pode incluir outros filtros ou query params, se necessário
 
     console.log("URL construída:", url);
 
@@ -150,36 +173,27 @@ const SearchPropertyFilter = ({
     if (transacao) {
       filters.push(transacao);
     }
-
-    if (estado) {
-      filters.push(estado);
+    if (selectedEstados.length > 0) {
+      filters.push(`${selectedEstados.length} estado(s)`);
     }
-
-    if (cidade) {
-      filters.push(cidade);
+    if (selectedCidades.length > 0) {
+      filters.push(`${selectedCidades.length} cidade(s)`);
     }
-
-    if (bairro) {
-      filters.push(bairro);
+    if (selectedBairros.length > 0) {
+      filters.push(`${selectedBairros.length} bairro(s)`);
     }
-
-    if (tipo) {
-      filters.push(tipo);
+    if (selectedTipos.length > 0) {
+      filters.push(`${selectedTipos.length} tipo(s)`);
     }
-
     if (codigo) {
       filters.push(codigo);
     }
-
     if (valorMin !== "") {
       filters.push(`R$${valorMin.toLocaleString("pt-BR")}`);
     }
-
     if (valorMax !== "") {
       filters.push(`R$${valorMax.toLocaleString("pt-BR")}`);
     }
-
-    // Opcional: Incluir filtros adicionais no display
     if (condominio) {
       filters.push(condominio);
     }
@@ -193,7 +207,7 @@ const SearchPropertyFilter = ({
     return filters.join(", ");
   };
 
-  const tiposOptions = [
+  const tiposOptions = tipos.length > 0 ? tipos : [
     "Apartamento",
     "Casa",
     "Casa em Condomínio",
@@ -213,6 +227,12 @@ const SearchPropertyFilter = ({
     }
   }, [codigoInput, codigos]);
 
+  // Estados para controlar se os selects permanecem abertos
+  const [estadosOpen, setEstadosOpen] = useState(false);
+  const [cidadesOpen, setCidadesOpen] = useState(false);
+  const [bairrosOpen, setBairrosOpen] = useState(false);
+  const [tiposOpen, setTiposOpen] = useState(false);
+
   return (
     <form
       className={cn(
@@ -226,7 +246,7 @@ const SearchPropertyFilter = ({
         <input
           type="text"
           placeholder="Clique para iniciar sua busca"
-          className="w-full md:flex-1 pl-8 sm:pl-10 md:pl-12 bg-hero-input bg-[size:1.5rem] sm:bg-[size:auto] bg-no-repeat bg-left placeholder:text-black placeholder:text-sm md:placeholder:text-base placeholder:italic text-black outline-none"
+          className="w-full md:flex-1 pl-8 sm:pl-10 md:pl-12 bg-hero-input bg-[size:1.5rem] sm:bg-[size:auto] bg-no-repeat bg-left placeholder:text-black placeholder:text-sm md:placeholder:text-base placeholder:italic text-black outline-none truncate"
           onClick={toggleMenu}
           readOnly
           value={getSelectedFilters()}
@@ -245,66 +265,124 @@ const SearchPropertyFilter = ({
         variants={sideVariants}
       >
         <div className="md:w-[55%] *:w-[10.5rem] gap-2 *:rounded-xl *:border-black *:border">
+          {/* Estados - Múltipla seleção */}
           <Select
-            value={estado}
+            value=""
+            open={estadosOpen}
+            onOpenChange={setEstadosOpen}
             onValueChange={(value) => {
-              setEstado(value);
-              setCidade("");
-              setBairro("");
+              if (value === "clear-all") {
+                setSelectedEstados([]);
+                setEstadosOpen(false);
+              } else {
+                const estadoSlug = slugifyString(value);
+                if (selectedEstados.includes(estadoSlug)) {
+                  setSelectedEstados(selectedEstados.filter(e => e !== estadoSlug));
+                } else {
+                  setSelectedEstados([...selectedEstados, estadoSlug]);
+                }
+                setEstadosOpen(true);
+              }
             }}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Estados" />
+              <SelectValue placeholder={selectedEstados.length > 0 ? `${selectedEstados.length} selecionado(s)` : "Estados"} />
             </SelectTrigger>
             <SelectContent className="select-content">
+              {selectedEstados.length > 0 && (
+                <SelectItem value="clear-all">✕ Limpar</SelectItem>
+              )}
               {estados
                 .filter((estadoItem: any) => estadoItem.sigla !== "PA")
                 .map((estadoItem) => (
                   <SelectItem
                     key={estadoItem.nome}
-                    value={estadoItem.nome.toString()}
+                    value={estadoItem.nome}
                   >
+                    {selectedEstados.includes(slugifyString(estadoItem.nome)) ? "✓ " : ""}
                     {estadoItem.sigla}
                   </SelectItem>
                 ))}
             </SelectContent>
           </Select>
 
-          {/* Seleção de Cidades */}
+          {/* Cidades - Múltipla seleção */}
           <Select
-            value={cidade}
+            value=""
+            open={cidadesOpen}
+            onOpenChange={setCidadesOpen}
             onValueChange={(value) => {
-              setCidade(value);
-              setBairro("");
+              if (value === "clear-all") {
+                setSelectedCidades([]);
+                setCidadesOpen(false);
+              } else {
+                const cidadeSlug = slugifyString(value);
+                if (selectedCidades.includes(cidadeSlug)) {
+                  setSelectedCidades(selectedCidades.filter(c => c !== cidadeSlug));
+                } else {
+                  setSelectedCidades([...selectedCidades, cidadeSlug]);
+                }
+                setCidadesOpen(true);
+              }
             }}
-            disabled={!estado}
+            disabled={selectedEstados.length === 0}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Cidades" />
+              <SelectValue placeholder={selectedCidades.length > 0 ? `${selectedCidades.length} selecionada(s)` : "Cidades"} />
             </SelectTrigger>
             <SelectContent className="select-content">
+              {selectedCidades.length > 0 && (
+                <SelectItem value="clear-all">✕ Limpar</SelectItem>
+              )}
               {cidades
                 .filter(
                   (cidadeItem: any) =>
                     cidadeItem &&
                     cidadeItem !== "null" &&
-                    cidadeItem.estado?.nome === estado
+                    (selectedEstados.length === 0 || 
+                     selectedEstados.some(estadoSlug => {
+                       const estado = estados.find(e => slugifyString(e.nome) === estadoSlug);
+                       return estado && cidadeItem.estado?.nome === estado.nome;
+                     }))
                 )
                 .map((cidadeItem: any) => (
                   <SelectItem key={cidadeItem.nome} value={cidadeItem.nome}>
+                    {selectedCidades.includes(slugifyString(cidadeItem.nome)) ? "✓ " : ""}
                     {cidadeItem.nome}
                   </SelectItem>
                 ))}
             </SelectContent>
           </Select>
 
-          {/* Seleção de Bairros */}
-          <Select value={bairro} onValueChange={setBairro} disabled={!cidade}>
+          {/* Bairros - Múltipla seleção */}
+          <Select 
+            value="" 
+            open={bairrosOpen}
+            onOpenChange={setBairrosOpen}
+            onValueChange={(value) => {
+              if (value === "clear-all") {
+                setSelectedBairros([]);
+                setBairrosOpen(false);
+              } else {
+                const bairroSlug = slugifyString(value);
+                if (selectedBairros.includes(bairroSlug)) {
+                  setSelectedBairros(selectedBairros.filter(b => b !== bairroSlug));
+                } else {
+                  setSelectedBairros([...selectedBairros, bairroSlug]);
+                }
+                setBairrosOpen(true);
+              }
+            }}
+            disabled={selectedCidades.length === 0}
+          >
             <SelectTrigger>
-              <SelectValue placeholder="Bairros" />
+              <SelectValue placeholder={selectedBairros.length > 0 ? `${selectedBairros.length} selecionado(s)` : "Bairros"} />
             </SelectTrigger>
             <SelectContent className="select-content">
-              {!cidade ? (
+              {selectedBairros.length > 0 && (
+                <SelectItem value="clear-all">✕ Limpar</SelectItem>
+              )}
+              {selectedCidades.length === 0 ? (
                 <p className="px-4 py-2 text-gray-500">
                   Por favor, selecione uma cidade primeiro para ver a lista de
                   bairros disponíveis.
@@ -318,6 +396,7 @@ const SearchPropertyFilter = ({
                   .filter((v: any) => v.bairro)
                   .map((bairroItem: any, index: number) => (
                     <SelectItem key={index} value={bairroItem.bairro || ""}>
+                      {selectedBairros.includes(slugifyString(bairroItem.bairro || "")) ? "✓ " : ""}
                       {bairroItem.bairro}
                     </SelectItem>
                   ))
@@ -325,17 +404,42 @@ const SearchPropertyFilter = ({
             </SelectContent>
           </Select>
 
-          {/* Seleção de Tipos */}
-          <Select value={tipo} onValueChange={setTipo}>
+          {/* Tipos - Múltipla seleção */}
+          <Select 
+            value=""
+            open={tiposOpen}
+            onOpenChange={setTiposOpen}
+            onValueChange={(value) => {
+              if (value === "clear-all") {
+                setSelectedTipos([]);
+                setTiposOpen(false);
+              } else {
+                const tipoSlug = slugifyString(value);
+                if (selectedTipos.includes(tipoSlug)) {
+                  setSelectedTipos(selectedTipos.filter(t => t !== tipoSlug));
+                } else {
+                  setSelectedTipos([...selectedTipos, tipoSlug]);
+                }
+                setTiposOpen(true);
+              }
+            }}
+          >
             <SelectTrigger>
-              <SelectValue placeholder="Tipos" />
+              <SelectValue placeholder={selectedTipos.length > 0 ? `${selectedTipos.length} selecionado(s)` : "Tipos"} />
             </SelectTrigger>
             <SelectContent className="select-content">
-              {tiposOptions.map((tipoItem, index) => (
-                <SelectItem key={index} value={tipoItem}>
-                  {tipoItem}
-                </SelectItem>
-              ))}
+              {selectedTipos.length > 0 && (
+                <SelectItem value="clear-all">✕ Limpar</SelectItem>
+              )}
+              {tiposOptions.map((tipoItem, index) => {
+                const tipoValue = typeof tipoItem === "string" ? tipoItem : tipoItem.tipo || tipoItem.nome;
+                return (
+                  <SelectItem key={index} value={tipoValue}>
+                    {selectedTipos.includes(slugifyString(tipoValue)) ? "✓ " : ""}
+                    {tipoValue}
+                  </SelectItem>
+                );
+              })}
             </SelectContent>
           </Select>
 

@@ -15,6 +15,8 @@ async function getData(filtros: any): Promise<{
   cidades: any[];
   codigos: any[];
   bairros: any[];
+  tipos: any[];
+  caracteristicas: any[];
 }> {
   const uri =
     process.env.BACKEND_API_URI ?? process.env.NEXT_PUBLIC_BACKEND_API_URI;
@@ -79,6 +81,22 @@ async function getData(filtros: any): Promise<{
     }
   );
 
+  // Fetch Tipos
+  const responseTipos = await fetch(
+    `${uri}/imoveis/tipos-empresa?${params.toString()}`,
+    {
+      next: { tags: ["imoveis-info"], revalidate: 3600 },
+    }
+  );
+
+  // Fetch Características
+  const responseCaracteristicas = await fetch(
+    `${uri}/caracteristicas?${params.toString()}`,
+    {
+      next: { tags: ["caracteristicas"], revalidate: 3600 },
+    }
+  );
+
   if (
     !responseEstados.ok ||
     !cidades.ok
@@ -93,6 +111,8 @@ async function getData(filtros: any): Promise<{
     estados: await responseEstados.json(),
     cidades: await cidades.json(),
     codigos: await responseCodigos.json(),
+    tipos: responseTipos.ok ? await responseTipos.json() : [],
+    caracteristicas: responseCaracteristicas.ok ? await responseCaracteristicas.json() : [],
   };
 }
 
@@ -105,7 +125,7 @@ export default async function HomeFilter({
   params?: { slug: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const { estados, cidades, bairros, codigos } = await getData(
+  const { estados, cidades, bairros, codigos, tipos, caracteristicas } = await getData(
     searchParams
   );
   return (
@@ -116,6 +136,8 @@ export default async function HomeFilter({
         cidades={cidades}
         bairros={bairros}
         codigos={codigos}
+        tipos={tipos}
+        caracteristicas={caracteristicas}
         searchParams={searchParams}
       />
     </div>

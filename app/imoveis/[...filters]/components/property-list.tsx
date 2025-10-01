@@ -4,7 +4,7 @@ import { useState } from "react";
 import Header from "@/components/header";
 import { WhatsappButton } from "@/components/whatsapp-btn";
 import Image from "next/image";
-import PropertyFilter from "@/components/property-filter";
+import PropertiesFilter from "./properties-filter";
 import Bed from "/public/marqueseleao/cama.svg";
 import ResizeIcon from "/public/marqueseleao/resize-icon.svg";
 import HeartIcon from "/public/marqueseleao/heart-icon.svg";
@@ -17,6 +17,7 @@ import { getSingleArea } from "@/utils/get-area";
 import Pagination from "./pagination";
 import { generateEstateUrl } from "@/utils/generate-estate-url";
 import { getDisplayPrice } from "@/utils/get-display-price";
+import GoogleMap from "./google-map";
 
 interface PropertyListProps {
   imoveis: Imóvel[];
@@ -73,10 +74,11 @@ const PropertyList: React.FC<PropertyListProps> = ({
 
           <div className="w-full px-4">
             <div className="relative z-20 w-full mb-20 mx-auto">
-              <PropertyFilter
+              <PropertiesFilter
                 estados={estados}
                 cidades={cidades}
                 bairros={bairros}
+                tipos={tipos}
                 codigos={codigos}
                 searchParams={query}
               />
@@ -234,16 +236,17 @@ const PropertyList: React.FC<PropertyListProps> = ({
             )}
           </div>
 
-          {/* Mapa temporariamente comentado */}
-          {/* 
-          <div className="lg:w-[42.5vw] lg:h-full fixed lg:right-0 lg:top-0 bg-black z-20">
+          {/* Mapa com agrupamento por bairro */}
+          <div className={cn(
+            "lg:w-[42.5vw] lg:h-full fixed lg:right-0 lg:top-0 z-20",
+            openMap ? "w-full h-full top-0 right-0" : "hidden lg:block"
+          )}>
             <GoogleMap
               closeMap={handleCloseMap}
               imoveis={imoveis}
               defaultCenter={defaultCenterImovel}
             />
-          </div> 
-          */}
+          </div>
 
           <WhatsappButton empresa={empresa} />
         </section>

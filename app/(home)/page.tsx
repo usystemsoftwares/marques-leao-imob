@@ -154,7 +154,6 @@ export default async function Home() {
   } = await getData();
   return (
     <div className="bg-menu bg-no-repeat">
-      <Header />
       <Image
         draggable={false}
         className="absolute -bottom-1/2 opacity-60 left-[-35%] w-[75%]"
@@ -166,43 +165,24 @@ export default async function Home() {
         }}
       />
       <main>
-        <section className="min-h-[100svh] relative w-[min(90%,80rem)] mx-auto">
-          <h1 className="text-[clamp(.75rem,4.5vw,2.25rem)] md:text-[clamp(.75rem,9vw,2rem)] relative z-10 font-extralight leading-none max-w-[26ch] md:max-w-[24ch] mx-auto md:mx-0 pt-[23rem] md:pt-40">
-            Conectamos
-            <br />{" "}
-            <span
-              className={`text-[clamp(2.5rem,12vw,5rem)] tracking-tighter md:tracking-normal md:text-[5.5rem] font-extrabold leading-[.75] font-baskervville md:pr-3`}
+        <section className="min-h-[100svh] relative w-full">
+          <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              className="absolute inset-0 w-full h-full object-cover"
             >
-              <strong>pessoas</strong>
-            </span>{" "}
-            <span className="text-[clamp(.75rem,6vw,2.25rem)] ml-1 md:ml-0">
-              a imóveis
-            </span>
-            <span
-              className={`flex items-center text-[clamp(2.5rem,12vw,5rem)] md:text-[5.5rem] leading-[1] font-extrabold before:inline-block before:w-[clamp(50%,10vw,100%)] font-baskervville before:h-[1px] before:bg-mainPurple`}
-            >
-              <strong className="pl-5 tracking-tighter md:tracking-normal">
-                incríveis
-              </strong>
-            </span>
-            <span className="text-[clamp(.7425rem,3vw,1.375rem)]">
-              que refletem seus <span className="font-medium">ideais</span> e
-              sua <span className="font-medium">personalidade</span>
-            </span>
-          </h1>
-          <Image
-            className="absolute top-0 md:top-[-5rem] md:w-[min(100%,45rem)] right-0"
-            src={MarquesELeao}
-            alt="Marques e Leão"
-            priority
-            style={{
-              maxWidth: "100%",
-              height: "auto",
-            }}
-          />
+              <source
+                src="https://firebasestorage.googleapis.com/v0/b/smartimob-dev-test.appspot.com/o/empresas%2F4IYSm7WrQ8naKm28ArY7%2FTAMBYNAIL%20FEITO.mp4?alt=media&token=856ad4ff-1f80-49b5-ae82-094bafb18f43"
+                type="video/mp4"
+              />
+            </video>
+          <Header />
           <HomeFilter className="absolute bottom-[17.5%] translate-x-1/2 z-50 right-1/2" />
         </section>
-        <section className="w-full md:w-[min(90%,110rem)] mx-auto relative">
+        <section className="w-full md:w-[min(90%,110rem)] mx-auto relative mt-20">
           <div className="w-[min(90%,68rem)] mx-auto flex items-center justify-center md:justify-between">
             <div className="relative">
               <span className="flex gap-4 items-center text-[#898989] after:inline-block after:w-28 after:h-[2px] after:bg-[#898989]">

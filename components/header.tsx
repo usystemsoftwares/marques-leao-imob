@@ -65,10 +65,10 @@ const Header = () => {
   ]
 
   return (
-    <header className="w-[min(90%,80rem)] mx-auto flex items-center justify-center md:justify-between pt-12">
-      <Link href="/">
+    <header className="w-[min(90%,80rem)] mx-auto flex items-center justify-center md:justify-between pt-12 relative z-50">
+      <Link href="/" className="relative z-50">
         <Image
-          className="z-10 w-[12.5rem] sm:w-[17.5rem] mx-auto md:mx-0"
+          className="w-[12.5rem] sm:w-[17.5rem] mx-auto md:mx-0"
           src={MarquesLeaoLogo}
           alt="Logo"
           width={370}
@@ -80,7 +80,7 @@ const Header = () => {
       </Link>
       <motion.button
         onClick={toggleMenu}
-        className={cn("w-7 aspect-square *:block *:h-[2px] *:bg-white fixed right-[2rem] z-[52] md:z-10 md:relative", isOpen ? "hidden" : "inline-block")}
+        className={cn("w-7 aspect-square *:block *:h-[2px] *:bg-white fixed right-[2rem] z-[52] md:z-50 md:relative", isOpen ? "hidden" : "inline-block")}
       >
         <span></span>
         <span className="mt-[.3125rem]"></span>

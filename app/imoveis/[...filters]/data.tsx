@@ -8,10 +8,10 @@ import slugify from "slugify";
 const PAGE_SIZE = 12;
 
 const slugifyOptions = {
-  lower: true, // Converte para minúsculas
-  strict: true, // Remove caracteres especiais
-  locale: "pt", // Define o locale para português
-  remove: /[*+~.()'"!:@]/g, // Remove caracteres adicionais
+  lower: true,
+  strict: true,
+  locale: "pt",
+  remove: /[*+~.()'"!:@]/g,
 };
 
 // Função auxiliar para slugificar
@@ -31,7 +31,49 @@ const getIdByName = (list: any[], name: string, key: string = "nome") => {
     }
     return slugifyString(value) === name;
   });
-  return item ? item.id || item[key] || item : null;
+  return item ? item.id || item.db_id || item[key] || item : null;
+};
+
+// Função para obter o nome original a partir do slug
+const getNameBySlug = (list: any[], slug: string, key = "nome") => {
+  if (!Array.isArray(list)) {
+    return null;
+  }
+
+  const item = list.find((el) => {
+    const value = el[key] || el;
+    if (typeof value !== "string") {
+      console.warn(`Valor de '${key}' não é uma string para o item:`, el);
+      return false;
+    }
+    return slugifyString(value) === slug;
+  });
+
+  return item ? item[key] : null;
+};
+
+// Função para formatar nomes de bairros corretamente
+const formatBairroName = (bairroSlug: string): string => {
+  if (!bairroSlug || typeof bairroSlug !== "string") return "";
+
+  // Decodifica URL
+  let nomeBairro = decodeURIComponent(bairroSlug);
+  
+  // Substitui hífens por espaços
+  nomeBairro = nomeBairro.replace(/-/g, ' ');
+  
+  // Capitaliza corretamente
+  nomeBairro = nomeBairro
+    .split(/\s+/)
+    .map(word => {
+      if (word.trim().length > 0) {
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+      }
+      return word;
+    })
+    .join(' ');
+
+  return nomeBairro.trim();
 };
 
 async function getData(filtros: any): Promise<{
@@ -45,6 +87,7 @@ async function getData(filtros: any): Promise<{
   codigos: any[];
   empresa: Empresa;
   bairros: any[];
+  caracteristicas?: any[];
 }> {
   const { pagina = 1, ordem = 1, ...rest } = filtros;
   const uri =
@@ -56,6 +99,7 @@ async function getData(filtros: any): Promise<{
     empresa_id,
   });
 
+  // Fetch dados básicos
   const responseEstados = await fetch(`${uri}/estados?${params.toString()}`, {
     method: "GET",
     headers: {
@@ -90,17 +134,22 @@ async function getData(filtros: any): Promise<{
   const bairros = await responseBairros.json();
 
   const responseTipos = await fetch(
-    `${uri}/imoveis/tipos?${params.toString()}`,
+    `${uri}/imoveis/tipos-empresa?${params.toString()}`,
     {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
+      next: { tags: ["imoveis-info"], revalidate: 3600 },
     }
   );
   await checkFetchStatus(responseTipos, "tipos");
   const tipos = await responseTipos.json();
+
+  // Fetch Características
+  const responseCaracteristicas = await fetch(
+    `${uri}/caracteristicas?${params.toString()}`,
+    {
+      next: { tags: ["caracteristicas"], revalidate: 3600 },
+    }
+  );
+  const caracteristicas = responseCaracteristicas.ok ? await responseCaracteristicas.json() : [];
 
   // Fetch Códigos
   const responseCodigos = await fetch(
@@ -125,92 +174,436 @@ async function getData(filtros: any): Promise<{
   }
   const empresa = await empresaResponse.json();
 
-  // Mapeamento de Slugs para IDs
-  const backendFilters: any = {};
+  // Construir filtros para API
+  const apiFilters: any[] = [];
 
+  // Filtro por estados (múltiplos)
   if (rest.estado) {
-    const estado_id = getIdByName(estados, rest.estado, "nome");
-    if (estado_id) {
-      backendFilters.estado_id = estado_id;
-    } else {
-      // Estado inválido, pode optar por lançar um erro ou ignorar
-      // Aqui, vamos ignorar e não incluir no filtro
+    const estadosProcessados: string[] = [];
+    
+    // Processar string com vírgulas
+    if (typeof rest.estado === "string" && rest.estado.includes(",")) {
+      const estadosSeparados = rest.estado.split(",").map((e: string) => (e || '').trim()).filter(Boolean);
+      estadosSeparados.forEach((estadoSeparado: string) => {
+        const estadoId = getIdByName(estados, estadoSeparado, "nome");
+        if (estadoId) {
+          estadosProcessados.push(estadoId);
+        }
+      });
+    } else if (typeof rest.estado === "string") {
+      const estadoId = getIdByName(estados, rest.estado, "nome");
+      if (estadoId) {
+        estadosProcessados.push(estadoId);
+      }
+    } else if (Array.isArray(rest.estado)) {
+      rest.estado.forEach((estado: string) => {
+        if (estado && typeof estado === "string") {
+          if (estado.includes(",")) {
+            const estadosSeparados = estado.split(",").map((e: string) => (e || '').trim()).filter(Boolean);
+            estadosSeparados.forEach((estadoSeparado: string) => {
+              const estadoId = getIdByName(estados, estadoSeparado, "nome");
+              if (estadoId) {
+                estadosProcessados.push(estadoId);
+              }
+            });
+          } else {
+            const estadoId = getIdByName(estados, estado, "nome");
+            if (estadoId) {
+              estadosProcessados.push(estadoId);
+            }
+          }
+        }
+      });
+    }
+
+    const estadosIds = Array.from(new Set(estadosProcessados)).filter(Boolean);
+    
+    if (estadosIds.length > 0) {
+      if (estadosIds.length === 1) {
+        apiFilters.push({
+          field: "imovel.estado_id",
+          operator: "equal",
+          value: estadosIds[0],
+        });
+      } else {
+        apiFilters.push({
+          field: "imovel.estado_id",
+          operator: "in",
+          value: estadosIds,
+        });
+      }
     }
   }
 
+  // Filtro por cidades (múltiplas)
   if (rest.cidade) {
-    const cidade_id = getIdByName(cidades, rest.cidade, "nome");
-    if (cidade_id) {
-      backendFilters.cidade_id = cidade_id;
+    const cidadesProcessadas: string[] = [];
+
+    // Processar string com vírgulas
+    if (typeof rest.cidade === "string" && rest.cidade.includes(",")) {
+      const cidadesSeparadas = rest.cidade.split(",").map((c: string) => c.trim()).filter(Boolean);
+      cidadesSeparadas.forEach((cidadeSeparada: string) => {
+        const cidadeId = getIdByName(cidades, cidadeSeparada, "nome");
+        if (cidadeId) {
+          cidadesProcessadas.push(cidadeId);
+        }
+      });
+    } else if (typeof rest.cidade === "string") {
+      const cidadeId = getIdByName(cidades, rest.cidade, "nome");
+      if (cidadeId) {
+        cidadesProcessadas.push(cidadeId);
+      }
+    } else if (Array.isArray(rest.cidade)) {
+      rest.cidade.forEach((cidade: string) => {
+        if (cidade && typeof cidade === "string") {
+          if (cidade.includes(",")) {
+            const cidadesSeparadas = cidade.split(",").map((c: string) => c.trim()).filter(Boolean);
+            cidadesSeparadas.forEach((cidadeSeparada: string) => {
+              const cidadeId = getIdByName(cidades, cidadeSeparada, "nome");
+              if (cidadeId) {
+                cidadesProcessadas.push(cidadeId);
+              }
+            });
+          } else {
+            const cidadeId = getIdByName(cidades, cidade, "nome");
+            if (cidadeId) {
+              cidadesProcessadas.push(cidadeId);
+            }
+          }
+        }
+      });
+    }
+
+    const cidadesIds = Array.from(new Set(cidadesProcessadas)).filter(Boolean);
+    
+    if (cidadesIds.length > 0) {
+      if (cidadesIds.length === 1) {
+        apiFilters.push({
+          field: "imovel.cidade_id",
+          operator: "equal",
+          value: cidadesIds[0],
+        });
+      } else {
+        apiFilters.push({
+          field: "imovel.cidade_id",
+          operator: "in",
+          value: cidadesIds,
+        });
+      }
     }
   }
 
+  // Filtro por bairros (múltiplos)
   if (rest.bairro) {
-    const bairro = getIdByName(bairros, rest.bairro, "bairro");
-    if (bairro) {
-      backendFilters.bairros = [bairro];
+    const bairrosNomes: string[] = [];
+
+    // Se rest.bairro é um array, processar cada elemento
+    if (Array.isArray(rest.bairro)) {
+      rest.bairro.forEach((bairro: string) => {
+        if (bairro && typeof bairro === "string") {
+          const nomeFormatado = formatBairroName(bairro);
+          if (nomeFormatado) {
+            bairrosNomes.push(nomeFormatado);
+          }
+        }
+      });
+    } else if (typeof rest.bairro === "string") {
+      // Se é uma string única, pode ter vírgulas ou não
+      if (rest.bairro.includes(",")) {
+        const bairrosSeparados = rest.bairro.split(",").map((b: string) => b.trim()).filter(Boolean);
+        bairrosSeparados.forEach((bairroSeparado: string) => {
+          const nomeFormatado = formatBairroName(bairroSeparado);
+          if (nomeFormatado) {
+            bairrosNomes.push(nomeFormatado);
+          }
+        });
+      } else {
+        const nomeFormatado = formatBairroName(rest.bairro);
+        if (nomeFormatado) {
+          bairrosNomes.push(nomeFormatado);
+        }
+      }
+    }
+
+    const bairrosUnicos = Array.from(new Set(bairrosNomes)).filter(Boolean);
+    
+    // SEMPRE usar "in" quando há múltiplos bairros, mesmo que seja só 1
+    if (bairrosUnicos.length > 0) {
+      if (bairrosUnicos.length === 1) {
+        apiFilters.push({
+          field: "imovel.bairro",
+          operator: "equal",
+          value: bairrosUnicos[0],
+        });
+      } else {
+        apiFilters.push({
+          field: "imovel.bairro",
+          operator: "in",
+          value: bairrosUnicos,
+        });
+      }
     }
   }
 
+  // Filtro por tipos (múltiplos)
   if (rest.tipo) {
-    const tipo = getIdByName(tipos, rest.tipo, "tipo");
-    if (tipo) {
-      backendFilters.tipos = [tipo];
+    const tiposProcessados: string[] = [];
+
+    // Função auxiliar para encontrar tipo pelo slug
+    const findTipoBySlug = (slug: string): string | null => {
+      const tipoEncontrado = tipos.find((t: any) => {
+        const tipoValue = typeof t === "string" ? t : (t.tipo || t.nome || t);
+        return slugifyString(tipoValue) === slug;
+      });
+      return tipoEncontrado
+        ? (typeof tipoEncontrado === "string" ? tipoEncontrado : (tipoEncontrado.tipo || tipoEncontrado.nome || tipoEncontrado))
+        : null;
+    };
+
+    // Processar array de tipos
+    if (Array.isArray(rest.tipo)) {
+      rest.tipo.forEach((tipo: string) => {
+        if (tipo && typeof tipo === "string") {
+          const tipoNome = findTipoBySlug(tipo);
+          if (tipoNome) {
+            tiposProcessados.push(tipoNome);
+          }
+        }
+      });
+    } else if (typeof rest.tipo === "string") {
+      // Se é string única
+      const tipoNome = findTipoBySlug(rest.tipo);
+      if (tipoNome) {
+        tiposProcessados.push(tipoNome);
+      }
+    }
+
+    const tiposUnicos = Array.from(new Set(tiposProcessados)).filter(Boolean);
+
+    if (tiposUnicos.length === 1) {
+      apiFilters.push({
+        field: "imovel.tipo",
+        operator: "equal",
+        value: tiposUnicos[0],
+      });
+    } else if (tiposUnicos.length > 1) {
+      apiFilters.push({
+        field: "imovel.tipo",
+        operator: "in",
+        value: tiposUnicos,
+      });
     }
   }
 
+  // Filtro por características (múltiplas)
   if (rest.caracteristicas) {
-    backendFilters.caracteristicas = rest.caracteristicas;
+    const caracteristicasArray = Array.isArray(rest.caracteristicas) ? rest.caracteristicas : [rest.caracteristicas];
+    const caracteristicasNomes: string[] = [];
+    
+    caracteristicasArray.forEach((carac: string) => {
+      if (carac && typeof carac === "string") {
+        if (carac.includes(",")) {
+          const caracSeparadas = carac.split(",").map((c) => c.trim()).filter(Boolean);
+          caracSeparadas.forEach((caracSeparada) => {
+            const caracNome = getNameBySlug(caracteristicas, caracSeparada, "nome");
+            if (caracNome) {
+              caracteristicasNomes.push(caracNome);
+            }
+          });
+        } else {
+          const caracNome = getNameBySlug(caracteristicas, carac, "nome");
+          if (caracNome) {
+            caracteristicasNomes.push(caracNome);
+          }
+        }
+      }
+    });
+
+    const caracUnicos = Array.from(new Set(caracteristicasNomes)).filter(Boolean);
+    
+    if (caracUnicos.length > 0) {
+      caracUnicos.forEach((carac) => {
+        apiFilters.push({
+          field: "caracteristicas",
+          operator: "contains",
+          value: carac,
+        });
+      });
+    }
   }
 
+  // Filtro por transação
   if (rest.transacao) {
-    backendFilters.transacao = rest.transacao;
+    if (rest.transacao === "venda") {
+      apiFilters.push({
+        field: "imovel.venda",
+        operator: "equal",
+        value: true,
+      });
+    } else if (rest.transacao === "locacao") {
+      apiFilters.push({
+        field: "imovel.venda",
+        operator: "equal",
+        value: false,
+      });
+    }
   }
 
+  // Filtros numéricos
   if (rest.dormitorios) {
-    backendFilters.dormitorios = rest.dormitorios;
+    if (rest.dormitorios === "4+") {
+      apiFilters.push({
+        field: "imovel.dormitórios",
+        operator: "gte",
+        value: 4,
+      });
+    } else {
+      const dormitorios = Number(rest.dormitorios);
+      if (!isNaN(dormitorios)) {
+        apiFilters.push({
+          field: "imovel.dormitórios",
+          operator: "equal",
+          value: dormitorios,
+        });
+      }
+    }
   }
 
-  if (rest.suites) {
-    backendFilters.suites = rest.suites;
+  if (rest.banheiros) {
+    if (rest.banheiros === "4+") {
+      apiFilters.push({
+        field: "imovel.banheiros",
+        operator: "gte",
+        value: 4,
+      });
+    } else {
+      const banheiros = Number(rest.banheiros);
+      if (!isNaN(banheiros)) {
+        apiFilters.push({
+          field: "imovel.banheiros",
+          operator: "equal",
+          value: banheiros,
+        });
+      }
+    }
   }
 
   if (rest.vagas) {
-    backendFilters.vagas = rest.vagas;
+    if (rest.vagas === "4+") {
+      apiFilters.push({
+        field: "imovel.vagas",
+        operator: "gte",
+        value: 4,
+      });
+    } else {
+      const vagas = Number(rest.vagas);
+      if (!isNaN(vagas)) {
+        apiFilters.push({
+          field: "imovel.vagas",
+          operator: "equal",
+          value: vagas,
+        });
+      }
+    }
   }
 
+  // Filtros de preço
+  const precoField = rest.transacao === "locacao" ? "imovel.preço_locação" : "imovel.preço_venda";
+  
   if (rest.preco_min) {
-    backendFilters['imovel.preco_min'] = rest.preco_min;
+    apiFilters.push({
+      field: precoField,
+      operator: "gte",
+      value: Number(rest.preco_min),
+    });
   }
 
   if (rest.preco_max) {
-    backendFilters['imovel.preco_max'] = rest.preco_max;
+    apiFilters.push({
+      field: precoField,
+      operator: "lte",
+      value: Number(rest.preco_max),
+    });
   }
 
-  // Suporte a múltiplos códigos
-  const operadoresEspecificos: any = {};
+  // Filtros de área
+  if (rest.area_min) {
+    apiFilters.push({
+      field: "imovel.area_privativa",
+      operator: "gte",
+      value: Number(rest.area_min),
+    });
+  }
+
+  if (rest.area_max) {
+    apiFilters.push({
+      field: "imovel.area_privativa",
+      operator: "lte",
+      value: Number(rest.area_max),
+    });
+  }
+
+  // Filtro por código (único ou múltiplo)
   if (rest.codigos) {
-    if (Array.isArray(rest.codigos)) {
-      backendFilters.codigo = rest.codigos.join(',');
-      operadoresEspecificos.codigo = 'in';
-    } else if (typeof rest.codigos === 'string') {
-      backendFilters.codigo = rest.codigos;
-      operadoresEspecificos.codigo = 'equal';
+    if (Array.isArray(rest.codigos) && rest.codigos.length > 0) {
+      if (rest.codigos.length === 1) {
+        apiFilters.push({
+          field: "imovel.codigo",
+          operator: "equal",
+          value: rest.codigos[0],
+        });
+      } else {
+        apiFilters.push({
+          field: "imovel.codigo",
+          operator: "in",
+          value: rest.codigos,
+        });
+      }
     }
   } else if (rest.codigo) {
-    backendFilters.codigo = rest.codigo;
-    operadoresEspecificos.codigo = 'equal';
+    apiFilters.push({
+      field: "imovel.codigo",
+      operator: "equal",
+      value: rest.codigo,
+    });
   }
 
-  const processedFilters = processarFiltros(backendFilters, operadoresEspecificos);
+  // Sempre incluir apenas imóveis ativos
+  apiFilters.push({
+    field: "imovel.ativo",
+    operator: "equal",
+    value: true,
+  });
+
+  console.log("[Marques] Filtros finais para API:", apiFilters);
+
+  // Configurar ordenação
+  let orderBy = [{ field: "imovel.visualizações", order: "DESC" }];
+
+  if (rest.sort) {
+    switch (rest.sort) {
+      case "price-asc":
+        orderBy = [{ field: precoField, order: "ASC" }];
+        break;
+      case "price-desc":
+        orderBy = [{ field: precoField, order: "DESC" }];
+        break;
+      case "area-desc":
+        orderBy = [{ field: "imovel.area_privativa", order: "DESC" }];
+        break;
+      case "newest":
+        orderBy = [{ field: "imovel.created_at", order: "DESC" }];
+        break;
+      default:
+        orderBy = [{ field: "imovel.visualizações", order: "DESC" }];
+    }
+  }
 
   const params_imoveis = new URLSearchParams({
     limit: PAGE_SIZE.toString(),
     startAt: (((pagina ?? 1) - 1) * PAGE_SIZE).toString(),
-    filtros: JSON.stringify(processedFilters),
-    order: JSON.stringify(
-      ordem && ordem > 0 ? [ordenacoesBackend[ordem ?? 1]] : []
-    ),
+    filtros: JSON.stringify(apiFilters),
+    order: JSON.stringify(orderBy),
     empresa_id,
   });
 
@@ -226,13 +619,17 @@ async function getData(filtros: any): Promise<{
   const imoveis = await imoveisResponse.json();
 
   return {
-    imoveis,
+    imoveis: {
+      nodes: imoveis?.nodes || [],
+      total: imoveis?.total || 0,
+    },
     bairros,
     estados,
     cidades,
     tipos,
     codigos,
     empresa,
+    caracteristicas,
   };
 }
 

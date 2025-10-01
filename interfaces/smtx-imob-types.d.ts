@@ -108,7 +108,7 @@ declare module "smart-imob-types" {
     propostas?: any[];
     proprietario_id: string;
     rua: string;
-    suítes: null | number | string;
+    suítes: null | number;
     tipo: string | null;
     tipo_area_construída: "m²" | string | "HA";
     tipo_area_privativa: "m²" | string | "HA";
@@ -116,7 +116,7 @@ declare module "smart-imob-types" {
     tipo_area_total: "m²" | string | "HA";
     tipo_area_útil: "m²" | string | "HA";
     titulo?: string;
-    vagas: number | string;
+    vagas: number;
     venda: boolean;
     vendido?: boolean;
     venda_exibir_valor_no_site?: boolean;

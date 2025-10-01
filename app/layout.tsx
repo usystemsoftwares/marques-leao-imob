@@ -47,12 +47,54 @@ export const generateMetadata = async (): Promise<Metadata> => {
       url: empresa.favicon,
     });
   }
+  
+  // Otimização SEO baseada nas sugestões do PDF
+  const seoKeywords = [
+    "Casas de alto padrão em Novo Hamburgo",
+    "Imobiliária em Novo Hamburgo de luxo",
+    "imóveis de luxo em Novo Hamburgo",
+    "comprar casa em Novo Hamburgo",
+    "Casas de luxo à venda",
+    "Residências de alto padrão com piscina Novo Hamburgo",
+    "Imóveis exclusivos em Novo Hamburgo",
+    "Hamburgo Velho",
+    "Lomba Grande",
+    empresa.palavras_chave
+  ].filter(Boolean).join(", ");
+
   return {
-    title: "Imobiliária MARQUES&LEÃO",
-    description: empresa.descrição,
-    keywords: empresa.palavras_chave,
+    title: "Casas de Alto Padrão em Novo Hamburgo | Sua Nova Residência Luxuosa!",
+    description: "Na MARQUES&LEÃO você encontra casas de alto padrão em Novo Hamburgo. Imóveis de luxo em Hamburgo Velho, Lomba Grande e região. Confira!",
+    keywords: seoKeywords,
     icons: {
       icon: icons,
+    },
+    openGraph: {
+      title: "Casas de Alto Padrão em Novo Hamburgo | MARQUES&LEÃO",
+      description: "Imóveis de luxo e alto padrão em Novo Hamburgo. Casas exclusivas com design moderno, acabamento premium e localização privilegiada.",
+      type: "website",
+      locale: "pt_BR",
+      siteName: "MARQUES&LEÃO Imobiliária",
+      images: empresa.logo ? [empresa.logo] : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Casas de Alto Padrão em Novo Hamburgo | MARQUES&LEÃO",
+      description: "Imóveis de luxo e alto padrão em Novo Hamburgo. Encontre sua residência dos sonhos.",
+    },
+    alternates: {
+      canonical: process.env.NEXT_PUBLIC_SITE_URL || "https://www.marqueseleao.com.br",
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
   };
 };
@@ -84,9 +126,49 @@ export default async function RootLayout({
 }>) {
   const { empresa } = await getData();
 
+  // Schema.org Structured Data
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "RealEstateAgent",
+    "name": "MARQUES&LEÃO Imobiliária",
+    "description": "Imobiliária especializada em imóveis de alto padrão e luxo em Novo Hamburgo",
+    "url": process.env.NEXT_PUBLIC_SITE_URL || "https://www.marqueseleao.com.br",
+    "logo": empresa.logo,
+    "telephone": empresa.telefone || empresa.whatsapp,
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": empresa.endereço || "",
+      "addressLocality": "Novo Hamburgo",
+      "addressRegion": "RS",
+      "addressCountry": "BR"
+    },
+    "areaServed": [
+      {
+        "@type": "City",
+        "name": "Novo Hamburgo"
+      },
+      {
+        "@type": "Place",
+        "name": "Hamburgo Velho"
+      },
+      {
+        "@type": "Place",
+        "name": "Lomba Grande"
+      }
+    ],
+    "priceRange": "$$$",
+    "openingHours": empresa.horario_funcionamento || "Mo-Fr 09:00-18:00, Sa 09:00-13:00"
+  };
+
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <head>
+        {/* Structured Data for SEO */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
+        
         {/* Snippet do Google Tag Manager */}
         <script
           dangerouslySetInnerHTML={{

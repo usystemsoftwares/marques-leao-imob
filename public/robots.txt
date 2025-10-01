@@ -1,0 +1,55 @@
+# Robots.txt para MARQUES&LEÃO Imobiliária
+# https://www.marqueseleao.com.br
+
+# Permitir todos os bots de busca
+User-agent: *
+Allow: /
+
+# Diretórios importantes para indexação
+Allow: /imoveis/
+Allow: /imovel/
+Allow: /equipe/
+
+# Bloquear páginas administrativas e privadas
+Disallow: /api/
+Disallow: /admin/
+Disallow: /_next/
+Disallow: /cadastro/
+Disallow: /login/
+
+# Bloquear arquivos específicos
+Disallow: /*.json$
+Disallow: /*.xml$
+
+# Crawler delay para evitar sobrecarga
+Crawl-delay: 1
+
+# Sitemaps
+Sitemap: https://www.marqueseleao.com.br/sitemap.xml
+Sitemap: https://www.marqueseleao.com.br/sitemap-imoveis.xml
+
+# Bots específicos com regras otimizadas
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 1
+
+# Bloquear bots maliciosos conhecidos
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
