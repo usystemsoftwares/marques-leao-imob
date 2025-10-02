@@ -153,7 +153,7 @@ export default async function Home() {
     empresa,
   } = await getData();
   return (
-    <div className="bg-menu bg-no-repeat">
+    <div className="bg-menu bg-no-repeat overflow-x-hidden">
       <Image
         draggable={false}
         className="absolute -bottom-1/2 opacity-60 left-[-35%] w-[75%]"
@@ -199,7 +199,7 @@ export default async function Home() {
             </video>
 
           <Header />
-          <HomeFilter className="absolute bottom-[17.5%] translate-x-1/2 z-50 right-1/2" />
+          <HomeFilter className="absolute bottom-[17.5%] translate-x-1/2 z-50 right-1/2 w-[calc(100%-2rem)] md:w-auto" />
         </section>
         <section className="w-full md:w-[min(90%,110rem)] mx-auto relative mt-20">
           <div className="w-[min(90%,68rem)] mx-auto flex items-center justify-center md:justify-between">
