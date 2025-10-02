@@ -172,26 +172,31 @@ export default async function Home() {
               muted
               loop
               playsInline
-              preload="metadata"
+              preload="auto"
               className="hidden md:block absolute inset-0 w-full h-full object-cover"
+              style={{ width: '100%', height: '100%' }}
             >
               <source
-                src="https://firebasestorage.googleapis.com/v0/b/smartimob-dev-test.appspot.com/o/empresas%2F4IYSm7WrQ8naKm28ArY7%2FTAMBYNAIL%20FEITO.mp4?alt=media&token=856ad4ff-1f80-49b5-ae82-094bafb18f43"
+                src="https://firebasestorage.googleapis.com/v0/b/smartimob-dev-test.appspot.com/o/empresas%2F4IYSm7WrQ8naKm28ArY7%2FVIDEO%20SITE%202.0.mp4?alt=media&token=b870000d-b69c-4b8b-913c-aec7b3f68853"
                 type="video/mp4"
               />
             </video>
 
-          {/* Imagem mobile (fallback) */}
-          <Image
-            src={MarquesELeao}
-            alt="Marques e Leão"
-            priority
-            fill
-            className="md:hidden object-cover object-center"
-            style={{
-              objectFit: "cover",
-            }}
-          />
+          {/* Vídeo mobile */}
+          <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              className="md:hidden absolute inset-0 w-full h-full object-cover"
+              style={{ width: '100%', height: '100%' }}
+            >
+              <source
+                src="https://firebasestorage.googleapis.com/v0/b/smartimob-dev-test.appspot.com/o/empresas%2F4IYSm7WrQ8naKm28ArY7%2Fsite%20vertical%202.mp4?alt=media&token=24368d4c-3c40-45ed-86a9-89a7d5970869"
+                type="video/mp4"
+              />
+            </video>
 
           <Header />
           <HomeFilter className="absolute bottom-[17.5%] translate-x-1/2 z-50 right-1/2" />
