@@ -93,7 +93,7 @@ const PropertyList: React.FC<PropertyListProps> = ({
               <>
                 <ul className="w-[min(90%,80rem)] mx-auto grid place-items-center sm:grid-cols-[repeat(auto-fill,minmax(20.875rem,1fr))] gap-4">
                   {imoveis.map((estate, index) => (
-                    <li className="w-[min(100%,28.125rem)]" key={estate.db_id}>
+                    <li className="w-[min(100%,28.125rem)] relative z-[200]" key={estate.db_id}>
                       <div className="group block relative">
                         <div className="pt-5">
                           {(estate.caracteristicas || []).some(
