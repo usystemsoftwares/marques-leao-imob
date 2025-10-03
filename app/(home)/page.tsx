@@ -198,7 +198,7 @@ export default async function Home() {
               />
             </video>
 
-          <Header />
+          <Header hideLogo />
           <HomeFilter className="absolute bottom-[17.5%] translate-x-1/2 z-50 right-1/2" />
         </section>
         <section className="w-full md:w-[min(90%,110rem)] mx-auto relative mt-20">

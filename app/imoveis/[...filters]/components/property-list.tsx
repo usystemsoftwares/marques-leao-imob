@@ -73,7 +73,7 @@ const PropertyList: React.FC<PropertyListProps> = ({
           </button>
 
           <div className="w-full px-4">
-            <div className="relative z-20 w-full mb-20 mx-auto">
+            <div className="relative w-full mb-20 mx-auto">
               <PropertiesFilter
                 estados={estados}
                 cidades={cidades}
