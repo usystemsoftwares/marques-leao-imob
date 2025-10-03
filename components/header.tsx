@@ -21,7 +21,7 @@ const sideVariants = {
   }
 }
 
-const Header = () => {
+const Header = ({ hideLogo = false }: { hideLogo?: boolean }) => {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
   const menuRef = useRef<HTMLDivElement | null>(null)
@@ -66,21 +66,23 @@ const Header = () => {
 
   return (
     <header className="w-[min(90%,80rem)] mx-auto flex items-center justify-center md:justify-between pt-12">
-      <Link href="/">
-        <Image
-          className="z-10 w-[12.5rem] sm:w-[17.5rem] mx-auto md:mx-0"
-          src={MarquesLeaoLogo}
-          alt="Logo"
-          width={370}
-          height={40}
-          style={{
-            maxWidth: "100%",
-            height: "auto"
-          }} />
-      </Link>
+      {!hideLogo && (
+        <Link href="/">
+          <Image
+            className="z-10 w-[12.5rem] sm:w-[17.5rem] mx-auto md:mx-0"
+            src={MarquesLeaoLogo}
+            alt="Logo"
+            width={370}
+            height={40}
+            style={{
+              maxWidth: "100%",
+              height: "auto"
+            }} />
+        </Link>
+      )}
       <motion.button
         onClick={toggleMenu}
-        className={cn("w-7 aspect-square *:block *:h-[2px] *:bg-white fixed right-[2rem] z-[52] md:z-[100] md:relative", isOpen ? "hidden" : "inline-block")}
+        className={cn("w-7 aspect-square *:block *:h-[2px] *:bg-white fixed right-[2rem] z-[52] md:z-[100] md:relative", isOpen ? "hidden" : "inline-block", hideLogo && "md:ml-auto")}
       >
         <span></span>
         <span className="mt-[.3125rem]"></span>
