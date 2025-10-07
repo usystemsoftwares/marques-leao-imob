@@ -302,13 +302,13 @@ async function getData(filtros: any): Promise<{
       // Se é array, ainda verifica se algum elemento tem vírgulas para separar
       bairrosArray = rest.bairro.flatMap((b: string) => {
         if (typeof b === 'string' && b.includes(',')) {
-          return b.split(',').map(item => item.trim()).filter(Boolean);
+          return b.split(',').map((item: string) => item.trim()).filter(Boolean);
         }
         return b;
       });
     } else if (typeof rest.bairro === 'string') {
       // Se for string, verifica se tem vírgulas e faz split
-      bairrosArray = rest.bairro.split(',').map(b => b.trim()).filter(Boolean);
+      bairrosArray = rest.bairro.split(',').map((b: string) => b.trim()).filter(Boolean);
     } else {
       bairrosArray = [rest.bairro];
     }
