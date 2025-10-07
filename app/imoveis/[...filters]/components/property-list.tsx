@@ -33,7 +33,6 @@ interface PropertyListProps {
   filters: any[];
   empresa: Empresa;
 }
-
 const PropertyList: React.FC<PropertyListProps> = ({
   imoveis,
   estados,
@@ -236,7 +235,6 @@ const PropertyList: React.FC<PropertyListProps> = ({
             )}
           </div>
 
-          {/* Mapa com agrupamento por bairro */}
           <div className={cn(
             "lg:w-[42.5vw] lg:h-full fixed lg:right-0 lg:top-0 z-20",
             openMap ? "w-full h-full top-0 right-0" : "hidden lg:block"
