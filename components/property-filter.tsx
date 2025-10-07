@@ -205,9 +205,9 @@ const SearchPropertyFilter = ({
   ];
 
   useEffect(() => {
-    if (codigoInput) {
+    if (codigoInput && typeof codigoInput === 'string') {
       const filtered = codigos.filter((codigoItem) =>
-        codigoItem.toLowerCase().includes(codigoInput.toLowerCase())
+        typeof codigoItem === 'string' && codigoItem.toLowerCase().includes(codigoInput.toLowerCase())
       );
       setCodigoSuggestions(filtered);
     } else {

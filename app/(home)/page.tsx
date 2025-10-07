@@ -166,26 +166,28 @@ export default async function Home() {
       />
       <main>
         <section className="min-h-[100svh] relative w-full overflow-hidden">
+          {/* TODO: Descomentar quando necessário - Imagens e vídeos da hero section */}
+
           {/* Imagem placeholder desktop */}
-          <Image
+          {/* <Image
             src="/marqueseleao/FOTO SITE HORIZONTAL.jpg"
             alt="Background"
             fill
             priority
             className="hidden md:block object-cover z-1"
-          />
+          /> */}
 
           {/* Imagem placeholder mobile */}
-          <Image
+          {/* <Image
             src="/marqueseleao/FOTO SITE VERTICAL.jpg"
             alt="Background"
             fill
             priority
             className="md:hidden object-cover z-1"
-          />
+          /> */}
 
           {/* Vídeo desktop */}
-          <video
+          {/* <video
               autoPlay
               muted
               loop
@@ -198,10 +200,10 @@ export default async function Home() {
                 src="https://firebasestorage.googleapis.com/v0/b/smartimob-dev-test.appspot.com/o/empresas%2F4IYSm7WrQ8naKm28ArY7%2FVIDEO%20TAMBNAIL%20ajustado%202.mp4?alt=media&token=69cc3b36-cfc6-43c2-86e0-c97847a9af91"
                 type="video/mp4"
               />
-            </video>
+            </video> */}
 
           {/* Vídeo mobile */}
-          <video
+          {/* <video
               autoPlay
               muted
               loop
@@ -214,8 +216,47 @@ export default async function Home() {
                 src="https://firebasestorage.googleapis.com/v0/b/smartimob-dev-test.appspot.com/o/empresas%2F4IYSm7WrQ8naKm28ArY7%2Fsite%20vertical%202.mp4?alt=media&token=24368d4c-3c40-45ed-86a9-89a7d5970869"
                 type="video/mp4"
               />
-            </video>
+            </video> */}
+
           <Header hideLogo />
+
+          {/* Conteúdo hero - título e imagem Marques e Leão */}
+          <div className="relative w-[min(90%,80rem)] mx-auto">
+            <h1 className="text-[clamp(.75rem,4.5vw,2.25rem)] md:text-[clamp(.75rem,9vw,2rem)] relative z-10 font-extralight leading-none max-w-[26ch] md:max-w-[24ch] mx-auto md:mx-0 pt-[23rem] md:pt-40">
+              Conectamos
+              <br />{" "}
+              <span
+                className={`text-[clamp(2.5rem,12vw,5rem)] tracking-tighter md:tracking-normal md:text-[5.5rem] font-extrabold leading-[.75] font-baskervville md:pr-3`}
+              >
+                <strong>pessoas</strong>
+              </span>{" "}
+              <span className="text-[clamp(.75rem,6vw,2.25rem)] ml-1 md:ml-0">
+                a imóveis
+              </span>
+              <span
+                className={`flex items-center text-[clamp(2.5rem,12vw,5rem)] md:text-[5.5rem] leading-[1] font-extrabold before:inline-block before:w-[clamp(50%,10vw,100%)] font-baskervville before:h-[1px] before:bg-mainPurple`}
+              >
+                <strong className="pl-5 tracking-tighter md:tracking-normal">
+                  incríveis
+                </strong>
+              </span>
+              <span className="text-[clamp(.7425rem,3vw,1.375rem)]">
+                que refletem seus <span className="font-medium">ideais</span> e
+                sua <span className="font-medium">personalidade</span>
+              </span>
+            </h1>
+            <Image
+              className="absolute top-0 md:top-[-5rem] md:w-[min(100%,45rem)] right-0"
+              src={MarquesELeao}
+              alt="Marques e Leão"
+              priority
+              style={{
+                maxWidth: "100%",
+                height: "auto",
+              }}
+            />
+          </div>
+
           <HomeFilter className="absolute bottom-[17.5%] translate-x-1/2 z-50 right-1/2" />
 
         </section>

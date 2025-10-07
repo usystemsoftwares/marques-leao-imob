@@ -295,53 +295,46 @@ async function getData(filtros: any): Promise<{
 
   // Filtro por bairros (múltiplos)
   if (rest.bairro) {
-    const bairrosNomes: string[] = [];
+    // Processa bairros garantindo separação correta quando houver vírgulas
+    let bairrosArray: string[] = [];
 
-    // Se rest.bairro é um array, processar cada elemento
     if (Array.isArray(rest.bairro)) {
-      rest.bairro.forEach((bairro: string) => {
-        if (bairro && typeof bairro === "string") {
-          const nomeFormatado = formatBairroName(bairro);
-          if (nomeFormatado) {
-            bairrosNomes.push(nomeFormatado);
-          }
+      // Se é array, ainda verifica se algum elemento tem vírgulas para separar
+      bairrosArray = rest.bairro.flatMap((b: string) => {
+        if (typeof b === 'string' && b.includes(',')) {
+          return b.split(',').map(item => item.trim()).filter(Boolean);
         }
+        return b;
       });
-    } else if (typeof rest.bairro === "string") {
-      // Se é uma string única, pode ter vírgulas ou não
-      if (rest.bairro.includes(",")) {
-        const bairrosSeparados = rest.bairro.split(",").map((b: string) => b.trim()).filter(Boolean);
-        bairrosSeparados.forEach((bairroSeparado: string) => {
-          const nomeFormatado = formatBairroName(bairroSeparado);
-          if (nomeFormatado) {
-            bairrosNomes.push(nomeFormatado);
-          }
-        });
-      } else {
-        const nomeFormatado = formatBairroName(rest.bairro);
-        if (nomeFormatado) {
-          bairrosNomes.push(nomeFormatado);
-        }
-      }
+    } else if (typeof rest.bairro === 'string') {
+      // Se for string, verifica se tem vírgulas e faz split
+      bairrosArray = rest.bairro.split(',').map(b => b.trim()).filter(Boolean);
+    } else {
+      bairrosArray = [rest.bairro];
     }
 
+    const bairrosNomes = bairrosArray.map(bairro => {
+      if (!bairro || typeof bairro !== "string") return "";
+
+      // Formata o nome do bairro corretamente
+      const nomeFormatado = formatBairroName(bairro);
+      return nomeFormatado;
+    }).filter(Boolean);
+
     const bairrosUnicos = Array.from(new Set(bairrosNomes)).filter(Boolean);
-    
-    // SEMPRE usar "in" quando há múltiplos bairros, mesmo que seja só 1
-    if (bairrosUnicos.length > 0) {
-      if (bairrosUnicos.length === 1) {
-        apiFilters.push({
-          field: "imovel.bairro",
-          operator: "equal",
-          value: bairrosUnicos[0],
-        });
-      } else {
-        apiFilters.push({
-          field: "imovel.bairro",
-          operator: "in",
-          value: bairrosUnicos,
-        });
-      }
+
+    if (bairrosUnicos.length === 1) {
+      apiFilters.push({
+        field: "imovel.bairro",
+        operator: "equal",
+        value: bairrosUnicos[0],
+      });
+    } else if (bairrosUnicos.length > 1) {
+      apiFilters.push({
+        field: "imovel.bairro",
+        operator: "in",
+        value: bairrosUnicos,
+      });
     }
   }
 
