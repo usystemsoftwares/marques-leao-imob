@@ -285,11 +285,11 @@ const PropertiesFilter = ({
 
   return (
     <form
-      className={cn("group bg-white py-3 px-3 rounded-[.625rem] relative z-[50]", className)}
+      className={cn("group bg-white py-3 px-3 rounded-[.625rem] relative z-[250]", className)}
       ref={inputRef}
       onSubmit={handleSubmit}
     >
-      <div className="flex justify-between w-full relative z-[50]">
+      <div className="flex justify-between w-full relative z-[250]">
         <input
           type="text"
           placeholder="Clique para iniciar sua busca"
@@ -306,7 +306,7 @@ const PropertiesFilter = ({
         </button>
       </div>
       <motion.div
-        className="bg-white [--display-from:none] [--display-to:block] [--opacity-from:0] [--opacity-to:1] *:text-black *:font-semibold z-10 absolute py-4 px-5 w-full bottom-0 translate-y-full left-0 md:gap-3 rounded-[.625rem]"
+        className="bg-white [--display-from:none] [--display-to:block] [--opacity-from:0] [--opacity-to:1] *:text-black *:font-semibold z-[250] absolute py-4 px-5 w-full bottom-0 translate-y-full left-0 md:gap-3 rounded-[.625rem]"
         initial={false}
         animate={isOpen ? "open" : "closed"}
         variants={sideVariants}
@@ -515,7 +515,7 @@ const PropertiesFilter = ({
                 }}
               />
               {showSuggestions && codigoSuggestions.length > 0 && (
-                <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-lg max-h-60 overflow-y-auto mt-1">
+                <ul className="absolute z-[300] w-full bg-white border border-gray-300 rounded-lg max-h-60 overflow-y-auto mt-1">
                   {codigoSuggestions.map((suggestion, index) => (
                     <li
                       key={index}
