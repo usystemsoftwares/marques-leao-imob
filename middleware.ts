@@ -34,7 +34,7 @@ export function middleware(request: NextRequest) {
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "img-src 'self' data: https: blob:",
     "font-src 'self' https://fonts.gstatic.com",
-    "connect-src 'self' https://api.smtximob.com https://api.smtximob.com.br https://www.google-analytics.com",
+    "connect-src 'self' https://api.smtximob.com https://api.smtximob.com.br https://www.google-analytics.com https://www.google.com",
     "frame-src 'self' https://www.googletagmanager.com",
     "media-src 'self' https://firebasestorage.googleapis.com https://storage.googleapis.com data: blob:",
   ].join('; ');
