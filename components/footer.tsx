@@ -99,7 +99,7 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
             src={MarquesLeaoLogo}
             width={234}
             height={50}
-            alt="MARQUES&LEÃO Logo"
+            alt="MARQUES & LEÃO Logo"
             style={{
               maxWidth: "100%",
               height: "auto",
@@ -107,7 +107,7 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
           />
           {/* NAP - Nome, Endereço e Telefone para SEO Local */}
           <div className="hidden lg:block" itemScope itemType="https://schema.org/RealEstateAgent">
-            <h3 className="font-bold text-lg mb-3" itemProp="name">MARQUES&LEÃO Imobiliária</h3>
+            <h3 className="font-bold text-lg mb-3" itemProp="name">MARQUES & LEÃO Imobiliária</h3>
             <ul className="*:flex *:items-center *:gap-2">
               <li itemProp="address" itemScope itemType="https://schema.org/PostalAddress">
                 <Image
@@ -245,7 +245,7 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
         </div>
         {/* NAP Information for Mobile */}
         <div className="lg:hidden text-center my-6 px-4" itemScope itemType="https://schema.org/RealEstateAgent">
-          <h3 className="font-bold text-lg mb-2" itemProp="name">MARQUES&LEÃO Imobiliária</h3>
+          <h3 className="font-bold text-lg mb-2" itemProp="name">MARQUES & LEÃO Imobiliária</h3>
           <p className="text-sm mb-1" itemProp="address" itemScope itemType="https://schema.org/PostalAddress">
             <span itemProp="streetAddress">{empresa.endereço || "Rua Principal, 123"}</span>, 
             <span itemProp="addressLocality"> Novo Hamburgo</span>, 
@@ -266,7 +266,7 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
         <p className="text-center text-sm tracking-widest">
           Todos os direitos reservados para{" "}
           <strong className="whitespace-nowrap">
-            Imobiliária MARQUES&LEÃO
+            Imobiliária MARQUES & LEÃO
           </strong>
         </p>
         <a href={"https://smtximob.com"} target="_blank">

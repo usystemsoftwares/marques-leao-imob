@@ -117,7 +117,7 @@ export async function generateMetadata(
       imovel.bairro,
       imovel.cidade?.nome,
       "Novo Hamburgo",
-      "MARQUES&LEÃO"
+      "MARQUES & LEÃO"
     ].filter(Boolean).join(", ");
     
     return {
@@ -130,7 +130,7 @@ export async function generateMetadata(
         type: "website",
         images: firstImage ? [{ url: firstImage }] : [],
         locale: "pt_BR",
-        siteName: "MARQUES&LEÃO Imobiliária",
+        siteName: "MARQUES & LEÃO Imobiliária",
       },
       twitter: {
         card: "summary_large_image",
@@ -151,8 +151,8 @@ export async function generateMetadata(
   } catch (error) {
     console.error("Error generating metadata:", error);
     return {
-      title: "Imóvel - MARQUES&LEÃO Imobiliária",
-      description: "Encontre o imóvel dos seus sonhos com a MARQUES&LEÃO Imobiliária",
+      title: "Imóvel - MARQUES & LEÃO Imobiliária",
+      description: "Encontre o imóvel dos seus sonhos com a MARQUES & LEÃO Imobiliária",
     };
   }
 }
