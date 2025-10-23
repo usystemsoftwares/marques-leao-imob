@@ -32,6 +32,15 @@ import { Metadata, ResolvingMetadata } from "next";
 import { getFotoDestaque } from "@/utils/get-foto-destaque";
 import { PropertyViewer } from "@/components/viewer";
 
+function extractCodigoFromUrl(path: string[] | string): string {
+  // Com o novo formato: apartamento-no-bairro-riviera-em-bertioga-com-4-suites-AP10358
+  // O código está sempre no final após o último hífen
+  const pathArray = Array.isArray(path) ? path : [path];
+  const fullPath = pathArray.join("/");
+  const parts = fullPath.split("-");
+  return parts[parts.length - 1];
+}
+
 export async function generateMetadata(
   params: any,
   parent: ResolvingMetadata
@@ -76,7 +85,7 @@ export async function generateMetadata(
     : Array.isArray(params?.path)
     ? params.path
     : [];
-  const codigo: any = path.pop();
+  const codigo: any = extractCodigoFromUrl(path);
   const queryParams = new URLSearchParams({
     empresa_id,
   });
@@ -407,7 +416,7 @@ const RealEstatePage = async ({
   searchParams: { [key: string]: any };
 }) => {
   const path = Array.isArray(params?.path) ? params.path : [];
-  const codigo: any = path.pop();
+  const codigo: any = extractCodigoFromUrl(path);
 
   const afiliado = searchParams.afiliado || "";
   const VerFotos = searchParams.VerFotos === "true";
