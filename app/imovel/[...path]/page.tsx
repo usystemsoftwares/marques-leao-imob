@@ -33,9 +33,19 @@ import { getFotoDestaque } from "@/utils/get-foto-destaque";
 import { PropertyViewer } from "@/components/viewer";
 
 function extractCodigoFromUrl(path: string[] | string): string {
-  // Com o novo formato: apartamento-no-bairro-riviera-em-bertioga-com-4-suites-AP10358
-  // O código está sempre no final após o último hífen
+  // Aceita dois formatos:
+  // 1. Novo formato: apartamento-no-bairro-riviera-em-bertioga-com-4-suites-AP10358
+  //    O código está sempre no final após o último hífen
+  // 2. Formato antigo: casa/novo-hamburgo/petropolis/3-dormitórios/3-vagas/1167
+  //    O código é o último segmento do array
   const pathArray = Array.isArray(path) ? path : [path];
+
+  // Se houver múltiplos segmentos separados por /, usar o último
+  if (pathArray.length > 1) {
+    return pathArray[pathArray.length - 1];
+  }
+
+  // Se houver apenas um segmento, dividir por hífen e pegar o último
   const fullPath = pathArray.join("/");
   const parts = fullPath.split("-");
   return parts[parts.length - 1];
