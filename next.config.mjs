@@ -40,19 +40,7 @@ const nextConfig = {
       },
     ],
   },
-  async headers() {
-    return [
-      {
-        source: '/:path*',
-        headers: [
-          {
-            key: 'Content-Security-Policy',
-            value: "media-src 'self' https://firebasestorage.googleapis.com https://storage.googleapis.com data: blob:;"
-          },
-        ],
-      },
-    ];
-  },
+  // Headers CSP movidos para middleware.ts para melhor controle e evitar conflitos
 };
 
 export default nextConfig;

@@ -30,12 +30,12 @@ export function middleware(request: NextRequest) {
   // Content Security Policy para prevenir XSS
   const csp = [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com",
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://ssl.google-analytics.com https://*.googletagmanager.com",
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "img-src 'self' data: https: blob:",
     "font-src 'self' https://fonts.gstatic.com",
-    "connect-src 'self' https://api.smtximob.com https://api.smtximob.com.br https://www.google-analytics.com https://www.google.com",
-    "frame-src 'self' https://www.googletagmanager.com",
+    "connect-src 'self' https://api.smtximob.com https://api.smtximob.com.br https://www.google-analytics.com https://analytics.google.com https://www.google.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com",
+    "frame-src 'self' https://www.googletagmanager.com https://*.googletagmanager.com",
     "media-src 'self' https://firebasestorage.googleapis.com https://storage.googleapis.com data: blob:",
   ].join('; ');
   

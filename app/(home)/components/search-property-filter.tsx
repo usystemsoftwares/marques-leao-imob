@@ -236,8 +236,9 @@ const SearchPropertyFilter = ({
   return (
     <form
       className={cn(
-        "group w-[min(100%,62.5rem)] bg-white py-3 px-3 md:py-4 md:px-5 rounded-[.625rem]",
-        className
+        "group w-[min(100%,62.5rem)] bg-white py-3 px-3 md:py-4 md:px-5 rounded-[.625rem] transition-transform duration-300",
+        className,
+        isOpen && "md:transform-none -translate-y-40"
       )}
       ref={inputRef}
       onSubmit={handleSubmit}
@@ -259,12 +260,12 @@ const SearchPropertyFilter = ({
         </button>
       </div>
       <motion.div
-        className="bg-white [--display-from:none] [--display-to:block] md:[--display-to:flex] [--opacity-from:0] [--opacity-to:80%] *:text-black *:font-semibold absolute py-4 px-5 w-full bottom-0 translate-y-full left-0 md:gap-3 rounded-[.625rem] *:flex *:flex-wrap md:*:flex-nowrap *:justify-center md:*:justify-between *:items-center"
+        className="bg-white [--display-from:none] [--display-to:block] md:[--display-to:flex] [--opacity-from:0] [--opacity-to:80%] absolute py-4 px-5 pb-6 w-full bottom-0 translate-y-full left-0 md:gap-3 rounded-[.625rem] max-h-[70vh] overflow-y-auto"
         initial={false}
         animate={isOpen ? "open" : "closed"}
         variants={sideVariants}
       >
-        <div className="md:w-[55%] *:w-[10.5rem] gap-2 *:rounded-xl *:border-black *:border">
+        <div className="md:w-[55%] *:w-[10.5rem] gap-2 *:rounded-xl *:border-black *:border flex flex-wrap md:flex-nowrap justify-center md:justify-between items-center text-black font-semibold">
           {/* Estados - Múltipla seleção */}
           <Select
             value=""
@@ -481,12 +482,12 @@ const SearchPropertyFilter = ({
         </div>
 
         {/* Campos de Valor Mínimo e Máximo */}
-        <div className="relative justify-between w-full flex-col mt-3 md:mt-0 *:w-full *:flex *:justify-between *:border-black *:border *:rounded-lg md:flex-row *:text-sm gap-3 *:py-2 *:px-3 lg:before:bg-black lg:before:h-full lg:before:absolute lg:before:w-[1px]">
-          <label className="md:ml-4">
+        <div className="relative flex flex-col md:flex-row justify-between w-full mt-3 md:mt-0 mb-2 gap-3 lg:before:bg-black lg:before:h-full lg:before:absolute lg:before:w-[1px]">
+          <label className="flex justify-between items-center w-full border-black border rounded-lg text-sm py-2 px-3 md:ml-4 font-semibold text-black">
             Valor mínimo
             <input
               placeholder="R$0,00"
-              className="outline-none w-16 placeholder:text-black"
+              className="outline-none w-16 placeholder:text-black text-right"
               type="number"
               value={valorMin}
               onChange={(e) =>
@@ -495,11 +496,11 @@ const SearchPropertyFilter = ({
               min={0}
             />
           </label>
-          <label>
+          <label className="flex justify-between items-center w-full border-black border rounded-lg text-sm py-2 px-3 font-semibold text-black">
             Valor máximo
             <input
               placeholder="R$0,00"
-              className="outline-none w-16 placeholder:text-black"
+              className="outline-none w-16 placeholder:text-black text-right"
               type="number"
               value={valorMax}
               onChange={(e) =>

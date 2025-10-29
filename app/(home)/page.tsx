@@ -165,7 +165,7 @@ export default async function Home() {
         }}
       />
       <main>
-        <section className="min-h-[100svh] relative w-full overflow-hidden">
+        <section className="min-h-[100svh] relative w-full overflow-x-hidden overflow-y-visible">
           {/* TODO: Descomentar quando necessário - Imagens e vídeos da hero section */}
 
           {/* Imagem placeholder desktop */}
