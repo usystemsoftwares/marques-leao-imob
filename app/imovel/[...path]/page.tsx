@@ -39,8 +39,18 @@ function extractCodigoFromUrl(path: string[] | string): string {
   // 3. casa/novo-hamburgo/petropolis/1167 -> 1167
   const pathArray = Array.isArray(path) ? path : [path];
 
+  // Se o array estiver vazio ou não houver segmentos, retornar string vazia
+  if (!pathArray || pathArray.length === 0) {
+    return "";
+  }
+
   // Pegar o último segmento
   const lastSegment = pathArray[pathArray.length - 1];
+
+  // Verificar se lastSegment é válido
+  if (!lastSegment || typeof lastSegment !== 'string') {
+    return "";
+  }
 
   // Se o último segmento contém hífen, dividir e pegar o último elemento
   // Isso cobre casos como "1-vaga-1206" -> "1206"
