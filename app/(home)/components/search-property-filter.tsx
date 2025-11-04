@@ -238,7 +238,7 @@ const SearchPropertyFilter = ({
       className={cn(
         "group w-[min(100%,62.5rem)] bg-white py-3 px-3 md:py-4 md:px-5 rounded-[.625rem] transition-transform duration-300",
         className,
-        isOpen && "md:transform-none -translate-y-40"
+        /* isOpen && "md:transform-none -translate-y-40" */
       )}
       ref={inputRef}
       onSubmit={handleSubmit}

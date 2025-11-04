@@ -3,6 +3,7 @@ import processarFiltros from "@/utils/processar-filtros-backend";
 import checkFetchStatus from "@/utils/checkFetchStatus";
 import ordenacoesBackend from "@/utils/processar-ordenacoes-backend";
 import SearchPropertyFilter from "./search-property-filter";
+import { clamp } from "framer-motion";
 
 const PAGE_SIZE = 12;
 
@@ -129,7 +130,7 @@ export default async function HomeFilter({
     searchParams
   );
   return (
-    <div>
+    <div >
       <SearchPropertyFilter
         className={className}
         estados={estados}
