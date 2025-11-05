@@ -554,7 +554,7 @@ export default async function Home() {
           <h2
             className={`text-3xl text-center lg:text-start font-baskervville`}
           >
-            Equipe MARQUES & LEÃO
+            Equipe Marques&Leão
           </h2>
           <EstateAgents corretores={corretores} />
         </section>
@@ -566,7 +566,7 @@ export default async function Home() {
                   Na mídia
                 </span>
                 <h2 className={`text-3xl font-baskervville`}>
-                  O que falam da Marques & Leão na mídia
+                  O que falam da Marques&Leão na mídia
                 </h2>
               </div>
             </div>
