@@ -154,8 +154,8 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
             </ul>
             <p className="mt-3 text-sm text-gray-400">
               <strong>Horário de Funcionamento:</strong><br/>
-              Segunda a Sexta: 09:00 - 18:00<br/>
-              Sábado: 09:00 - 13:00
+              Segunda a Sexta: 09:30 às 11:30 - 13:00 às 17:30<br/>
+              Horário no telefone 24 horas
             </p>
           </div>
           <div className="hidden lg:block">
