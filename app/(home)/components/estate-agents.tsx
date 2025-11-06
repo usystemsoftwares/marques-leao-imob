@@ -1,5 +1,6 @@
 "use client";
 
+import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
@@ -24,7 +25,7 @@ const EstateAgents = ({ corretores }: { corretores: Corretor[] }) => {
   return (
     <div className="lg:flex lg:flex-row-reverse lg:justify-between mt-10 lg:gap-8">
       <div className="flex flex-col lg:w-[80%] lg:block">
-        <div className="flex justify-between w-[80%] sm:w-[60%] mx-auto lg:mx-0 lg:w-auto sm:gap-8 items-center lg:block">
+        <div className="flex flex-col items-center w-[80%] sm:w-[60%] mx-auto lg:mx-0 lg:w-auto lg:block">
           <Image
             className="w-[320px] sm:w-[370px] h-[450px] sm:h-[452px] lg:max-w-full rounded-[0.625rem] border-[0.313rem] border-mainPurple object-cover"
             src={corretores[currentEstateAgent].foto || ""}
@@ -32,27 +33,29 @@ const EstateAgents = ({ corretores }: { corretores: Corretor[] }) => {
             height={452}
             alt={corretores[currentEstateAgent].nome}
           />
-          <div className="lg:hidden mt-7 gap-8">
+
+          {/* INFOS ABAIXO DA IMAGEM - MOBILE */}
+          <div className="lg:hidden mt-6 flex flex-row justify-center gap-12 text-center">
             {corretores[currentEstateAgent].qtdImoveis > 0 && (
               <p>
                 <span className="text-3xl block font-bold">
                   +{corretores[currentEstateAgent].qtdImoveis}
-                </span>{" "}
+                </span>
                 imóveis <br /> em carteira
               </p>
             )}
 
-            {Number(corretores[currentEstateAgent].anos_de_experiencia || 0) >
-              0 && (
-              <p className="mt-4">
+            {Number(corretores[currentEstateAgent].anos_de_experiencia || 0) > 0 && (
+              <p>
                 <span className="text-3xl block font-bold">
                   +{corretores[currentEstateAgent].anos_de_experiencia}
-                </span>{" "}
+                </span>
                 anos de <br /> experiência
               </p>
             )}
           </div>
         </div>
+
         <div className="w-[80%] sm:w-[60%] lg:w-full mx-auto my-3 lg:my-0">
           <h3 className={`text-4xl md:text-6xl my-3 font-baskervville`}>
             {corretores[currentEstateAgent].nome}
