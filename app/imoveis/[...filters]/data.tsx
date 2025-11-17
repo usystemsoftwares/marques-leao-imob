@@ -4,6 +4,7 @@ import checkFetchStatus from "@/utils/checkFetchStatus";
 import ordenacoesBackend from "@/utils/processar-ordenacoes-backend";
 import { notFound } from "next/navigation";
 import slugify from "slugify";
+import { getBairros } from "@/lib/api";
 
 const PAGE_SIZE = 12;
 
@@ -52,7 +53,7 @@ const getNameBySlug = (list: any[], slug: string, key = "nome") => {
   return item ? item[key] : null;
 };
 
-// Função para formatar nomes de bairros corretamente
+/* // Função para formatar nomes de bairros corretamente
 const formatBairroName = (bairroSlug: string): string => {
   if (!bairroSlug || typeof bairroSlug !== "string") return "";
 
@@ -74,7 +75,69 @@ const formatBairroName = (bairroSlug: string): string => {
     .join(' ');
 
   return nomeBairro.trim();
-};
+}; */
+
+// Função para formatar nomes de bairros corretamente
+const formatBairroName = (bairroSlug: string): string => {
+  if (!bairroSlug || typeof bairroSlug !== "string") return ""
+
+  // Decodifica URL
+  let nomeBairro = decodeURIComponent(bairroSlug)
+  
+  // Substitui hífens por espaços
+  nomeBairro = nomeBairro.replace(/-/g, ' ')
+  
+  // Restaura padrões com parênteses
+  const patternsWithParentheses = [
+    { regex: /distrito litoral/gi, replacement: '(Distrito Litoral)' },
+    { regex: /distrito rural/gi, replacement: '(Distrito Rural)' },
+    { regex: /distrito industrial/gi, replacement: '(Distrito Industrial)' },
+    { regex: /zona rural/gi, replacement: '(Zona Rural)' },
+    { regex: /zona urbana/gi, replacement: '(Zona Urbana)' },
+    { regex: /centro histórico/gi, replacement: '(Centro Histórico)' },
+  ]
+
+  patternsWithParentheses.forEach(pattern => {
+    nomeBairro = nomeBairro.replace(pattern.regex, pattern.replacement)
+  })
+
+  // Capitaliza corretamente preservando parênteses
+  nomeBairro = nomeBairro
+    .split(/(\s+)/)
+    .map(word => {
+      if (word.startsWith('(') && word.length > 1) {
+        // Palavras entre parênteses
+        const insideParentheses = word.slice(1)
+        const formattedInside = insideParentheses
+          .split(/(\s+)/)
+          .map(innerWord => {
+            if (innerWord.trim().length > 0) {
+              return innerWord.charAt(0).toUpperCase() + innerWord.slice(1).toLowerCase()
+            }
+            return innerWord
+          })
+          .join('')
+        return '(' + formattedInside
+      } else if (word.includes(')') && !word.startsWith('(')) {
+        // Fecha parênteses
+        return word
+      } else if (word.trim().length > 0 && !word.match(/^[\(\)]$/)) {
+        // Palavras normais
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+      }
+      return word
+    })
+    .join('')
+
+  // Remove espaços extras e formata consistentemente
+  nomeBairro = nomeBairro
+    .replace(/\s+/g, ' ')
+    .replace(/\s*\(\s*/g, ' (')
+    .replace(/\s*\)\s*/g, ') ')
+    .trim()
+
+  return nomeBairro
+}
 
 async function getData(filtros: any): Promise<{
   imoveis: {
@@ -124,14 +187,15 @@ async function getData(filtros: any): Promise<{
   await checkFetchStatus(responseCidades, "cidades");
   const cidades = await responseCidades.json();
 
-  const responseBairros = await fetch(
+  /* const responseBairros = await fetch(
     `${uri}/imoveis/bairros-por-cidade?${params.toString()}`,
     {
       next: { tags: ["imoveis-info"], revalidate: 3600 },
     }
   );
   await checkFetchStatus(responseBairros, "bairros");
-  const bairros = await responseBairros.json();
+  const bairros = await responseBairros.json(); */
+  const bairros = await getBairros();
 
   const responseTipos = await fetch(
     `${uri}/imoveis/tipos-empresa?${params.toString()}`,

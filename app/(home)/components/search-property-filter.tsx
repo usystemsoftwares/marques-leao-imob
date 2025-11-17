@@ -12,6 +12,8 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import slugify from "slugify";
+import { Badge } from "@/components/ui/badge";
+import { getBairrosPorCidade } from "@/lib/api";
 
 const sideVariants = {
   closed: {
@@ -55,6 +57,10 @@ const SearchPropertyFilter = ({
   const [selectedCidades, setSelectedCidades] = useState<string[]>([]);
   const [selectedBairros, setSelectedBairros] = useState<string[]>([]);
   const [selectedTipos, setSelectedTipos] = useState<string[]>([]);
+
+   // Estados para bairros filtrados por cidade
+  const [filteredNeighborhoods, setFilteredNeighborhoods] = useState<any[]>([])
+  const [loadingBairros, setLoadingBairros] = useState(false)
   
   const [codigo, setCodigo] = useState<string>(searchParams?.codigo ?? "");
   const [codigoInput, setCodigoInput] = useState<string>(
@@ -77,6 +83,10 @@ const SearchPropertyFilter = ({
   const inputRef = useRef<HTMLFormElement | null>(null);
 
   const [filteredDistricts, setFilteredDistricts] = useState(bairros);
+
+  const getLabel = (value: string, options: { value: string; label: string }[]) => {
+    return options.find((option) => option.value === value)?.label || value
+  }
   
   // Função para slugificar strings
   const slugifyOptions = {
@@ -87,6 +97,18 @@ const SearchPropertyFilter = ({
   };
 
   const slugifyString = (str: string) => slugify(str, slugifyOptions);
+
+  // Função para formatar os dados do backend para o formato esperado pelos Selects
+  const formatOptionsFromBackend = (data: any[], valueField = "nome", labelField = "nome") => {
+    if (!Array.isArray(data)) return []
+    return data.map((item) => ({
+      value: item[valueField] ? slugifyString(item[valueField] || "") : "",
+      label: item[labelField] || item.nome || "Sem nome",
+    }))
+  }
+
+  // Determinar quais bairros usar - só mostrar se tem cidade selecionada
+  const bairrosToUse = selectedCidades.length > 0 ? filteredNeighborhoods : []
 
   // Atualizar bairros quando cidades mudarem
   useEffect(() => {
@@ -104,6 +126,59 @@ const SearchPropertyFilter = ({
       setFilteredDistricts(bairros);
     }
   }, [selectedCidades, bairros, cidades]);
+
+  // Effect para carregar bairros quando cidades forem selecionadas
+  useEffect(() => {
+    const loadBairrosPorCidades = async () => {
+      if (selectedCidades.length === 0) {
+        setFilteredNeighborhoods([])
+        // Limpar bairros selecionados quando nenhuma cidade estiver selecionada
+        setSelectedBairros([])
+        return
+      }
+
+      setLoadingBairros(true)
+      try {
+        // Buscar ID das cidades selecionadas
+        const cidadesIds: string[] = []
+        selectedCidades.forEach((cidadeSlug) => {
+          const cidade = cidades.find((c) => slugifyString(c.nome) === cidadeSlug)
+          if (cidade?.id) {
+            cidadesIds.push(cidade.id)
+          }
+        })
+
+        if (cidadesIds.length > 0) {
+          // Carregar bairros para cada cidade e combinar
+          const bairrosPromises = cidadesIds.map((cidadeId) => getBairrosPorCidade(cidadeId))
+          const bairrosResults = await Promise.all(bairrosPromises)
+
+          // Combinar e remover duplicatas - tratar como array de strings
+          const todosBairros = bairrosResults.flat()
+          const bairrosUnicos = [...new Set(todosBairros)]
+
+          // Converter strings para objetos com a estrutura esperada
+          const bairrosFormatados = bairrosUnicos
+            .filter((bairro) => bairro && typeof bairro === "string")
+            .map((bairro) => ({
+              bairro: bairro,
+              nome: bairro,
+            }))
+
+          setFilteredNeighborhoods(bairrosFormatados)
+        } else {
+          setFilteredNeighborhoods([])
+        }
+      } catch (error) {
+        console.error("Erro ao carregar bairros por cidade:", error)
+        setFilteredNeighborhoods([])
+      } finally {
+        setLoadingBairros(false)
+      }
+    }
+
+    loadBairrosPorCidades()
+  }, [selectedCidades, cidades])
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -160,8 +235,6 @@ const SearchPropertyFilter = ({
     
     // Construir a URL final
     const url = `/imoveis/${urlSegments.join("/")}`;
-
-    console.log("URL construída:", url);
 
     // Navegar para a URL construída
     router.push(url);
@@ -356,52 +429,61 @@ const SearchPropertyFilter = ({
           </Select>
 
           {/* Bairros - Múltipla seleção */}
-          <Select 
-            value="" 
+          <Select
+            value=""
             open={bairrosOpen}
             onOpenChange={setBairrosOpen}
             onValueChange={(value) => {
-              if (value === "clear-all") {
-                setSelectedBairros([]);
-                setBairrosOpen(false);
+              if (value === "todos-bairros") {
+                setSelectedBairros([])
+                setBairrosOpen(false)
+              } else if (value === "clear-all") {
+                setSelectedBairros([])
+                setBairrosOpen(false)
+              } else if (selectedBairros.includes(value)) {
+                setSelectedBairros(selectedBairros.filter((n) => n !== value))
+                setBairrosOpen(true)
               } else {
-                const bairroSlug = slugifyString(value);
-                if (selectedBairros.includes(bairroSlug)) {
-                  setSelectedBairros(selectedBairros.filter(b => b !== bairroSlug));
-                } else {
-                  setSelectedBairros([...selectedBairros, bairroSlug]);
-                }
-                setBairrosOpen(true);
+                setSelectedBairros([...selectedBairros, value])
+                setBairrosOpen(true)
               }
             }}
             disabled={selectedCidades.length === 0}
           >
-            <SelectTrigger>
-              <SelectValue placeholder={selectedBairros.length > 0 ? `${selectedBairros.length} selecionado(s)` : "Bairros"} />
+            <SelectTrigger
+              
+            >
+              <SelectValue
+                placeholder={
+                  selectedCidades.length === 0
+                    ? "Bairros"
+                    : loadingBairros
+                      ? "Carregando Bairros..."
+                      : selectedBairros.length > 0
+                        ? `${selectedBairros.length} bairro(s) selecionado(s)`
+                        : "Bairros"
+                }
+              />
             </SelectTrigger>
-            <SelectContent className="select-content">
+            <SelectContent className="animate-slide-up-fade">
+              <SelectItem value="todos-bairros" className="font-medium text-blue-600">
+                Todos os bairros
+              </SelectItem>
               {selectedBairros.length > 0 && (
-                <SelectItem value="clear-all">✕ Limpar</SelectItem>
+                <SelectItem value="clear-all" className="text-red-600 font-medium">
+                  ✕ Limpar todos
+                </SelectItem>
               )}
-              {selectedCidades.length === 0 ? (
-                <p className="px-4 py-2 text-gray-500">
-                  Por favor, selecione uma cidade primeiro para ver a lista de
-                  bairros disponíveis.
-                </p>
-              ) : filteredDistricts.length === 0 ? (
-                <p className="px-4 py-2 text-gray-500">
-                  Não há bairros disponíveis para a cidade selecionada.
-                </p>
-              ) : (
-                filteredDistricts
-                  .filter((v: any) => v.bairro)
-                  .map((bairroItem: any, index: number) => (
-                    <SelectItem key={index} value={bairroItem.bairro || ""}>
-                      {selectedBairros.includes(slugifyString(bairroItem.bairro || "")) ? "✓ " : ""}
-                      {bairroItem.bairro}
-                    </SelectItem>
-                  ))
-              )}
+              {formatOptionsFromBackend(bairrosToUse, "bairro", "bairro").map((neighborhood) => (
+                <SelectItem
+                  key={neighborhood.value}
+                  value={neighborhood.value}
+                  className={selectedBairros.includes(neighborhood.value) ? "bg-blue-50 font-medium" : ""}
+                >
+                  {selectedBairros.includes(neighborhood.value) ? "✓ " : ""}
+                  {neighborhood.label}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
 

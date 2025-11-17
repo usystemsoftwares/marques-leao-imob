@@ -54,10 +54,6 @@ async function getData(filtros: any): Promise<{
     },
   });
 
-  const responseBairros = await fetch(`${uri}/imoveis/bairros-por-cidade?${params.toString()}`, {
-    next: { tags: ["imoveis-info"], revalidate: 3600 },
-  });
-
 
   const paramsCidades = new URLSearchParams({
     empresa_id,
@@ -70,6 +66,10 @@ async function getData(filtros: any): Promise<{
       next: { tags: ["imoveis-info", "imoveis-cidades"], revalidate: 3600 },
     }
   );
+
+  const responseBairros = await fetch(`${uri}/imoveis/bairros-por-cidade?${params.toString()}`, {
+    next: { tags: ["imoveis-info"], revalidate: 3600 },
+  });
 
   const responseCodigos = await fetch(
     `${uri}/imoveis/codigos?${params.toString()}`,
@@ -105,7 +105,6 @@ async function getData(filtros: any): Promise<{
     throw new Error("Failed to fetch data");
   }
 
-
   return {
     imoveis,
     bairros: await responseBairros.json(),
@@ -129,6 +128,7 @@ export default async function HomeFilter({
   const { estados, cidades, bairros, codigos, tipos, caracteristicas } = await getData(
     searchParams
   );
+
   return (
     <div >
       <SearchPropertyFilter
