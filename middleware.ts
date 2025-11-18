@@ -43,7 +43,7 @@ export function middleware(request: NextRequest) {
     "default-src 'self'", 
     "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://googleads.g.doubleclick.net https://www.google.com https://www.googleadservices.com",
     "connect-src 'self' https://www.google-analytics.com https://www.google.com https://www.googleadservices.com https://googleads.g.doubleclick.net",
-    "img-src 'self' data: https://www.google.com https://www.google-analytics.com https://googleads.g.doubleclick.net",
+    "img-src 'self' data: https://www.google.com https://www.google-analytics.com https://googleads.g.doubleclick.net https://googletagmanager.com/a https://googletagmanager.com/td",
     "frame-src https://www.google.com https://www.googleadservices.com https://googleads.g.doubleclick.net"].join('; ');
   
   response.headers.set('Content-Security-Policy', csp);
