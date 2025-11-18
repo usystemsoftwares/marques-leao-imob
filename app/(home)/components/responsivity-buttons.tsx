@@ -112,7 +112,7 @@ export const ResponsivityButtons = () => {
             }
           >
             <p className="max-w-[15ch] leading-[1rem] lg:leading-[1.5rem] md:max-w-auto">
-              Seja parceiro Marques & Leão
+              Seja parceiro Marques&Leão
             </p>
           </Link>
         )}

@@ -66,7 +66,7 @@ export function generatePropertyTitle(imovel: Imóvel, empresa: Empresa): string
   }
   
   // Marca
-  parts.push('| MARQUES & LEÃO');
+  parts.push('| Marques&Leão');
   
   const title = parts.join(' ');
   
@@ -196,7 +196,7 @@ export function generatePropertyStructuredData(imovel: Imóvel, empresa: Empresa
   if (empresa) {
     structuredData.seller = {
       "@type": "RealEstateAgent",
-      "name": "MARQUES & LEÃO Imobiliária",
+      "name": "Imobiliária Marques&Leão",
       "url": process.env.NEXT_PUBLIC_SITE_URL || "https://www.marqueseleao.com.br",
       "telephone": empresa.telefone || empresa.telefone_empresa || "",
     };

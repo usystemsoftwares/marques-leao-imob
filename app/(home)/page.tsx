@@ -257,7 +257,8 @@ export default async function Home() {
             />
           </div>
 
-          <HomeFilter className="absolute bottom-[17.5%] translate-x-1/2 z-50 right-1/2" />
+          {/* <HomeFilter className="absolute bottom-[17.5%] translate-x-1/2 z-50 right-1/2" /> */}
+          <HomeFilter className="absolute bottom-[17.5%] left-1/2 -translate-x-1/2 z-50" />
 
         </section>
         <section className="w-full md:w-[min(90%,110rem)] mx-auto relative mt-20">
@@ -553,7 +554,7 @@ export default async function Home() {
           <h2
             className={`text-3xl text-center lg:text-start font-baskervville`}
           >
-            Equipe MARQUES & LEÃO
+            Equipe Marques&Leão
           </h2>
           <EstateAgents corretores={corretores} />
         </section>
@@ -565,7 +566,7 @@ export default async function Home() {
                   Na mídia
                 </span>
                 <h2 className={`text-3xl font-baskervville`}>
-                  O que falam da Marques & Leão na mídia
+                  O que falam da Marques&Leão na mídia
                 </h2>
               </div>
             </div>

@@ -28,7 +28,7 @@ export function middleware(request: NextRequest) {
   }
   
   // Content Security Policy para prevenir XSS
-  const csp = [
+  /* const csp = [
     "default-src 'self'",
     "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://ssl.google-analytics.com https://*.googletagmanager.com https://maps.googleapis.com https://connect.facebook.net https://www.clarity.ms",
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
@@ -37,7 +37,14 @@ export function middleware(request: NextRequest) {
     "connect-src 'self' https://smtximob.com https://api.smtximob.com https://api.smtximob.com.br https://www.google-analytics.com https://analytics.google.com https://www.google.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://stats.g.doubleclick.net https://*.google.com.br https://servidor.marqueseleao.com",
     "frame-src 'self' https://www.googletagmanager.com https://*.googletagmanager.com",
     "media-src 'self' https://firebasestorage.googleapis.com https://storage.googleapis.com data: blob:",
-  ].join('; ');
+  ].join('; '); */
+
+  const csp = [
+    "default-src 'self'", 
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://googleads.g.doubleclick.net https://www.google.com https://www.googleadservices.com",
+    "connect-src 'self' https://www.google-analytics.com https://www.google.com https://www.googleadservices.com https://googleads.g.doubleclick.net",
+    "img-src 'self' data: https://www.google.com https://www.google-analytics.com https://googleads.g.doubleclick.net https://googletagmanager.com/a https://googletagmanager.com/td",
+    "frame-src https://www.google.com https://www.googleadservices.com https://googleads.g.doubleclick.net"].join('; ');
   
   response.headers.set('Content-Security-Policy', csp);
   

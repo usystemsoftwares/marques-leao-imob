@@ -316,7 +316,7 @@ export default async function ListingStayPage({
     displayFilters.cidade = cidadesList;
   }
   
-  // Reverter bairro - tratando arrays e vírgulas
+// Reverter bairro - tratando arrays e vírgulas
   if (filters.bairro) {
     const bairrosList: string[] = [];
     

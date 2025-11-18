@@ -64,22 +64,22 @@ export const generateMetadata = async (): Promise<Metadata> => {
 
   return {
     title: "Casas de Alto Padrão em Novo Hamburgo | Sua Nova Residência Luxuosa!",
-    description: "Na MARQUES & LEÃO você encontra casas de alto padrão em Novo Hamburgo. Imóveis de luxo em Hamburgo Velho, Lomba Grande e região. Confira!",
+    description: "Na Marques&Leão você encontra casas de alto padrão em Novo Hamburgo. Imóveis de luxo em Hamburgo Velho, Lomba Grande e região. Confira!",
     keywords: seoKeywords,
     icons: {
       icon: icons,
     },
     openGraph: {
-      title: "Casas de Alto Padrão em Novo Hamburgo | MARQUES & LEÃO",
+      title: "Casas de Alto Padrão em Novo Hamburgo | Marques&Leão",
       description: "Imóveis de luxo e alto padrão em Novo Hamburgo. Casas exclusivas com design moderno, acabamento premium e localização privilegiada.",
       type: "website",
       locale: "pt_BR",
-      siteName: "MARQUES & LEÃO Imobiliária",
+      siteName: "Imobiliária Marques&Leão",
       images: empresa.logo ? [empresa.logo] : [],
     },
     twitter: {
       card: "summary_large_image",
-      title: "Casas de Alto Padrão em Novo Hamburgo | MARQUES & LEÃO",
+      title: "Casas de Alto Padrão em Novo Hamburgo | Marques&Leão",
       description: "Imóveis de luxo e alto padrão em Novo Hamburgo. Encontre sua residência dos sonhos.",
     },
     alternates: {
@@ -130,7 +130,7 @@ export default async function RootLayout({
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "RealEstateAgent",
-    "name": "MARQUES & LEÃO Imobiliária",
+    "name": "Imobiliária Marques&Leão",
     "description": "Imobiliária especializada em imóveis de alto padrão e luxo em Novo Hamburgo",
     "url": process.env.NEXT_PUBLIC_SITE_URL || "https://www.marqueseleao.com.br",
     "logo": empresa.logo,

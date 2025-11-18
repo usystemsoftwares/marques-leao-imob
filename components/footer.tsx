@@ -39,7 +39,7 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
             <Image
               className="w-12 mx-auto"
               src={MarquesInstagram}
-              alt="Marques e Leão"
+              alt="Marques&Leão"
               style={{
                 maxWidth: "100%",
                 height: "auto",
@@ -58,7 +58,7 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
             <Image
               className="w-12 mx-auto"
               src={MarquesFacebook}
-              alt="Marques e Leão"
+              alt="Marques&Leão"
               style={{
                 maxWidth: "100%",
                 height: "auto",
@@ -77,7 +77,7 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
             <Image
               className="w-12 mx-auto"
               src={MarquesYoutube}
-              alt="Marques e Leão"
+              alt="Marques&Leão"
               style={{
                 maxWidth: "100%",
                 height: "auto",
@@ -99,7 +99,7 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
             src={MarquesLeaoLogo}
             width={234}
             height={50}
-            alt="MARQUES & LEÃO Logo"
+            alt="Marques&Leão Logo"
             style={{
               maxWidth: "100%",
               height: "auto",
@@ -107,7 +107,7 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
           />
           {/* NAP - Nome, Endereço e Telefone para SEO Local */}
           <div className="hidden lg:block" itemScope itemType="https://schema.org/RealEstateAgent">
-            <h3 className="font-bold text-lg mb-3" itemProp="name">MARQUES & LEÃO Imobiliária</h3>
+            <h3 className="font-bold text-lg mb-3" itemProp="name">Imobiliária Marques&Leão</h3>
             <ul className="*:flex *:items-center *:gap-2">
               <li itemProp="address" itemScope itemType="https://schema.org/PostalAddress">
                 <Image
@@ -154,8 +154,8 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
             </ul>
             <p className="mt-3 text-sm text-gray-400">
               <strong>Horário de Funcionamento:</strong><br/>
-              Segunda a Sexta: 09:00 - 18:00<br/>
-              Sábado: 09:00 - 13:00
+              Segunda a Sexta: 09:30 às 11:30 - 13:00 às 17:30<br/>
+              Horário no telefone 24 horas
             </p>
           </div>
           <div className="hidden lg:block">
@@ -245,7 +245,7 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
         </div>
         {/* NAP Information for Mobile */}
         <div className="lg:hidden text-center my-6 px-4" itemScope itemType="https://schema.org/RealEstateAgent">
-          <h3 className="font-bold text-lg mb-2" itemProp="name">MARQUES & LEÃO Imobiliária</h3>
+          <h3 className="font-bold text-lg mb-2" itemProp="name">Imobiliária Marques&Leão</h3>
           <p className="text-sm mb-1" itemProp="address" itemScope itemType="https://schema.org/PostalAddress">
             <span itemProp="streetAddress">{empresa.endereço || "Rua Principal, 123"}</span>, 
             <span itemProp="addressLocality"> Novo Hamburgo</span>, 
@@ -266,7 +266,7 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
         <p className="text-center text-sm tracking-widest">
           Todos os direitos reservados para{" "}
           <strong className="whitespace-nowrap">
-            Imobiliária MARQUES & LEÃO
+            Imobiliária Marques&Leão
           </strong>
         </p>
         <a href={"https://smtximob.com"} target="_blank">
