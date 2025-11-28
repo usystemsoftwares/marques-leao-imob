@@ -17,7 +17,7 @@ import { getSingleArea } from "@/utils/get-area";
 import Pagination from "./pagination";
 import { generateEstateUrl } from "@/utils/generate-estate-url";
 import { getDisplayPrice } from "@/utils/get-display-price";
-import GoogleMap from "./google-map";
+// import GoogleMap from "./google-map";
 
 interface PropertyListProps {
   imoveis: Imóvel[];
@@ -48,20 +48,20 @@ const PropertyList: React.FC<PropertyListProps> = ({
   empresa,
 }) => {
   const [activeIndex, setActiveIndex] = useState<number[]>([]);
-  const [openMap, setOpenMap] = useState(false);
+  // const [openMap, setOpenMap] = useState(false);
 
-  const handleCloseMap = () => setOpenMap(false);
+  // const handleCloseMap = () => setOpenMap(false);
 
-  const defaultCenterImovel = imoveis.find(
-    (imovel) => imovel.lat && imovel.long
-  );
+  // const defaultCenterImovel = imoveis.find(
+  //   (imovel) => imovel.lat && imovel.long
+  // );
 
   return (
     <div className="bg-menu bg-no-repeat">
       <Header />
       <main className="mt-28 mb-10">
         <section className="relative">
-          <button
+          {/* <button
             onClick={() => setOpenMap(true)}
             className={cn(
               "bg-mainPurple z-[51] lg:hidden px-5 py-1 rounded-full fixed right-1/2 translate-x-1/2 bottom-[2.5%]",
@@ -69,7 +69,7 @@ const PropertyList: React.FC<PropertyListProps> = ({
             )}
           >
             Mapa
-          </button>
+          </button> */}
 
           <div className="w-full px-4">
             <div className="relative w-full mb-20 mx-auto">
@@ -235,7 +235,7 @@ const PropertyList: React.FC<PropertyListProps> = ({
             )}
           </div>
 
-          <div className={cn(
+          {/* <div className={cn(
             "lg:w-[42.5vw] lg:h-full fixed lg:right-0 lg:top-0 z-20",
             openMap ? "w-full h-full top-0 right-0" : "hidden lg:block"
           )}>
@@ -244,7 +244,7 @@ const PropertyList: React.FC<PropertyListProps> = ({
               imoveis={imoveis}
               defaultCenter={defaultCenterImovel}
             />
-          </div>
+          </div> */}
 
           <WhatsappButton empresa={empresa} />
         </section>
