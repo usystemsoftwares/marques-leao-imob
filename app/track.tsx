@@ -21,6 +21,8 @@ export function Track({ empresaId }: { empresaId: string }) {
           utmParams.get("utm_campaign") || ""
         );
         localStorage.setItem("utm_term", utmParams.get("utm_term") || "");
+        localStorage.setItem("utm_product_id", utmParams.get("utm_product_id") || "");
+        localStorage.setItem("utm_product_name", utmParams.get("utm_product_name") || "");
       }
     }
   }, [empresaId]);

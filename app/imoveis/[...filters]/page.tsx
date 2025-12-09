@@ -243,6 +243,9 @@ export default async function ListingStayPage({
     } else if (segment.startsWith("sort-") || segment.startsWith("ordenacao-")) {
       const sortValue = segment.replace(/^(sort|ordenacao)-/, "");
       filters.sort = sortValue;
+    } else if (segment.startsWith("lancamento-")) {
+      const lancamentoValue = segment.replace("lancamento-", "");
+      filters.lancamento = lancamentoValue === "true";
     }
   });
 

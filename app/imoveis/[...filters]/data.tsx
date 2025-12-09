@@ -506,6 +506,15 @@ async function getData(filtros: any): Promise<{
     }
   }
 
+  // Filtro por lançamento
+  if (rest.lancamento === true) {
+    apiFilters.push({
+      field: "imovel.lancamento",
+      operator: "equal",
+      value: true,
+    });
+  }
+
   // Filtros numéricos
   if (rest.dormitorios) {
     if (rest.dormitorios === "4+") {
