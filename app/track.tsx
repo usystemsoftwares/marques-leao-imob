@@ -11,18 +11,17 @@ export function Track({ empresaId }: { empresaId: string }) {
       }
 
       const queryString = window.location.search;
-      const utmParams = new URLSearchParams(queryString);
-      if (utmParams.get("utm_source")) {
-        localStorage.setItem("utm_source", utmParams.get("utm_source") || "");
-        localStorage.setItem("utm_medium", utmParams.get("utm_medium") || "");
-        localStorage.setItem("utm_content", utmParams.get("utm_content") || "");
-        localStorage.setItem(
-          "utm_campaign",
-          utmParams.get("utm_campaign") || ""
-        );
-        localStorage.setItem("utm_term", utmParams.get("utm_term") || "");
-        localStorage.setItem("utm_product_id", utmParams.get("utm_product_id") || "");
-        localStorage.setItem("utm_product_name", utmParams.get("utm_product_name") || "");
+      const urlParams = new URLSearchParams(queryString);
+
+      // Captura TODOS os query params da URL
+      const allParams: Record<string, string> = {};
+      urlParams.forEach((value, key) => {
+        allParams[key] = value;
+      });
+
+      // Salva todos os params se houver algum
+      if (Object.keys(allParams).length > 0) {
+        localStorage.setItem("query_params", JSON.stringify(allParams));
       }
     }
   }, [empresaId]);
