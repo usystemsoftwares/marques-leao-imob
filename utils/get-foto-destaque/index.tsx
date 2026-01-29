@@ -1,4 +1,5 @@
 import { Imóvel } from "smart-imob-types";
+import { getCdnUrl } from "@/lib/cdn";
 
 export const getFotoDestaque = (
   imovel: Imóvel,
@@ -10,15 +11,15 @@ export const getFotoDestaque = (
   if (firstImage) {
     if (resized) {
       if (resizedWEBP && firstImage.resized_webp) {
-        return firstImage.resized_webp;
+        return getCdnUrl(firstImage.resized_webp);
       }
       if (resizedWEBP && firstImage.resized_md) {
-        return firstImage.resized_md;
+        return getCdnUrl(firstImage.resized_md);
       }
 
-      return firstImage.resized || firstImage.source.uri;
+      return getCdnUrl(firstImage.resized || firstImage.source.uri);
     } else {
-      return firstImage.source.uri;
+      return getCdnUrl(firstImage.source.uri);
     }
   }
 
@@ -29,14 +30,14 @@ export const getFotoDestaque = (
   if (!foto) return undefined;
   if (resized) {
     if (resizedWEBP && foto.resized_webp) {
-      return foto.resized_webp;
+      return getCdnUrl(foto.resized_webp);
     }
     if (resizedWEBP && foto.resized_md) {
-      return foto.resized_md;
+      return getCdnUrl(foto.resized_md);
     }
 
-    return foto.resized || foto.source.uri;
+    return getCdnUrl(foto.resized || foto.source.uri);
   } else {
-    return foto.source.uri;
+    return getCdnUrl(foto.source.uri);
   }
 };

@@ -12,6 +12,7 @@ import ResizeIcon from "/public/marqueseleao/resize-icon.svg";
 import ArrowLeft from "/public/marqueseleao/arrow-left.webp";
 import ArrowRight from "/public/marqueseleao/arrow-right.webp";
 import { cn } from "@/lib/utils";
+import { getCdnUrl } from "@/lib/cdn";
 
 import HeartIcon from "/public/marqueseleao/heart-icon.svg";
 import SelectedHeartIcon from "/public/marqueseleao/selected-heart-icon.svg";
@@ -190,10 +191,10 @@ const Carousel = ({ estates, logo }: CarouselProps) => {
                       {logo && (
                         <div className="absolute top-2 right-2 z-10">
                           <Image
-                            src={logo}
+                            src={getCdnUrl(logo) || ""}
                             alt="Logo da empresa"
                             width={90}
-                            height={45} 
+                            height={45}
                             className="opacity-80"
                           />
                         </div>

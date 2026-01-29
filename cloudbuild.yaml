@@ -1,0 +1,58 @@
+steps:
+  # Build Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '--build-arg'
+      - 'EMPRESA_ID=${_EMPRESA_ID}'
+      - '--build-arg'
+      - 'NEXT_PUBLIC_EMPRESA_ID=${_EMPRESA_ID}'
+      - '--build-arg'
+      - 'BACKEND_API_URI=${_BACKEND_API_URI}'
+      - '--build-arg'
+      - 'NEXT_PUBLIC_BACKEND_API_URI=${_BACKEND_API_URI}'
+      - '-t'
+      - 'us-central1-docker.pkg.dev/smartimob-granato-gen/modelo-smtx-one/marques-template:${_EMPRESA_ID}'
+      - '.'
+
+  # Push to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'us-central1-docker.pkg.dev/smartimob-granato-gen/modelo-smtx-one/marques-template:${_EMPRESA_ID}'
+
+  # Deploy to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'marques-${_SERVICE_SUFFIX}'
+      - '--image'
+      - 'us-central1-docker.pkg.dev/smartimob-granato-gen/modelo-smtx-one/marques-template:${_EMPRESA_ID}'
+      - '--region'
+      - 'us-central1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--memory'
+      - '10Gi'
+      - '--cpu'
+      - '4'
+      - '--min-instances'
+      - '0'
+      - '--max-instances'
+      - '3'
+      - '--set-env-vars'
+      - 'EMPRESA_ID=${_EMPRESA_ID},NEXT_PUBLIC_EMPRESA_ID=${_EMPRESA_ID},BACKEND_API_URI=${_BACKEND_API_URI},NEXT_PUBLIC_BACKEND_API_URI=${_BACKEND_API_URI}'
+
+images:
+  - 'us-central1-docker.pkg.dev/smartimob-granato-gen/modelo-smtx-one/marques-template:${_EMPRESA_ID}'
+
+substitutions:
+  _EMPRESA_ID: 'default'
+  _BACKEND_API_URI: 'https://api.smtximob.com'
+  _SERVICE_SUFFIX: 'template'
+
+options:
+  logging: CLOUD_LOGGING_ONLY

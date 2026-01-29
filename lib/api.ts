@@ -1,3 +1,5 @@
+import { getCdnUrl } from "./cdn"
+
 const API_URL = "https://api.smtximob.com"
 let EMPRESA_ID = process.env.NEXT_PUBLIC_EMPRESA_ID
 
@@ -216,19 +218,19 @@ export function getFotoDestaque(imovel: any, useSmallSize = false): string {
     // Para imagens pequenas (cards, thumbnails), usar resized (410px) se disponível
     // Nota: resized é uma string direta com a URL, não um objeto
     if (fotoEscolhida?.resized && typeof fotoEscolhida.resized === 'string') {
-      return fotoEscolhida.resized
+      return getCdnUrl(fotoEscolhida.resized)
     }
   }
-  
+
   // Para imagens normais ou quando não há versão redimensionada
   if (fotoEscolhida?.source?.uri) {
-    return optimizeImageForWhatsApp(fotoEscolhida.source.uri)
+    return getCdnUrl(optimizeImageForWhatsApp(fotoEscolhida.source.uri))
   }
 
   // Se a foto escolhida não tem URI válida, buscar primeira com URI válida
   const primeiraFotoComUri = imovel.fotos.find((foto: any) => foto.source?.uri)
   if (primeiraFotoComUri?.source?.uri) {
-    return optimizeImageForWhatsApp(primeiraFotoComUri.source.uri)
+    return getCdnUrl(optimizeImageForWhatsApp(primeiraFotoComUri.source.uri))
   }
 
   return "/placeholder.svg"

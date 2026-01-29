@@ -1,0 +1,61 @@
+name: Deploy to Cloud Run
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+env:
+  PROJECT_ID: smartimob-granato-gen
+  REGION: us-central1
+  REPOSITORY: modelo-smtx-one
+  IMAGE_NAME: marques-template
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Set deployment variables
+        run: |
+          BRANCH="${GITHUB_REF_NAME}"
+
+          # Default values
+          EMPRESA_ID="${{ secrets.EMPRESA_ID }}"
+          SERVICE_SUFFIX="template"
+          BACKEND_API_URI="https://api.smtximob.com"
+
+          # Override based on branch if needed
+          case "$BRANCH" in
+            main|master)
+              # Use secrets or defaults for main branch
+              SERVICE_SUFFIX="marques"
+              ;;
+          esac
+
+          echo "EMPRESA_ID=$EMPRESA_ID" >> $GITHUB_ENV
+          echo "SERVICE_SUFFIX=$SERVICE_SUFFIX" >> $GITHUB_ENV
+          echo "BACKEND_API_URI=$BACKEND_API_URI" >> $GITHUB_ENV
+
+      - name: Build and Deploy via Cloud Build
+        run: |
+          gcloud builds submit \
+            --config=cloudbuild.yaml \
+            --substitutions=_EMPRESA_ID=${{ env.EMPRESA_ID }},_SERVICE_SUFFIX=${{ env.SERVICE_SUFFIX }},_BACKEND_API_URI=${{ env.BACKEND_API_URI }} \
+            --region=global \
+            --project=${{ env.PROJECT_ID }}

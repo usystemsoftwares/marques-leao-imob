@@ -9,6 +9,7 @@ import processarFiltros from "@/utils/processar-filtros-backend";
 import { Corretor, Imóvel } from "smart-imob-types";
 import { formatarTelefoneParaWhatsApp } from "@/utils/formatarTelefoneParaWhatsApp";
 import getWhatsappLink from "@/utils/generate_phone_href";
+import { getCdnUrl } from "@/lib/cdn";
 
 async function getData(id: string): Promise<{
   corretor: Corretor;
@@ -64,7 +65,7 @@ const Membro = async ({ params: { db_id } }: { params: { db_id: string } }) => {
           <div>
             <Image
               className="rounded-[.625rem]"
-              src={corretor.foto || ""}
+              src={getCdnUrl(corretor.foto) || ""}
               alt={corretor.nome}
               width={411}
               height={524}
