@@ -550,17 +550,19 @@ export default async function Home() {
             </div>
           </div>
         </section>
-        <section className="w-[min(90%,80rem)] mt-14 mb-24 mx-auto">
-          <span className="text-[#898989] flex gap-4 justify-center lg:justify-normal items-center after:w-[7.5rem] after:bg-[#898989] after:h-[2px]">
-            Nosso time
-          </span>
-          <h2
-            className={`text-3xl text-center lg:text-start font-baskervville`}
-          >
-            Equipe Marques&Leão
-          </h2>
-          <EstateAgents corretores={corretores} />
-        </section>
+        {corretores && corretores.length > 0 && (
+          <section className="w-[min(90%,80rem)] mt-14 mb-24 mx-auto">
+            <span className="text-[#898989] flex gap-4 justify-center lg:justify-normal items-center after:w-[7.5rem] after:bg-[#898989] after:h-[2px]">
+              Nosso time
+            </span>
+            <h2
+              className={`text-3xl text-center lg:text-start font-baskervville`}
+            >
+              Equipe Marques&Leão
+            </h2>
+            <EstateAgents corretores={corretores} />
+          </section>
+        )}
         {posts && posts.filter((post: Post) => post.banner).length > 0 && (
           <section className="w-[min(90%,68rem)] relative mx-auto">
             <div className="lg:w-[min(90%,65.5rem)] mx-auto">
