@@ -6,7 +6,8 @@ import { Empresa, Imóvel } from "smart-imob-types";
 import FormContact from "./form-contact";
 import { getPhotos } from "@/utils/get-photos";
 import CarouselPhotos from "./carousel-photos";
-import { getCdnUrl } from "@/lib/cdn";
+// CDN disabled - function returns URL unchanged
+const getCdnUrl = (url: string | undefined | null): string => url || "";
 
 export default function PropertyPhotos({
   empresa,

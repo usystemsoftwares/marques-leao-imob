@@ -9,7 +9,8 @@ import processarFiltros from "@/utils/processar-filtros-backend";
 import { Corretor, Imóvel } from "smart-imob-types";
 import { formatarTelefoneParaWhatsApp } from "@/utils/formatarTelefoneParaWhatsApp";
 import getWhatsappLink from "@/utils/generate_phone_href";
-import { getCdnUrl } from "@/lib/cdn";
+// CDN disabled - function returns URL unchanged
+const getCdnUrl = (url: string | undefined | null): string => url || "";
 
 async function getData(id: string): Promise<{
   corretor: Corretor;

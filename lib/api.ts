@@ -1,4 +1,7 @@
-import { getCdnUrl } from "./cdn"
+// CDN disabled - function returns URL unchanged
+function getCdnUrl(url: string | undefined | null): string {
+  return url || '';
+}
 
 const API_URL = "https://api.smtximob.com"
 let EMPRESA_ID = process.env.NEXT_PUBLIC_EMPRESA_ID

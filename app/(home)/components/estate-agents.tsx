@@ -2,7 +2,8 @@
 
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
-import { getCdnUrl } from "@/lib/cdn";
+// CDN disabled - function returns URL unchanged
+const getCdnUrl = (url: string | undefined | null): string => url || "";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";

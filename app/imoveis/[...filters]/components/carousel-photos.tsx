@@ -5,7 +5,8 @@ import Image from "next/image";
 import { useSwipeable } from "react-swipeable";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { Foto } from "smart-imob-types";
-import { getCdnUrl } from "@/lib/cdn";
+// CDN disabled - function returns URL unchanged
+const getCdnUrl = (url: string | undefined | null): string => url || "";
 
 export default function CarouselPhotos({
   images,

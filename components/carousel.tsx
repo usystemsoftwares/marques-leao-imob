@@ -12,7 +12,8 @@ import ResizeIcon from "/public/marqueseleao/resize-icon.svg";
 import ArrowLeft from "/public/marqueseleao/arrow-left.webp";
 import ArrowRight from "/public/marqueseleao/arrow-right.webp";
 import { cn } from "@/lib/utils";
-import { getCdnUrl } from "@/lib/cdn";
+// CDN disabled
+const getCdnUrl = (url: string | undefined | null): string => url || "";
 
 import HeartIcon from "/public/marqueseleao/heart-icon.svg";
 import SelectedHeartIcon from "/public/marqueseleao/selected-heart-icon.svg";
