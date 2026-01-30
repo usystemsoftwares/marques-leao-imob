@@ -58,7 +58,7 @@ substitutions:
   _BACKEND_API_URI: 'https://api.smtximob.com'
   _SERVICE_SUFFIX: 'template'
   _CDN_URL: 'https://smtx-image-cdn.raphael-martinez.workers.dev'
-  _CDN_ENABLED: 'true'
+  _CDN_ENABLED: 'false'
 
 options:
   logging: CLOUD_LOGGING_ONLY

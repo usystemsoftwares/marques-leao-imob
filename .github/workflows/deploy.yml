@@ -40,7 +40,7 @@ jobs:
           SERVICE_SUFFIX="template"
           BACKEND_API_URI="https://api.smtximob.com"
           CDN_URL="https://smtx-image-cdn.raphael-martinez.workers.dev"
-          CDN_ENABLED="true"
+          CDN_ENABLED="false"
 
           # Override based on branch if needed
           case "$BRANCH" in

@@ -24,7 +24,7 @@ ARG BACKEND_API_URI=https://api.smtximob.com
 ARG EMPRESA_ID=7658c0cd-573e-44e3-ac1a-09a51b4c714c
 ARG NEXT_PUBLIC_EMPRESA_ID
 ARG NEXT_PUBLIC_BACKEND_API_URI=https://api.smtximob.com
-ARG NEXT_PUBLIC_CDN_ENABLED=true
+ARG NEXT_PUBLIC_CDN_ENABLED=false
 ARG NEXT_PUBLIC_CDN_URL=https://smtx-image-cdn.raphael-martinez.workers.dev
 
 ENV BACKEND_API_URI=$BACKEND_API_URI
@@ -44,7 +44,7 @@ ARG BACKEND_API_URI=https://api.smtximob.com
 ARG EMPRESA_ID
 ARG NEXT_PUBLIC_EMPRESA_ID
 ARG NEXT_PUBLIC_BACKEND_API_URI=https://api.smtximob.com
-ARG NEXT_PUBLIC_CDN_ENABLED=true
+ARG NEXT_PUBLIC_CDN_ENABLED=false
 ARG NEXT_PUBLIC_CDN_URL=https://smtx-image-cdn.raphael-martinez.workers.dev
 
 ENV NODE_ENV=production
