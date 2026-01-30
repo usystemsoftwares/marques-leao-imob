@@ -44,7 +44,7 @@ jobs:
           case "$BRANCH" in
             main|master)
               # Use secrets or defaults for main branch
-              SERVICE_SUFFIX="marques"
+              SERVICE_SUFFIX="marques-new"
               ;;
           esac
 
