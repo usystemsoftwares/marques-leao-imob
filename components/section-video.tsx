@@ -55,10 +55,9 @@ const SectionVideo = () => {
         {!isPlaying ? (
           <div className="relative w-full h-auto">
             <Image
-              className="rounded-xl mx-auto md:mx-0"
+              className="rounded-xl mx-auto md:mx-0 w-full h-auto"
               src={Media}
               alt="Gabriel Leão de costas para foto, de frente para uma casa"
-              layout="responsive"
               width={300}
               height={200}
             />
