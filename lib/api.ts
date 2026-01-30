@@ -224,13 +224,13 @@ export function getFotoDestaque(imovel: any, useSmallSize = false): string {
 
   // Para imagens normais ou quando não há versão redimensionada
   if (fotoEscolhida?.source?.uri) {
-    return optimizeImageForWhatsApp(fotoEscolhida.source.uri)
+    return fotoEscolhida.source.uri
   }
 
   // Se a foto escolhida não tem URI válida, buscar primeira com URI válida
   const primeiraFotoComUri = imovel.fotos.find((foto: any) => foto.source?.uri)
   if (primeiraFotoComUri?.source?.uri) {
-    return optimizeImageForWhatsApp(primeiraFotoComUri.source.uri)
+    return primeiraFotoComUri.source.uri
   }
 
   return "/placeholder.svg"
