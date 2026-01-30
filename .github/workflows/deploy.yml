@@ -39,8 +39,6 @@ jobs:
           EMPRESA_ID="${{ secrets.EMPRESA_ID }}"
           SERVICE_SUFFIX="template"
           BACKEND_API_URI="https://api.smtximob.com"
-          CDN_URL="https://smtx-image-cdn.raphael-martinez.workers.dev"
-          CDN_ENABLED="false"
 
           # Override based on branch if needed
           case "$BRANCH" in
@@ -53,13 +51,11 @@ jobs:
           echo "EMPRESA_ID=$EMPRESA_ID" >> $GITHUB_ENV
           echo "SERVICE_SUFFIX=$SERVICE_SUFFIX" >> $GITHUB_ENV
           echo "BACKEND_API_URI=$BACKEND_API_URI" >> $GITHUB_ENV
-          echo "CDN_URL=$CDN_URL" >> $GITHUB_ENV
-          echo "CDN_ENABLED=$CDN_ENABLED" >> $GITHUB_ENV
 
       - name: Build and Deploy via Cloud Build
         run: |
           gcloud builds submit \
             --config=cloudbuild.yaml \
-            --substitutions=_EMPRESA_ID=${{ env.EMPRESA_ID }},_SERVICE_SUFFIX=${{ env.SERVICE_SUFFIX }},_BACKEND_API_URI=${{ env.BACKEND_API_URI }},_CDN_URL=${{ env.CDN_URL }},_CDN_ENABLED=${{ env.CDN_ENABLED }} \
+            --substitutions=_EMPRESA_ID=${{ env.EMPRESA_ID }},_SERVICE_SUFFIX=${{ env.SERVICE_SUFFIX }},_BACKEND_API_URI=${{ env.BACKEND_API_URI }} \
             --region=global \
             --project=${{ env.PROJECT_ID }}
