@@ -6,6 +6,7 @@ import Image from "next/image";
 import Ellipse from "/public/marqueseleao/ellipse4.webp";
 import { Track } from "./track";
 import { Empresa } from "smart-imob-types";
+import { sanitizeImageUrl } from "@/utils/sanitize-image-url";
 
 const baskervville = Baskervville({
   subsets: ["latin"],
@@ -75,7 +76,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
       type: "website",
       locale: "pt_BR",
       siteName: "Imobiliária Marques&Leão",
-      images: empresa.logo ? [empresa.logo] : [],
+      images: empresa.logo ? [sanitizeImageUrl(empresa.logo)] : [],
     },
     twitter: {
       card: "summary_large_image",

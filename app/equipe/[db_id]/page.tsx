@@ -10,7 +10,6 @@ import { Corretor, Imóvel } from "smart-imob-types";
 import { formatarTelefoneParaWhatsApp } from "@/utils/formatarTelefoneParaWhatsApp";
 import getWhatsappLink from "@/utils/generate_phone_href";
 // CDN disabled - function returns URL unchanged
-const getCdnUrl = (url: string | undefined | null): string => url || "";
 
 async function getData(id: string): Promise<{
   corretor: Corretor;
@@ -66,7 +65,7 @@ const Membro = async ({ params: { db_id } }: { params: { db_id: string } }) => {
           <div>
             <Image
               className="rounded-[.625rem]"
-              src={getCdnUrl(corretor.foto) || ""}
+              src={corretor.foto || ""}
               alt={corretor.nome}
               width={411}
               height={524}

@@ -6,8 +6,7 @@ import { Empresa, Imóvel } from "smart-imob-types";
 import FormContact from "./form-contact";
 import { getPhotos } from "@/utils/get-photos";
 import CarouselPhotos from "./carousel-photos";
-// CDN disabled - function returns URL unchanged
-const getCdnUrl = (url: string | undefined | null): string => url || "";
+import { sanitizeImageUrl } from "@/utils/sanitize-image-url";
 
 export default function PropertyPhotos({
   empresa,
@@ -66,7 +65,7 @@ export default function PropertyPhotos({
               <li key={index} className="relative">
                 <Image
                   className="rounded-[.625rem]"
-                  src={getCdnUrl(source.uri || resized) || ""}
+                  src={sanitizeImageUrl(source.uri || resized)}
                   alt="Imóvel"
                   priority
                   width={924}
@@ -82,7 +81,7 @@ export default function PropertyPhotos({
                 {empresa.logo && (
                   <div className="absolute top-2 right-2">
                     <Image
-                      src={getCdnUrl(empresa.logo) || ""}
+                      src={sanitizeImageUrl(empresa.logo)}
                       alt="Logo da empresa"
                       width={150}
                       height={75}

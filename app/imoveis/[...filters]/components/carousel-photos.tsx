@@ -6,7 +6,6 @@ import { useSwipeable } from "react-swipeable";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { Foto } from "smart-imob-types";
 // CDN disabled - function returns URL unchanged
-const getCdnUrl = (url: string | undefined | null): string => url || "";
 
 export default function CarouselPhotos({
   images,
@@ -124,7 +123,7 @@ export default function CarouselPhotos({
               onClick={() => selectSlide(index)}
             >
               <Image
-                src={getCdnUrl(source.uri) || "/default-image.jpg"}
+                src={source.uri || "/default-image.jpg"}
                 alt={`Miniatura ${index + 1}`}
                 fill
                 style={{ objectFit: "cover" }}
@@ -134,7 +133,7 @@ export default function CarouselPhotos({
               {logo && (
                 <div className="absolute bottom-2 right-5 z-50">
                   <Image
-                    src={getCdnUrl(logo) || ""}
+                    src={logo || ""}
                     alt="Logo da empresa"
                     width={50}
                     height={25}
@@ -252,7 +251,7 @@ export default function CarouselPhotos({
                     <Image
                       onClick={toggleFullscreen}
                       className="cursor-pointer"
-                      src={getCdnUrl(source.uri) || "/default-image.jpg"}
+                      src={source.uri || "/default-image.jpg"}
                       alt={`Imóvel ${index + 1}`}
                       priority
                       fill
@@ -262,7 +261,7 @@ export default function CarouselPhotos({
                     {logo && (
                       <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-50">
                         <Image
-                          src={getCdnUrl(logo) || ""}
+                          src={logo || ""}
                           alt="Logo da empresa"
                           width={150}
                           height={75}

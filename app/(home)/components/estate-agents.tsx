@@ -2,8 +2,6 @@
 
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
-// CDN disabled - function returns URL unchanged
-const getCdnUrl = (url: string | undefined | null): string => url || "";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -30,7 +28,7 @@ const EstateAgents = ({ corretores }: { corretores: Corretor[] }) => {
         <div className="flex flex-col items-center w-[80%] sm:w-[60%] mx-auto lg:mx-0 lg:w-auto lg:block">
           <Image
             className="w-[320px] sm:w-[370px] h-[450px] sm:h-[452px] lg:max-w-full rounded-[0.625rem] border-[0.313rem] border-mainPurple object-cover"
-            src={getCdnUrl(corretores[currentEstateAgent].foto) || ""}
+            src={corretores[currentEstateAgent].foto || ""}
             width={370}
             height={452}
             alt={corretores[currentEstateAgent].nome}
@@ -162,7 +160,7 @@ const EstateAgents = ({ corretores }: { corretores: Corretor[] }) => {
                 className="rounded-[.625rem] w-full h-full"
                 width={202}
                 height={244}
-                src={getCdnUrl(corretor.foto) || ""}
+                src={corretor.foto || ""}
                 alt={corretor.nome}
                 style={{
                   maxWidth: "100%",
