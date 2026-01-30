@@ -23,6 +23,9 @@ import HomeFilter from "./components/home-filter";
 import { notFound } from "next/navigation";
 import SectionVideo from "@/components/section-video";
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 async function getData() {
   const empresa_id: any =
     process.env.EMPRESA_ID ?? process.env.NEXT_PUBLIC_EMPRESA_ID;
