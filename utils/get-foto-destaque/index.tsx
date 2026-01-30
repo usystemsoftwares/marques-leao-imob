@@ -1,8 +1,6 @@
 import { Imóvel } from "smart-imob-types";
 import { sanitizeImageUrl } from "@/utils/sanitize-image-url";
 
-// Normaliza URLs removendo wrapper do CDN, se houver
-
 export const getFotoDestaque = (
   imovel: Imóvel,
   resized?: boolean,
@@ -13,15 +11,15 @@ export const getFotoDestaque = (
   if (firstImage) {
     if (resized) {
       if (resizedWEBP && firstImage.resized_webp) {
-        return firstImage.resized_webp);
+        return sanitizeImageUrl(firstImage.resized_webp);
       }
       if (resizedWEBP && firstImage.resized_md) {
-        return firstImage.resized_md);
+        return sanitizeImageUrl(firstImage.resized_md);
       }
 
-      return firstImage.resized || firstImage.source.uri);
+      return sanitizeImageUrl(firstImage.resized || firstImage.source.uri);
     } else {
-      return firstImage.source.uri);
+      return sanitizeImageUrl(firstImage.source.uri);
     }
   }
 
@@ -32,14 +30,14 @@ export const getFotoDestaque = (
   if (!foto) return undefined;
   if (resized) {
     if (resizedWEBP && foto.resized_webp) {
-      return foto.resized_webp);
+      return sanitizeImageUrl(foto.resized_webp);
     }
     if (resizedWEBP && foto.resized_md) {
-      return foto.resized_md);
+      return sanitizeImageUrl(foto.resized_md);
     }
 
-    return foto.resized || foto.source.uri);
+    return sanitizeImageUrl(foto.resized || foto.source.uri);
   } else {
-    return foto.source.uri);
+    return sanitizeImageUrl(foto.source.uri);
   }
 };
