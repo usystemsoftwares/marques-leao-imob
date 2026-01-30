@@ -1,5 +1,7 @@
 import { Imóvel } from "smart-imob-types";
-import { getCdnUrl } from "@/lib/cdn";
+
+// CDN disabled - function returns URL unchanged
+const getCdnUrl = (url: string | undefined | null): string => url || "";
 
 export const getFotoDestaque = (
   imovel: Imóvel,
