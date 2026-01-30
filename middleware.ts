@@ -30,11 +30,11 @@ export function middleware(request: NextRequest) {
   // Content Security Policy para prevenir XSS
   const csp = [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://ssl.google-analytics.com https://*.googletagmanager.com https://maps.googleapis.com https://connect.facebook.net https://www.clarity.ms https://googleads.g.doubleclick.net https://www.google.com https://www.googleadservices.com",
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://ssl.google-analytics.com https://*.googletagmanager.com https://maps.googleapis.com https://connect.facebook.net https://www.clarity.ms https://*.clarity.ms https://scripts.clarity.ms https://googleads.g.doubleclick.net https://www.google.com https://www.googleadservices.com",
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-    "img-src 'self' data: https: blob: https://firebasestorage.googleapis.com https://storage.googleapis.com https://*.google.com.br https://googleads.g.doubleclick.net https://www.googleadservices.com https://www.google.com https://www.google-analytics.com",
+    "img-src 'self' data: https: blob: https://firebasestorage.googleapis.com https://storage.googleapis.com https://*.google.com.br https://googleads.g.doubleclick.net https://www.googleadservices.com https://www.google.com https://www.google-analytics.com https://*.clarity.ms",
     "font-src 'self' https://fonts.gstatic.com",
-    "connect-src 'self' https://smtximob.com https://api.smtximob.com https://api.smtximob.com.br https://www.google-analytics.com https://analytics.google.com https://www.google.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://stats.g.doubleclick.net https://*.google.com.br https://servidor.marqueseleao.com https://www.googleadservices.com https://googleads.g.doubleclick.net",
+    "connect-src 'self' https://smtximob.com https://api.smtximob.com https://api.smtximob.com.br https://www.google-analytics.com https://analytics.google.com https://www.google.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://stats.g.doubleclick.net https://*.google.com.br https://servidor.marqueseleao.com https://www.googleadservices.com https://googleads.g.doubleclick.net https://*.clarity.ms https://www.clarity.ms",
     "frame-src 'self' https://www.googletagmanager.com https://*.googletagmanager.com https://www.google.com https://www.googleadservices.com https://googleads.g.doubleclick.net",
     "media-src 'self' https://firebasestorage.googleapis.com https://storage.googleapis.com data: blob:",
   ].join('; ');
