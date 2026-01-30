@@ -3,6 +3,7 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'build'
+      - '--no-cache'
       - '--build-arg'
       - 'EMPRESA_ID=${_EMPRESA_ID}'
       - '--build-arg'
