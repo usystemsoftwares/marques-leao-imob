@@ -95,7 +95,7 @@ const Footer = ({ empresa }: { empresa: Empresa }) => {
         </ul>
         <div className="lg:flex lg:items-center lg:justify-between gap-2">
           <Image
-            className="w-[7.188rem] mt-4 lg:mt-0 mx-auto lg:w-auto lg:mx-0"
+            className="w-[7.188rem] mt-4 lg:mt-0 mx-auto lg:w-[14.625rem] lg:mx-0"
             src={MarquesLeaoLogo}
             width={234}
             height={50}
