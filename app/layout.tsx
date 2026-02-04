@@ -7,6 +7,7 @@ import Ellipse from "/public/marqueseleao/ellipse4.webp";
 import { Track } from "./track";
 import { Empresa } from "smart-imob-types";
 import { sanitizeImageUrl } from "@/utils/sanitize-image-url";
+import ImageProtectionProvider from "@/components/image-protection-provider";
 
 const baskervville = Baskervville({
   subsets: ["latin"],
@@ -226,12 +227,14 @@ export default async function RootLayout({
           />
         </div>
         {/* Início do contêiner flexível */}
-        <div className="min-h-screen flex flex-col w-full">
-          {/* Conteúdo principal */}
-          <main className="flex-grow">{children}</main>
-          {/* Rodapé */}
-          <Footer empresa={empresa} />
-        </div>
+        <ImageProtectionProvider>
+          <div className="min-h-screen flex flex-col w-full">
+            {/* Conteúdo principal */}
+            <main className="flex-grow">{children}</main>
+            {/* Rodapé */}
+            <Footer empresa={empresa} />
+          </div>
+        </ImageProtectionProvider>
         <Track empresaId={empresa.db_id} />
       </body>
     </html>
