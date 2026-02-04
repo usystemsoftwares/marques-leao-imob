@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState, useEffect, useMemo, useCallback } from "react";
-import Image from "next/image";
 import { useSwipeable } from "react-swipeable";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { Foto } from "smart-imob-types";
-// CDN disabled - function returns URL unchanged
+import { applyCdn } from "@/utils/cdn";
+import ProtectedImage from "@/components/protected-image";
 
 export default function CarouselPhotos({
   images,

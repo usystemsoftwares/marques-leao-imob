@@ -1,12 +1,13 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
 import { Empresa, Imóvel } from "smart-imob-types";
 import FormContact from "./form-contact";
 import { getPhotos } from "@/utils/get-photos";
 import CarouselPhotos from "./carousel-photos";
 import { sanitizeImageUrl } from "@/utils/sanitize-image-url";
+import { applyCdn } from "@/utils/cdn";
+import ProtectedImage from "@/components/protected-image";
 
 export default function PropertyPhotos({
   empresa,
@@ -63,9 +64,9 @@ export default function PropertyPhotos({
           if (index + 1 !== fotos.length) {
             return (
               <li key={index} className="relative">
-                <Image
+                <ProtectedImage
                   className="rounded-[.625rem]"
-                  src={sanitizeImageUrl(source.uri || resized)}
+                  src={applyCdn(sanitizeImageUrl(source.uri || resized)) || ""}
                   alt="Imóvel"
                   priority
                   width={924}
@@ -80,8 +81,8 @@ export default function PropertyPhotos({
                 />
                 {empresa.logo && (
                   <div className="absolute top-2 right-2">
-                    <Image
-                      src={sanitizeImageUrl(empresa.logo)}
+                    <ProtectedImage
+                      src={applyCdn(sanitizeImageUrl(empresa.logo)) || ""}
                       alt="Logo da empresa"
                       width={150}
                       height={75}
