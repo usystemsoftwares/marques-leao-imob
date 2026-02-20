@@ -12,6 +12,8 @@ steps:
       - 'BACKEND_API_URI=${_BACKEND_API_URI}'
       - '--build-arg'
       - 'NEXT_PUBLIC_BACKEND_API_URI=${_BACKEND_API_URI}'
+      - '--build-arg'
+      - 'NEXT_PUBLIC_MAPS_API_KEY=${_MAPS_API_KEY}'
       - '-t'
       - 'us-central1-docker.pkg.dev/smartimob-granato-gen/modelo-smtx-one/marques-template:${_EMPRESA_ID}'
       - '.'
@@ -54,6 +56,7 @@ substitutions:
   _EMPRESA_ID: 'default'
   _BACKEND_API_URI: 'https://api.smtximob.com'
   _SERVICE_SUFFIX: 'template'
+  _MAPS_API_KEY: ''
 
 options:
   logging: CLOUD_LOGGING_ONLY

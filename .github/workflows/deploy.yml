@@ -59,6 +59,6 @@ jobs:
         run: |
           gcloud builds submit \
             --config=cloudbuild.yaml \
-            --substitutions=_EMPRESA_ID=${{ env.EMPRESA_ID }},_SERVICE_SUFFIX=${{ env.SERVICE_SUFFIX }},_BACKEND_API_URI=${{ env.BACKEND_API_URI }} \
+            --substitutions=_EMPRESA_ID=${{ env.EMPRESA_ID }},_SERVICE_SUFFIX=${{ env.SERVICE_SUFFIX }},_BACKEND_API_URI=${{ env.BACKEND_API_URI }},_MAPS_API_KEY=${{ secrets.NEXT_PUBLIC_MAPS_API_KEY }} \
             --region=global \
             --project=${{ env.PROJECT_ID }}
