@@ -190,11 +190,22 @@ const PropertiesFilter = ({
   const [codigoSuggestions, setCodigoSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
   const [valorMin, setValorMin] = useState<number | "">(
-    searchParams?.preco_min || searchParams?.["imovel.preco_min"] || ""
+    searchParams?.preco_min ? Number(searchParams.preco_min) : ""
   );
   const [valorMax, setValorMax] = useState<number | "">(
-    searchParams?.preco_max || searchParams?.["imovel.preco_max"] || ""
+    searchParams?.preco_max ? Number(searchParams.preco_max) : ""
   );
+
+  // Currency mask helpers (Brazilian format: R$ 1.000.000)
+  const formatValor = (v: number | ""): string => {
+    if (v === "") return "";
+    return `R$ ${Number(v).toLocaleString("pt-BR", { maximumFractionDigits: 0 })}`;
+  };
+  const parseValor = (raw: string): number | "" => {
+    const digits = raw.replace(/\D/g, "");
+    if (!digits) return "";
+    return Number(digits);
+  };
 
   const [filteredDistricts, setFilteredDistricts] = useState(bairros);
   
@@ -306,10 +317,13 @@ const PropertiesFilter = ({
       if (cidade) filters.push(cidade.nome);
     });
 
-    // Adicionar bairros selecionados
+    // Adicionar bairros selecionados (fallback ao slug formatado se lista ainda não carregou)
     selectedBairros.forEach(bairroSlug => {
       const bairro = filteredNeighborhoods.find(b => slugifyString(b.bairro || b.nome) === bairroSlug);
-      if (bairro) filters.push(bairro.bairro || bairro.nome);
+      const nome = bairro
+        ? (bairro.bairro || bairro.nome)
+        : bairroSlug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+      filters.push(nome);
     });
 
     // Adicionar tipos selecionados
@@ -610,27 +624,23 @@ const PropertiesFilter = ({
             <label>
               Valor mínimo
               <input
-                placeholder="R$0,00"
-                className="outline-none w-16 placeholder:text-black"
-                type="number"
-                value={valorMin}
-                onChange={(e) =>
-                  setValorMin(e.target.value === "" ? "" : Number(e.target.value))
-                }
-                min={0}
+                placeholder="R$ 0"
+                className="outline-none w-32 placeholder:text-black"
+                type="text"
+                inputMode="numeric"
+                value={formatValor(valorMin)}
+                onChange={(e) => setValorMin(parseValor(e.target.value))}
               />
             </label>
             <label>
               Valor máximo
               <input
-                placeholder="R$0,00"
-                className="outline-none w-16 placeholder:text-black"
-                type="number"
-                value={valorMax}
-                onChange={(e) =>
-                  setValorMax(e.target.value === "" ? "" : Number(e.target.value))
-                }
-                min={0}
+                placeholder="R$ 0"
+                className="outline-none w-32 placeholder:text-black"
+                type="text"
+                inputMode="numeric"
+                value={formatValor(valorMax)}
+                onChange={(e) => setValorMax(parseValor(e.target.value))}
               />
             </label>
           </div>

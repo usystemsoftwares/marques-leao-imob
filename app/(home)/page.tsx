@@ -260,8 +260,7 @@ export default async function Home() {
             />
           </div>
 
-          {/* <HomeFilter className="absolute bottom-[17.5%] translate-x-1/2 z-50 right-1/2" /> */}
-          <HomeFilter className="absolute bottom-[17.5%] left-1/2 -translate-x-1/2 z-50" />
+          <HomeFilter className="mt-8 z-50 md:absolute md:mt-0 md:left-1/2 md:-translate-x-1/2 md:bottom-[17.5%]" />
 
         </section>
         <section className="w-full md:w-[min(90%,110rem)] mx-auto relative mt-20">

@@ -253,7 +253,7 @@ export default async function ListingStayPage({
   const pagina = Number(filters.pagina ?? searchParams.pagina ?? "1");
 
   // Chamar getData com os filtros extraídos
-  const { imoveis, estados, cidades, tipos, codigos, empresa, bairros } =
+  const { imoveis, estados, cidades, tipos, codigos, empresa, bairros, bairrosContagem } =
     await getData(filters);
 
   // Função para obter o nome real a partir do slug
@@ -423,6 +423,7 @@ export default async function ListingStayPage({
         estados={estados}
         cidades={cidades}
         bairros={bairros}
+        bairrosContagem={bairrosContagem}
         tipos={tipos}
         codigos={codigos}
         pages={totalPages}

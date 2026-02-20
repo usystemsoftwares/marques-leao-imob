@@ -150,6 +150,7 @@ async function getData(filtros: any): Promise<{
   codigos: any[];
   empresa: Empresa;
   bairros: any[];
+  bairrosContagem: { bairro: string; quantidade: number; lat: number; lng: number }[];
   caracteristicas?: any[];
 }> {
   const { pagina = 1, ordem = 1, ...rest } = filtros;
@@ -196,6 +197,7 @@ async function getData(filtros: any): Promise<{
   await checkFetchStatus(responseBairros, "bairros");
   const bairros = await responseBairros.json(); */
   const bairros = await getBairros();
+
 
   const responseTipos = await fetch(
     `${uri}/imoveis/tipos-empresa?${params.toString()}`,
@@ -643,6 +645,36 @@ async function getData(filtros: any): Promise<{
 
   console.log("[Marques] Filtros finais para API:", apiFilters);
 
+  // Buscar bairros com contagem para o mapa — usando os filtros relevantes do contexto atual
+  const locationFields = [
+    "imovel.cidade_id",
+    "imovel.estado_id",
+    "imovel.bairro",
+    "imovel.venda",
+    "imovel.tipo",
+    "imovel.preço_venda",
+    "imovel.preço_locação",
+    "imovel.codigo",
+  ];
+  const mapFiltros = apiFilters.filter((f) => locationFields.includes(f.field));
+
+  let bairrosContagem: { bairro: string; quantidade: number; lat: number; lng: number }[] = [];
+  try {
+    const mapParams = new URLSearchParams({ empresa_id });
+    if (mapFiltros.length > 0) {
+      mapParams.set("filtros", JSON.stringify(mapFiltros));
+    }
+    const responseBairrosContagem = await fetch(
+      `${uri}/imoveis/bairros-contagem?${mapParams.toString()}`,
+      { cache: "no-store" }
+    );
+    if (responseBairrosContagem.ok) {
+      bairrosContagem = await responseBairrosContagem.json();
+    }
+  } catch {
+    // falha silenciosa — mapa simplesmente não renderiza
+  }
+
   // Configurar ordenação
   let orderBy = [{ field: "imovel.visualizações", order: "DESC" }];
 
@@ -690,6 +722,7 @@ async function getData(filtros: any): Promise<{
       total: imoveis?.total || 0,
     },
     bairros,
+    bairrosContagem,
     estados,
     cidades,
     tipos,

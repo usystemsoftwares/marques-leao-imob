@@ -17,13 +17,14 @@ import { getSingleArea } from "@/utils/get-area";
 import Pagination from "./pagination";
 import { generateEstateUrl } from "@/utils/generate-estate-url";
 import { getDisplayPrice } from "@/utils/get-display-price";
-// import GoogleMap from "./google-map";
+import NeighborhoodMap, { BairroContagem } from "./neighborhood-map";
 
 interface PropertyListProps {
   imoveis: Imóvel[];
   estados: any[];
   cidades: any[];
   bairros: any[];
+  bairrosContagem: BairroContagem[];
   tipos: any[];
   codigos: any[];
   pages: number;
@@ -33,11 +34,13 @@ interface PropertyListProps {
   filters: any[];
   empresa: Empresa;
 }
+
 const PropertyList: React.FC<PropertyListProps> = ({
   imoveis,
   estados,
   cidades,
   bairros,
+  bairrosContagem,
   tipos,
   codigos,
   pages,
@@ -48,49 +51,47 @@ const PropertyList: React.FC<PropertyListProps> = ({
   empresa,
 }) => {
   const [activeIndex, setActiveIndex] = useState<number[]>([]);
-  // const [openMap, setOpenMap] = useState(false);
+  const [mobileMapOpen, setMobileMapOpen] = useState(false);
 
-  // const handleCloseMap = () => setOpenMap(false);
-
-  // const defaultCenterImovel = imoveis.find(
-  //   (imovel) => imovel.lat && imovel.long
-  // );
+  const bairrosComCoordenadas = bairrosContagem.filter((b) => b.lat !== 0 && b.lng !== 0);
+  // O guard da API key fica dentro do NeighborhoodMap — aqui apenas checamos se há dados
+  const hasMap = bairrosComCoordenadas.length > 0;
 
   return (
-    <div className="bg-menu bg-no-repeat">
+    <div className="bg-menu bg-no-repeat min-h-screen">
       <Header />
-      <main className="mt-28 mb-10">
-        <section className="relative">
-          {/* <button
-            onClick={() => setOpenMap(true)}
-            className={cn(
-              "bg-mainPurple z-[51] lg:hidden px-5 py-1 rounded-full fixed right-1/2 translate-x-1/2 bottom-[2.5%]",
-              openMap && "hidden"
-            )}
-          >
-            Mapa
-          </button> */}
 
-          <div className="w-full px-4">
-            <div className="relative w-full mb-20 mx-auto">
-              <PropertiesFilter
-                estados={estados}
-                cidades={cidades}
-                bairros={bairros}
-                tipos={tipos}
-                codigos={codigos}
-                searchParams={query}
-              />
-            </div>
-            <div className="bg-white h-[2px] mt-10 mb-6"></div>
+      <main className="mt-28">
+        {/* Filtros — largura total */}
+        <div className="px-4 pb-6">
+          <div className="relative w-full mb-6 mx-auto">
+            <PropertiesFilter
+              estados={estados}
+              cidades={cidades}
+              bairros={bairros}
+              tipos={tipos}
+              codigos={codigos}
+              searchParams={query}
+            />
+          </div>
+          <div className="bg-white h-[2px]" />
+        </div>
 
+        {/* Layout Airbnb: lista (esq) + mapa fixo (dir) */}
+        <div className="flex">
+
+          {/* COLUNA ESQUERDA — lista de imóveis (scrollável) */}
+          <div className={cn(
+            "w-full pb-20 px-4",
+            hasMap && "lg:w-[58%] xl:w-[55%]"
+          )}>
             {imoveis.length === 0 ? (
               <p className="text-center text-lg font-semibold mt-10">
                 Nenhum imóvel disponível
               </p>
             ) : (
               <>
-                <ul className="w-[min(90%,80rem)] mx-auto grid place-items-center sm:grid-cols-[repeat(auto-fill,minmax(20.875rem,1fr))] gap-4">
+                <ul className="w-full max-w-5xl mx-auto grid place-items-center sm:grid-cols-[repeat(auto-fill,minmax(20.875rem,1fr))] gap-4">
                   {imoveis.map((estate, index) => (
                     <li className="w-[min(100%,28.125rem)] relative z-[200]" key={estate.db_id}>
                       <div className="group block relative">
@@ -116,13 +117,8 @@ const PropertyList: React.FC<PropertyListProps> = ({
                               className="block absolute right-[5%] top-[7.5%]"
                               onClick={() => {
                                 if (!activeIndex.includes(index))
-                                  return setActiveIndex([
-                                    ...activeIndex,
-                                    index,
-                                  ]);
-                                setActiveIndex(
-                                  activeIndex.filter((i) => i !== index)
-                                );
+                                  return setActiveIndex([...activeIndex, index]);
+                                setActiveIndex(activeIndex.filter((i) => i !== index));
                               }}
                             >
                               {activeIndex.includes(index) ? (
@@ -130,37 +126,25 @@ const PropertyList: React.FC<PropertyListProps> = ({
                                   className="w-8"
                                   src={SelectedHeartIcon}
                                   alt="Ícone de coração selecionado"
-                                  style={{
-                                    maxWidth: "100%",
-                                    height: "auto",
-                                  }}
+                                  style={{ maxWidth: "100%", height: "auto" }}
                                 />
                               ) : (
                                 <Image
                                   className="w-8"
                                   src={HeartIcon}
                                   alt="Ícone de coração"
-                                  style={{
-                                    maxWidth: "100%",
-                                    height: "auto",
-                                  }}
+                                  style={{ maxWidth: "100%", height: "auto" }}
                                 />
                               )}
                             </button>
-                            <Link
-                              className="block"
-                              href={generateEstateUrl(estate)}
-                            >
+                            <Link className="block" href={generateEstateUrl(estate)}>
                               <Image
                                 className="w-full rounded-lg h-[375px] w-[538px] relative"
                                 src={getFotoDestaque(estate, false, false) || ""}
                                 alt={estate.titulo || ""}
                                 width={538}
                                 height={375}
-                                style={{
-                                  maxWidth: "100%",
-                                  height: "323px",
-                                }}
+                                style={{ maxWidth: "100%", height: "323px" }}
                                 priority
                                 quality={100}
                               />
@@ -173,7 +157,6 @@ const PropertyList: React.FC<PropertyListProps> = ({
                             <p className="font-semibold text-sm lg:text-base">
                               {getDisplayPrice(estate)}
                             </p>
-
                             <p className="text-[.75rem]">
                               {estate.bairro ? `${estate.bairro} /` : ""}{" "}
                               {estate.cidade?.nome}
@@ -188,30 +171,19 @@ const PropertyList: React.FC<PropertyListProps> = ({
                                 <Image
                                   src={ResizeIcon}
                                   alt="Seta que indica tamanho"
-                                  style={{
-                                    maxWidth: "100%",
-                                    height: "auto",
-                                  }}
+                                  style={{ maxWidth: "100%", height: "auto" }}
                                 />
                                 {getSingleArea(estate)}
                               </span>
-                              {estate.dormitórios &&
-                              !estate.não_mostrar_dormítorios ? (
+                              {estate.dormitórios && !estate.não_mostrar_dormítorios ? (
                                 <span className="inline-flex gap-3 items-center">
                                   <Image
                                     src={Bed}
                                     alt="Cama"
-                                    style={{
-                                      maxWidth: "100%",
-                                      height: "auto",
-                                    }}
+                                    style={{ maxWidth: "100%", height: "auto" }}
                                   />{" "}
                                   {estate.dormitórios} quarto
-                                  {`${
-                                    Number(estate.dormitórios || 0) > 1
-                                      ? "s"
-                                      : ""
-                                  }`}
+                                  {Number(estate.dormitórios || 0) > 1 ? "s" : ""}
                                 </span>
                               ) : null}
                             </div>
@@ -235,19 +207,45 @@ const PropertyList: React.FC<PropertyListProps> = ({
             )}
           </div>
 
-          {/* <div className={cn(
-            "lg:w-[42.5vw] lg:h-full fixed lg:right-0 lg:top-0 z-20",
-            openMap ? "w-full h-full top-0 right-0" : "hidden lg:block"
-          )}>
-            <GoogleMap
-              closeMap={handleCloseMap}
-              imoveis={imoveis}
-              defaultCenter={defaultCenterImovel}
-            />
-          </div> */}
+          {/* COLUNA DIREITA — mapa sticky (desktop) */}
+          {hasMap && (
+            <div className="hidden lg:block lg:w-[42%] xl:w-[45%] flex-shrink-0">
+              <div className="sticky top-28 h-[calc(100vh-7rem)]">
+                <NeighborhoodMap
+                  bairrosContagem={bairrosContagem}
+                  filters={filters}
+                />
+              </div>
+            </div>
+          )}
+        </div>
 
-          <WhatsappButton empresa={empresa} />
-        </section>
+        {/* Botão flutuante mobile para abrir/fechar mapa */}
+        {hasMap && (
+          <button
+            onClick={() => setMobileMapOpen((v) => !v)}
+            className="lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-[#530944] text-white px-6 py-3 rounded-full shadow-xl font-semibold text-sm"
+          >
+            {mobileMapOpen ? "Ver lista" : "Ver no mapa"}
+          </button>
+        )}
+
+        {/* Mapa fullscreen mobile */}
+        {hasMap && mobileMapOpen && (
+          <div className="lg:hidden fixed inset-0 top-0 z-40 bg-black">
+            <div className="w-full h-full pt-20">
+              <NeighborhoodMap bairrosContagem={bairrosContagem} filters={filters} />
+            </div>
+            <button
+              onClick={() => setMobileMapOpen(false)}
+              className="absolute top-24 left-4 bg-white text-black px-4 py-2 rounded-full shadow-lg text-sm font-semibold z-50"
+            >
+              ← Voltar à lista
+            </button>
+          </div>
+        )}
+
+        <WhatsappButton empresa={empresa} />
       </main>
     </div>
   );
