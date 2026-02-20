@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - master
+      - novo-mapa
 
 env:
   PROJECT_ID: smartimob-granato-gen
@@ -43,8 +44,10 @@ jobs:
           # Override based on branch if needed
           case "$BRANCH" in
             main|master)
-              # Use secrets or defaults for main branch
               SERVICE_SUFFIX="marques-new"
+              ;;
+            novo-mapa)
+              SERVICE_SUFFIX="leao-preview"
               ;;
           esac
 
