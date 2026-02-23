@@ -649,7 +649,6 @@ async function getData(filtros: any): Promise<{
   const locationFields = [
     "imovel.cidade_id",
     "imovel.estado_id",
-    "imovel.bairro",
     "imovel.venda",
     "imovel.tipo",
     "imovel.preço_venda",

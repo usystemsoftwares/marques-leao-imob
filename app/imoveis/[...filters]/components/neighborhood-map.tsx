@@ -43,12 +43,13 @@ type MarkerData = BairroContagem & {
 };
 
 // Inner component: renders custom HTML overlays via google.maps.OverlayView
-// (does NOT require a mapId — works with any Google Map)
 const BairroMarkers = ({
   markers,
+  activeBairros,
   onMarkerClick,
 }: {
   markers: MarkerData[];
+  activeBairros: Set<string>;
   onMarkerClick: (slug: string) => void;
 }) => {
   const map = useMap();
@@ -78,7 +79,6 @@ const BairroMarkers = ({
 
       class PillOverlay extends G.maps.OverlayView {
         onAdd() {
-          // overlayMouseTarget pane captures click events on overlays
           this.getPanes().overlayMouseTarget.appendChild(div);
         }
         draw() {
@@ -103,19 +103,17 @@ const BairroMarkers = ({
 
     setContainers(newContainers);
 
-    // Fit map to show all markers, with zoom band to avoid extremes
+    // Fit map to show all markers
     if (markers.length > 0) {
       const G = (window as any).google;
       const bounds = new G.maps.LatLngBounds();
       markers.forEach((m) => bounds.extend(new G.maps.LatLng(m.lat, m.lng)));
-      // Keep zoom between 9 (regional) and 14 (neighborhood) — avoids country-level zoom-out
-      // and avoids exposing exact property coordinates at street level
       G.maps.event.addListenerOnce(map, "idle", () => {
         const zoom = map.getZoom() ?? 0;
         if (zoom > 14) map.setZoom(14);
         else if (zoom < 9) map.setZoom(9);
       });
-      map.fitBounds(bounds, 80); // 80px padding so badges aren't clipped at edges
+      map.fitBounds(bounds, 80);
     }
 
     return () => {
@@ -124,11 +122,21 @@ const BairroMarkers = ({
     };
   }, [map, markers]);
 
+  // Update z-index of container divs when active state changes
+  useEffect(() => {
+    containers.forEach(({ el, index }) => {
+      const marker = markers[index];
+      if (!marker) return;
+      el.style.zIndex = activeBairros.has(marker.slug) ? "10" : "1";
+    });
+  }, [containers, markers, activeBairros]);
+
   return (
     <>
       {containers.map(({ el, index }) => {
         const marker = markers[index];
         if (!marker) return null;
+        const isActive = activeBairros.has(marker.slug);
         return createPortal(
           <div
             onClick={() => onMarkerClick(marker.slug)}
@@ -136,29 +144,38 @@ const BairroMarkers = ({
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              boxShadow: "0 4px 14px rgba(0,0,0,0.3)",
+              boxShadow: isActive
+                ? "0 0 0 3px #fff, 0 4px 20px rgba(201,162,39,0.55)"
+                : "0 4px 14px rgba(0,0,0,0.3)",
               padding: "0.375rem 0.75rem",
               borderRadius: "9999px",
-              backgroundColor: marker.color.bg,
-              color: marker.color.clr,
+              backgroundColor: isActive ? "#c9a227" : marker.color.bg,
+              color: isActive ? "#000" : marker.color.clr,
               whiteSpace: "nowrap",
               fontSize: "0.8rem",
               fontWeight: 700,
               gap: "0.35rem",
               transition: "transform 0.15s",
               userSelect: "none",
+              transform: isActive ? "scale(1.18)" : "scale(1)",
             }}
             onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.transform = "scale(1.1)";
+              (e.currentTarget as HTMLElement).style.transform = isActive
+                ? "scale(1.28)"
+                : "scale(1.1)";
             }}
             onMouseLeave={(e) => {
-              (e.currentTarget as HTMLElement).style.transform = "scale(1)";
+              (e.currentTarget as HTMLElement).style.transform = isActive
+                ? "scale(1.18)"
+                : "scale(1)";
             }}
           >
             <span>{marker.bairro}</span>
             <span
               style={{
-                background: "rgba(255,255,255,0.22)",
+                background: isActive
+                  ? "rgba(0,0,0,0.15)"
+                  : "rgba(255,255,255,0.22)",
                 borderRadius: "9999px",
                 padding: "0.1rem 0.5rem",
                 fontSize: "0.75rem",
@@ -190,6 +207,14 @@ const NeighborhoodMap = ({ bairrosContagem, filters }: NeighborhoodMapProps) => 
     [bairrosContagem]
   );
 
+  // Derive which bairros are currently active from the URL filter segments
+  const activeBairros = useMemo(() => {
+    const seg = (filters ?? []).find((s) => s.startsWith("bairro-"));
+    if (!seg) return new Set<string>();
+    const slugs = seg.replace(/^bairros?-/, "").split(",");
+    return new Set(slugs);
+  }, [filters]);
+
   // Geographic centroid of all markers
   const centroid = useMemo(() => {
     if (markers.length === 0) return { lat: -29.6846, lng: -51.1303 };
@@ -200,14 +225,18 @@ const NeighborhoodMap = ({ bairrosContagem, filters }: NeighborhoodMapProps) => 
 
   const handleMarkerClick = useCallback(
     (slug: string) => {
-      // Preserve all current filter segments, replacing any existing bairro segment
       const current = (filters ?? []).filter(
         (s) => !s.startsWith("bairro-") && !s.startsWith("pagina-")
       );
-      current.push(`bairro-${slug}`);
-      router.push(`/imoveis/${current.join("/")}`);
+      // Toggle: if already active, remove the filter; otherwise apply it
+      if (!activeBairros.has(slug)) {
+        current.push(`bairro-${slug}`);
+      }
+      const url =
+        current.length > 0 ? `/imoveis/${current.join("/")}` : "/imoveis";
+      router.push(url);
     },
-    [router, filters]
+    [router, filters, activeBairros]
   );
 
   // Guard after all hooks
@@ -225,7 +254,11 @@ const NeighborhoodMap = ({ bairrosContagem, filters }: NeighborhoodMapProps) => 
         gestureHandling="cooperative"
         reuseMaps
       >
-        <BairroMarkers markers={markers} onMarkerClick={handleMarkerClick} />
+        <BairroMarkers
+          markers={markers}
+          activeBairros={activeBairros}
+          onMarkerClick={handleMarkerClick}
+        />
       </GoogleMapComponent>
     </APIProvider>
   );

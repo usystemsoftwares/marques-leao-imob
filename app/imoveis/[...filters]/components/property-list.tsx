@@ -51,7 +51,6 @@ const PropertyList: React.FC<PropertyListProps> = ({
   empresa,
 }) => {
   const [activeIndex, setActiveIndex] = useState<number[]>([]);
-  const [mobileMapOpen, setMobileMapOpen] = useState(false);
 
   const bairrosComCoordenadas = bairrosContagem.filter((b) => b.lat !== 0 && b.lng !== 0);
   // O guard da API key fica dentro do NeighborhoodMap — aqui apenas checamos se há dados
@@ -66,6 +65,7 @@ const PropertyList: React.FC<PropertyListProps> = ({
         <div className="px-4 pb-6">
           <div className="relative w-full mb-6 mx-auto">
             <PropertiesFilter
+              key={(filters || []).join("/")}
               estados={estados}
               cidades={cidades}
               bairros={bairros}
@@ -219,31 +219,6 @@ const PropertyList: React.FC<PropertyListProps> = ({
             </div>
           )}
         </div>
-
-        {/* Botão flutuante mobile para abrir/fechar mapa */}
-        {hasMap && (
-          <button
-            onClick={() => setMobileMapOpen((v) => !v)}
-            className="lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-[#530944] text-white px-6 py-3 rounded-full shadow-xl font-semibold text-sm"
-          >
-            {mobileMapOpen ? "Ver lista" : "Ver no mapa"}
-          </button>
-        )}
-
-        {/* Mapa fullscreen mobile */}
-        {hasMap && mobileMapOpen && (
-          <div className="lg:hidden fixed inset-0 top-0 z-40 bg-black">
-            <div className="w-full h-full pt-20">
-              <NeighborhoodMap bairrosContagem={bairrosContagem} filters={filters} />
-            </div>
-            <button
-              onClick={() => setMobileMapOpen(false)}
-              className="absolute top-24 left-4 bg-white text-black px-4 py-2 rounded-full shadow-lg text-sm font-semibold z-50"
-            >
-              ← Voltar à lista
-            </button>
-          </div>
-        )}
 
         <WhatsappButton empresa={empresa} />
       </main>
