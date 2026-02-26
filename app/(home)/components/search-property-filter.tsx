@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import slugify from "slugify";
 import { getBairrosPorCidade } from "@/lib/api";
+import { Hash } from "lucide-react";
 
 type FormProps = {
   className?: string;
@@ -48,6 +49,9 @@ const SearchPropertyFilter = ({
   const [cidadesOpen, setCidadesOpen] = useState(false);
   const [bairrosOpen, setBairrosOpen] = useState(false);
   const [tiposOpen, setTiposOpen] = useState(false);
+
+  const [showCodeSearch, setShowCodeSearch] = useState(false);
+  const [propertyCode, setPropertyCode] = useState("");
 
   const router = useRouter();
 
@@ -396,6 +400,46 @@ const SearchPropertyFilter = ({
       >
         Buscar imóveis
       </button>
+
+      {/* Busca por Código — apenas mobile */}
+      <div className="md:hidden mt-3">
+        <button
+          type="button"
+          onClick={() => setShowCodeSearch(!showCodeSearch)}
+          className="w-full flex items-center justify-center gap-2 text-white/70 hover:text-white text-sm py-2 transition-colors"
+        >
+          <Hash className="w-4 h-4" />
+          Buscar por Código
+        </button>
+
+        {showCodeSearch && (
+          <div className="mt-3 flex flex-col gap-2">
+            <input
+              type="text"
+              placeholder="Digite o código do imóvel"
+              value={propertyCode}
+              onChange={(e) => setPropertyCode(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && propertyCode.trim()) {
+                  router.push(`/imovel/${propertyCode.trim()}`);
+                }
+              }}
+              className="w-full h-11 px-4 rounded-xl bg-white text-gray-800 placeholder:text-gray-400 text-sm outline-none"
+            />
+            <button
+              type="button"
+              onClick={() => {
+                if (propertyCode.trim()) {
+                  router.push(`/imovel/${propertyCode.trim()}`);
+                }
+              }}
+              className="w-full bg-[#530944] text-white font-semibold py-3 rounded-xl hover:bg-[#6b0b58] transition-colors text-sm"
+            >
+              Buscar por Código
+            </button>
+          </div>
+        )}
+      </div>
     </form>
   );
 };
