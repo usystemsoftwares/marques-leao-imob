@@ -116,7 +116,7 @@ export async function generateMetadata(
     const dataImovel = await fetchWithRetry(
       `${uri}/imoveis/site/codigo/${codigo}?${queryParams.toString()}`,
       {
-        next: { tags: [`imovel-${codigo}`] },
+        next: { tags: [`imovel-${codigo}`], revalidate: 3600 },
       }
     );
     const dataEmpresa = await fetchWithRetry(
@@ -253,7 +253,7 @@ async function getData(
   const dataImovel = await fetchWithRetry(
     `${uri}/imoveis/site/codigo/${codigo}?${queryParams.toString()}`,
     {
-      next: { tags: [`imovel-${codigo}`] },
+      next: { tags: [`imovel-${codigo}`], revalidate: 3600 },
     }
   );
   const empresa = await fetchWithRetry(`${uri}/empresas/site/${empresa_id}`, {
