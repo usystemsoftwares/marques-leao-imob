@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Baskervville, Montserrat } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/footer";
+import GoogleReviews from "@/components/google-reviews";
 import Image from "next/image";
 import Ellipse from "/public/marqueseleao/ellipse4.webp";
 import { Track } from "./track";
@@ -231,6 +232,8 @@ export default async function RootLayout({
           <div className="min-h-screen flex flex-col w-full">
             {/* Conteúdo principal */}
             <main className="flex-grow">{children}</main>
+            {/* Reviews Google */}
+            <GoogleReviews />
             {/* Rodapé */}
             <Footer empresa={empresa} />
           </div>

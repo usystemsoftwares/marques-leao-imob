@@ -691,6 +691,9 @@ async function getData(filtros: any): Promise<{
       case "newest":
         orderBy = [{ field: "imovel.created_at", order: "DESC" }];
         break;
+      case "views":
+        orderBy = [{ field: "imovel.visualizações", order: "DESC" }];
+        break;
       default:
         orderBy = [{ field: "imovel.visualizações", order: "DESC" }];
     }

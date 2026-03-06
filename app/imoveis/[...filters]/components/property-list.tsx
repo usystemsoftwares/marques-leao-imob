@@ -18,6 +18,15 @@ import Pagination from "./pagination";
 import { generateEstateUrl } from "@/utils/generate-estate-url";
 import { getDisplayPrice } from "@/utils/get-display-price";
 import NeighborhoodMap, { BairroContagem } from "./neighborhood-map";
+import { useRouter } from "next/navigation";
+
+const SORT_OPTIONS = [
+  { label: "Relevantes", value: "" },
+  { label: "Mais baratos", value: "price-asc" },
+  { label: "Mais recentes", value: "newest" },
+  { label: "Mais caros", value: "price-desc" },
+  { label: "Mais vistos", value: "views" },
+] as const;
 
 interface PropertyListProps {
   imoveis: Imóvel[];
@@ -51,9 +60,22 @@ const PropertyList: React.FC<PropertyListProps> = ({
   empresa,
 }) => {
   const [activeIndex, setActiveIndex] = useState<number[]>([]);
+  const [sortOpen, setSortOpen] = useState(false);
+  const router = useRouter();
+
+  const currentSort = query?.sort || "";
+  const currentSortLabel = SORT_OPTIONS.find((o) => o.value === currentSort)?.label || "Relevantes";
+
+  const handleSort = (value: string) => {
+    setSortOpen(false);
+    const segs = (filters || []).filter(
+      (s: string) => !s.startsWith("sort-") && !s.startsWith("ordenacao-") && !s.startsWith("pagina-")
+    );
+    if (value) segs.push(`ordenacao-${value}`);
+    router.push(segs.length > 0 ? `/imoveis/${segs.join("/")}` : "/imoveis");
+  };
 
   const bairrosComCoordenadas = bairrosContagem.filter((b) => b.lat !== 0 && b.lng !== 0);
-  // O guard da API key fica dentro do NeighborhoodMap — aqui apenas checamos se há dados
   const hasMap = bairrosComCoordenadas.length > 0;
 
   return (
@@ -62,7 +84,7 @@ const PropertyList: React.FC<PropertyListProps> = ({
 
       <main className="mt-28">
         {/* Filtros — largura total */}
-        <div className="px-4 pb-6">
+        <div className="px-4 pb-6 relative z-[400]">
           <div className="relative w-full mb-6 mx-auto">
             <PropertiesFilter
               key={(filters || []).join("/")}
@@ -72,6 +94,44 @@ const PropertyList: React.FC<PropertyListProps> = ({
               tipos={tipos}
               codigos={codigos}
               searchParams={query}
+              sortSlot={
+                <div className="relative flex-shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => setSortOpen(!sortOpen)}
+                    className={cn(
+                      "w-full mt-2 flex items-center justify-center gap-2 border border-white/30 text-white px-4 py-3 rounded-xl text-sm transition-colors",
+                      "md:mt-0 md:w-auto md:border-gray-300 md:text-gray-600 md:rounded-lg md:py-2 md:px-3 md:text-xs md:hover:border-gray-500"
+                    )}
+                  >
+                    {currentSortLabel}
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  {sortOpen && (
+                    <>
+                      <div className="fixed inset-0 z-[250]" onClick={() => setSortOpen(false)} />
+                      <ul className="absolute right-0 mt-2 z-[300] bg-white border border-gray-200 rounded-xl shadow-xl overflow-hidden min-w-[11rem]">
+                        {SORT_OPTIONS.map((opt) => (
+                          <li key={opt.value}>
+                            <button
+                              type="button"
+                              onClick={() => handleSort(opt.value)}
+                              className={cn(
+                                "w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 transition-colors",
+                                currentSort === opt.value && "text-[#530944] font-semibold bg-gray-50"
+                              )}
+                            >
+                              {opt.label}
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+                </div>
+              }
             />
           </div>
           <div className="bg-white h-[2px]" />

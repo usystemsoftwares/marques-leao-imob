@@ -54,6 +54,7 @@ const BairroMarkers = ({
 }) => {
   const map = useMap();
   const overlaysRef = useRef<google.maps.OverlayView[]>([]);
+  const hasFittedBoundsRef = useRef(false);
   const [containers, setContainers] = useState<
     { el: HTMLElement; index: number }[]
   >([]);
@@ -103,8 +104,9 @@ const BairroMarkers = ({
 
     setContainers(newContainers);
 
-    // Fit map to show all markers
-    if (markers.length > 0) {
+    // Fit map to show all markers (only on first render)
+    if (markers.length > 0 && !hasFittedBoundsRef.current) {
+      hasFittedBoundsRef.current = true;
       const G = (window as any).google;
       const bounds = new G.maps.LatLngBounds();
       markers.forEach((m) => bounds.extend(new G.maps.LatLng(m.lat, m.lng)));

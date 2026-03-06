@@ -31,6 +31,7 @@ type FormProps = {
   tipos: any[];
   codigos: string[];
   searchParams: any;
+  sortSlot?: React.ReactNode;
 };
 
 const PropertiesFilter = ({
@@ -41,6 +42,7 @@ const PropertiesFilter = ({
   tipos,
   codigos,
   searchParams,
+  sortSlot,
 }: FormProps) => {
   const router = useRouter();
 
@@ -224,7 +226,7 @@ const PropertiesFilter = ({
         "w-[min(calc(100%-2rem),26rem)] mx-auto rounded-2xl p-5 shadow-2xl backdrop-blur-sm",
         "[background:linear-gradient(135deg,rgba(83,9,68,0.88)_0%,rgba(8,8,15,0.85)_100%)]",
         // Desktop: barra branca horizontal com largura máxima
-        "md:[background:white] md:w-[min(100%,62.5rem)] md:rounded-[.625rem] md:shadow-md",
+        "md:[background:white] md:w-[min(100%,72rem)] md:rounded-[.625rem] md:shadow-md",
         "md:py-3 md:px-4 md:flex md:items-center md:gap-2",
         className
       )}
@@ -499,6 +501,13 @@ const PropertiesFilter = ({
       >
         Buscar imóveis
       </button>
+
+      {sortSlot && (
+        <>
+          <div className="hidden md:block h-7 w-px bg-gray-300 shrink-0 self-center" />
+          {sortSlot}
+        </>
+      )}
     </form>
   );
 };
