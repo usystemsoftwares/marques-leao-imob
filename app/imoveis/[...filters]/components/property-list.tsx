@@ -19,10 +19,7 @@ import { generateEstateUrl } from "@/utils/generate-estate-url";
 import { getDisplayPrice } from "@/utils/get-display-price";
 import NeighborhoodMap, { BairroContagem } from "./neighborhood-map";
 import { useRouter } from "next/navigation";
-import dynamic from "next/dynamic";
 import { APIProvider } from "@vis.gl/react-google-maps";
-
-const GoogleMap = dynamic(() => import("./google-map"), { ssr: false });
 
 const SORT_OPTIONS = [
   { label: "Relevantes", value: "" },
@@ -306,9 +303,17 @@ const PropertyList: React.FC<PropertyListProps> = ({
             {/* OVERLAY MAPA (MOBILE) */}
             {showMobileMap && (
               <div className="fixed inset-0 z-[1000] bg-white lg:hidden">
-                <GoogleMap
-                  imoveis={imoveis}
-                  closeMap={() => setShowMobileMap(false)}
+                <button
+                  onClick={() => setShowMobileMap(false)}
+                  className="absolute z-10 top-6 left-6 bg-white w-12 aspect-square flex justify-center items-center shadow-lg rounded-[.625rem]"
+                >
+                  <svg className="w-5 h-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+                <NeighborhoodMap
+                  bairrosContagem={bairrosContagem}
+                  filters={filters}
                 />
               </div>
             )}
