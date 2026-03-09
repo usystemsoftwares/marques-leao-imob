@@ -83,10 +83,10 @@ const formatBairroName = (bairroSlug: string): string => {
 
   // Decodifica URL
   let nomeBairro = decodeURIComponent(bairroSlug)
-  
+
   // Substitui hífens por espaços
   nomeBairro = nomeBairro.replace(/-/g, ' ')
-  
+
   // Restaura padrões com parênteses
   const patternsWithParentheses = [
     { regex: /distrito litoral/gi, replacement: '(Distrito Litoral)' },
@@ -244,25 +244,32 @@ async function getData(filtros: any): Promise<{
   const apiFilters: any[] = [];
 
   // Filtro por estados (múltiplos)
-  if (rest.estado) {
+  let restEstado = rest.estado;
+
+  // Se não houver estado, cidade ou bairro selecionado, padrão para Santa Catarina (slugificado)
+  if (!restEstado && !rest.cidade && !rest.bairro) {
+    restEstado = "santa-catarina";
+  }
+
+  if (restEstado) {
     const estadosProcessados: string[] = [];
-    
+
     // Processar string com vírgulas
-    if (typeof rest.estado === "string" && rest.estado.includes(",")) {
-      const estadosSeparados = rest.estado.split(",").map((e: string) => (e || '').trim()).filter(Boolean);
+    if (typeof restEstado === "string" && restEstado.includes(",")) {
+      const estadosSeparados = restEstado.split(",").map((e: string) => (e || '').trim()).filter(Boolean);
       estadosSeparados.forEach((estadoSeparado: string) => {
         const estadoId = getIdByName(estados, estadoSeparado, "nome");
         if (estadoId) {
           estadosProcessados.push(estadoId);
         }
       });
-    } else if (typeof rest.estado === "string") {
-      const estadoId = getIdByName(estados, rest.estado, "nome");
+    } else if (typeof restEstado === "string") {
+      const estadoId = getIdByName(estados, restEstado, "nome");
       if (estadoId) {
         estadosProcessados.push(estadoId);
       }
-    } else if (Array.isArray(rest.estado)) {
-      rest.estado.forEach((estado: string) => {
+    } else if (Array.isArray(restEstado)) {
+      restEstado.forEach((estado: string) => {
         if (estado && typeof estado === "string") {
           if (estado.includes(",")) {
             const estadosSeparados = estado.split(",").map((e: string) => (e || '').trim()).filter(Boolean);
@@ -283,7 +290,7 @@ async function getData(filtros: any): Promise<{
     }
 
     const estadosIds = Array.from(new Set(estadosProcessados)).filter(Boolean);
-    
+
     if (estadosIds.length > 0) {
       if (estadosIds.length === 1) {
         apiFilters.push({
@@ -341,7 +348,7 @@ async function getData(filtros: any): Promise<{
     }
 
     const cidadesIds = Array.from(new Set(cidadesProcessadas)).filter(Boolean);
-    
+
     if (cidadesIds.length > 0) {
       if (cidadesIds.length === 1) {
         apiFilters.push({
@@ -458,7 +465,7 @@ async function getData(filtros: any): Promise<{
   if (rest.caracteristicas) {
     const caracteristicasArray = Array.isArray(rest.caracteristicas) ? rest.caracteristicas : [rest.caracteristicas];
     const caracteristicasNomes: string[] = [];
-    
+
     caracteristicasArray.forEach((carac: string) => {
       if (carac && typeof carac === "string") {
         if (carac.includes(",")) {
@@ -479,7 +486,7 @@ async function getData(filtros: any): Promise<{
     });
 
     const caracUnicos = Array.from(new Set(caracteristicasNomes)).filter(Boolean);
-    
+
     if (caracUnicos.length > 0) {
       caracUnicos.forEach((carac) => {
         apiFilters.push({
@@ -577,7 +584,7 @@ async function getData(filtros: any): Promise<{
 
   // Filtros de preço
   const precoField = rest.transacao === "locacao" ? "imovel.preço_locação" : "imovel.preço_venda";
-  
+
   if (rest.preco_min) {
     apiFilters.push({
       field: precoField,

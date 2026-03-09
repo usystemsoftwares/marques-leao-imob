@@ -219,7 +219,7 @@ const NeighborhoodMap = ({ bairrosContagem, filters }: NeighborhoodMapProps) => 
 
   // Geographic centroid of all markers
   const centroid = useMemo(() => {
-    if (markers.length === 0) return { lat: -29.6846, lng: -51.1303 };
+    if (markers.length === 0) return { lat: -27.1000, lng: -48.6000 };
     const lat = markers.reduce((sum, m) => sum + m.lat, 0) / markers.length;
     const lng = markers.reduce((sum, m) => sum + m.lng, 0) / markers.length;
     return { lat, lng };
@@ -247,22 +247,20 @@ const NeighborhoodMap = ({ bairrosContagem, filters }: NeighborhoodMapProps) => 
   }
 
   return (
-    <APIProvider apiKey={process.env.NEXT_PUBLIC_MAPS_API_KEY}>
-      <GoogleMapComponent
-        defaultZoom={12}
-        defaultCenter={centroid}
-        style={{ width: "100%", height: "100%" }}
-        disableDefaultUI
-        gestureHandling="cooperative"
-        reuseMaps
-      >
-        <BairroMarkers
-          markers={markers}
-          activeBairros={activeBairros}
-          onMarkerClick={handleMarkerClick}
-        />
-      </GoogleMapComponent>
-    </APIProvider>
+    <GoogleMapComponent
+      defaultZoom={12}
+      defaultCenter={centroid}
+      style={{ width: "100%", height: "100%" }}
+      disableDefaultUI
+      gestureHandling="cooperative"
+      reuseMaps
+    >
+      <BairroMarkers
+        markers={markers}
+        activeBairros={activeBairros}
+        onMarkerClick={handleMarkerClick}
+      />
+    </GoogleMapComponent>
   );
 };
 

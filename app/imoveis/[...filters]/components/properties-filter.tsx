@@ -104,15 +104,15 @@ const PropertiesFilter = ({
     selectedCidades.length > 0
       ? filteredNeighborhoods
       : selectedBairros.map((slug) => {
-          const found = bairros.find((b: any) => {
-            const nome = b.bairro || b.nome || (typeof b === "string" ? b : "");
-            return slugifyString(nome) === slug;
-          });
-          const nome = found
-            ? found.bairro || found.nome || found
-            : slug;
-          return { bairro: nome, nome };
+        const found = bairros.find((b: any) => {
+          const nome = b.bairro || b.nome || (typeof b === "string" ? b : "");
+          return slugifyString(nome) === slug;
         });
+        const nome = found
+          ? found.bairro || found.nome || found
+          : slug;
+        return { bairro: nome, nome };
+      });
 
   useEffect(() => {
     const load = async () => {
@@ -149,12 +149,14 @@ const PropertiesFilter = ({
   }, [selectedCidades, cidades]);
 
   // Código com autocomplete
-  const [codigo, setCodigo] = useState<string>(
-    searchParams?.codigo || searchParams?.codigos || ""
-  );
-  const [codigoInput, setCodigoInput] = useState<string>(
-    searchParams?.codigo || searchParams?.codigos || ""
-  );
+  const [codigo, setCodigo] = useState<string>(() => {
+    const val = searchParams?.codigo || searchParams?.codigos || "";
+    return Array.isArray(val) ? val[0] || "" : String(val);
+  });
+  const [codigoInput, setCodigoInput] = useState<string>(() => {
+    const val = searchParams?.codigo || searchParams?.codigos || "";
+    return Array.isArray(val) ? val[0] || "" : String(val);
+  });
   const [codigoSuggestions, setCodigoSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
 
@@ -174,10 +176,10 @@ const PropertiesFilter = ({
 
   // Preço
   const [valorMin, setValorMin] = useState<number | "">(
-    searchParams?.preco_min ? Number(searchParams.preco_min) : ""
+    searchParams?.preco_min || searchParams?.["preco-min"] ? Number(searchParams.preco_min || searchParams?.["preco-min"]) : ""
   );
   const [valorMax, setValorMax] = useState<number | "">(
-    searchParams?.preco_max ? Number(searchParams.preco_max) : ""
+    searchParams?.preco_max || searchParams?.["preco-max"] ? Number(searchParams.preco_max || searchParams?.["preco-max"]) : ""
   );
 
   const formatValor = (v: number | ""): string => {
@@ -198,13 +200,13 @@ const PropertiesFilter = ({
   const tiposOptions = tipos.length > 0
     ? tipos
     : [
-        "Apartamento",
-        "Casa",
-        "Casa em Condomínio",
-        "Cobertura",
-        "Terreno",
-        "Terreno em Condomínio",
-      ];
+      "Apartamento",
+      "Casa",
+      "Casa em Condomínio",
+      "Cobertura",
+      "Terreno",
+      "Terreno em Condomínio",
+    ];
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -215,7 +217,7 @@ const PropertiesFilter = ({
     if (selectedTipos.length > 0) segs.push(`tipo-${selectedTipos.join(",")}`);
     if (valorMin) segs.push(`preco-min-${valorMin}`);
     if (valorMax) segs.push(`preco-max-${valorMax}`);
-    if (codigo) segs.push(`codigo-${slugifyString(codigo)}`);
+    if (codigo) segs.push(`codigo-${codigo.trim()}`);
     router.push(segs.length > 0 ? `/imoveis/${segs.join("/")}` : `/imoveis`);
   };
 
@@ -358,10 +360,10 @@ const PropertiesFilter = ({
                 selectedBairros.length > 0
                   ? `${selectedBairros.length} bairro(s)`
                   : selectedCidades.length === 0
-                  ? "Bairros"
-                  : loadingBairros
-                  ? "Carregando..."
-                  : "Bairros"
+                    ? "Bairros"
+                    : loadingBairros
+                      ? "Carregando..."
+                      : "Bairros"
               }
             />
           </SelectTrigger>
@@ -432,6 +434,7 @@ const PropertiesFilter = ({
             className="outline-none text-sm w-full text-gray-700 placeholder:text-gray-400 bg-transparent md:text-xs"
             type="text"
             inputMode="numeric"
+            pattern="[0-9]*"
             value={formatValor(valorMin)}
             onChange={(e) => setValorMin(parseValor(e.target.value))}
           />
@@ -444,6 +447,7 @@ const PropertiesFilter = ({
             className="outline-none text-sm w-full text-gray-700 placeholder:text-gray-400 bg-transparent md:text-xs"
             type="text"
             inputMode="numeric"
+            pattern="[0-9]*"
             value={formatValor(valorMax)}
             onChange={(e) => setValorMax(parseValor(e.target.value))}
           />
