@@ -25,6 +25,7 @@ import { Post } from "smart-imob-types";
 import HomeFilter from "./components/home-filter";
 import { notFound } from "next/navigation";
 import SectionVideo from "@/components/section-video";
+import BannerCarousel from "./components/banner-carousel";
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -330,38 +331,22 @@ export default async function Home() {
           />
         </section>
         <section className="w-[min(90%,68rem)] mx-auto">
-          <Link href="/imoveis/exclusivo-true">
-            <Image
-              className="w-full rounded-lg md:rounded-2xl hidden md:block cursor-pointer"
-              src={GestaoExclusivaDesktop}
-              alt="Gestão Exclusiva"
-              style={{ maxWidth: "100%", height: "auto" }}
-            />
-            <Image
-              className="w-full rounded-lg block md:hidden cursor-pointer"
-              src={GestaoExclusivaMobile}
-              alt="Gestão Exclusiva"
-              style={{ maxWidth: "100%", height: "auto" }}
-            />
-          </Link>
-        </section>
-        <section className="w-[min(90%,68rem)] mx-auto mt-8">
-          <Link href="/imoveis/lancamento-true">
-            <Image
-              className="w-full rounded-lg md:rounded-2xl hidden md:block cursor-pointer"
-              src={LancamentosDesktop}
-              alt="Projetos e lançamentos"
-              style={{ maxWidth: "100%", height: "auto" }}
-              priority
-            />
-            <Image
-              className="w-full rounded-lg block md:hidden cursor-pointer"
-              src={LancamentosMobile}
-              alt="Projetos e lançamentos"
-              style={{ maxWidth: "100%", height: "auto" }}
-              priority
-            />
-          </Link>
+          <BannerCarousel
+            slides={[
+              {
+                href: "/imoveis/exclusivo-true",
+                desktopSrc: GestaoExclusivaDesktop,
+                mobileSrc: GestaoExclusivaMobile,
+                alt: "Gestão Exclusiva",
+              },
+              {
+                href: "/imoveis/lancamento-true",
+                desktopSrc: LancamentosDesktop,
+                mobileSrc: LancamentosMobile,
+                alt: "Projetos e lançamentos",
+              },
+            ]}
+          />
         </section>
         <section className="relative">
           <div className="hidden lg:block absolute overflow-hidden right-0 bottom-1/2 translate-y-[65%] -z-10 w-[50%] aspect-square">
