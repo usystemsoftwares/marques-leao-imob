@@ -7,7 +7,7 @@ import { Empresa } from "smart-imob-types";
 
 export const WhatsappButton = ({ empresa }: { empresa: Empresa }) => {
   return (
-    <div className="fixed w-[min(3.125rem,100%)] md:w-[min(4.375rem,100%)] aspect-square right-[3.125rem] bottom-[2rem] md:bottom-[1.625rem] z-[51]">
+    <div className="fixed w-[min(3.125rem,100%)] md:w-[min(4.375rem,100%)] aspect-square right-[3.125rem] bottom-[2rem] md:bottom-[1.625rem] z-[600]">
       <Link href={"https://wa.me/555193209037"} target="_blank">
         <Image
           className="w-full"
