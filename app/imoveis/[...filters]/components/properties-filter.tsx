@@ -10,18 +10,8 @@ import {
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-import slugify from "slugify";
 import { getBairrosPorCidade } from "@/lib/api";
-
-// Opções para slugify
-const slugifyOptions = {
-  lower: true,
-  strict: true,
-  locale: "pt",
-  remove: /[*+~.()'\"!:@]/g,
-};
-
-const slugifyString = (str: string) => slugify(str, slugifyOptions);
+import { slugifyString } from "@/utils/slugify";
 
 type FormProps = {
   className?: string;
@@ -470,7 +460,7 @@ const PropertiesFilter = ({
                 setShowSuggestions(true);
               }}
               onFocus={() => setShowSuggestions(true)}
-              onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
+              onBlur={() => setShowSuggestions(false)}
             />
           </div>
           {showSuggestions && codigoSuggestions.length > 0 && (
@@ -479,7 +469,8 @@ const PropertiesFilter = ({
                 <li
                   key={i}
                   className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm text-black"
-                  onClick={() => {
+                  onMouseDown={(e) => {
+                    e.preventDefault();
                     setCodigoInput(s);
                     setCodigo(s);
                     setShowSuggestions(false);

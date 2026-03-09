@@ -42,13 +42,6 @@ const GoogleMap = ({ closeMap, imoveis, defaultCenter }: GoogleMapProps) => {
     lng: defaultCenter?.long || -48.6000,
   };
 
-  // Debug para verificar as coordenadas
-  console.log('Map Position:', mapPosition);
-  console.log('Total de imóveis:', imoveis.length);
-  console.log('Imóveis com coordenadas:', imoveis.filter(i => i.lat && i.long).length);
-  console.log('Google Maps API Key exists:', !!process.env.NEXT_PUBLIC_MAPS_API_KEY);
-  console.log('Bairro markers:', bairroMarkers);
-
   const predefinedColors = useMemo(() => [
     { bg: "#530944", clr: "#fff" },
     { bg: "#095310", clr: "#fff" },
@@ -73,9 +66,14 @@ const GoogleMap = ({ closeMap, imoveis, defaultCenter }: GoogleMapProps) => {
     // Criar marcadores para cada bairro
     const markers: BairroMarker[] = Array.from(bairrosMap.entries()).map(
       ([bairro, imoveisBairro], index) => {
-        // Calcular posição média do bairro baseada nos imóveis
-        const avgLat = imoveisBairro.reduce((sum: number, im: Imóvel) => sum + (im.lat || 0), 0) / imoveisBairro.length;
-        const avgLng = imoveisBairro.reduce((sum: number, im: Imóvel) => sum + (im.long || 0), 0) / imoveisBairro.length;
+        // Calcular posição média do bairro baseada apenas nos imóveis com coordenadas
+        const imoveisComCoord = imoveisBairro.filter((im: Imóvel) => im.lat && im.long);
+        const avgLat = imoveisComCoord.length > 0
+          ? imoveisComCoord.reduce((sum: number, im: Imóvel) => sum + im.lat, 0) / imoveisComCoord.length
+          : 0;
+        const avgLng = imoveisComCoord.length > 0
+          ? imoveisComCoord.reduce((sum: number, im: Imóvel) => sum + im.long, 0) / imoveisComCoord.length
+          : 0;
 
         const color = predefinedColors[index % predefinedColors.length];
 

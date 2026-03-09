@@ -3,31 +3,16 @@ import processarFiltros from "@/utils/processar-filtros-backend";
 import checkFetchStatus from "@/utils/checkFetchStatus";
 import ordenacoesBackend from "@/utils/processar-ordenacoes-backend";
 import { notFound } from "next/navigation";
-import slugify from "slugify";
 import { getBairros } from "@/lib/api";
+import { slugifyString } from "@/utils/slugify";
 
 const PAGE_SIZE = 12;
-
-const slugifyOptions = {
-  lower: true,
-  strict: true,
-  locale: "pt",
-  remove: /[*+~.()'"!:@]/g,
-};
-
-// Função auxiliar para slugificar
-const slugifyString = (str: string | undefined | null) => {
-  const safeStr = str || "";
-  const slugfied = slugify(safeStr, slugifyOptions);
-  return slugfied;
-};
 
 // Função para obter ID a partir do nome
 const getIdByName = (list: any[], name: string, key: string = "nome") => {
   const item = list.find((el) => {
     const value = el[key] || el;
     if (typeof value !== "string") {
-      console.warn(`Valor de '${key}' não é uma string para o item:`, el);
       return false;
     }
     return slugifyString(value) === name;
@@ -44,7 +29,6 @@ const getNameBySlug = (list: any[], slug: string, key = "nome") => {
   const item = list.find((el) => {
     const value = el[key] || el;
     if (typeof value !== "string") {
-      console.warn(`Valor de '${key}' não é uma string para o item:`, el);
       return false;
     }
     return slugifyString(value) === slug;
@@ -649,8 +633,6 @@ async function getData(filtros: any): Promise<{
     operator: "equal",
     value: true,
   });
-
-  console.log("[Marques] Filtros finais para API:", apiFilters);
 
   // Buscar bairros com contagem para o mapa — usando os filtros relevantes do contexto atual
   const locationFields = [

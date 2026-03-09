@@ -9,6 +9,7 @@ import { useMemo, useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import slugify from "slugify";
 import { createPortal } from "react-dom";
+import { slugifyOptions } from "@/utils/slugify";
 
 export type BairroContagem = {
   bairro: string;
@@ -20,13 +21,6 @@ export type BairroContagem = {
 type NeighborhoodMapProps = {
   bairrosContagem: BairroContagem[];
   filters?: string[];
-};
-
-const slugifyOptions = {
-  lower: true,
-  strict: true,
-  locale: "pt",
-  remove: /[*+~.()'\"!:@]/g,
 };
 
 const COLORS = [
@@ -67,24 +61,17 @@ const BairroMarkers = ({
     overlaysRef.current = [];
 
     const newContainers: { el: HTMLElement; index: number }[] = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const G = (window as any).google;
 
-    markers.forEach((marker, i) => {
-      const div = document.createElement("div");
-      div.style.position = "absolute";
-      div.style.transform = "translate(-50%, -50%)";
-      div.style.cursor = "pointer";
-      div.style.zIndex = "1";
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const G = (window as any).google;
-
+    const createPillOverlay = (div: HTMLElement, lat: number, lng: number) => {
       class PillOverlay extends G.maps.OverlayView {
         onAdd() {
           this.getPanes().overlayMouseTarget.appendChild(div);
         }
         draw() {
           const pt = this.getProjection().fromLatLngToDivPixel(
-            new G.maps.LatLng(marker.lat, marker.lng)
+            new G.maps.LatLng(lat, lng)
           );
           if (pt) {
             div.style.left = `${pt.x}px`;
@@ -95,8 +82,17 @@ const BairroMarkers = ({
           div.parentNode?.removeChild(div);
         }
       }
+      return new PillOverlay();
+    };
 
-      const overlay = new PillOverlay();
+    markers.forEach((marker, i) => {
+      const div = document.createElement("div");
+      div.style.position = "absolute";
+      div.style.transform = "translate(-50%, -50%)";
+      div.style.cursor = "pointer";
+      div.style.zIndex = "1";
+
+      const overlay = createPillOverlay(div, marker.lat, marker.lng);
       overlay.setMap(map);
       overlaysRef.current.push(overlay);
       newContainers.push({ el: div, index: i });
@@ -107,7 +103,6 @@ const BairroMarkers = ({
     // Fit map to show all markers (only on first render)
     if (markers.length > 0 && !hasFittedBoundsRef.current) {
       hasFittedBoundsRef.current = true;
-      const G = (window as any).google;
       const bounds = new G.maps.LatLngBounds();
       markers.forEach((m) => bounds.extend(new G.maps.LatLng(m.lat, m.lng)));
       G.maps.event.addListenerOnce(map, "idle", () => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import Header from "@/components/header";
 import { WhatsappButton } from "@/components/whatsapp-btn";
 import Image from "next/image";
@@ -31,6 +31,13 @@ const SORT_OPTIONS = [
   { label: "Mais caros", value: "price-desc" },
   { label: "Mais vistos", value: "views" },
 ] as const;
+
+const mapsApiKey = process.env.NEXT_PUBLIC_MAPS_API_KEY;
+
+const MapsWrapper = ({ children }: { children: ReactNode }) => {
+  if (!mapsApiKey) return <>{children}</>;
+  return <APIProvider apiKey={mapsApiKey}>{children}</APIProvider>;
+};
 
 interface PropertyListProps {
   imoveis: Imóvel[];
@@ -80,13 +87,12 @@ const PropertyList: React.FC<PropertyListProps> = ({
     router.push(segs.length > 0 ? `/imoveis/${segs.join("/")}` : "/imoveis");
   };
 
-  const bairrosComCoordenadas = bairrosContagem.filter((b) => b.lat !== 0 && b.lng !== 0);
-  const hasMap = !!process.env.NEXT_PUBLIC_MAPS_API_KEY;
+  const hasMap = !!mapsApiKey;
 
   return (
     <div className="bg-menu bg-no-repeat min-h-screen">
       <Header />
-      <APIProvider apiKey={process.env.NEXT_PUBLIC_MAPS_API_KEY || ""}>
+      <MapsWrapper>
         <main className="mt-28">
           {/* Filtros — largura total */}
           <div className="px-4 pb-6 relative z-[400]">
@@ -210,8 +216,8 @@ const PropertyList: React.FC<PropertyListProps> = ({
                                   width={538}
                                   height={375}
                                   style={{ maxWidth: "100%", height: "323px" }}
-                                  priority
-                                  quality={100}
+                                  priority={index < 2}
+                                  quality={85}
                                 />
                               </Link>
                             </div>
@@ -310,7 +316,7 @@ const PropertyList: React.FC<PropertyListProps> = ({
 
           <WhatsappButton empresa={empresa} />
         </main>
-      </APIProvider>
+      </MapsWrapper>
     </div>
   );
 };
