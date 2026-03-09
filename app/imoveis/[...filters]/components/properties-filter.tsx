@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { getBairrosPorCidade } from "@/lib/api";
@@ -187,6 +187,12 @@ const PropertiesFilter = ({
   const [bairrosOpen, setBairrosOpen] = useState(false);
   const [tiposOpen, setTiposOpen] = useState(false);
 
+  // Refs para impedir fechamento prematuro no mobile (Radix dispara onOpenChange antes de onValueChange)
+  const selectingEstados = useRef(false);
+  const selectingCidades = useRef(false);
+  const selectingBairros = useRef(false);
+  const selectingTipos = useRef(false);
+
   const tiposOptions = tipos.length > 0
     ? tipos
     : [
@@ -235,17 +241,24 @@ const PropertiesFilter = ({
         <Select
           value=""
           open={estadosOpen}
-          onOpenChange={setEstadosOpen}
+          onOpenChange={(open) => {
+            if (!open && selectingEstados.current) {
+              selectingEstados.current = false;
+              return;
+            }
+            selectingEstados.current = false;
+            setEstadosOpen(open);
+          }}
           onValueChange={(value) => {
             if (value === "clear-all") {
               setSelectedEstados([]);
               setEstadosOpen(false);
             } else {
+              selectingEstados.current = true;
               const slug = slugifyString(value);
               setSelectedEstados((prev) =>
                 prev.includes(slug) ? prev.filter((e) => e !== slug) : [...prev, slug]
               );
-              setEstadosOpen(true);
             }
           }}
         >
@@ -277,17 +290,24 @@ const PropertiesFilter = ({
         <Select
           value=""
           open={cidadesOpen}
-          onOpenChange={setCidadesOpen}
+          onOpenChange={(open) => {
+            if (!open && selectingCidades.current) {
+              selectingCidades.current = false;
+              return;
+            }
+            selectingCidades.current = false;
+            setCidadesOpen(open);
+          }}
           onValueChange={(value) => {
             if (value === "clear-all") {
               setSelectedCidades([]);
               setCidadesOpen(false);
             } else {
+              selectingCidades.current = true;
               const slug = slugifyString(value);
               setSelectedCidades((prev) =>
                 prev.includes(slug) ? prev.filter((c) => c !== slug) : [...prev, slug]
               );
-              setCidadesOpen(true);
             }
           }}
           disabled={selectedEstados.length === 0}
@@ -329,17 +349,23 @@ const PropertiesFilter = ({
         <Select
           value=""
           open={bairrosOpen}
-          onOpenChange={setBairrosOpen}
+          onOpenChange={(open) => {
+            if (!open && selectingBairros.current) {
+              selectingBairros.current = false;
+              return;
+            }
+            selectingBairros.current = false;
+            setBairrosOpen(open);
+          }}
           onValueChange={(value) => {
             if (value === "clear-all") {
               setSelectedBairros([]);
               setBairrosOpen(false);
-            } else if (selectedBairros.includes(value)) {
-              setSelectedBairros((prev) => prev.filter((b) => b !== value));
-              setBairrosOpen(true);
             } else {
-              setSelectedBairros((prev) => [...prev, value]);
-              setBairrosOpen(true);
+              selectingBairros.current = true;
+              setSelectedBairros((prev) =>
+                prev.includes(value) ? prev.filter((b) => b !== value) : [...prev, value]
+              );
             }
           }}
           disabled={selectedCidades.length === 0 && selectedBairros.length === 0}
@@ -377,17 +403,24 @@ const PropertiesFilter = ({
         <Select
           value=""
           open={tiposOpen}
-          onOpenChange={setTiposOpen}
+          onOpenChange={(open) => {
+            if (!open && selectingTipos.current) {
+              selectingTipos.current = false;
+              return;
+            }
+            selectingTipos.current = false;
+            setTiposOpen(open);
+          }}
           onValueChange={(value) => {
             if (value === "clear-all") {
               setSelectedTipos([]);
               setTiposOpen(false);
             } else {
+              selectingTipos.current = true;
               const slug = slugifyString(value);
               setSelectedTipos((prev) =>
                 prev.includes(slug) ? prev.filter((t) => t !== slug) : [...prev, slug]
               );
-              setTiposOpen(true);
             }
           }}
         >
