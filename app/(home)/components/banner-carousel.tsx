@@ -35,7 +35,7 @@ export default function BannerCarousel({ slides }: { slides: BannerSlide[] }) {
 
   return (
     <div className="relative">
-      <div className="overflow-hidden rounded-lg md:rounded-2xl" ref={emblaRef}>
+      <div className="overflow-hidden rounded-lg md:rounded-2xl bg-black" ref={emblaRef}>
         <div className="flex">
           {slides.map((slide, i) => (
             <div key={i} className="flex-[0_0_100%] min-w-0">
