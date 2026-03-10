@@ -3,31 +3,16 @@ import processarFiltros from "@/utils/processar-filtros-backend";
 import checkFetchStatus from "@/utils/checkFetchStatus";
 import ordenacoesBackend from "@/utils/processar-ordenacoes-backend";
 import { notFound } from "next/navigation";
-import slugify from "slugify";
 import { getBairros } from "@/lib/api";
+import { slugifyString } from "@/utils/slugify";
 
 const PAGE_SIZE = 12;
-
-const slugifyOptions = {
-  lower: true,
-  strict: true,
-  locale: "pt",
-  remove: /[*+~.()'"!:@]/g,
-};
-
-// Função auxiliar para slugificar
-const slugifyString = (str: string | undefined | null) => {
-  const safeStr = str || "";
-  const slugfied = slugify(safeStr, slugifyOptions);
-  return slugfied;
-};
 
 // Função para obter ID a partir do nome
 const getIdByName = (list: any[], name: string, key: string = "nome") => {
   const item = list.find((el) => {
     const value = el[key] || el;
     if (typeof value !== "string") {
-      console.warn(`Valor de '${key}' não é uma string para o item:`, el);
       return false;
     }
     return slugifyString(value) === name;
@@ -44,7 +29,6 @@ const getNameBySlug = (list: any[], slug: string, key = "nome") => {
   const item = list.find((el) => {
     const value = el[key] || el;
     if (typeof value !== "string") {
-      console.warn(`Valor de '${key}' não é uma string para o item:`, el);
       return false;
     }
     return slugifyString(value) === slug;
@@ -83,10 +67,10 @@ const formatBairroName = (bairroSlug: string): string => {
 
   // Decodifica URL
   let nomeBairro = decodeURIComponent(bairroSlug)
-  
+
   // Substitui hífens por espaços
   nomeBairro = nomeBairro.replace(/-/g, ' ')
-  
+
   // Restaura padrões com parênteses
   const patternsWithParentheses = [
     { regex: /distrito litoral/gi, replacement: '(Distrito Litoral)' },
@@ -150,6 +134,7 @@ async function getData(filtros: any): Promise<{
   codigos: any[];
   empresa: Empresa;
   bairros: any[];
+  bairrosContagem: { bairro: string; quantidade: number; lat: number; lng: number }[];
   caracteristicas?: any[];
 }> {
   const { pagina = 1, ordem = 1, ...rest } = filtros;
@@ -197,6 +182,7 @@ async function getData(filtros: any): Promise<{
   const bairros = await responseBairros.json(); */
   const bairros = await getBairros();
 
+
   const responseTipos = await fetch(
     `${uri}/imoveis/tipos-empresa?${params.toString()}`,
     {
@@ -242,25 +228,32 @@ async function getData(filtros: any): Promise<{
   const apiFilters: any[] = [];
 
   // Filtro por estados (múltiplos)
-  if (rest.estado) {
+  let restEstado = rest.estado;
+
+  // Se não houver estado, cidade ou bairro selecionado, padrão para Santa Catarina (slugificado)
+  if (!restEstado && !rest.cidade && !rest.bairro) {
+    restEstado = "santa-catarina";
+  }
+
+  if (restEstado) {
     const estadosProcessados: string[] = [];
-    
+
     // Processar string com vírgulas
-    if (typeof rest.estado === "string" && rest.estado.includes(",")) {
-      const estadosSeparados = rest.estado.split(",").map((e: string) => (e || '').trim()).filter(Boolean);
+    if (typeof restEstado === "string" && restEstado.includes(",")) {
+      const estadosSeparados = restEstado.split(",").map((e: string) => (e || '').trim()).filter(Boolean);
       estadosSeparados.forEach((estadoSeparado: string) => {
         const estadoId = getIdByName(estados, estadoSeparado, "nome");
         if (estadoId) {
           estadosProcessados.push(estadoId);
         }
       });
-    } else if (typeof rest.estado === "string") {
-      const estadoId = getIdByName(estados, rest.estado, "nome");
+    } else if (typeof restEstado === "string") {
+      const estadoId = getIdByName(estados, restEstado, "nome");
       if (estadoId) {
         estadosProcessados.push(estadoId);
       }
-    } else if (Array.isArray(rest.estado)) {
-      rest.estado.forEach((estado: string) => {
+    } else if (Array.isArray(restEstado)) {
+      restEstado.forEach((estado: string) => {
         if (estado && typeof estado === "string") {
           if (estado.includes(",")) {
             const estadosSeparados = estado.split(",").map((e: string) => (e || '').trim()).filter(Boolean);
@@ -281,7 +274,7 @@ async function getData(filtros: any): Promise<{
     }
 
     const estadosIds = Array.from(new Set(estadosProcessados)).filter(Boolean);
-    
+
     if (estadosIds.length > 0) {
       if (estadosIds.length === 1) {
         apiFilters.push({
@@ -339,7 +332,7 @@ async function getData(filtros: any): Promise<{
     }
 
     const cidadesIds = Array.from(new Set(cidadesProcessadas)).filter(Boolean);
-    
+
     if (cidadesIds.length > 0) {
       if (cidadesIds.length === 1) {
         apiFilters.push({
@@ -456,7 +449,7 @@ async function getData(filtros: any): Promise<{
   if (rest.caracteristicas) {
     const caracteristicasArray = Array.isArray(rest.caracteristicas) ? rest.caracteristicas : [rest.caracteristicas];
     const caracteristicasNomes: string[] = [];
-    
+
     caracteristicasArray.forEach((carac: string) => {
       if (carac && typeof carac === "string") {
         if (carac.includes(",")) {
@@ -477,7 +470,7 @@ async function getData(filtros: any): Promise<{
     });
 
     const caracUnicos = Array.from(new Set(caracteristicasNomes)).filter(Boolean);
-    
+
     if (caracUnicos.length > 0) {
       caracUnicos.forEach((carac) => {
         apiFilters.push({
@@ -575,7 +568,7 @@ async function getData(filtros: any): Promise<{
 
   // Filtros de preço
   const precoField = rest.transacao === "locacao" ? "imovel.preço_locação" : "imovel.preço_venda";
-  
+
   if (rest.preco_min) {
     apiFilters.push({
       field: precoField,
@@ -641,7 +634,34 @@ async function getData(filtros: any): Promise<{
     value: true,
   });
 
-  console.log("[Marques] Filtros finais para API:", apiFilters);
+  // Buscar bairros com contagem para o mapa — usando os filtros relevantes do contexto atual
+  const locationFields = [
+    "imovel.cidade_id",
+    "imovel.estado_id",
+    "imovel.venda",
+    "imovel.tipo",
+    "imovel.preço_venda",
+    "imovel.preço_locação",
+    "imovel.codigo",
+  ];
+  const mapFiltros = apiFilters.filter((f) => locationFields.includes(f.field));
+
+  let bairrosContagem: { bairro: string; quantidade: number; lat: number; lng: number }[] = [];
+  try {
+    const mapParams = new URLSearchParams({ empresa_id });
+    if (mapFiltros.length > 0) {
+      mapParams.set("filtros", JSON.stringify(mapFiltros));
+    }
+    const responseBairrosContagem = await fetch(
+      `${uri}/imoveis/bairros-contagem?${mapParams.toString()}`,
+      { cache: "no-store" }
+    );
+    if (responseBairrosContagem.ok) {
+      bairrosContagem = await responseBairrosContagem.json();
+    }
+  } catch {
+    // falha silenciosa — mapa simplesmente não renderiza
+  }
 
   // Configurar ordenação
   let orderBy = [{ field: "imovel.visualizações", order: "DESC" }];
@@ -659,6 +679,9 @@ async function getData(filtros: any): Promise<{
         break;
       case "newest":
         orderBy = [{ field: "imovel.created_at", order: "DESC" }];
+        break;
+      case "views":
+        orderBy = [{ field: "imovel.visualizações", order: "DESC" }];
         break;
       default:
         orderBy = [{ field: "imovel.visualizações", order: "DESC" }];
@@ -690,6 +713,7 @@ async function getData(filtros: any): Promise<{
       total: imoveis?.total || 0,
     },
     bairros,
+    bairrosContagem,
     estados,
     cidades,
     tipos,

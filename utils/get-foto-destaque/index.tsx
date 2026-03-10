@@ -1,5 +1,6 @@
 import { Imóvel } from "smart-imob-types";
 import { sanitizeImageUrl } from "@/utils/sanitize-image-url";
+import { applyCdn } from "@/utils/cdn";
 
 export const getFotoDestaque = (
   imovel: Imóvel,
@@ -11,15 +12,15 @@ export const getFotoDestaque = (
   if (firstImage) {
     if (resized) {
       if (resizedWEBP && firstImage.resized_webp) {
-        return sanitizeImageUrl(firstImage.resized_webp);
+        return applyCdn(sanitizeImageUrl(firstImage.resized_webp));
       }
       if (resizedWEBP && firstImage.resized_md) {
-        return sanitizeImageUrl(firstImage.resized_md);
+        return applyCdn(sanitizeImageUrl(firstImage.resized_md));
       }
 
-      return sanitizeImageUrl(firstImage.resized || firstImage.source.uri);
+      return applyCdn(sanitizeImageUrl(firstImage.resized || firstImage.source.uri));
     } else {
-      return sanitizeImageUrl(firstImage.source.uri);
+      return applyCdn(sanitizeImageUrl(firstImage.source.uri));
     }
   }
 
@@ -30,14 +31,14 @@ export const getFotoDestaque = (
   if (!foto) return undefined;
   if (resized) {
     if (resizedWEBP && foto.resized_webp) {
-      return sanitizeImageUrl(foto.resized_webp);
+      return applyCdn(sanitizeImageUrl(foto.resized_webp));
     }
     if (resizedWEBP && foto.resized_md) {
-      return sanitizeImageUrl(foto.resized_md);
+      return applyCdn(sanitizeImageUrl(foto.resized_md));
     }
 
-    return sanitizeImageUrl(foto.resized || foto.source.uri);
+    return applyCdn(sanitizeImageUrl(foto.resized || foto.source.uri));
   } else {
-    return sanitizeImageUrl(foto.source.uri);
+    return applyCdn(sanitizeImageUrl(foto.source.uri));
   }
 };

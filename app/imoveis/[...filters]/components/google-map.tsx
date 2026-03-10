@@ -38,16 +38,9 @@ const GoogleMap = ({ closeMap, imoveis, defaultCenter }: GoogleMapProps) => {
   const [showingProperties, setShowingProperties] = useState(false);
 
   const mapPosition = {
-    lat: defaultCenter?.lat || -29.6846,
-    lng: defaultCenter?.long || -51.1303,
+    lat: defaultCenter?.lat || -27.1000,
+    lng: defaultCenter?.long || -48.6000,
   };
-  
-  // Debug para verificar as coordenadas
-  console.log('Map Position:', mapPosition);
-  console.log('Total de imóveis:', imoveis.length);
-  console.log('Imóveis com coordenadas:', imoveis.filter(i => i.lat && i.long).length);
-  console.log('Google Maps API Key exists:', !!process.env.NEXT_PUBLIC_MAPS_API_KEY);
-  console.log('Bairro markers:', bairroMarkers);
 
   const predefinedColors = useMemo(() => [
     { bg: "#530944", clr: "#fff" },
@@ -58,7 +51,7 @@ const GoogleMap = ({ closeMap, imoveis, defaultCenter }: GoogleMapProps) => {
   useEffect(() => {
     // Agrupar imóveis por bairro
     const bairrosMap = new window.Map<string, Imóvel[]>();
-    
+
     imoveis.forEach((imovel) => {
       const bairro = imovel.bairro || "Sem bairro";
       if (!bairrosMap.has(bairro)) {
@@ -73,12 +66,17 @@ const GoogleMap = ({ closeMap, imoveis, defaultCenter }: GoogleMapProps) => {
     // Criar marcadores para cada bairro
     const markers: BairroMarker[] = Array.from(bairrosMap.entries()).map(
       ([bairro, imoveisBairro], index) => {
-        // Calcular posição média do bairro baseada nos imóveis
-        const avgLat = imoveisBairro.reduce((sum: number, im: Imóvel) => sum + (im.lat || 0), 0) / imoveisBairro.length;
-        const avgLng = imoveisBairro.reduce((sum: number, im: Imóvel) => sum + (im.long || 0), 0) / imoveisBairro.length;
-        
+        // Calcular posição média do bairro baseada apenas nos imóveis com coordenadas
+        const imoveisComCoord = imoveisBairro.filter((im: Imóvel) => im.lat && im.long);
+        const avgLat = imoveisComCoord.length > 0
+          ? imoveisComCoord.reduce((sum: number, im: Imóvel) => sum + im.lat, 0) / imoveisComCoord.length
+          : 0;
+        const avgLng = imoveisComCoord.length > 0
+          ? imoveisComCoord.reduce((sum: number, im: Imóvel) => sum + im.long, 0) / imoveisComCoord.length
+          : 0;
+
         const color = predefinedColors[index % predefinedColors.length];
-        
+
         return {
           bairro,
           quantidade: imoveisBairro.length,
@@ -104,84 +102,82 @@ const GoogleMap = ({ closeMap, imoveis, defaultCenter }: GoogleMapProps) => {
 
   return (
     <div className="w-full h-full relative">
-      <APIProvider apiKey={process.env.NEXT_PUBLIC_MAPS_API_KEY}>
-        <GoogleMapComponent
-          defaultZoom={12}
-          defaultCenter={mapPosition}
-          style={{ width: '100%', height: '100%' }}
+      <GoogleMapComponent
+        defaultZoom={12}
+        defaultCenter={mapPosition}
+        style={{ width: '100%', height: '100%' }}
+      >
+        <button
+          className="bg-white w-12 aspect-square flex justify-center items-center shadow-lg rounded-[.625rem] top-6 left-6 absolute lg:hidden"
+          onClick={closeMap}
         >
-          <button
-            className="bg-white w-12 aspect-square flex justify-center items-center shadow-lg rounded-[.625rem] top-6 left-6 absolute lg:hidden"
-            onClick={closeMap}
+          <Image
+            src={MapsArrow}
+            alt="Seta para esquerda"
+            style={{
+              maxWidth: "100%",
+              height: "auto",
+            }}
+          />
+        </button>
+        {bairroMarkers.map((marker) => (
+          <AdvancedMarker
+            key={marker.bairro}
+            position={marker.position}
+            onClick={() => {
+              setSelectedBairro(selectedBairro?.bairro === marker.bairro ? null : marker);
+              setShowingProperties(false);
+            }}
           >
-            <Image
-              src={MapsArrow}
-              alt="Seta para esquerda"
+            <div
+              className="flex tracking-wider justify-center items-center shadow-xl px-4 py-2 rounded-full transition-all hover:scale-110 cursor-pointer"
               style={{
-                maxWidth: "100%",
-                height: "auto",
-              }}
-            />
-          </button>
-          {bairroMarkers.map((marker) => (
-            <AdvancedMarker
-              key={marker.bairro}
-              position={marker.position}
-              onClick={() => {
-                setSelectedBairro(selectedBairro?.bairro === marker.bairro ? null : marker);
-                setShowingProperties(false);
+                backgroundColor: marker.bg,
+                color: marker.clr,
+                whiteSpace: "nowrap",
               }}
             >
-              <div
-                className="flex tracking-wider justify-center items-center shadow-xl px-4 py-2 rounded-full transition-all hover:scale-110 cursor-pointer"
-                style={{
-                  backgroundColor: marker.bg,
-                  color: marker.clr,
-                  whiteSpace: "nowrap",
-                }}
-              >
-                <span className="font-bold mr-2">{marker.quantidade}</span>
-                <span>imóveis em {marker.bairro}</span>
-              </div>
-            </AdvancedMarker>
-          ))}
-          
-          {selectedBairro && (
-            <InfoWindow
-              className="max-w-[30rem]"
-              headerDisabled
-              position={selectedBairro.position}
-              onCloseClick={() => {
-                setSelectedBairro(null);
-                setShowingProperties(false);
-              }}
-            >
-              <div className="p-4">
-                <h3 className="text-lg font-bold mb-3">
-                  {selectedBairro.quantidade} imóveis em {selectedBairro.bairro}
-                </h3>
-                
-                {!showingProperties ? (
-                  <button
-                    onClick={() => setShowingProperties(true)}
-                    className="w-full py-2 px-4 bg-[#530944] text-white rounded-lg hover:bg-[#6a0b58] transition-colors"
-                  >
-                    Ver imóveis disponíveis
-                  </button>
-                ) : (
-                  <div className="max-h-96 overflow-y-auto">
-                    {selectedBairro.imoveis.map((imovel) => (
-                      <div key={imovel.db_id} className="mb-4 pb-4 border-b last:border-b-0">
-                        <EstateDetails estate={imovel} />
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </InfoWindow>
-          )}
-        </GoogleMapComponent>
-      </APIProvider>
+              <span className="font-bold mr-2">{marker.quantidade}</span>
+              <span>imóveis em {marker.bairro}</span>
+            </div>
+          </AdvancedMarker>
+        ))}
+
+        {selectedBairro && (
+          <InfoWindow
+            className="max-w-[30rem]"
+            headerDisabled
+            position={selectedBairro.position}
+            onCloseClick={() => {
+              setSelectedBairro(null);
+              setShowingProperties(false);
+            }}
+          >
+            <div className="p-4">
+              <h3 className="text-lg font-bold mb-3">
+                {selectedBairro.quantidade} imóveis em {selectedBairro.bairro}
+              </h3>
+
+              {!showingProperties ? (
+                <button
+                  onClick={() => setShowingProperties(true)}
+                  className="w-full py-2 px-4 bg-[#530944] text-white rounded-lg hover:bg-[#6a0b58] transition-colors"
+                >
+                  Ver imóveis disponíveis
+                </button>
+              ) : (
+                <div className="max-h-96 overflow-y-auto">
+                  {selectedBairro.imoveis.map((imovel) => (
+                    <div key={imovel.db_id} className="mb-4 pb-4 border-b last:border-b-0">
+                      <EstateDetails estate={imovel} />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </InfoWindow>
+        )}
+      </GoogleMapComponent>
     </div>
   );
 };

@@ -3,7 +3,10 @@ import { WhatsappButton } from "@/components/whatsapp-btn";
 import Image from "next/image";
 import Link from "next/link";
 import MarquesELeao from "/public/marqueseleao/marques-leao.webp";
-import Lancamentos from "/public/marqueseleao/lancamentos.webp";
+import LancamentosDesktop from "/public/marqueseleao/1.png";
+import LancamentosMobile from "/public/marqueseleao/projetos-lancamentos-mobile.png";
+import GestaoExclusivaDesktop from "/public/marqueseleao/2.png";
+import GestaoExclusivaMobile from "/public/marqueseleao/gestao-exclusiva-mobile.png";
 import Ellipse from "/public/marqueseleao/ellipse4.webp";
 import MarquesInstagram from "/public/marqueseleao/marques-instagram.webp";
 import MarquesFacebook from "/public/marqueseleao/marques-facebook.webp";
@@ -22,6 +25,7 @@ import { Post } from "smart-imob-types";
 import HomeFilter from "./components/home-filter";
 import { notFound } from "next/navigation";
 import SectionVideo from "@/components/section-video";
+import BannerCarousel from "./components/banner-carousel";
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -260,8 +264,7 @@ export default async function Home() {
             />
           </div>
 
-          {/* <HomeFilter className="absolute bottom-[17.5%] translate-x-1/2 z-50 right-1/2" /> */}
-          <HomeFilter className="absolute bottom-[17.5%] left-1/2 -translate-x-1/2 z-50" />
+          <HomeFilter className="mt-8 z-50 md:absolute md:mt-0 md:left-1/2 md:-translate-x-1/2 md:bottom-[17.5%]" />
 
         </section>
         <section className="w-full md:w-[min(90%,110rem)] mx-auto relative mt-20">
@@ -328,64 +331,22 @@ export default async function Home() {
           />
         </section>
         <section className="w-[min(90%,68rem)] mx-auto">
-          <article className="w-[min(100%,20rem)] md:w-auto mx-auto md:mx-0 md:flex md:flex-row-reverse">
-            <div className="lancamentos-wrapper">
-              <Image
-                className="lancamentos-img rounded-lg md:rounded-2xl"
-                src={Lancamentos}
-                alt="Varanda de prédios"
-                style={{
-                  maxWidth: "100%",
-                  height: "auto",
-                }}
-                priority
-              />
-            </div>
-            <div className="projects-wrapper w-[min(100%,25rem)]">
-              <div className="bg-mainPurple md:h-full md:bg-transparent before:bg-gradient-to-t before:absolute before:inset-0 before:-z-20 before:from-[#141414] md:before:content-none md:bg-gradient-to-b translate-y-[-.5rem] md:translate-y-0 md:translate-x-[.75rem] lg:translate-x-[1.25rem] md:from-mainPurple rounded-lg md:rounded-xl px-6 py-8 md:p-8 projects">
-                <h2
-                  className={`text-3xl tracking-wide md:tracking-normal md:leading-[2.75rem] md:text-[2.5rem] font-baskervville`}
-                >
-                  Pensando em Projetos e lançamentos?
-                </h2>
-                <p className="mt-3 mb-2 md:mb-2 max-w-[22ch]">
-                  Conheça aqui as novidades do mercado.
-                </p>
-                <Link
-                  className="bg-mainPurple hover:scale-110 md:hover:scale-100 inline-block hover:bg-white hover:text-black transition-all text-sm py-3 px-5 rounded-lg"
-                  href="/imoveis/lancamento-true"
-                >
-                  Conhecer Lançamentos
-                </Link>
-                <svg
-                  className="svg_filter"
-                  xmlns="http://www.w3.org/2000/svg"
-                  version="1.1"
-                >
-                  <defs>
-                    <filter id="round">
-                      <feGaussianBlur
-                        in="SourceGraphic"
-                        stdDeviation="4"
-                        result="blur"
-                      />
-                      <feColorMatrix
-                        in="blur"
-                        mode="matrix"
-                        values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9"
-                        result="goo"
-                      />
-                      <feComposite
-                        in="SourceGraphic"
-                        in2="goo"
-                        operator="atop"
-                      />
-                    </filter>
-                  </defs>
-                </svg>
-              </div>
-            </div>
-          </article>
+          <BannerCarousel
+            slides={[
+              {
+                href: "/imoveis/exclusivo-true",
+                desktopSrc: GestaoExclusivaDesktop,
+                mobileSrc: GestaoExclusivaMobile,
+                alt: "Gestão Exclusiva",
+              },
+              {
+                href: "/imoveis/lancamento-true",
+                desktopSrc: LancamentosDesktop,
+                mobileSrc: LancamentosMobile,
+                alt: "Projetos e lançamentos",
+              },
+            ]}
+          />
         </section>
         <section className="relative">
           <div className="hidden lg:block absolute overflow-hidden right-0 bottom-1/2 translate-y-[65%] -z-10 w-[50%] aspect-square">

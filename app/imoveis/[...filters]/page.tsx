@@ -1,30 +1,9 @@
 import PropertyList from "./components/property-list";
 import { notFound } from "next/navigation";
-import slugify from "slugify";
 import { getData } from "./data";
+import { slugifyString } from "@/utils/slugify";
 
 const PAGE_SIZE = 12;
-
-// Configuração do slugify
-const slugifyOptions = {
-  lower: true,
-  strict: false,
-  locale: "pt",
-  remove: /[*+~.'"!:@]/g,
-};
-
-// Função para slugificar strings com validação
-const slugifyString = (str: any) => {
-  if (typeof str !== "string" || !str) {
-    return "";
-  }
-  try {
-    return slugify(str || "", slugifyOptions || {});
-  } catch (error) {
-    console.error(`Erro ao slugificar valor: ${str}`, error);
-    return "";
-  }
-};
 
 // Função para formatar nomes de bairros corretamente
 const formatBairroName = (bairroSlug: string): string => {
@@ -253,7 +232,7 @@ export default async function ListingStayPage({
   const pagina = Number(filters.pagina ?? searchParams.pagina ?? "1");
 
   // Chamar getData com os filtros extraídos
-  const { imoveis, estados, cidades, tipos, codigos, empresa, bairros } =
+  const { imoveis, estados, cidades, tipos, codigos, empresa, bairros, bairrosContagem } =
     await getData(filters);
 
   // Função para obter o nome real a partir do slug
@@ -412,7 +391,6 @@ export default async function ListingStayPage({
   // Se nenhum imóvel foi encontrado e há filtros aplicados, pode ser um filtro inválido
   if (imoveis.total === 0 && Object.keys(filters).length > 1) {
     // Permitir página sem resultados ao invés de 404
-    console.log("Nenhum imóvel encontrado com os filtros aplicados.");
   }
 
   const totalPages = Math.ceil(imoveis.total / PAGE_SIZE);
@@ -423,6 +401,7 @@ export default async function ListingStayPage({
         estados={estados}
         cidades={cidades}
         bairros={bairros}
+        bairrosContagem={bairrosContagem}
         tipos={tipos}
         codigos={codigos}
         pages={totalPages}

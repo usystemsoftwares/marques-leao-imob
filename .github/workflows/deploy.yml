@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - master
+      - novo-mapa
 
 env:
   PROJECT_ID: smartimob-granato-gen
@@ -43,8 +44,10 @@ jobs:
           # Override based on branch if needed
           case "$BRANCH" in
             main|master)
-              # Use secrets or defaults for main branch
               SERVICE_SUFFIX="marques-new"
+              ;;
+            novo-mapa)
+              SERVICE_SUFFIX="leao-preview"
               ;;
           esac
 
@@ -56,6 +59,6 @@ jobs:
         run: |
           gcloud builds submit \
             --config=cloudbuild.yaml \
-            --substitutions=_EMPRESA_ID=${{ env.EMPRESA_ID }},_SERVICE_SUFFIX=${{ env.SERVICE_SUFFIX }},_BACKEND_API_URI=${{ env.BACKEND_API_URI }} \
+            --substitutions=_EMPRESA_ID=${{ env.EMPRESA_ID }},_SERVICE_SUFFIX=${{ env.SERVICE_SUFFIX }},_BACKEND_API_URI=${{ env.BACKEND_API_URI }},_MAPS_API_KEY=${{ secrets.NEXT_PUBLIC_MAPS_API_KEY }},_GOOGLE_PLACES_API_KEY=${{ secrets.GOOGLE_PLACES_API_KEY }},_GOOGLE_PLACE_ID=${{ secrets.GOOGLE_PLACE_ID }} \
             --region=global \
             --project=${{ env.PROJECT_ID }}

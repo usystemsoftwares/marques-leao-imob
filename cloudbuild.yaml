@@ -12,6 +12,12 @@ steps:
       - 'BACKEND_API_URI=${_BACKEND_API_URI}'
       - '--build-arg'
       - 'NEXT_PUBLIC_BACKEND_API_URI=${_BACKEND_API_URI}'
+      - '--build-arg'
+      - 'NEXT_PUBLIC_MAPS_API_KEY=${_MAPS_API_KEY}'
+      - '--build-arg'
+      - 'GOOGLE_PLACES_API_KEY=${_GOOGLE_PLACES_API_KEY}'
+      - '--build-arg'
+      - 'GOOGLE_PLACE_ID=${_GOOGLE_PLACE_ID}'
       - '-t'
       - 'us-central1-docker.pkg.dev/smartimob-granato-gen/modelo-smtx-one/marques-template:${_EMPRESA_ID}'
       - '.'
@@ -45,7 +51,7 @@ steps:
       - '--max-instances'
       - '3'
       - '--set-env-vars'
-      - 'EMPRESA_ID=${_EMPRESA_ID},NEXT_PUBLIC_EMPRESA_ID=${_EMPRESA_ID},BACKEND_API_URI=${_BACKEND_API_URI},NEXT_PUBLIC_BACKEND_API_URI=${_BACKEND_API_URI}'
+      - 'EMPRESA_ID=${_EMPRESA_ID},NEXT_PUBLIC_EMPRESA_ID=${_EMPRESA_ID},BACKEND_API_URI=${_BACKEND_API_URI},NEXT_PUBLIC_BACKEND_API_URI=${_BACKEND_API_URI},GOOGLE_PLACES_API_KEY=${_GOOGLE_PLACES_API_KEY},GOOGLE_PLACE_ID=${_GOOGLE_PLACE_ID}'
 
 images:
   - 'us-central1-docker.pkg.dev/smartimob-granato-gen/modelo-smtx-one/marques-template:${_EMPRESA_ID}'
@@ -54,6 +60,9 @@ substitutions:
   _EMPRESA_ID: 'default'
   _BACKEND_API_URI: 'https://api.smtximob.com'
   _SERVICE_SUFFIX: 'template'
+  _MAPS_API_KEY: ''
+  _GOOGLE_PLACES_API_KEY: ''
+  _GOOGLE_PLACE_ID: ''
 
 options:
   logging: CLOUD_LOGGING_ONLY
