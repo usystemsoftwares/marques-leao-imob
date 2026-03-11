@@ -457,7 +457,7 @@ const PropertiesFilter = ({
             className="outline-none text-sm w-full text-gray-700 placeholder:text-gray-400 bg-transparent md:text-xs"
             type="text"
             inputMode="numeric"
-            pattern="[0-9]*"
+            //pattern="[0-9]*"
             value={formatValor(valorMin)}
             onChange={(e) => setValorMin(parseValor(e.target.value))}
           />
@@ -470,7 +470,7 @@ const PropertiesFilter = ({
             className="outline-none text-sm w-full text-gray-700 placeholder:text-gray-400 bg-transparent md:text-xs"
             type="text"
             inputMode="numeric"
-            pattern="[0-9]*"
+            //pattern="[0-9]*"
             value={formatValor(valorMax)}
             onChange={(e) => setValorMax(parseValor(e.target.value))}
           />
