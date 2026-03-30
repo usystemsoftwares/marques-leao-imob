@@ -4,8 +4,6 @@ const KNOWN_UTM_KEYS = [
   "utm_content",
   "utm_campaign",
   "utm_term",
-  "utm_product_id",
-  "utm_product_name",
 ];
 
 export const getUtms = () => {
@@ -21,23 +19,21 @@ export const getUtms = () => {
     utm_content: allParams.utm_content || null,
     utm_campaign: allParams.utm_campaign || null,
     utm_term: allParams.utm_term || null,
-    utm_product_id: allParams.utm_product_id || null,
-    utm_product_name: allParams.utm_product_name || null,
   };
 
-  // Todos os outros params vão para campos_personalizados
-  const camposPersonalizados: Record<string, string> = {};
+  // Todos os outros params vão para utm_metadata
+  const utm_metadata: Record<string, string> = {};
   Object.keys(allParams).forEach((key) => {
     if (!KNOWN_UTM_KEYS.includes(key)) {
-      camposPersonalizados[key] = allParams[key];
+      utm_metadata[key] = allParams[key];
     }
   });
 
   return {
     ...knownUtms,
-    campos_personalizados:
-      Object.keys(camposPersonalizados).length > 0
-        ? camposPersonalizados
+    utm_metadata:
+      Object.keys(utm_metadata).length > 0
+        ? utm_metadata
         : null,
   };
 };
