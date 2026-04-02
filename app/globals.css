@@ -1,3 +1,4 @@
+@import "modern-normalize";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -16,6 +17,10 @@
     scrollbar-width: none;
     /* Firefox */
   }
+}
+
+html {
+  font-size: 90%; /* Reduces the base font size to 90% */
 }
 
 /* Chrome, Safari, Edge, Opera */

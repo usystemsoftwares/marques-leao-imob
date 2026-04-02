@@ -9,6 +9,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        'tablet': {'min': '768px', 'max': '1059px'},
+      },
       colors: {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
@@ -65,6 +68,9 @@ const config: Config = {
       fontFamily: {
         baskervville: ["var(--font-baskervville)"],
         montserrat: ["var(--font-montserrat)"]
+      },
+      fontWeight: {
+        'heavy': '950',
       }
     }
   },
