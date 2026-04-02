@@ -232,7 +232,7 @@ async function getData(filtros: any): Promise<{
 
   // Se não houver estado, cidade ou bairro selecionado, padrão para Santa Catarina (slugificado)
   if (!restEstado && !rest.cidade && !rest.bairro) {
-    restEstado = "santa-catarina";
+    restEstado = "rio-grande-do-sul";
   }
 
   if (restEstado) {

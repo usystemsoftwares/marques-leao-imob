@@ -277,6 +277,11 @@ const PropertiesFilter = ({
             )}
             {estados
               .filter((e: any) => e.sigla !== "PA")
+              .sort((a: any, b: any) => {
+                if (a.sigla === "RS") return -1;
+                if (b.sigla === "RS") return 1;
+                return a.sigla.localeCompare(b.sigla);
+              })
               .map((e: any) => (
                 <SelectItem key={e.nome} value={e.nome}>
                   {selectedEstados.includes(slugifyString(e.nome)) ? "✓ " : ""}
@@ -457,7 +462,6 @@ const PropertiesFilter = ({
             className="outline-none text-sm w-full text-gray-700 placeholder:text-gray-400 bg-transparent md:text-xs"
             type="text"
             inputMode="numeric"
-            pattern="[0-9]*"
             value={formatValor(valorMin)}
             onChange={(e) => setValorMin(parseValor(e.target.value))}
           />
@@ -470,7 +474,6 @@ const PropertiesFilter = ({
             className="outline-none text-sm w-full text-gray-700 placeholder:text-gray-400 bg-transparent md:text-xs"
             type="text"
             inputMode="numeric"
-            pattern="[0-9]*"
             value={formatValor(valorMax)}
             onChange={(e) => setValorMax(parseValor(e.target.value))}
           />

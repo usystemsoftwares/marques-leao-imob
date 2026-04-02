@@ -208,6 +208,11 @@ const SearchPropertyFilter = ({
             )}
             {estados
               .filter((e: any) => e.sigla !== "PA")
+              .sort((a: any, b: any) => {
+                if (a.sigla === "RS") return -1;
+                if (b.sigla === "RS") return 1;
+                return a.sigla.localeCompare(b.sigla);
+              })
               .map((e: any) => (
                 <SelectItem key={e.nome} value={e.nome}>
                   {selectedEstados.includes(slugifyString(e.nome)) ? "✓ " : ""}
@@ -419,6 +424,28 @@ const SearchPropertyFilter = ({
             value={formatValor(valorMax)}
             onChange={(e) => setValorMax(parseValor(e.target.value))}
           />
+        </div>
+
+        {/* Separador vertical — apenas desktop */}
+        <div className="hidden md:block h-7 w-px bg-gray-300 shrink-0 self-center" />
+
+        {/* Código — desktop inline, mobile toggle */}
+        <div className="hidden md:block">
+          <div className="bg-white rounded-lg h-9 flex items-center px-2 border border-gray-300 min-w-[7rem]">
+            <input
+              placeholder="Código"
+              className="outline-none text-xs w-full text-black placeholder:text-gray-400 bg-transparent"
+              type="text"
+              value={propertyCode}
+              onChange={(e) => setPropertyCode(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && propertyCode.trim()) {
+                  e.preventDefault();
+                  router.push(`/imovel/${propertyCode.trim()}`);
+                }
+              }}
+            />
+          </div>
         </div>
       </div>
 
