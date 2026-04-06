@@ -230,9 +230,9 @@ async function getData(filtros: any): Promise<{
   // Filtro por estados (múltiplos)
   let restEstado = rest.estado;
 
-  // Se não houver estado, cidade ou bairro selecionado, padrão para Santa Catarina (slugificado)
+  // Se não houver estado, cidade ou bairro selecionado, padrão para SC e RS
   if (!restEstado && !rest.cidade && !rest.bairro) {
-    restEstado = "santa-catarina";
+    restEstado = "santa-catarina,rio-grande-do-sul";
   }
 
   if (restEstado) {

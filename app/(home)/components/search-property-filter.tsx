@@ -32,8 +32,13 @@ const SearchPropertyFilter = ({
   bairros,
   codigos,
   tipos = [],
+  caracteristicas = [],
   searchParams,
 }: FormProps) => {
+  const [transacao, setTransacao] = useState<string>(
+    searchParams?.transacao ?? ""
+  );
+
   const [selectedEstados, setSelectedEstados] = useState<string[]>([]);
   const [selectedCidades, setSelectedCidades] = useState<string[]>([]);
   const [selectedBairros, setSelectedBairros] = useState<string[]>([]);
@@ -42,8 +47,24 @@ const SearchPropertyFilter = ({
   const [filteredNeighborhoods, setFilteredNeighborhoods] = useState<any[]>([]);
   const [loadingBairros, setLoadingBairros] = useState(false);
 
-  const [valorMin, setValorMin] = useState<number | "">("");
-  const [valorMax, setValorMax] = useState<number | "">("");
+  // Código com autocomplete
+  const [codigo, setCodigo] = useState<string>(searchParams?.codigo ?? "");
+  const [codigoInput, setCodigoInput] = useState<string>(
+    searchParams?.codigo ?? ""
+  );
+  const [codigoSuggestions, setCodigoSuggestions] = useState<string[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+
+  // Dormitórios / Vagas
+  const [dormitorios, setDormitorios] = useState<string>("");
+  const [vagas, setVagas] = useState<string>("");
+
+  const [valorMin, setValorMin] = useState<number | "">(
+    searchParams?.valorMin ? Number(searchParams.valorMin) : ""
+  );
+  const [valorMax, setValorMax] = useState<number | "">(
+    searchParams?.valorMax ? Number(searchParams.valorMax) : ""
+  );
 
   const [estadosOpen, setEstadosOpen] = useState(false);
   const [cidadesOpen, setCidadesOpen] = useState(false);
@@ -55,6 +76,7 @@ const SearchPropertyFilter = ({
   const selectingBairros = useRef(false);
   const selectingTipos = useRef(false);
 
+  // Mobile: busca por código direto na página do imóvel
   const [showCodeSearch, setShowCodeSearch] = useState(false);
   const [propertyCode, setPropertyCode] = useState("");
 
@@ -116,9 +138,25 @@ const SearchPropertyFilter = ({
     load();
   }, [selectedCidades, cidades]);
 
+  // Sugestões de código
+  useEffect(() => {
+    if (codigoInput && typeof codigoInput === "string") {
+      setCodigoSuggestions(
+        codigos.filter(
+          (c) =>
+            typeof c === "string" &&
+            c.toLowerCase().includes(codigoInput.toLowerCase())
+        )
+      );
+    } else {
+      setCodigoSuggestions([]);
+    }
+  }, [codigoInput, codigos]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const urlSegments: string[] = [];
+    if (transacao) urlSegments.push(`transacao-${slugifyString(transacao)}`);
     if (selectedEstados.length > 0)
       urlSegments.push(`estado-${selectedEstados.join(",")}`);
     if (selectedCidades.length > 0)
@@ -127,9 +165,14 @@ const SearchPropertyFilter = ({
       urlSegments.push(`bairro-${selectedBairros.join(",")}`);
     if (selectedTipos.length > 0)
       urlSegments.push(`tipo-${selectedTipos.join(",")}`);
+    if (dormitorios) urlSegments.push(`dormitorios-${slugifyString(dormitorios)}`);
+    if (vagas) urlSegments.push(`vagas-${slugifyString(vagas)}`);
     if (valorMin !== "") urlSegments.push(`preco-min-${valorMin}`);
     if (valorMax !== "") urlSegments.push(`preco-max-${valorMax}`);
-    router.push(`/imoveis/${urlSegments.join("/")}`);
+    if (codigo) urlSegments.push(`codigo-${slugifyString(codigo)}`);
+    router.push(
+      urlSegments.length > 0 ? `/imoveis/${urlSegments.join("/")}` : `/imoveis`
+    );
   };
 
   const tiposOptions =
@@ -158,11 +201,28 @@ const SearchPropertyFilter = ({
       onSubmit={handleSubmit}
     >
       {/*
-        MOBILE  → grid 2 colunas (div é um container grid)
+        MOBILE  → grid 1 coluna
         DESKTOP → md:contents faz o div "desaparecer" do layout e os filhos
                   entram diretamente no flex do <form>
       */}
       <div className="grid grid-cols-1 gap-3 mb-3 md:contents">
+
+        {/* Transação (Venda / Locação) */}
+        <Select
+          value={transacao}
+          onValueChange={(value) => setTransacao(value === transacao ? "" : value)}
+        >
+          <SelectTrigger className="bg-white border-0 h-11 text-gray-700 text-sm md:h-9 md:border md:border-gray-300 md:rounded-lg md:text-black md:text-xs md:min-w-[5.5rem]">
+            <SelectValue placeholder="Tipo negócio" />
+          </SelectTrigger>
+          <SelectContent>
+            {transacao && (
+              <SelectItem value="">✕ Limpar</SelectItem>
+            )}
+            <SelectItem value="venda">Venda</SelectItem>
+            <SelectItem value="locacao">Locação</SelectItem>
+          </SelectContent>
+        </Select>
 
         {/* Estado */}
         <Select
@@ -394,11 +454,11 @@ const SearchPropertyFilter = ({
           </SelectContent>
         </Select>
 
-        {/* Separador vertical — apenas desktop, entre tipos e valores */}
+        {/* Separador vertical — apenas desktop */}
         <div className="hidden md:block h-7 w-px bg-gray-300 shrink-0 self-center" />
 
         {/* Valor Mínimo */}
-        <div className="bg-white rounded-md h-11 flex items-center px-3 md:h-9 md:rounded-lg md:border md:border-gray-300 md:px-2 md:min-w-[8rem]">
+        <div className="bg-white rounded-md h-11 flex items-center px-3 md:h-9 md:rounded-lg md:border md:border-gray-300 md:px-2 md:min-w-[7.5rem]">
           <input
             placeholder="Valor mínimo"
             className="outline-none text-sm w-full text-gray-700 placeholder:text-gray-400 bg-transparent md:text-xs md:placeholder:text-gray-400"
@@ -410,7 +470,7 @@ const SearchPropertyFilter = ({
         </div>
 
         {/* Valor Máximo */}
-        <div className="bg-white rounded-md h-11 flex items-center px-3 md:h-9 md:rounded-lg md:border md:border-gray-300 md:px-2 md:min-w-[8rem]">
+        <div className="bg-white rounded-md h-11 flex items-center px-3 md:h-9 md:rounded-lg md:border md:border-gray-300 md:px-2 md:min-w-[7.5rem]">
           <input
             placeholder="Valor máximo"
             className="outline-none text-sm w-full text-gray-700 placeholder:text-gray-400 bg-transparent md:text-xs md:placeholder:text-gray-400"
@@ -419,6 +479,46 @@ const SearchPropertyFilter = ({
             value={formatValor(valorMax)}
             onChange={(e) => setValorMax(parseValor(e.target.value))}
           />
+        </div>
+
+        {/* Separador vertical — apenas desktop */}
+        <div className="hidden md:block h-7 w-px bg-gray-300 shrink-0 self-center" />
+
+        {/* Código com autocomplete — desktop */}
+        <div className="hidden md:block relative">
+          <div className="bg-white h-9 flex items-center px-2 rounded-lg border border-gray-300 min-w-[6.5rem]">
+            <input
+              placeholder="Código"
+              className="outline-none text-xs w-full text-gray-700 placeholder:text-gray-400 bg-transparent"
+              type="text"
+              value={codigoInput}
+              onChange={(e) => {
+                setCodigoInput(e.target.value);
+                setCodigo(e.target.value);
+                setShowSuggestions(true);
+              }}
+              onFocus={() => setShowSuggestions(true)}
+              onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
+            />
+          </div>
+          {showSuggestions && codigoSuggestions.length > 0 && (
+            <ul className="absolute z-[300] w-full bg-white border border-gray-300 rounded-lg max-h-60 overflow-y-auto mt-1 shadow-lg">
+              {codigoSuggestions.map((s, i) => (
+                <li
+                  key={i}
+                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm text-black"
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    setCodigoInput(s);
+                    setCodigo(s);
+                    setShowSuggestions(false);
+                  }}
+                >
+                  {s}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
 
