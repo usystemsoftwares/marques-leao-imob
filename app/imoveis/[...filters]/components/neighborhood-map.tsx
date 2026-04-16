@@ -100,11 +100,25 @@ const BairroMarkers = ({
 
     setContainers(newContainers);
 
-    // Fit map to show all markers (only on first render)
+    // Fit map to show markers (only on first render)
+    // Uses the largest geographic cluster so distant outliers don't zoom out the map
     if (markers.length > 0 && !hasFittedBoundsRef.current) {
       hasFittedBoundsRef.current = true;
+
+      // Weighted centroid (by quantidade) to find the "main" region
+      const totalQty = markers.reduce((s, m) => s + m.quantidade, 0);
+      const wLat = markers.reduce((s, m) => s + m.lat * m.quantidade, 0) / totalQty;
+      const wLng = markers.reduce((s, m) => s + m.lng * m.quantidade, 0) / totalQty;
+
+      // Distance in degrees from weighted centroid — filter out markers > 1 degree away (~111km)
+      const MAX_DEG = 1;
+      const nearby = markers.filter(
+        (m) => Math.abs(m.lat - wLat) < MAX_DEG && Math.abs(m.lng - wLng) < MAX_DEG
+      );
+      const fitMarkers = nearby.length > 0 ? nearby : markers;
+
       const bounds = new G.maps.LatLngBounds();
-      markers.forEach((m) => bounds.extend(new G.maps.LatLng(m.lat, m.lng)));
+      fitMarkers.forEach((m) => bounds.extend(new G.maps.LatLng(m.lat, m.lng)));
       G.maps.event.addListenerOnce(map, "idle", () => {
         const zoom = map.getZoom() ?? 0;
         if (zoom > 14) map.setZoom(14);
@@ -212,11 +226,12 @@ const NeighborhoodMap = ({ bairrosContagem, filters }: NeighborhoodMapProps) => 
     return new Set(slugs);
   }, [filters]);
 
-  // Geographic centroid of all markers
+  // Weighted geographic centroid (by quantidade) so the main cluster dominates
   const centroid = useMemo(() => {
     if (markers.length === 0) return { lat: -27.1000, lng: -48.6000 };
-    const lat = markers.reduce((sum, m) => sum + m.lat, 0) / markers.length;
-    const lng = markers.reduce((sum, m) => sum + m.lng, 0) / markers.length;
+    const totalQty = markers.reduce((s, m) => s + m.quantidade, 0);
+    const lat = markers.reduce((s, m) => s + m.lat * m.quantidade, 0) / totalQty;
+    const lng = markers.reduce((s, m) => s + m.lng * m.quantidade, 0) / totalQty;
     return { lat, lng };
   }, [markers]);
 
