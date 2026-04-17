@@ -151,11 +151,23 @@ export default function FormContact({
         throw new Error("Resposta JSON inválida do servidor");
       }
 
+      const safeStorageSet = (key: string, value: string) => {
+        try {
+          localStorage.setItem(key, value);
+        } catch (e) {
+          try {
+            sessionStorage.setItem(key, value);
+          } catch (e2) {
+            console.warn(`Falha ao gravar ${key} em storage:`, e2);
+          }
+        }
+      };
+
       if (res.visitante_id) {
-        localStorage.setItem("visitante_id", res.visitante_id);
+        safeStorageSet("visitante_id", res.visitante_id);
       }
       if (res.id) {
-        localStorage.setItem("uid", res.id);
+        safeStorageSet("uid", String(res.id));
         console.log("Cliente criado com sucesso. ID:", res.id);
       } else {
         console.warn("Resposta sem ID do cliente:", res);
@@ -300,9 +312,11 @@ export default function FormContact({
     setTelefone("");
     alert("Contato enviado para a imobiliária com sucesso!");
 
-    window.location.replace(
-      `/imovel${window.location.pathname.slice(7)}${window.location.search}`
-    );
+    const { pathname, search } = window.location;
+    const targetPath = pathname.startsWith("/imoveis/")
+      ? `/imovel${pathname.slice("/imoveis".length)}`
+      : pathname;
+    window.location.replace(`${targetPath}${search}`);
   };
 
   return (
