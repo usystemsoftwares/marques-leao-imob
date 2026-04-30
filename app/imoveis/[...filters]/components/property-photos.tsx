@@ -27,7 +27,16 @@ export default function PropertyPhotos({
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const storedUID = localStorage.getItem("uid");
+      let storedUID: string | null = null;
+      try {
+        storedUID = localStorage.getItem("uid");
+      } catch (e) {
+        try {
+          storedUID = sessionStorage.getItem("uid");
+        } catch (e2) {
+          // sem storage disponível
+        }
+      }
       if (storedUID) {
         setHasUID(true);
       }
