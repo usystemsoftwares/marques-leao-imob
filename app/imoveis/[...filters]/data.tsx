@@ -643,6 +643,8 @@ async function getData(filtros: any): Promise<{
     "imovel.preço_venda",
     "imovel.preço_locação",
     "imovel.codigo",
+    "imovel.ativo",
+    "imovel.lancamento",
   ];
   const mapFiltros = apiFilters.filter((f) => locationFields.includes(f.field));
 
