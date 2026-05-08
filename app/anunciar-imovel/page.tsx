@@ -14,6 +14,7 @@ import { useState } from "react";
 
 const AdvertiseEstate = () => {
   const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
   const [telefone, setTelefone] = useState("");
   const [localizacao, setLocalizacao] = useState("");
   const [valor, setValor] = useState("");
@@ -50,9 +51,14 @@ const AdvertiseEstate = () => {
   const sendContact = async () => {
     try {
       setLoading(true);
-      if (!nome || !telefone || !localizacao || !valor || !empreendimento) {
+      if (!nome || !email || !telefone || !localizacao || !valor || !empreendimento) {
         setLoading(false);
         return alert("Preencha todos os campos obrigatórios.");
+      }
+
+      if (!validateEmail(email)) {
+        setLoading(false);
+        return alert("Insira um e-mail válido!");
       }
 
       if (!telefone.match(/^\([0-9]{2}(?:\))\s?[0-9]{5}(?:-)[0-9]{4}$/)) {
@@ -60,42 +66,73 @@ const AdvertiseEstate = () => {
         return alert("Insira um telefone válido!");
       }
 
-      const cliente = {
+      const uri =
+        process.env.NEXT_PUBLIC_BACKEND_API_URI ?? process.env.BACKEND_API_URI ?? "https://api.smtximob.com";
+
+      const telefoneLimpo = telefone.replace(/\D/g, "");
+      const DDD = telefoneLimpo.slice(0, 2);
+      const numeroTelefone = telefoneLimpo.slice(2);
+
+      const empresa_id = process.env.NEXT_PUBLIC_EMPRESA_ID ?? "";
+
+      const body = {
         nome,
-        telefone: telefone.replace(/\D/g, ""),
-        localizacao,
-        valor,
-        empreendimento,
-        fotos,
+        email: email.toLowerCase(),
+        DDD,
+        telefone: numeroTelefone,
+        empresa_id,
+        proprietario: true,
+        origem_site: true,
+        status: "Cadastrado recentemente",
+        excluido: false,
+        troca: false,
+        utilizar_financiamento: false,
+        possui_emprestimo: false,
+        entrada: 1,
+        imoveis_cadastrados: [],
+        imoveis_visitados: [],
+        foto: null,
+        CPF: null,
+        FGTS: null,
+        conjuge_nome: "",
+        dependentes: null,
+        renda: null,
+        origem_temporada: false,
+        created_at: new Date(),
+        edited_at: new Date(),
+        timeline: [
+          {
+            titulo: "Proprietário cadastrado pelo site!",
+            descrição: `Imóvel: ${empreendimento} | Localização: ${localizacao} | Valor: ${valor}${fotos ? ` | Fotos: ${fotos}` : ""}`,
+            data: new Date(),
+          },
+        ],
       };
 
-      // A função EnviarContato deve ser similar ao que você implementou anteriormente
-      const uri =
-        process.env.BACKEND_API_URI ?? process.env.NEXT_PUBLIC_BACKEND_API_URI;
-
-      const response = await fetch(`${uri}/imoveis`, {
+      const response = await fetch(`${uri}/clientes`, {
         method: "POST",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(cliente),
+        body: JSON.stringify(body),
       });
 
-      const res = await response.json();
-
-      if (res.success) {
-        alert("Informações enviadas com sucesso!");
-        setNome("");
-        setTelefone("");
-        setLocalizacao("");
-        setValor("");
-        setEmpreendimento("");
-        setFotos("");
-      } else {
-        alert("Ocorreu um erro ao enviar as informações.");
+      if (!response.ok) {
+        const errorText = await response.text().catch(() => "");
+        console.error("Erro ao enviar:", response.status, errorText);
+        setLoading(false);
+        return alert("Ocorreu um erro ao enviar as informações. Tente novamente.");
       }
 
+      alert("Informações enviadas com sucesso! Em breve entraremos em contato.");
+      setNome("");
+      setEmail("");
+      setTelefone("");
+      setLocalizacao("");
+      setValor("");
+      setEmpreendimento("");
+      setFotos("");
       setLoading(false);
     } catch (error) {
       console.log("Erro ao enviar o contato:", error);
@@ -313,6 +350,16 @@ const AdvertiseEstate = () => {
                   type="text"
                   value={nome}
                   onChange={(e) => setNome(e.target.value)}
+                />
+              </label>
+              <label>
+                E-mail
+                <input
+                  placeholder="seu@email.com"
+                  className="w-full outline-none text-black mt-1 text-sm rounded-[.625rem] py-3 px-4"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </label>
               <label>
