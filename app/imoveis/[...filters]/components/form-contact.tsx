@@ -166,14 +166,15 @@ export default function FormContact({
       if (res.visitante_id) {
         safeStorageSet("visitante_id", res.visitante_id);
       }
-      if (res.id) {
-        safeStorageSet("uid", String(res.id));
-        console.log("Cliente criado com sucesso. ID:", res.id);
+      const clientId = res.id || res.db_id;
+      if (clientId) {
+        safeStorageSet("uid", String(clientId));
+        console.log("Cliente criado com sucesso. ID:", clientId);
       } else {
         console.warn("Resposta sem ID do cliente:", res);
       }
 
-      return res.id as string;
+      return clientId as string;
     } catch (error: any) {
       console.error(`Erro no cadastro (tentativa ${retryCount + 1}):`, error);
 
