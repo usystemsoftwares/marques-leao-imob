@@ -35,10 +35,6 @@ const SearchPropertyFilter = ({
   caracteristicas = [],
   searchParams,
 }: FormProps) => {
-  const [transacao, setTransacao] = useState<string>(
-    searchParams?.transacao ?? ""
-  );
-
   const [selectedEstados, setSelectedEstados] = useState<string[]>([]);
   const [selectedCidades, setSelectedCidades] = useState<string[]>([]);
   const [selectedBairros, setSelectedBairros] = useState<string[]>([]);
@@ -156,7 +152,6 @@ const SearchPropertyFilter = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const urlSegments: string[] = [];
-    if (transacao) urlSegments.push(`transacao-${slugifyString(transacao)}`);
     if (selectedEstados.length > 0)
       urlSegments.push(`estado-${selectedEstados.join(",")}`);
     if (selectedCidades.length > 0)
@@ -206,25 +201,6 @@ const SearchPropertyFilter = ({
                   entram diretamente no flex do <form>
       */}
       <div className="grid grid-cols-1 gap-3 mb-3 md:contents">
-
-        {/* Transação (Venda / Locação) */}
-        <Select
-          value={transacao}
-          onValueChange={(value) => {
-            if (value === "__clear__") { setTransacao(""); return; }
-            setTransacao(value === transacao ? "" : value);
-          }}
-        >
-          <SelectTrigger className="bg-white border-0 h-11 text-gray-700 text-sm md:h-9 md:border md:border-gray-300 md:rounded-lg md:text-black md:text-xs md:min-w-[5.5rem]">
-            <SelectValue placeholder="Tipo negócio" />
-          </SelectTrigger>
-          <SelectContent>
-            {transacao && (
-              <SelectItem value="__clear__">✕ Limpar</SelectItem>
-            )}
-            <SelectItem value="venda">Venda</SelectItem>
-          </SelectContent>
-        </Select>
 
         {/* Estado */}
         <Select
