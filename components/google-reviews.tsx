@@ -23,12 +23,38 @@ async function getGoogleReviews(): Promise<PlaceDetails | null> {
   const placeId = process.env.GOOGLE_PLACE_ID;
   if (!apiKey || !placeId) return null;
   try {
-    const res = await fetch(
-      `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=reviews,rating,user_ratings_total,url&language=pt-BR&key=${apiKey}`,
-      { next: { revalidate: 21600 } }
-    );
+    const res = await fetch("https://places.googleapis.com/v1/places:searchText", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Goog-Api-Key": apiKey,
+        "X-Goog-FieldMask": "places.rating,places.userRatingCount,places.reviews",
+      },
+      body: JSON.stringify({
+        textQuery: "Imobiliária Marques & Leão Novo Hamburgo RS",
+        languageCode: "pt-BR",
+      }),
+      next: { revalidate: 21600 },
+    });
     if (!res.ok) return null;
-    return await res.json();
+    const json = await res.json();
+    const place = json.places?.[0];
+    if (!place) return null;
+    return {
+      status: "OK",
+      result: {
+        rating: place.rating,
+        user_ratings_total: place.userRatingCount,
+        url: "https://www.google.com/maps/place/Imobili%C3%A1ria+Marques+%26+Le%C3%A3o/@-29.6840739,-51.1236798,17z/data=!3m1!4b1!4m6!3m5!1s0x951943f86ddcdba3:0x4ac5ec2ebfcbd310",
+        reviews: (place.reviews ?? []).map((r: any) => ({
+          author_name: r.authorAttribution.displayName,
+          profile_photo_url: r.authorAttribution.photoUri,
+          rating: r.rating,
+          relative_time_description: r.relativePublishTimeDescription,
+          text: r.text?.text ?? "",
+        })),
+      },
+    };
   } catch {
     return null;
   }
