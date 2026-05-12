@@ -210,17 +210,19 @@ const SearchPropertyFilter = ({
         {/* Transação (Venda / Locação) */}
         <Select
           value={transacao}
-          onValueChange={(value) => setTransacao(value === transacao ? "" : value)}
+          onValueChange={(value) => {
+            if (value === "__clear__") { setTransacao(""); return; }
+            setTransacao(value === transacao ? "" : value);
+          }}
         >
           <SelectTrigger className="bg-white border-0 h-11 text-gray-700 text-sm md:h-9 md:border md:border-gray-300 md:rounded-lg md:text-black md:text-xs md:min-w-[5.5rem]">
             <SelectValue placeholder="Tipo negócio" />
           </SelectTrigger>
           <SelectContent>
             {transacao && (
-              <SelectItem value="">✕ Limpar</SelectItem>
+              <SelectItem value="__clear__">✕ Limpar</SelectItem>
             )}
             <SelectItem value="venda">Venda</SelectItem>
-            <SelectItem value="locacao">Locação</SelectItem>
           </SelectContent>
         </Select>
 
