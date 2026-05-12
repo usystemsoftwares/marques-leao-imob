@@ -23,6 +23,7 @@ import processarFiltros from "@/utils/processar-filtros-backend";
 import EstateAgents from "./components/estate-agents";
 import { Post } from "smart-imob-types";
 import HomeFilter from "./components/home-filter";
+import GoogleReviewsSection from "./components/google-reviews-section";
 import { notFound } from "next/navigation";
 import SectionVideo from "@/components/section-video";
 import BannerCarousel from "./components/banner-carousel";
@@ -539,6 +540,7 @@ export default async function Home() {
             <MarquesLeaoMidiaCarousel posts={posts} />
           </section>
         )}
+        <GoogleReviewsSection />
         <section className="lg:w-[min(90%,65.5rem)] mt-12 mb-8 mx-auto">
           <TestimonialsCarousel depoimentos={depoimentos} />
         </section>
