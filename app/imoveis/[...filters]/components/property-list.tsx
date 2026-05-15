@@ -278,7 +278,14 @@ const PropertyList: React.FC<PropertyListProps> = ({
             {/* COLUNA DIREITA — mapa sticky (desktop) */}
             {hasMap && (
               <div className="hidden lg:block lg:w-[42%] xl:w-[45%] flex-shrink-0">
-                <div className="sticky top-28 h-[calc(100vh-7rem)]">
+                <div className="sticky top-28 h-[calc(100vh-7rem)] relative">
+                  {bairrosContagem.length === 0 ? (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/40 z-10 rounded-lg">
+                      <p className="text-white text-lg font-semibold text-center px-6">
+                        Nenhum imóvel disponível nesta região
+                      </p>
+                    </div>
+                  ) : null}
                   <NeighborhoodMap
                     bairrosContagem={bairrosContagem}
                     filters={filters}

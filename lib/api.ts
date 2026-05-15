@@ -197,9 +197,9 @@ export function getFotoDestaque(imovel: any, useSmallSize = false): string {
   // 1. Foto com destaque = true
   // 2. Se não houver, foto com menor order (ordenar por order crescente)
   // 3. Se não houver order, primeira foto com URI válida
-  
+
   let fotoEscolhida = imovel.fotos.find((foto: any) => foto.destaque === true)
-  
+
   // Se não encontrou foto com destaque, buscar por order
   if (!fotoEscolhida) {
     // Cria cópia do array para não modificar o original
@@ -209,11 +209,11 @@ export function getFotoDestaque(imovel: any, useSmallSize = false): string {
       const orderB = b.order !== undefined && b.order !== null ? b.order : 999999
       return orderA - orderB
     })
-    
+
     // Pega a primeira foto após ordenação (menor order ou primeira sem order)
     fotoEscolhida = fotosOrdenadas[0]
   }
-  
+
   if (useSmallSize) {
     // Para imagens pequenas (cards, thumbnails), usar resized (410px) se disponível
     // Nota: resized é uma string direta com a URL, não um objeto

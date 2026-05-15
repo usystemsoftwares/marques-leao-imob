@@ -230,8 +230,8 @@ async function getData(filtros: any): Promise<{
   // Filtro por estados (múltiplos)
   let restEstado = rest.estado;
 
-  // Se não houver estado, cidade ou bairro selecionado, padrão para SC e RS
-  if (!restEstado && !rest.cidade && !rest.bairro) {
+  // Se não houver estado ou cidade selecionado, padrão para SC e RS
+  if (!restEstado && !rest.cidade) {
     restEstado = "santa-catarina,rio-grande-do-sul";
   }
 
@@ -638,6 +638,7 @@ async function getData(filtros: any): Promise<{
   const locationFields = [
     "imovel.cidade_id",
     "imovel.estado_id",
+    "imovel.bairro",
     "imovel.venda",
     "imovel.tipo",
     "imovel.preço_venda",
