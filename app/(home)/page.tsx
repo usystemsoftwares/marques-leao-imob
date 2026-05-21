@@ -334,7 +334,7 @@ export default async function Home() {
           <BannerCarousel
             slides={[
               {
-                href: "/imoveis/exclusivo-true",
+                href: "/imoveis/caracteristicas-exclusividade",
                 desktopSrc: GestaoExclusivaDesktop,
                 mobileSrc: GestaoExclusivaMobile,
                 alt: "Gestão Exclusiva",

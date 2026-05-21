@@ -26,9 +26,27 @@ export default function BannerCarousel({ slides }: { slides: BannerSlide[] }) {
     emblaApi.on("select", onSelect);
     onSelect();
 
-    // Auto-play every 5s
-    const interval = setInterval(() => emblaApi.scrollNext(), 5000);
-    return () => clearInterval(interval);
+    // Auto-play 10s, pausa no hover para o usuário conseguir clicar.
+    let interval: ReturnType<typeof setInterval> | null = null;
+    const start = () => {
+      stop();
+      interval = setInterval(() => emblaApi.scrollNext(), 10000);
+    };
+    const stop = () => {
+      if (interval) {
+        clearInterval(interval);
+        interval = null;
+      }
+    };
+    start();
+    const node = emblaApi.rootNode();
+    node.addEventListener("mouseenter", stop);
+    node.addEventListener("mouseleave", start);
+    return () => {
+      stop();
+      node.removeEventListener("mouseenter", stop);
+      node.removeEventListener("mouseleave", start);
+    };
   }, [emblaApi, onSelect]);
 
   if (slides.length === 0) return null;
