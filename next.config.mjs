@@ -9,6 +9,12 @@ const nextConfig = {
   },
   images: {
     unoptimized: true,
+    remotePatterns: [
+      { protocol: 'https', hostname: 'smtx-image-cdn.raphael-martinez.workers.dev', pathname: '/**' },
+      { protocol: 'https', hostname: 'firebasestorage.googleapis.com', pathname: '/**' },
+      { protocol: 'https', hostname: 'storage.googleapis.com', pathname: '/**' },
+      { protocol: 'https', hostname: 'static.orulo.com.br', pathname: '/**' },
+    ],
   },
 };
 
