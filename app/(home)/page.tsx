@@ -128,10 +128,6 @@ async function getData() {
     next: { tags: ["posts"], revalidate: 3600 },
   });
 
-  if (!posts.ok) {
-    throw new Error("Failed to fetch data");
-  }
-
   const empresa = await fetch(`${uri}/empresas/site/${empresa_id}`, {
     next: { tags: ["empresas"], revalidate: 3600 },
   });
@@ -145,7 +141,7 @@ async function getData() {
     imoveisNovidade: await imoveisNovidadeResponse.json(),
     corretores: await corretores.json(),
     depoimentos: await depoimentos.json(),
-    posts: await posts.json(),
+    posts: posts.ok ? await posts.json() : [],
     empresa: await empresa.json(),
   };
 }
