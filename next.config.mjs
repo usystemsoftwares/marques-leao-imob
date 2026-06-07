@@ -10,6 +10,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
     remotePatterns: [
+      { protocol: 'https', hostname: 'cdn.smtximob.com', pathname: '/**' },
       { protocol: 'https', hostname: 'smtx-image-cdn.raphael-martinez.workers.dev', pathname: '/**' },
       { protocol: 'https', hostname: 'firebasestorage.googleapis.com', pathname: '/**' },
       { protocol: 'https', hostname: 'storage.googleapis.com', pathname: '/**' },

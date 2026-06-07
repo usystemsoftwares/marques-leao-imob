@@ -1,18 +1,35 @@
-// CDN URL para cache de imagens
-const CDN_URL = "https://smtx-image-cdn.raphael-martinez.workers.dev"
+const CDN_BASE_URL = process.env.NEXT_PUBLIC_CDN_URL || 'https://cdn.smtximob.com';
+const CDN_ENABLED = process.env.NEXT_PUBLIC_CDN_ENABLED === 'true';
 
-/**
- * Aplica CDN na URL da imagem do Firebase Storage
- * @param url URL original da imagem
- * @returns URL com CDN aplicada ou URL original se não for Firebase
- */
-export function applyCdn(url: string | null | undefined): string | undefined {
-  if (!url) return undefined
+const R2_BUCKET = 'smartimob-dev-test.appspot.com';
 
-  // Só aplicar CDN em URLs do Firebase Storage
-  if (url.includes('firebasestorage.googleapis.com') || url.includes('storage.googleapis.com')) {
-    return `${CDN_URL}/?url=${url}`
+function firebaseKey(parsed: URL): string | null {
+  if (parsed.hostname === 'firebasestorage.googleapis.com') {
+    const m = parsed.pathname.match(/^\/v0\/b\/([^/]+)\/o\/(.+)$/);
+    if (m && decodeURIComponent(m[1]) === R2_BUCKET) return decodeURIComponent(m[2]);
+    return null;
   }
+  if (parsed.hostname === 'storage.googleapis.com') {
+    const prefix = `/${R2_BUCKET}/`;
+    if (parsed.pathname.startsWith(prefix)) {
+      return decodeURIComponent(parsed.pathname.slice(prefix.length));
+    }
+    return null;
+  }
+  return null;
+}
 
-  return url
+export function applyCdn(url: string | null | undefined): string | undefined {
+  if (!url) return undefined;
+  if (!CDN_ENABLED || !CDN_BASE_URL) return url;
+
+  try {
+    const parsed = new URL(url);
+    const key = firebaseKey(parsed);
+    if (!key) return url;
+    const encodedKey = key.split('/').map(encodeURIComponent).join('/');
+    return `${CDN_BASE_URL}/${encodedKey}?`;
+  } catch {
+    return url;
+  }
 }
