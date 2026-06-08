@@ -52,6 +52,10 @@ export default function PropertyPhotos({
 
   const isDesktopOrTablet = windowWidth !== null && windowWidth >= 768;
 
+  // Marca d'água do template (overlay do logo): respeita a config da empresa.
+  // Se ocultar_marca_agua estiver ativo, não aplica overlay nenhum.
+  const logoMarca = (empresa as any)?.ocultar_marca_agua ? "" : (empresa.logo || "");
+
   const fotos = getPhotos(
     empresa,
     imovel,
@@ -63,7 +67,7 @@ export default function PropertyPhotos({
   if (hasUID && isDesktopOrTablet) {
     return (
       <div className="w-full mx-auto">
-        <CarouselPhotos images={fotos} logo={empresa.logo || ""} />
+        <CarouselPhotos images={fotos} logo={logoMarca} />
       </div>
     );
   } else {
@@ -88,10 +92,10 @@ export default function PropertyPhotos({
                   }}
                   quality={100}
                 />
-                {empresa.logo && (
+                {logoMarca && (
                   <div className="absolute top-2 right-2">
                     <ProtectedImage
-                      src={applyCdn(sanitizeImageUrl(empresa.logo)) || ""}
+                      src={applyCdn(sanitizeImageUrl(logoMarca)) || ""}
                       alt="Logo da empresa"
                       width={150}
                       height={75}
