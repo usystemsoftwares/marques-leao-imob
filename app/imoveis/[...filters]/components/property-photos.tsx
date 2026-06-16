@@ -74,7 +74,10 @@ export default function PropertyPhotos({
     return (
       <ul className="w-[calc(100%-2rem)] mx-auto grid gap-2 md:grid-cols-2">
         {fotos.map(({ resized, destaque, source }, index) => {
-          if (index + 1 !== fotos.length) {
+          const isLast = index + 1 === fotos.length;
+          // Renderiza a foto para todas as posições, exceto a última quando o
+          // usuário NÃO é liberado (aí o último slot vira o gate de contato).
+          if (!isLast || hasUID) {
             return (
               <li key={index} className="relative">
                 <ProtectedImage
@@ -107,7 +110,7 @@ export default function PropertyPhotos({
             );
           }
 
-          if (hasUID) return null;
+          // Aqui só chega a ÚLTIMA foto de usuário NÃO liberado: gate de contato.
           return (
             <FormContact
               key={index}
