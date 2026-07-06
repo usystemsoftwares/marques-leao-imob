@@ -81,7 +81,7 @@ const Membro = async ({ params: { db_id } }: { params: { db_id: string } }) => {
                 {corretor.nome}
               </h1>
               {corretor.CRECI && (
-                <span className="hidden lg:inline text-[#707070]">
+                <span className="lg:inline text-[#fff] font-bold">
                   CRECI: {corretor.CRECI}
                 </span>
               )}
