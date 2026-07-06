@@ -76,7 +76,7 @@ const Pagination: FC<PaginationProps> = ({
     );
 
     filteredFilters.push(`pagina-${pagina}`);
-    console.log("filteredFilters", filteredFilters);
+    //console.log("filteredFilters", filteredFilters);
 
     const newPath = `/imoveis/${filteredFilters.join("/")}`;
 
