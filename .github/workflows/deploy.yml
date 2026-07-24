@@ -8,9 +8,12 @@ on:
       - novo-mapa
 
 env:
-  PROJECT_ID: smartimob-granato-gen
+  # Domínio de produção (marqueseleao.com/.com.br) aponta pro Cloud Run
+  # em novo-smtx-gen, não smartimob-granato-gen — deploy pro projeto errado
+  # ficava "successful" mas não aparecia pra ninguém (serviço órfão).
+  PROJECT_ID: novo-smtx-gen
   REGION: us-central1
-  REPOSITORY: modelo-smtx-one
+  REPOSITORY: app
   IMAGE_NAME: marques-template
 
 jobs:

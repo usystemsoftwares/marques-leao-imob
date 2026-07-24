@@ -19,14 +19,14 @@ steps:
       - '--build-arg'
       - 'GOOGLE_PLACE_ID=${_GOOGLE_PLACE_ID}'
       - '-t'
-      - 'us-central1-docker.pkg.dev/smartimob-granato-gen/modelo-smtx-one/marques-template:${_EMPRESA_ID}'
+      - 'us-central1-docker.pkg.dev/novo-smtx-gen/app/marques-template:${_EMPRESA_ID}'
       - '.'
 
   # Push to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
-      - 'us-central1-docker.pkg.dev/smartimob-granato-gen/modelo-smtx-one/marques-template:${_EMPRESA_ID}'
+      - 'us-central1-docker.pkg.dev/novo-smtx-gen/app/marques-template:${_EMPRESA_ID}'
 
   # Deploy to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -36,7 +36,7 @@ steps:
       - 'deploy'
       - 'marques-${_SERVICE_SUFFIX}'
       - '--image'
-      - 'us-central1-docker.pkg.dev/smartimob-granato-gen/modelo-smtx-one/marques-template:${_EMPRESA_ID}'
+      - 'us-central1-docker.pkg.dev/novo-smtx-gen/app/marques-template:${_EMPRESA_ID}'
       - '--region'
       - 'us-central1'
       - '--platform'
@@ -54,7 +54,7 @@ steps:
       - 'EMPRESA_ID=${_EMPRESA_ID},NEXT_PUBLIC_EMPRESA_ID=${_EMPRESA_ID},BACKEND_API_URI=${_BACKEND_API_URI},NEXT_PUBLIC_BACKEND_API_URI=${_BACKEND_API_URI},GOOGLE_PLACES_API_KEY=${_GOOGLE_PLACES_API_KEY},GOOGLE_PLACE_ID=${_GOOGLE_PLACE_ID}'
 
 images:
-  - 'us-central1-docker.pkg.dev/smartimob-granato-gen/modelo-smtx-one/marques-template:${_EMPRESA_ID}'
+  - 'us-central1-docker.pkg.dev/novo-smtx-gen/app/marques-template:${_EMPRESA_ID}'
 
 substitutions:
   _EMPRESA_ID: 'default'
