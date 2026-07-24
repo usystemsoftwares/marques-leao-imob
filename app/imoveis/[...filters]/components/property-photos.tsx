@@ -54,7 +54,8 @@ export default function PropertyPhotos({
 
   // Marca d'água do template (overlay do logo): respeita a config da empresa.
   // Se ocultar_marca_agua estiver ativo, não aplica overlay nenhum.
-  const logoMarca = empresa.ocultar_marca_agua ? "" : (empresa.logo || "");
+  //const logoMarca = empresa.ocultar_marca_agua ? "" : (empresa.logo || "");
+  const logoMarca = empresa.logo || "";
 
   const fotos = getPhotos(
     empresa,
