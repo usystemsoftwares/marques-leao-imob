@@ -103,7 +103,8 @@ export default async function GoogleReviews() {
             </div>
           </div>
           <Link
-            href={url}
+            /* href={url} */
+            href={"https://www.google.com/search?q=marques%26le%C3%A3o&sca_esv=2987630c083893fb&sxsrf=APpeQntcFl7MdbEi31nGASO3WIfbJq4LmA%3A1786122999459&source=hp&ei=9xJ2asjsGcLd1sQPltuTwQw&iflsig=ABILxe8AAAAAanYhB89lN299N8m6QW7e9x0Ctut9m8Ao&ved=0ahUKEwiIxJ_Xgo-WAxXCrpUCHZbtJMgQ4dUDCCk&uact=5&oq=marques%26le%C3%A3o&gs_lp=Egdnd3Mtd2l6Ig1tYXJxdWVzJmxlw6NvMgkQABiABBgNGBMyBhAAGB4YE0i_JFAAWJ8acAB4AJABAJgB4gKgAcURqgEIMC4xMC4xLjG4AQPIAQD4AQGYAgygAvARwgIEECMYJ8ICBRAAGIAEwgIFEC4YgATCAggQLhjLARiABMICCBAAGIAEGMsBwgIOEC4YgAQYywEYxwEYrwHCAggQLhiABBjLAcICBxAAGIAEGA3CAgoQABiABBjLARgKwgIHEC4YgAQYDcICBBAAGB7CAgYQABgeGArCAgkQABiABBgNGArCAgkQLhiABBgNGAqYAwCSBwcwLjkuMi4xoAe2c7IHBzAuOS4yLjG4B_ARwgcFMi43LjPIBxyACAE&sclient=gws-wiz#lrd=0x951943f86ddcdba3:0x4ac5ec2ebfcbd310,1,,,,"}
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm border border-white/20 hover:border-white px-4 py-2 rounded-lg transition-colors text-gray-300 hover:text-white shrink-0"
