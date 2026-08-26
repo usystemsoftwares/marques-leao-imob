@@ -1,5 +1,6 @@
 'use server'
 
+import { removerCamposInternos } from "./campos-internos"
 import { headers } from "next/headers"
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://api.smtximob.com"
@@ -29,7 +30,7 @@ async function fetchAPI(endpoint: string, options: RequestInit = {}) {
     }
   }
 
-  return response.json()
+  return removerCamposInternos(await response.json())
 }
 
 // Função para normalizar domínio removendo protocolo, www e porta
