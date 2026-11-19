@@ -3,6 +3,8 @@ import { WhatsappButton } from "@/components/whatsapp-btn";
 import Image from "next/image";
 import Link from "next/link";
 import MarquesELeao from "/public/marqueseleao/marques-leao.webp";
+import Gabriel from "/public/marqueseleao/gabriel-c-nome-2-(1).webp";
+import Pablo from "/public/marqueseleao/pablo.png";
 import LancamentosDesktop from "/public/marqueseleao/1.png";
 import LancamentosMobile from "/public/marqueseleao/projetos-lancamentos-mobile.png";
 import GestaoExclusivaDesktop from "/public/marqueseleao/2.png";
@@ -248,13 +250,34 @@ export default async function Home() {
                 sua <span className="font-medium">personalidade</span>
               </span>
             </h1>
-            <Image
+            {/* <Image
               className="absolute top-0 md:top-[-5rem] md:w-[min(100%,45rem)] right-0"
               src={MarquesELeao}
               alt="Marques e Leão"
               priority
               style={{
                 maxWidth: "100%",
+                height: "auto",
+              }}
+            /> */}
+            <Image
+              className="absolute top-8 w-[min(65%,14rem)] right-[9rem] md:top-4 md:w-[min(100%,25rem)] lg:right-[21rem] lg:w-[min(100%,25rem)]"
+              src={Gabriel}
+              alt="Gabriel Leão"
+              priority
+              style={{
+                maxWidth: "70%",
+                height: "auto",
+              }}
+            />
+
+            <Image
+              className="absolute top-0 md:top-[-5rem] md:w-[min(100%,40rem)] lg:w-[min(100%,40rem)] right-0 w-[min(100%,40rem)]"
+              src={Pablo}
+              alt="Pablo Marques"
+              priority
+              style={{
+                maxWidth: "80%",
                 height: "auto",
               }}
             />
