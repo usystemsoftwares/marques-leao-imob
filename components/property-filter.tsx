@@ -155,7 +155,7 @@ const SearchPropertyFilter = ({
     const url = `/imoveis/${urlSegments.join("/")}`;
     // Aqui você pode incluir outros filtros ou query params, se necessário
 
-    console.log("URL construída:", url);
+    //console.log("URL construída:", url);
 
     // Navegar para a URL construída
     router.push(url);
