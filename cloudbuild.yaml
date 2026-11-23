@@ -19,47 +19,38 @@ steps:
       - '--build-arg'
       - 'GOOGLE_PLACE_ID=${_GOOGLE_PLACE_ID}'
       - '-t'
-      - 'us-central1-docker.pkg.dev/novo-smtx-gen/app/marques-template:${_EMPRESA_ID}'
+      - 'us-central1-docker.pkg.dev/crmocto-prod/sites/marques-${_SERVICE_SUFFIX}:${_TAG}'
       - '.'
 
   # Push to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
-      - 'us-central1-docker.pkg.dev/novo-smtx-gen/app/marques-template:${_EMPRESA_ID}'
+      - 'us-central1-docker.pkg.dev/crmocto-prod/sites/marques-${_SERVICE_SUFFIX}:${_TAG}'
 
-  # Deploy to Cloud Run
+  # O domínio é servido pelo LB do crmocto-prod; o serviço lá já tem SA, env e ingress
+  # configurados, então só trocamos a imagem.
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
     args:
       - 'run'
-      - 'deploy'
+      - 'services'
+      - 'update'
       - 'marques-${_SERVICE_SUFFIX}'
-      - '--image'
-      - 'us-central1-docker.pkg.dev/novo-smtx-gen/app/marques-template:${_EMPRESA_ID}'
-      - '--region'
-      - 'us-central1'
-      - '--platform'
-      - 'managed'
-      - '--allow-unauthenticated'
-      - '--memory'
-      - '2Gi'
-      - '--cpu'
-      - '2'
-      - '--min-instances'
-      - '0'
-      - '--max-instances'
-      - '3'
-      - '--set-env-vars'
-      - 'EMPRESA_ID=${_EMPRESA_ID},NEXT_PUBLIC_EMPRESA_ID=${_EMPRESA_ID},BACKEND_API_URI=${_BACKEND_API_URI},NEXT_PUBLIC_BACKEND_API_URI=${_BACKEND_API_URI},GOOGLE_PLACES_API_KEY=${_GOOGLE_PLACES_API_KEY},GOOGLE_PLACE_ID=${_GOOGLE_PLACE_ID}'
+      - '--project=crmocto-prod'
+      - '--region=us-central1'
+      - '--image=us-central1-docker.pkg.dev/crmocto-prod/sites/marques-${_SERVICE_SUFFIX}:${_TAG}'
+      - '--update-env-vars=EMPRESA_ID=${_EMPRESA_ID},NEXT_PUBLIC_EMPRESA_ID=${_EMPRESA_ID},BACKEND_API_URI=${_BACKEND_API_URI},NEXT_PUBLIC_BACKEND_API_URI=${_BACKEND_API_URI},GOOGLE_PLACES_API_KEY=${_GOOGLE_PLACES_API_KEY},GOOGLE_PLACE_ID=${_GOOGLE_PLACE_ID}'
+      - '--quiet'
 
 images:
-  - 'us-central1-docker.pkg.dev/novo-smtx-gen/app/marques-template:${_EMPRESA_ID}'
+  - 'us-central1-docker.pkg.dev/crmocto-prod/sites/marques-${_SERVICE_SUFFIX}:${_TAG}'
 
 substitutions:
   _EMPRESA_ID: 'default'
   _BACKEND_API_URI: 'https://api.smtximob.com'
   _SERVICE_SUFFIX: 'template'
+  _TAG: 'latest'
   _MAPS_API_KEY: ''
   _GOOGLE_PLACES_API_KEY: ''
   _GOOGLE_PLACE_ID: ''

@@ -8,9 +8,10 @@ on:
       - novo-mapa
 
 env:
-  # Domínio de produção (marqueseleao.com/.com.br) aponta pro Cloud Run
-  # em novo-smtx-gen, não smartimob-granato-gen — deploy pro projeto errado
-  # ficava "successful" mas não aparecia pra ninguém (serviço órfão).
+  # O build roda em novo-smtx-gen, mas desde 08/11/2026 o domínio
+  # (marqueseleao.com/.com.br) é servido pelo serviço marques-marques-new no
+  # crmocto-prod (LB smtx-urlmap). O cloudbuild.yaml publica a imagem e faz o
+  # deploy lá; publicar só no novo-smtx-gen dá "success" sem mudar o site.
   PROJECT_ID: novo-smtx-gen
   REGION: us-central1
   REPOSITORY: app
@@ -62,6 +63,6 @@ jobs:
         run: |
           gcloud builds submit \
             --config=cloudbuild.yaml \
-            --substitutions=_EMPRESA_ID=${{ env.EMPRESA_ID }},_SERVICE_SUFFIX=${{ env.SERVICE_SUFFIX }},_BACKEND_API_URI=${{ env.BACKEND_API_URI }},_MAPS_API_KEY=${{ secrets.NEXT_PUBLIC_MAPS_API_KEY }},_GOOGLE_PLACES_API_KEY=${{ secrets.GOOGLE_PLACES_API_KEY }},_GOOGLE_PLACE_ID=${{ secrets.GOOGLE_PLACE_ID }} \
+            --substitutions=_EMPRESA_ID=${{ env.EMPRESA_ID }},_SERVICE_SUFFIX=${{ env.SERVICE_SUFFIX }},_TAG=${{ github.sha }},_BACKEND_API_URI=${{ env.BACKEND_API_URI }},_MAPS_API_KEY=${{ secrets.NEXT_PUBLIC_MAPS_API_KEY }},_GOOGLE_PLACES_API_KEY=${{ secrets.GOOGLE_PLACES_API_KEY }},_GOOGLE_PLACE_ID=${{ secrets.GOOGLE_PLACE_ID }} \
             --region=global \
             --project=${{ env.PROJECT_ID }}
