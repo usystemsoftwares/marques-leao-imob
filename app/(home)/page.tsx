@@ -260,7 +260,7 @@ export default async function Home() {
                 height: "auto",
               }}
             /> */}
-            <Image
+            {/* <Image
               className="absolute top-8 w-[min(65%,14rem)] right-[9rem] md:top-4 md:w-[min(100%,25rem)] lg:right-[21rem] lg:w-[min(100%,25rem)]"
               src={Gabriel}
               alt="Gabriel Leão"
@@ -280,7 +280,7 @@ export default async function Home() {
                 maxWidth: "80%",
                 height: "auto",
               }}
-            />
+            /> */}
           </div>
 
           <HomeFilter className="mt-8 z-50 md:absolute md:mt-0 md:left-1/2 md:-translate-x-1/2 md:bottom-[17.5%]" />
