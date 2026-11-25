@@ -181,7 +181,7 @@ const Carousel = ({ estates, logo }: CarouselProps) => {
                         src={getFotoDestaque(estate, false, false) || ""}
                         alt={estate.titulo || ""}
                         fill
-                        sizes="100vw"
+                        sizes="(min-width: 64em) 34vw, (min-width: 48em) 50vw, 80vw"
                         style={{
                           objectFit: "cover",
                         }}
