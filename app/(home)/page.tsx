@@ -2,9 +2,6 @@ import Header from "@/components/header";
 import { WhatsappButton } from "@/components/whatsapp-btn";
 import Image from "next/image";
 import Link from "next/link";
-import MarquesELeao from "/public/marqueseleao/marques-leao.webp";
-import Gabriel from "/public/marqueseleao/gabriel-c-nome-2-(1).webp";
-import Pablo from "/public/marqueseleao/pablo.png";
 import LancamentosDesktop from "/public/marqueseleao/1.png";
 import LancamentosMobile from "/public/marqueseleao/projetos-lancamentos-mobile.png";
 import GestaoExclusivaDesktop from "/public/marqueseleao/2.png";
@@ -226,8 +223,8 @@ export default async function Home() {
           <Header hideLogo />
 
           {/* Conteúdo hero - título e imagem Marques e Leão */}
-          <div className="relative w-[min(90%,80rem)] mx-auto">
-            <h1 className="text-[clamp(.75rem,4.5vw,2.25rem)] md:text-[clamp(.75rem,9vw,2rem)] relative z-10 font-extralight leading-none max-w-[26ch] md:max-w-[24ch] mx-auto md:mx-0 pt-[23rem] md:pt-40 pt-32">
+          <div className="relative w-[min(90%,80rem)] md:mx-auto lg:mx-auto">
+            <h1 className="text-[clamp(.75rem,4.5vw,2.25rem)] md:text-[clamp(.75rem,9vw,2rem)] relative z-10 font-extralight leading-none max-w-[26ch] md:max-w-[24ch] mx-auto md:mx-0 pt-[23rem] md:pt-40 pt-36">
               Conectamos
               <br />{" "}
               <span
@@ -257,27 +254,6 @@ export default async function Home() {
               priority
               style={{
                 maxWidth: "100%",
-                height: "auto",
-              }}
-            /> */}
-            {/* <Image
-              className="absolute top-8 w-[min(65%,14rem)] right-[9rem] md:top-4 md:w-[min(100%,25rem)] lg:right-[21rem] lg:w-[min(100%,25rem)]"
-              src={Gabriel}
-              alt="Gabriel Leão"
-              priority
-              style={{
-                maxWidth: "70%",
-                height: "auto",
-              }}
-            />
-
-            <Image
-              className="absolute top-0 md:top-[-5rem] md:w-[min(100%,40rem)] lg:w-[min(100%,40rem)] right-0 w-[min(100%,40rem)]"
-              src={Pablo}
-              alt="Pablo Marques"
-              priority
-              style={{
-                maxWidth: "80%",
                 height: "auto",
               }}
             /> */}
@@ -558,9 +534,9 @@ export default async function Home() {
             <MarquesLeaoMidiaCarousel posts={posts} />
           </section>
         )}
-        <section className="lg:w-[min(90%,65.5rem)] mt-12 mb-8 mx-auto">
+        {/* <section className="lg:w-[min(90%,65.5rem)] mt-12 mb-8 mx-auto">
           <TestimonialsCarousel depoimentos={depoimentos} />
-        </section>
+        </section> */}
       </main>
       <WhatsappButton empresa={empresa} />
     </div>
