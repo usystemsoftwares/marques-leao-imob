@@ -115,7 +115,7 @@ export default function FormContact({
 
         if (response.status >= 500 && retryCount < MAX_RETRIES) {
           const delay = RETRY_DELAY_BASE * Math.pow(2, retryCount);
-          console.log(`Aguardando ${delay}ms antes da próxima tentativa...`);
+          //console.log(`Aguardando ${delay}ms antes da próxima tentativa...`);
           await new Promise((resolve) => setTimeout(resolve, delay));
           return EnviarContato(config, retryCount + 1);
         }
