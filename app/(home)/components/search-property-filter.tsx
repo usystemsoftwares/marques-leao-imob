@@ -189,8 +189,10 @@ const SearchPropertyFilter = ({
         "w-[min(calc(100%-2rem),26rem)] mx-auto rounded-2xl p-5 shadow-2xl backdrop-blur-sm",
         "[background:linear-gradient(135deg,rgba(83,9,68,0.88)_0%,rgba(8,8,15,0.85)_100%)]",
         // ── Desktop: barra branca horizontal ─────────────────────────────
-        "md:[background:white] md:w-[min(100%,62.5rem)] md:rounded-[.625rem] md:shadow-md",
+        "md:[background:white] md:w-[min(calc(100%-2rem),62.5rem)] md:rounded-[.625rem] md:shadow-md",
         "md:py-3 md:px-4 md:flex md:items-center md:gap-2",
+        // Tablet (md–lg): barra não cabe numa linha → quebra em 2, centralizada
+        "md:flex-wrap md:justify-center lg:flex-nowrap lg:justify-start",
         className
       )}
       onSubmit={handleSubmit}
@@ -229,7 +231,7 @@ const SearchPropertyFilter = ({
             }
           }}
         >
-          <SelectTrigger className="bg-white border-0 h-11 text-gray-700 text-sm md:h-9 md:border md:border-gray-300 md:rounded-lg md:text-black md:text-xs md:min-w-[5.5rem]">
+          <SelectTrigger className="bg-white border-0 h-11 text-gray-700 text-sm md:h-9 md:border md:border-gray-300 md:rounded-lg md:text-black md:text-xs md:min-w-[5.5rem] md:w-[calc(25%-0.375rem)] lg:w-full">
             <SelectValue
               placeholder={
                 selectedEstados.length > 0
@@ -283,7 +285,7 @@ const SearchPropertyFilter = ({
           }}
           disabled={selectedEstados.length === 0}
         >
-          <SelectTrigger className="bg-white border-0 h-11 text-gray-700 text-sm md:h-9 md:border md:border-gray-300 md:rounded-lg md:text-black md:text-xs md:min-w-[5.5rem]">
+          <SelectTrigger className="bg-white border-0 h-11 text-gray-700 text-sm md:h-9 md:border md:border-gray-300 md:rounded-lg md:text-black md:text-xs md:min-w-[5.5rem] md:w-[calc(25%-0.375rem)] lg:w-full">
             <SelectValue
               placeholder={
                 selectedCidades.length > 0
@@ -347,7 +349,7 @@ const SearchPropertyFilter = ({
           }}
           disabled={selectedCidades.length === 0}
         >
-          <SelectTrigger className="bg-white border-0 h-11 text-gray-700 text-sm md:h-9 md:border md:border-gray-300 md:rounded-lg md:text-black md:text-xs md:min-w-[5.5rem]">
+          <SelectTrigger className="bg-white border-0 h-11 text-gray-700 text-sm md:h-9 md:border md:border-gray-300 md:rounded-lg md:text-black md:text-xs md:min-w-[5.5rem] md:w-[calc(25%-0.375rem)] lg:w-full">
             <SelectValue
               placeholder={
                 selectedCidades.length === 0
@@ -405,7 +407,7 @@ const SearchPropertyFilter = ({
             }
           }}
         >
-          <SelectTrigger className="bg-white border-0 h-11 text-gray-700 text-sm md:h-9 md:border md:border-gray-300 md:rounded-lg md:text-black md:text-xs md:min-w-[6rem]">
+          <SelectTrigger className="bg-white border-0 h-11 text-gray-700 text-sm md:h-9 md:border md:border-gray-300 md:rounded-lg md:text-black md:text-xs md:min-w-[6rem] md:w-[calc(25%-0.375rem)] lg:w-full">
             <SelectValue
               placeholder={
                 selectedTipos.length > 0
@@ -433,7 +435,7 @@ const SearchPropertyFilter = ({
         </Select>
 
         {/* Separador vertical — apenas desktop */}
-        <div className="hidden md:block h-7 w-px bg-gray-300 shrink-0 self-center" />
+        <div className="hidden lg:block h-7 w-px bg-gray-300 shrink-0 self-center" />
 
         {/* Valor Mínimo */}
         <div className="bg-white rounded-md h-11 flex items-center px-3 md:h-9 md:rounded-lg md:border md:border-gray-300 md:px-2 md:min-w-[7.5rem]">
@@ -460,7 +462,7 @@ const SearchPropertyFilter = ({
         </div>
 
         {/* Separador vertical — apenas desktop */}
-        <div className="hidden md:block h-7 w-px bg-gray-300 shrink-0 self-center" />
+        <div className="hidden lg:block h-7 w-px bg-gray-300 shrink-0 self-center" />
 
         {/* Código com autocomplete — desktop */}
         <div className="hidden md:block relative">

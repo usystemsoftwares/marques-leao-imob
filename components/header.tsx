@@ -118,13 +118,15 @@ const Header = ({ hideLogo = false }: { hideLogo?: boolean }) => {
               height: "auto",
             }}
           />
-          <ul className="*:mt-6 pl-10">
+          <ul className="*:mt-6 pl-8">
             {routes.map((route) => (
               <li key={route.href}>
                 <Link
                   className={cn(
-                    "hover:text-[#430c38] text-sm",
-                    route.active ? "text-[#430c38]" : ""
+                    "block border-l-2 pl-3 text-lg font-medium transition-colors",
+                    route.active
+                      ? "border-[#c06aab] text-white font-semibold"
+                      : "border-transparent text-white/80 hover:text-white hover:border-white/40"
                   )}
                   href={route.href}
                 >
@@ -134,7 +136,7 @@ const Header = ({ hideLogo = false }: { hideLogo?: boolean }) => {
             ))}
           </ul>
         </div>
-        <div className="*:text-center *:flex *:justify-center *:gap-2 *:text-sm *:py-[.625rem] *:rounded-lg mx-1">
+        <div className="*:text-center *:flex *:justify-center *:items-center *:gap-2 *:text-base *:font-medium *:py-3 *:rounded-lg mx-1">
           <Link className="bg-[#108d10] mb-2" href="Whatsapp">
             <Image
               src={WhatsappIcon}

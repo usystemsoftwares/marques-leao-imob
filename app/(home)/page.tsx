@@ -24,6 +24,7 @@ import { Post } from "smart-imob-types";
 import HomeFilter from "./components/home-filter";
 import { notFound } from "next/navigation";
 import SectionVideo from "@/components/section-video";
+import HeroVideo from "@/components/hero-video";
 import BannerCarousel from "./components/banner-carousel";
 
 export const dynamic = 'force-dynamic';
@@ -155,7 +156,7 @@ export default async function Home() {
     empresa,
   } = await getData();
   return (
-    <div className="bg-menu bg-no-repeat overflow-x-hidden">
+    <div className="bg-menu bg-no-repeat overflow-x-hidden isolate">
       <Image
         draggable={false}
         className="absolute -bottom-1/2 opacity-60 left-[-35%] w-[75%]"
@@ -188,37 +189,8 @@ export default async function Home() {
             className="md:hidden object-cover z-1"
           /> */}
 
-          {/* Vídeo desktop */}
-          {/* <video
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="auto"
-              className="hidden md:block absolute inset-0 w-full h-full object-cover z-1"
-              style={{ width: '100%', height: '100%' }}
-            >
-              <source
-                src="https://firebasestorage.googleapis.com/v0/b/smartimob-dev-test.appspot.com/o/empresas%2F4IYSm7WrQ8naKm28ArY7%2FVIDEO%20TAMBNAIL%20ajustado%202.mp4?alt=media&token=69cc3b36-cfc6-43c2-86e0-c97847a9af91"
-                type="video/mp4"
-              />
-            </video> */}
-
-          {/* Vídeo mobile */}
-          {/* <video
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="auto"
-              className="md:hidden absolute inset-0 w-full h-full object-cover z-1"
-              style={{ width: '100%', height: '100%' }}
-            >
-              <source
-                src="https://firebasestorage.googleapis.com/v0/b/smartimob-dev-test.appspot.com/o/empresas%2F4IYSm7WrQ8naKm28ArY7%2Fsite%20vertical%202.mp4?alt=media&token=24368d4c-3c40-45ed-86a9-89a7d5970869"
-                type="video/mp4"
-              />
-            </video> */}
+          {/* Vídeo de fundo: desktop 16:9 na hero inteira, mobile quadrado atrás do título */}
+          <HeroVideo />
 
           <Header hideLogo />
 
