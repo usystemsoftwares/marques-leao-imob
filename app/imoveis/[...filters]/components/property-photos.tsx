@@ -74,6 +74,9 @@ export default function PropertyPhotos({
     return (
       <ul className="w-[calc(100%-2rem)] mx-auto grid gap-2 md:grid-cols-2">
         {fotos.map(({ resized, destaque, source }, index) => {
+          // No celular usa a versão reduzida (~200 KB) em vez do original (2 a 4 MB) e só
+          // prioriza as primeiras: carregar todas de uma vez estoura a memória do Safari no iPhone.
+          const fotoLeve = resized || source.uri;
           const isLast = index + 1 === fotos.length;
           // Renderiza a foto para todas as posições, exceto a última quando o
           // usuário NÃO é liberado (aí o último slot vira o gate de contato).
@@ -82,9 +85,10 @@ export default function PropertyPhotos({
               <li key={index} className="relative">
                 <ProtectedImage
                   className="rounded-[.625rem]"
-                  src={applyCdn(sanitizeImageUrl(source.uri || resized)) || ""}
+                  src={applyCdn(sanitizeImageUrl(fotoLeve)) || ""}
                   alt="Imóvel"
-                  priority
+                  priority={index < 2}
+                  loading={index < 2 ? undefined : "lazy"}
                   width={924}
                   height={598}
                   style={{

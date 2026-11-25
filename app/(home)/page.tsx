@@ -224,7 +224,7 @@ export default async function Home() {
 
           {/* Conteúdo hero - título e imagem Marques e Leão */}
           <div className="relative w-[min(90%,80rem)] md:mx-auto lg:mx-auto">
-            <h1 className="text-[clamp(.75rem,4.5vw,2.25rem)] md:text-[clamp(.75rem,9vw,2rem)] relative z-10 font-extralight leading-none max-w-[26ch] md:max-w-[24ch] mx-auto md:mx-0 pt-[23rem] md:pt-40 pt-36">
+            <h1 className="text-[clamp(.75rem,4.5vw,2.25rem)] md:text-[clamp(.75rem,9vw,2rem)] relative z-10 font-extralight leading-none max-w-[26ch] md:max-w-[24ch] mx-auto md:mx-0 pt-36 md:pt-40">
               Conectamos
               <br />{" "}
               <span
