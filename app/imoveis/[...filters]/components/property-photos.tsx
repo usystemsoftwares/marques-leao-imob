@@ -73,10 +73,11 @@ export default function PropertyPhotos({
   } else {
     return (
       <ul className="w-[calc(100%-2rem)] mx-auto grid gap-2 md:grid-cols-2">
-        {fotos.map(({ resized, destaque, source }, index) => {
-          // No celular usa a versão reduzida (~200 KB) em vez do original (2 a 4 MB) e só
-          // prioriza as primeiras: carregar todas de uma vez estoura a memória do Safari no iPhone.
-          const fotoLeve = resized || source.uri;
+        {fotos.map(({ resized, resized_md, destaque, source }, index) => {
+          // No celular usa a versão reduzida em vez do original (2 a 4 MB) e só prioriza as
+          // primeiras: carregar todas de uma vez estoura a memória do Safari no iPhone.
+          // resized_md (900×600) fica nítida na tela 3x; resized (410×265) é o plano B.
+          const fotoLeve = resized_md || resized || source.uri;
           const isLast = index + 1 === fotos.length;
           // Renderiza a foto para todas as posições, exceto a última quando o
           // usuário NÃO é liberado (aí o último slot vira o gate de contato).
