@@ -506,9 +506,9 @@ export default async function Home() {
             <MarquesLeaoMidiaCarousel posts={posts} />
           </section>
         )}
-        {/* <section className="lg:w-[min(90%,65.5rem)] mt-12 mb-8 mx-auto">
+        <section className="lg:w-[min(90%,65.5rem)] mt-12 mb-8 mx-auto">
           <TestimonialsCarousel depoimentos={depoimentos} />
-        </section> */}
+        </section>
       </main>
       <WhatsappButton empresa={empresa} />
     </div>
