@@ -8,8 +8,8 @@ const DESKTOP_QUERY = "(min-width: 768px)";
 const VIDEO = {
   // 1080p, 16:9 — ocupa a hero inteira
   desktop: "/marqueseleao/hero-desktop.mp4",
-  // 720x720, recorte central — faixa atrás do logo e do título
-  mobile: "/marqueseleao/hero-mobile.mp4",
+  // 720x720, vídeo próprio do celular reenquadrado por cena — faixa atrás do título
+  mobile: "/marqueseleao/hero-mobile-v2.mp4",
 };
 
 /**
@@ -102,7 +102,7 @@ export default function HeroVideo() {
         />
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/marqueseleao/hero-mobile-poster.webp"
+          src="/marqueseleao/hero-mobile-v2-poster.webp"
           alt=""
           decoding="async"
           className="absolute inset-0 w-full h-full object-cover"
