@@ -1,3 +1,4 @@
+import { removerCamposInternos } from "./campos-internos"
 // CDN completely removed - no getCdnUrl function needed
 
 const API_URL = "https://api.smtximob.com"
@@ -26,7 +27,7 @@ async function fetchAPI(endpoint: string, options: RequestInit = {}) {
     }
   }
 
-  return response.json()
+  return removerCamposInternos(await response.json())
 }
 
 // Função para normalizar domínio removendo protocolo, www e porta
